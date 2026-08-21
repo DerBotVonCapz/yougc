@@ -13,7 +13,7 @@
     -webkit-background-clip:text;background-clip:text;color:transparent;
     opacity:.9;user-select:none;pointer-events:none;will-change:transform;left:0;top:0}
   .floatlogo .u{font-size:.94em;font-style:italic;letter-spacing:-.045em}
-  .floatlogo .gc{font-size:.86em;font-style:italic;letter-spacing:-.04em}
+  .floatlogo .gc{font-size:.86em;font-style:italic;letter-spacing:normal;padding-right:.12em}
   .prep{text-align:center;padding:2vh 0 6vh;max-width:100% !important}
   .prep .big{font-family:'Space Grotesk','Poppins',sans-serif;font-weight:700;letter-spacing:-.05em;line-height:.98;
     font-size:clamp(2.8rem,8.6vw,7.6rem);white-space:nowrap;
@@ -157,8 +157,11 @@ if(!LAUNCHED){
 
 } else {
   // ---------- LIVE MARKETPLACE ----------
-  if(me.role === 'creator'){
+  {
     document.getElementById('composer').style.display='block';
+    if(me.role === 'brand'){
+      document.getElementById('postText').placeholder = "what are you looking for? e.g. 3 fitness creators for a winter campaign, german or english, video + photos…";
+    }
     document.getElementById('postBtn').addEventListener('click', async ()=>{
       const t = document.getElementById('postText').value.trim();
       const msg = document.getElementById('postMsg'); msg.className='msg';
@@ -169,7 +172,7 @@ if(!LAUNCHED){
         showMsg(msg, (error.message||'').includes('row-level') ? 'you posted in the last 12 hours. come back a bit later.' : error.message);
       } else {
         document.getElementById('postText').value='';
-        showMsg(msg,'posted. brands can see it now.', true);
+        showMsg(msg, me.role==='brand' ? 'posted. creators can see it now.' : 'posted. brands can see it now.', true);
         load();
       }
       btn.textContent='post';
@@ -199,7 +202,6 @@ if(!LAUNCHED){
       .order('created_at',{ascending:false}).limit(100);
     if(error){ feed.innerHTML=`<p class="muted center mt3">${esc(error.message)}</p>`; return; }
     let rows = (data||[]).filter(p=>p.profiles);
-    rows = rows.filter(p=>p.profiles.role==='creator');
     if(tab==='mine' && me.niches?.length){
       const mine=new Set(me.niches);
       rows = rows.filter(p=>(p.profiles.niches||[]).some(n=>mine.has(n)));
@@ -216,7 +218,7 @@ if(!LAUNCHED){
         <div class="phead">
           ${avatarHTML(p.profiles)}
           <div>
-            <a class="pname" href="profile.html?u=${encodeURIComponent(p.profiles.username)}">${esc(p.profiles.name)}</a>
+            <a class="pname" href="profile.html?u=${encodeURIComponent(p.profiles.username)}">${esc(p.profiles.name)}</a> <span class="rolebadge ${p.profiles.role}">${p.profiles.role==='creator'?'creator':'brand'}</span>
             <div class="pmeta">@${esc(p.profiles.username)} · ${timeAgo(p.created_at)}</div>
           </div>
         </div>

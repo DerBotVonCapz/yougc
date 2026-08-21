@@ -14,9 +14,9 @@ body{font-family:'Poppins',-apple-system,'Segoe UI',sans-serif;background:var(--
 /* blobs */
 .bg-blobs{position:fixed;inset:0;z-index:0;pointer-events:none;filter:blur(70px);opacity:.75}
 .blob{position:absolute;border-radius:50%;will-change:transform,translate}
-.b1{width:48vw;height:48vw;background:var(--blue);top:-16vw;left:-12vw;animation:drift1 14s ease-in-out infinite alternate}
-.b2{width:40vw;height:40vw;background:var(--pink);top:30vh;right:-16vw;animation:drift2 17s ease-in-out infinite alternate}
-.b3{width:36vw;height:36vw;background:var(--mint);bottom:-14vw;left:20vw;animation:drift3 15s ease-in-out infinite alternate}
+.b1{width:48vw;height:48vw;background:var(--blue);top:-16vw;left:-12vw;animation:drift1 10s ease-in-out infinite alternate}
+.b2{width:40vw;height:40vw;background:var(--pink);top:30vh;right:-16vw;animation:drift2 13s ease-in-out infinite alternate}
+.b3{width:36vw;height:36vw;background:var(--mint);bottom:-14vw;left:20vw;animation:drift3 11s ease-in-out infinite alternate}
 @keyframes drift1{from{translate:0 0}to{translate:14vw 10vh}}
 @keyframes drift2{from{translate:0 0}to{translate:-16vw 12vh}}
 @keyframes drift3{from{translate:0 0}to{translate:12vw -12vh}}
@@ -32,7 +32,7 @@ body{font-family:'Poppins',-apple-system,'Segoe UI',sans-serif;background:var(--
   transition:transform .3s, background-position .6s}
 .logo:hover{transform:translateY(-2px);background-position:90% 0}
 .logo .u{font-size:.94em;font-style:italic;letter-spacing:-.045em}
-.logo .gc{font-size:.86em;margin-left:-.015em;font-style:italic;letter-spacing:-.04em}
+.logo .gc{font-size:.86em;margin-left:-.015em;font-style:italic;letter-spacing:normal;padding-right:.1em}
 
 .grad{background:linear-gradient(90deg,#2E4A73 0%,#6E96C8 45%,#D98BB0 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
 

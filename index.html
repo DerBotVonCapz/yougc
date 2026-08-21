@@ -11,7 +11,7 @@
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://yougc-six.vercel.app/og.png">
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" href="favicon.png">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
@@ -43,18 +43,9 @@
     background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
   .wrap{position:relative;z-index:3}
 
-  /* logo: one word, one flowing fade, U melts into gc */
-  .logo{display:inline-flex;align-items:baseline;text-decoration:none;
-    font-family:'Space Grotesk','Poppins',sans-serif;font-weight:700;letter-spacing:-.05em;
-    background:linear-gradient(115deg,transparent 42%,rgba(255,255,255,.92) 50%,transparent 58%),linear-gradient(100deg,var(--gradA) 0%,#5B84B8 34%,var(--gradB) 52%,var(--gradC) 78%,#C9A0C4 100%);
-    background-size:260% 100%,100% 100%;background-position:-160% 0,0 0;
-    -webkit-background-clip:text;background-clip:text;color:transparent;
-    transition:transform .3s}
+  .logo{display:inline-flex;align-items:center;text-decoration:none;transition:transform .3s}
   .logo:hover{transform:translateY(-2px)}
-  @keyframes logosheen{from{background-position:-160% 0,0 0}to{background-position:260% 0,0 0}}
-  .logo .u{font-size:.94em;font-style:italic;letter-spacing:-.045em}
-  .logo .gc{font-size:.86em;margin-left:-.015em;font-style:italic;letter-spacing:normal;padding-right:.1em}
-  nav .logo{font-size:1.65rem}
+  .logo img{display:block}
 
   nav{display:flex;justify-content:space-between;align-items:center;padding:18px 22px;position:relative;z-index:5}
   .nav-cta{font-size:.88rem;font-weight:700;color:var(--ink);text-decoration:none;border:1.5px solid rgba(30,51,80,.25);padding:10px 24px;border-radius:999px;transition:all .25s;background:rgba(255,255,255,.6)}
@@ -66,16 +57,7 @@
   .orbit{position:absolute;inset:0;pointer-events:none;z-index:1 !important}
   .orbit i{position:absolute;border-radius:50%;transform:translate(-50%,-50%);will-change:left,top}
 
-  .heroLogo{font-size:clamp(4rem,12vw,9.5rem);line-height:.95;
-    opacity:0;animation:rise 1s .15s forwards, logosheen 2.2s ease-in-out 1.5s 1 forwards;will-change:transform;
-    display:inline-flex;align-items:baseline;
-    font-family:'Space Grotesk','Poppins',sans-serif;font-weight:700;letter-spacing:-.055em;
-    background:linear-gradient(115deg,transparent 42%,rgba(255,255,255,.92) 50%,transparent 58%),linear-gradient(100deg,var(--gradA) 0%,#5B84B8 34%,var(--gradB) 52%,var(--gradC) 78%,#C9A0C4 100%);
-    background-size:260% 100%,100% 100%;background-position:-160% 0,0 0;
-    -webkit-background-clip:text;background-clip:text;color:transparent}
-  .heroLogo .u{font-size:.94em;font-style:italic;letter-spacing:-.045em}
-  .heroLogo .gc{font-size:.86em;margin-left:-.015em;font-style:italic;letter-spacing:normal;padding-right:.12em}
-  @keyframes fadeslide{from{background-position:0% 0}to{background-position:100% 0}}
+  .heroLogo{width:min(82vw,620px);height:auto;opacity:0;animation:rise 1s .15s forwards;will-change:transform}
   .heroQ{margin-top:30px;font-size:clamp(1.15rem,2.3vw,1.7rem);font-weight:700;letter-spacing:-.015em;line-height:1.5;opacity:0;animation:rise 1s .35s forwards}
   .heroQ .grad{font-weight:800}
   .heroSub{margin-top:12px;font-size:clamp(.95rem,1.5vw,1.15rem);font-weight:500;color:var(--ink-soft);opacity:0;animation:rise 1s .5s forwards}
@@ -189,13 +171,13 @@
 <div class="wrap">
 
 <nav>
-  <a class="logo" href="index.html"><span class="you">YO</span><span class="u">U</span><span class="gc">gc</span></a>
+  <a class="logo" href="index.html"><img src="logo.png" alt="YOUgc" style="height:44px"></a>
   <a class="nav-cta" href="auth.html?mode=login">log in</a>
 </nav>
 
 <div class="hero">
   <div class="orbit" id="orbit"></div>
-  <div class="heroLogo" id="heroTitle"><span class="you">YO</span><span class="u">U</span><span class="gc">gc</span></div>
+  <img class="heroLogo" id="heroTitle" src="logo.png" alt="YOUgc">
   <div class="heroQ">you're a <span class="grad">UGC creator</span>?<br>you're looking for <span class="grad">UGC creators</span>?</div>
   <p class="heroSub">one marketplace. both sides.</p>
 
@@ -276,7 +258,7 @@
 </section>
 
 <footer>
-  <a class="logo" href="index.html"><span class="you">YO</span><span class="u">U</span><span class="gc">gc</span></a><br>
+  <a class="logo" href="index.html"><img src="logo.png" alt="YOUgc" style="height:44px"></a><br>
   real creators. real brands. real deals.<br>© 2026 YOUgc<br>
   <span style="font-size:.78rem"><a href="terms.html" style="color:var(--ink-soft)">terms</a> · <a href="privacy.html" style="color:var(--ink-soft)">privacy</a></span>
 </footer>

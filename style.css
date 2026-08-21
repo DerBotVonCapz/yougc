@@ -23,18 +23,10 @@ body{font-family:'Poppins',-apple-system,'Segoe UI',sans-serif;background:var(--
 .grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.05;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 .wrap{position:relative;z-index:2}
 
-/* logo — one word, flowing fade, U melts into gc */
-.logo{display:inline-flex;align-items:baseline;text-decoration:none;position:relative;
-  font-family:'Space Grotesk','Poppins',sans-serif;font-weight:700;font-size:1.5rem;letter-spacing:-.05em;
-  background:linear-gradient(115deg,transparent 42%,rgba(255,255,255,.92) 50%,transparent 58%),linear-gradient(100deg,#2E4A73 0%,#5B84B8 34%,#6E96C8 52%,#D98BB0 78%,#C9A0C4 100%);
-  background-size:260% 100%,100% 100%;background-position:-160% 0,0 0;
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-  transition:transform .3s}
+/* logo — image wordmark */
+.logo{display:inline-flex;align-items:center;text-decoration:none;transition:transform .3s}
 .logo:hover{transform:translateY(-2px)}
-
-.logo .u{font-size:.94em;font-style:italic;letter-spacing:-.045em}
-.logo .gc{font-size:.86em;margin-left:-.015em;font-style:italic;letter-spacing:normal;padding-right:.1em}
-
+.logo img{height:40px;display:block}
 .grad{background:linear-gradient(90deg,#2E4A73 0%,#6E96C8 45%,#D98BB0 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
 
 nav.top{display:flex;justify-content:space-between;align-items:center;padding:22px 5vw;position:relative;z-index:5}

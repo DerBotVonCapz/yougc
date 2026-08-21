@@ -68,3 +68,17 @@ grant update (role, username, name, bio, avatar_url, socials, niches) on table p
 revoke insert on table public.profiles from authenticated, anon;
 grant insert (id, role, username, name, bio, avatar_url, socials, niches) on table public.profiles to authenticated;
 -- verified users: 3 posts/day (8h gap), others 2/day (12h gap) — policy defined above replaced accordingly
+
+
+-- REFERRALS (share link /?ref=username -> 20% off next purchase per signup; redeemed manually)
+create table if not exists public.referrals (
+  id bigint generated always as identity primary key,
+  referred uuid unique not null references public.profiles(id) on delete cascade,
+  referrer_username text not null,
+  created_at timestamptz default now()
+);
+alter table public.referrals enable row level security;
+create policy "record own referral" on public.referrals for insert with check (auth.uid() = referred);
+create policy "see own referral stats" on public.referrals for select using (
+  auth.uid() = referred or referrer_username = (select username from public.profiles where id = auth.uid())
+);

@@ -39,6 +39,9 @@
 </div>
 
 <script type="module">
+const _ref = new URLSearchParams(location.search).get('ref');
+if(_ref) try{ localStorage.setItem('yougc_ref', _ref); }catch(e){}
+
 import { sb, myProfile, blobsHTML, initMotion, logoHTML, showMsg } from './app.js';
 document.getElementById('bg').outerHTML = blobsHTML();
 document.getElementById('logo').outerHTML = logoHTML();

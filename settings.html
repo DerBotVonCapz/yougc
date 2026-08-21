@@ -61,7 +61,7 @@ document.getElementById('curEmail').value = ctx.user.email || '';
 if(!ctx.profile.verified){
   document.getElementById('verBox').style.display='block';
   document.getElementById('verPrice').textContent = VERIFIED_PRICE;
-  document.getElementById('verBtn').href = PAY_URL || ('mailto:yougcmarket@gmail.com?subject=' + encodeURIComponent('verified pack @' + ctx.profile.username));
+  document.getElementById('verBtn').href = PAY_URL || ('pay.html?item=' + encodeURIComponent('verified pack @' + ctx.profile.username) + '&price=' + VERIFIED_PRICE);
 }
 
 const msg = document.getElementById('msg');

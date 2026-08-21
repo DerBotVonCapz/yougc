@@ -140,6 +140,13 @@ document.getElementById('save').addEventListener('click', async ()=>{
       if((error.message||'').includes('duplicate') || (error.message||'').includes('unique')) throw new Error('that username is taken — try another.');
       throw error;
     }
+    try{
+      const ref = localStorage.getItem('yougc_ref');
+      if(ref && ref !== username && !existing){
+        await sb.from('referrals').insert({ referred: user.id, referrer_username: ref });
+        localStorage.removeItem('yougc_ref');
+      }
+    }catch(e){}
     location.href = 'app.html';
   }catch(err){
     showMsg(msg, err.message || 'could not save — try again.');

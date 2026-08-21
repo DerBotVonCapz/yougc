@@ -266,6 +266,9 @@
 </div>
 
 <script>
+const _ref = new URLSearchParams(location.search).get('ref');
+if(_ref) try{ localStorage.setItem('yougc_ref', _ref); }catch(e){}
+
   // mouse + scroll parallax
   const layers=[...document.querySelectorAll('[data-depth]')];
   let mx=0,my=0,scrollY0=0;

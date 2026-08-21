@@ -40,35 +40,38 @@
   </nav>
 
   <div class="appwrap" id="appwrap">
-    <h1 class="page">the <span class="grad">marketplace.</span></h1>
+    <h1 class="page big">market<span class="grad">place</span></h1>
 
-    <div class="card" id="composer" style="display:none;margin-bottom:18px">
-      <label style="margin-top:0">your post</label>
-      <textarea id="postText" maxlength="500" placeholder="what can you shoot right now? where are you? share an idea, an achievement, what you'd love to create next…"></textarea>
-      <label class="feat"><input type="checkbox" id="featChk"><span><b>feature this post</b> — pinned on top of the feed for 24h · $<span id="featPrice">25</span></span></label>
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
-        <span class="muted" id="capNote">up to 2 posts a day. make them count</span>
-        <button class="btn small" id="postBtn">post</button>
+    <div class="mainGrid" id="mainGrid">
+      <div>
+        <div id="spotrow"></div>
+
+        <div class="tabs">
+          <span class="tab on" data-tab="all">everyone</span>
+          <span class="tab" data-tab="mine">my categories</span>
+        </div>
+        <div class="chips" id="filterChips" style="margin-bottom:18px"></div>
+
+        <div id="feed"><p class="muted center mt3">loading…</p></div>
       </div>
-      <div class="msg" id="postMsg"></div>
+
+      <aside class="sideCol">
+        <div class="card" id="composer" style="display:none">
+          <label style="margin-top:0">your post</label>
+          <textarea id="postText" maxlength="500" placeholder=""></textarea>
+          <label class="feat"><input type="checkbox" id="featChk"><span><b>feature this post</b> — pinned on top for 24h · $<span id="featPrice">25</span></span></label>
+          <button class="btn small full mt1" id="postBtn">post</button>
+          <div class="msg" id="postMsg"></div>
+        </div>
+      </aside>
     </div>
-
-    <div id="spotrow"></div>
-
-    <div class="tabs">
-      <span class="tab on" data-tab="all">everyone</span>
-      <span class="tab" data-tab="mine">my categories</span>
-    </div>
-    <div class="chips" id="filterChips" style="margin-bottom:18px"></div>
-
-    <div id="feed"><p class="muted center mt3">loading…</p></div>
   </div>
 </div>
 
 <script type="module">
 import { sb, requireAuth, NICHES, blobsHTML, initMotion, logoHTML, esc, timeAgo, avatarHTML, vbadge, hasSlurs, showMsg } from './app.js';
 import { LAUNCHED, FEATURED_PRICE, VERIFIED_PRICE, SPOTLIGHT_PRICE, PAY_URL } from './config.js';
-const payHref = ref => PAY_URL || ('mailto:yougcmarket@gmail.com?subject=' + encodeURIComponent(ref));
+const payHref = (item, price) => PAY_URL || ('pay.html?item=' + encodeURIComponent(item) + '&price=' + encodeURIComponent(price));
 document.getElementById('bg').outerHTML = blobsHTML();
 document.getElementById('logo').outerHTML = logoHTML('app.html');
 initMotion();
@@ -101,11 +104,31 @@ if(!LIVE){
         </div>
         <div class="msg" id="wlMsg"></div>
       </div>
+      <div class="refbox" style="max-width:480px;margin:22px auto 0">
+        <div class="rtitle">your YOUgc referral link</div>
+        <div class="rsub">share it. every friend who joins through your link gives you <b>20% off your next purchase</b> on YOUgc.</div>
+        <div class="refrow">
+          <input type="text" id="refLink" readonly>
+          <button class="btn small" id="refCopy">copy</button>
+        </div>
+        <div class="refcount" id="refCount"></div>
+      </div>
       <div class="prepmarq"><div class="ptrack">
         creators joining &nbsp;·&nbsp; <b>brands watching</b> &nbsp;·&nbsp; profiles building &nbsp;·&nbsp; <b>deals loading</b> &nbsp;·&nbsp; doors opening soon &nbsp;·&nbsp; creators joining &nbsp;·&nbsp; <b>brands watching</b> &nbsp;·&nbsp; profiles building &nbsp;·&nbsp; <b>deals loading</b> &nbsp;·&nbsp; doors opening soon &nbsp;·&nbsp;
       </div></div>
     </div>`;
   document.getElementById('prepProfile').href = 'profile.html?u=' + encodeURIComponent(me.username);
+
+  // referral bubble
+  const refUrl = location.origin + '/?ref=' + encodeURIComponent(me.username);
+  document.getElementById('refLink').value = refUrl;
+  document.getElementById('refCopy').addEventListener('click', async ()=>{
+    try{ await navigator.clipboard.writeText(refUrl); }catch(e){ document.getElementById('refLink').select(); document.execCommand('copy'); }
+    document.getElementById('refCopy').textContent='copied ✓';
+    setTimeout(()=>document.getElementById('refCopy').textContent='copy',1600);
+  });
+  sb.from('referrals').select('id',{count:'exact',head:true}).eq('referrer_username', me.username)
+    .then(({count})=>{ if(count) document.getElementById('refCount').textContent = count + (count===1?' friend joined':' friends joined') + ' through your link'; });
 
   // launch notification
   const wlInp=document.getElementById('wlEmail'), wlBtn=document.getElementById('wlBtn'), wlMsg=document.getElementById('wlMsg');
@@ -161,11 +184,7 @@ if(!LIVE){
   // ---------- LIVE MARKETPLACE ----------
   {
     document.getElementById('composer').style.display='block';
-    if(me.role === 'brand'){
-      document.getElementById('postText').placeholder = "what are you looking for? e.g. 3 fitness creators for a winter campaign, german or english, video + photos…";
-    }
     document.getElementById('featPrice').textContent = FEATURED_PRICE;
-    if(me.verified) document.getElementById('capNote').textContent = 'up to 3 posts a day (verified). make them count';
 
     // ---- spotlight row: 2 creators + 2 brands on top ----
     (async ()=>{
@@ -173,11 +192,9 @@ if(!LIVE){
       const cs=(sp||[]).filter(p=>p.role==='creator').slice(0,2);
       const bs=(sp||[]).filter(p=>p.role==='brand').slice(0,2);
       const mk = p => `<a class="spotcard" href="profile.html?u=${encodeURIComponent(p.username)}">${avatarHTML(p)}<div><div class="sname">${esc(p.name)}${vbadge(p)}</div><span class="rolebadge ${p.role}">${p.role}</span></div></a>`;
-      const ph = role => `<a class="spotcard ph" href="${payHref('spotlight '+role+' @'+me.username)}" target="_blank" rel="noopener">✦ your ${role} spotlight<br>$${SPOTLIGHT_PRICE} / week</a>`;
-      const cards = [...cs.map(mk)]; while(cards.length<2) cards.push(ph('creator'));
-      const bcards = [...bs.map(mk)]; while(bcards.length<2) bcards.push(ph('brand'));
-      document.getElementById('spotrow').innerHTML =
-        `<div class="spotrow"><div class="spotlabel">✦ spotlight</div>${cards.join('')}${bcards.join('')}</div>`;
+      const cards = [...cs.map(mk), ...bs.map(mk)];
+      document.getElementById('spotrow').innerHTML = cards.length
+        ? `<div class="spotrow"><div class="spotlabel">✦ spotlight</div>${cards.join('')}</div>` : '';
     })();
     document.getElementById('postBtn').addEventListener('click', async ()=>{
       const t = document.getElementById('postText').value.trim();
@@ -194,9 +211,7 @@ if(!LIVE){
       } else {
         document.getElementById('postText').value='';
         if(wantsFeat){
-          const pay = PAY_URL
-            ? `<a href="${PAY_URL}" target="_blank" rel="noopener" style="font-weight:700;text-decoration:underline">pay $${FEATURED_PRICE} here</a>`
-            : `send $${FEATURED_PRICE} — payment details via <a href="${payHref('featured post')}" style="font-weight:700;text-decoration:underline">yougcmarket@gmail.com</a>`;
+          const pay = `<a href="${payHref('featured post', FEATURED_PRICE)}" style="font-weight:700;text-decoration:underline">complete the $${FEATURED_PRICE} payment here</a>`;
           msg.className='msg ok';
           msg.innerHTML = `posted. one step left to get featured: ${pay} with your @username as reference. your post moves to the top within a few hours after payment.`;
           document.getElementById('featChk').checked = false;

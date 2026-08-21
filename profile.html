@@ -26,7 +26,8 @@
 
 <script type="module">
 import { sb, currentUser, blobsHTML, initMotion, logoHTML, esc, timeAgo, avatarHTML, vbadge, SOCIAL_FIELDS } from './app.js';
-import { VERIFIED_PRICE, PAY_URL } from './config.js';
+import { VERIFIED_PRICE, SPOTLIGHT_PRICE, PAY_URL } from './config.js';
+const payHref = (item, price) => PAY_URL || ('pay.html?item=' + encodeURIComponent(item) + '&price=' + encodeURIComponent(price));
 document.getElementById('bg').outerHTML = blobsHTML();
 document.getElementById('logo').outerHTML = logoHTML();
 initMotion();
@@ -60,8 +61,26 @@ if(!p){
     <div class="ptags mt2">${(p.niches||[]).map(n=>`<span>${esc(n)}</span>`).join('')}</div>
     ${socials ? `<div class="socialrow">${socials}</div>` : ''}
     ${socials && !isOwner ? `<a class="btn mt3" id="contact" href="${esc(Object.values(p.socials)[0])}" target="_blank" rel="noopener">message ${esc(p.name.split(' ')[0])} →</a>` : ''}
-    ${isOwner ? `<div class="mt3" style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center"><a class="btn" href="onboard.html">edit profile →</a><a class="btn ghost" href="settings.html">settings</a>${p.verified?'':`<a class="btn ghost" href="${PAY_URL||('mailto:yougcmarket@gmail.com?subject='+encodeURIComponent('verified pack @'+p.username))}" target="_blank" rel="noopener" title="✓ badge, pro look, 3 posts a day">get verified ✓ — $${VERIFIED_PRICE}</a>`}</div>` : ''}
+    ${isOwner ? `<div class="mt3" style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center"><a class="btn" href="onboard.html">edit profile →</a><a class="btn ghost" href="settings.html">settings</a>${p.verified?'':`<a class="btn ghost" href="${payHref('verified pack @'+p.username, VERIFIED_PRICE)}" title="✓ badge, pro look, 3 posts a day">get verified ✓ — $${VERIFIED_PRICE}</a>`}${(p.spotlight_until && new Date(p.spotlight_until)>new Date())?'':`<a class="btn ghost" href="${payHref('spotlight @'+p.username, SPOTLIGHT_PRICE)}" title="your profile pinned on top of the marketplace for 7 days">get spotlighted ✦ — $${SPOTLIGHT_PRICE}/week</a>`}</div>
+    <div class="refbox">
+      <div class="rtitle">your YOUgc referral link</div>
+      <div class="rsub">share it. every friend who joins through your link gives you <b>20% off your next purchase</b> on YOUgc.</div>
+      <div class="refrow"><input type="text" id="refLink" readonly><button class="btn small" id="refCopy">copy</button></div>
+      <div class="refcount" id="refCount"></div>
+    </div>` : ''}
   `;
+
+  if(isOwner){
+    const refUrl = location.origin + '/?ref=' + encodeURIComponent(p.username);
+    document.getElementById('refLink').value = refUrl;
+    document.getElementById('refCopy').addEventListener('click', async ()=>{
+      try{ await navigator.clipboard.writeText(refUrl); }catch(e){ document.getElementById('refLink').select(); document.execCommand('copy'); }
+      document.getElementById('refCopy').textContent='copied ✓';
+      setTimeout(()=>document.getElementById('refCopy').textContent='copy',1600);
+    });
+    sb.from('referrals').select('id',{count:'exact',head:true}).eq('referrer_username', p.username)
+      .then(({count})=>{ if(count) document.getElementById('refCount').textContent = count + (count===1?' friend joined':' friends joined') + ' through your link'; });
+  }
 
   const { data: posts } = await sb.from('posts').select('id,text,created_at').eq('user_id', p.id).order('created_at',{ascending:false}).limit(10);
   const wrap = document.getElementById('posts');

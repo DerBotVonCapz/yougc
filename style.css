@@ -20,15 +20,18 @@ body{font-family:'Poppins',-apple-system,'Segoe UI',sans-serif;background:var(--
 .grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.05;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 .wrap{position:relative;z-index:2}
 
-/* logo — modern gradient wordmark */
-.logo{display:inline-flex;align-items:baseline;text-decoration:none;position:relative;
-  font-family:'Space Grotesk','Poppins',sans-serif;font-weight:700;font-size:1.55rem;letter-spacing:-.05em;
-  background:linear-gradient(95deg,#2E4A73 0%,#6E96C8 48%,#D98BB0 100%);
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-  transition:transform .3s, letter-spacing .3s}
-.logo:hover{transform:translateY(-2px);letter-spacing:-.03em}
-.logo .dot{color:#D98BB0;-webkit-text-fill-color:#D98BB0}
-.lg-you,.lg-gc{font-weight:700}
+/* logo — YOU + gradient gc tag */
+.logo{display:inline-flex;align-items:center;gap:.16em;text-decoration:none;position:relative;
+  font-family:'Space Grotesk','Poppins',sans-serif;font-weight:700;font-size:1.5rem;color:var(--ink);
+  transition:transform .3s}
+.logo:hover{transform:translateY(-2px)}
+.logo .you{letter-spacing:-.05em}
+.logo .tag{display:inline-flex;align-items:center;justify-content:center;
+  background:linear-gradient(120deg,#6E96C8,#D98BB0);color:#fff;
+  border-radius:.32em;padding:.04em .3em .1em;font-size:.82em;letter-spacing:-.03em;
+  transform:rotate(-6deg);box-shadow:0 .35em 1em -0.35em rgba(110,150,200,.7);
+  transition:transform .35s cubic-bezier(.3,1.6,.4,1)}
+.logo:hover .tag{transform:rotate(5deg) scale(1.1)}
 
 .grad{background:linear-gradient(90deg,#2E4A73 0%,#6E96C8 45%,#D98BB0 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
 

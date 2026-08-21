@@ -37,7 +37,7 @@
       <div class="chips" id="nicheChips"></div>
       <input type="text" id="customNiche" class="mt1" placeholder="type your own niche and press enter">
 
-      <label class="mt2">profile color <span style="text-transform:none;font-weight:400">(the vibe of your profile page)</span></label>
+      <label class="mt2">profile color</label>
       <div class="accents" id="accentPick"></div>
 
       <label class="mt2">your links <span style="text-transform:none;font-weight:400">(add at least one. socials, or your brand website)</span></label>
@@ -92,15 +92,21 @@ renderChips();
 // accent colors
 const ACCENTS = { blue:['#BFD7F2','#DCE9F9'], pink:['#F4CFDF','#FBE3EE'], mint:['#BFE8D4','#DFF2E7'], lavender:['#D8CCF2','#EAE3F9'], peach:['#F8D8C4','#FBEBDD'], sand:['#EFE3C6','#F7F0DE'] };
 let accent = existing?.accent || 'blue';
+function previewAccent(){
+  const c = ACCENTS[accent];
+  document.querySelector('.card').style.background =
+    `radial-gradient(circle at 18% 12%, ${c[0]}99, transparent 55%), radial-gradient(circle at 88% 85%, ${c[1]}88, transparent 52%), rgba(255,255,255,.82)`;
+}
 function renderAccents(){
   document.getElementById('accentPick').innerHTML = Object.entries(ACCENTS).map(([k,c])=>
     `<span class="swatch ${accent===k?'on':''}" data-a="${k}" style="background:linear-gradient(135deg,${c[0]},${c[1]})" title="${k}"></span>`).join('');
 }
 document.getElementById('accentPick').addEventListener('click', e=>{
   const s = e.target.closest('.swatch'); if(!s) return;
-  accent = s.dataset.a; renderAccents();
+  accent = s.dataset.a; renderAccents(); previewAccent();
 });
 renderAccents();
+previewAccent();
 
 // socials
 const socialWrap = document.getElementById('socialInputs');

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>profile — youGC</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="bg"></div>
+<div class="wrap">
+  <nav class="top">
+    <span id="logo"></span>
+    <div class="navlinks">
+      <a class="nav-cta" href="app.html">marketplace</a>
+      <a class="nav-cta" href="#" id="editBtn" style="display:none">edit profile</a>
+    </div>
+  </nav>
+
+  <div class="pane wide">
+    <div class="card reveal on" id="profileCard"><p class="muted center">loading…</p></div>
+    <h2 class="page mt3" style="font-size:1.3rem">latest posts</h2>
+    <div id="posts" class="mt1"></div>
+  </div>
+</div>
+
+<script type="module">
+import { sb, currentUser, blobsHTML, initMotion, logoHTML, esc, timeAgo, avatarHTML, SOCIAL_FIELDS } from './app.js';
+document.getElementById('bg').outerHTML = blobsHTML();
+document.getElementById('logo').outerHTML = logoHTML();
+initMotion();
+
+const username = new URLSearchParams(location.search).get('u');
+const card = document.getElementById('profileCard');
+const { data: p } = await sb.from('profiles').select('*').eq('username', username).maybeSingle();
+
+if(!p){
+  card.innerHTML = '<p class="muted center">profile not found.</p>';
+} else {
+  document.title = p.name + ' — youGC';
+  const u = await currentUser();
+  if(u && u.id === p.id){
+    const e = document.getElementById('editBtn');
+    e.style.display='inline-flex'; e.href='onboard.html';
+  }
+  const socials = SOCIAL_FIELDS
+    .filter(f => p.socials && p.socials[f.key])
+    .map(f => `<a href="${esc(p.socials[f.key])}" target="_blank" rel="noopener">${f.label}</a>`)
+    .join('');
+  card.innerHTML = `
+    <div style="display:flex;gap:20px;align-items:center;flex-wrap:wrap">
+      ${avatarHTML(p, true)}
+      <div style="flex:1;min-width:200px">
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <h1 class="page" style="margin:0">${esc(p.name)}</h1>
+          <span class="rolebadge ${p.role}">${p.role==='creator'?'creator':'brand'}</span>
+        </div>
+        <div class="pmeta">@${esc(p.username)}</div>
+      </div>
+    </div>
+    ${p.bio ? `<p class="mt2" style="line-height:1.65;font-size:.94rem">${esc(p.bio)}</p>` : ''}
+    <div class="ptags mt2">${(p.niches||[]).map(n=>`<span>${esc(n)}</span>`).join('')}</div>
+    ${socials ? `<div class="socialrow">${socials}</div>` : ''}
+    ${socials ? `<a class="btn mt3" id="contact" href="${esc(Object.values(p.socials)[0])}" target="_blank" rel="noopener">message ${esc(p.name.split(' ')[0])} →</a>` : ''}
+  `;
+
+  const { data: posts } = await sb.from('posts').select('id,text,created_at').eq('user_id', p.id).order('created_at',{ascending:false}).limit(10);
+  const wrap = document.getElementById('posts');
+  wrap.innerHTML = (posts&&posts.length)
+    ? posts.map(x=>`<div class="card post"><div class="pmeta" style="margin-bottom:8px">${timeAgo(x.created_at)}</div><div class="ptext">${esc(x.text)}</div></div>`).join('')
+    : '<div class="card"><p class="muted center">no posts yet.</p></div>';
+}
+</script>
+</body>
+</html>

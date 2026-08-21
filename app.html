@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>marketplace — youGC</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="bg"></div>
+<div class="wrap">
+  <nav class="top">
+    <span id="logo"></span>
+    <div class="navlinks">
+      <a class="nav-cta" id="mypage" href="#">my profile</a>
+      <a class="nav-cta" href="#" id="logout">log out</a>
+    </div>
+  </nav>
+
+  <div class="appwrap">
+    <h1 class="page">the <span class="grad">marketplace.</span></h1>
+
+    <div class="card" id="composer" style="display:none;margin-bottom:18px">
+      <label style="margin-top:0">your daily post</label>
+      <textarea id="postText" maxlength="500" placeholder="what can you shoot right now? where are you? share an idea, an achievement, what you'd love to create next…"></textarea>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
+        <span class="muted">one post per day — make it count</span>
+        <button class="btn small" id="postBtn">post</button>
+      </div>
+      <div class="msg" id="postMsg"></div>
+    </div>
+
+    <div class="tabs">
+      <span class="tab on" data-tab="all">everyone</span>
+      <span class="tab" data-tab="mine">my categories</span>
+    </div>
+    <div class="chips" id="filterChips" style="margin-bottom:18px"></div>
+
+    <div id="feed"><p class="muted center mt3">loading…</p></div>
+  </div>
+</div>
+
+<script type="module">
+import { sb, requireAuth, NICHES, blobsHTML, initMotion, logoHTML, esc, timeAgo, avatarHTML, showMsg } from './app.js';
+document.getElementById('bg').outerHTML = blobsHTML();
+document.getElementById('logo').outerHTML = logoHTML('app.html');
+initMotion();
+
+const ctx = await requireAuth();
+if(!ctx) throw new Error('redirecting');
+const me = ctx.profile;
+
+document.getElementById('mypage').href = 'profile.html?u=' + encodeURIComponent(me.username);
+document.getElementById('logout').addEventListener('click', async e=>{e.preventDefault(); await sb.auth.signOut(); location.href='index.html';});
+
+// composer for creators
+if(me.role === 'creator'){
+  document.getElementById('composer').style.display='block';
+  document.getElementById('postBtn').addEventListener('click', async ()=>{
+    const t = document.getElementById('postText').value.trim();
+    const msg = document.getElementById('postMsg'); msg.className='msg';
+    if(!t){ showMsg(msg,'write something first.'); return; }
+    const btn=document.getElementById('postBtn'); btn.innerHTML='<span class="spin"></span>';
+    const { error } = await sb.from('posts').insert({ user_id: me.id, text: t });
+    if(error){
+      showMsg(msg, (error.message||'').includes('row-level') ? 'you already posted in the last 24 hours — come back tomorrow.' : error.message);
+    } else {
+      document.getElementById('postText').value='';
+      showMsg(msg,'posted. brands can see it now.', true);
+      load();
+    }
+    btn.textContent='post';
+  });
+}
+
+// tabs + filters
+let tab='all', activeNiches=new Set();
+const filterEl=document.getElementById('filterChips');
+filterEl.innerHTML = NICHES.map(n=>`<span class="chip filter" data-n="${esc(n)}">${esc(n)}</span>`).join('');
+filterEl.addEventListener('click',e=>{
+  const c=e.target.closest('.chip'); if(!c) return;
+  const n=c.dataset.n;
+  activeNiches.has(n)?activeNiches.delete(n):activeNiches.add(n);
+  c.classList.toggle('on');
+  load();
+});
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+  t.classList.add('on'); tab=t.dataset.tab; load();
+}));
+
+async function load(){
+  const feed=document.getElementById('feed');
+  feed.innerHTML='<p class="muted center mt3">loading…</p>';
+  const { data, error } = await sb.from('posts')
+    .select('id,text,created_at,profiles(id,username,name,avatar_url,niches,role)')
+    .order('created_at',{ascending:false}).limit(100);
+  if(error){ feed.innerHTML=`<p class="muted center mt3">${esc(error.message)}</p>`; return; }
+  let rows = (data||[]).filter(p=>p.profiles);
+  // creators' posts only in the marketplace feed
+  rows = rows.filter(p=>p.profiles.role==='creator');
+  if(tab==='mine' && me.niches?.length){
+    const mine=new Set(me.niches);
+    rows = rows.filter(p=>(p.profiles.niches||[]).some(n=>mine.has(n)));
+  }
+  if(activeNiches.size){
+    rows = rows.filter(p=>(p.profiles.niches||[]).some(n=>activeNiches.has(n)));
+  }
+  if(!rows.length){
+    feed.innerHTML = `<div class="card center"><p class="muted">nothing here yet${tab==='mine'?' for your categories':''} — check back soon, or switch filters.</p></div>`;
+    return;
+  }
+  feed.innerHTML = rows.map(p=>`
+    <div class="card post">
+      <div class="phead">
+        ${avatarHTML(p.profiles)}
+        <div>
+          <a class="pname" href="profile.html?u=${encodeURIComponent(p.profiles.username)}">${esc(p.profiles.name)}</a>
+          <div class="pmeta">@${esc(p.profiles.username)} · ${timeAgo(p.created_at)}</div>
+        </div>
+      </div>
+      <div class="ptext">${esc(p.text)}</div>
+      <div class="ptags">${(p.profiles.niches||[]).slice(0,6).map(n=>`<span>${esc(n)}</span>`).join('')}</div>
+    </div>`).join('');
+}
+load();
+</script>
+</body>
+</html>

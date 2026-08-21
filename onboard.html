@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>set up your profile — youGC</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="bg"></div>
+<div class="wrap">
+  <nav class="top"><span id="logo"></span><a class="nav-cta" href="#" id="logout">log out</a></nav>
+  <div class="pane wide">
+    <div class="card reveal on">
+      <h1 class="page">build your <span class="grad">profile.</span></h1>
+      <p class="sub" id="rolesub">this is what people see. keep it you.</p>
+
+      <div style="display:flex;align-items:center;gap:18px">
+        <div id="avPreview"><div class="avatar big ph">+</div></div>
+        <div>
+          <label style="margin-top:0">profile picture</label>
+          <input type="file" id="avatar" accept="image/*" style="font-size:.82rem">
+        </div>
+      </div>
+
+      <label>name</label>
+      <input type="text" id="name" placeholder="your name or creator name" maxlength="50">
+
+      <label>username</label>
+      <input type="text" id="username" placeholder="lowercase, no spaces — e.g. miafit" maxlength="24">
+
+      <label>bio</label>
+      <textarea id="bio" placeholder="who you are, what you create, what makes you good" maxlength="240"></textarea>
+
+      <label>your niches <span style="text-transform:none;font-weight:400">(pick all that fit, or add your own)</span></label>
+      <div class="chips" id="nicheChips"></div>
+      <input type="text" id="customNiche" class="mt1" placeholder="type your own niche and press enter">
+
+      <label class="mt2">socials <span style="text-transform:none;font-weight:400">(add at least one — it's how people reach you)</span></label>
+      <div id="socialInputs"></div>
+
+      <button class="btn full mt3" id="save">save profile →</button>
+      <div class="msg" id="msg"></div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { sb, currentUser, myProfile, NICHES, SOCIAL_FIELDS, blobsHTML, initMotion, logoHTML, showMsg, esc } from './app.js';
+document.getElementById('bg').outerHTML = blobsHTML();
+document.getElementById('logo').outerHTML = logoHTML();
+initMotion();
+
+document.getElementById('logout').addEventListener('click', async e=>{e.preventDefault(); await sb.auth.signOut(); location.href='index.html';});
+
+const user = await currentUser();
+if(!user){ location.href='auth.html'; }
+
+let role = sessionStorage.getItem('yougc_role') || 'creator';
+const existing = await myProfile();
+if(existing) role = existing.role;
+document.getElementById('rolesub').textContent = role==='brand'
+  ? 'your brand profile — this is what creators see.'
+  : 'this is what brands see. keep it you.';
+
+// niches
+const chipsEl = document.getElementById('nicheChips');
+let selected = new Set(existing?.niches || []);
+function renderChips(){
+  const all = [...new Set([...NICHES, ...selected])];
+  chipsEl.innerHTML = all.map(n=>`<span class="chip ${selected.has(n)?'on':''}" data-n="${esc(n)}">${esc(n)}</span>`).join('');
+}
+chipsEl.addEventListener('click', e=>{
+  const c = e.target.closest('.chip'); if(!c) return;
+  const n = c.dataset.n;
+  selected.has(n) ? selected.delete(n) : selected.add(n);
+  renderChips();
+});
+document.getElementById('customNiche').addEventListener('keydown', e=>{
+  if(e.key==='Enter'){
+    e.preventDefault();
+    const v = e.target.value.trim().toLowerCase().slice(0,24);
+    if(v){ selected.add(v); e.target.value=''; renderChips(); }
+  }
+});
+renderChips();
+
+// socials
+const socialWrap = document.getElementById('socialInputs');
+socialWrap.innerHTML = SOCIAL_FIELDS.map(f=>`
+  <input type="url" id="soc_${f.key}" class="mt1" placeholder="${f.label} — ${f.ph}" value="${esc(existing?.socials?.[f.key]||'')}">`).join('');
+
+// prefill
+if(existing){
+  document.getElementById('name').value = existing.name||'';
+  document.getElementById('username').value = existing.username||'';
+  document.getElementById('bio').value = existing.bio||'';
+  if(existing.avatar_url) document.getElementById('avPreview').innerHTML = `<img class="avatar big" src="${esc(existing.avatar_url)}">`;
+}
+
+// avatar preview
+document.getElementById('avatar').addEventListener('change', e=>{
+  const f = e.target.files[0]; if(!f) return;
+  document.getElementById('avPreview').innerHTML = `<img class="avatar big" src="${URL.createObjectURL(f)}">`;
+});
+
+document.getElementById('save').addEventListener('click', async ()=>{
+  const msg = document.getElementById('msg'); msg.className='msg';
+  const name = document.getElementById('name').value.trim();
+  const username = document.getElementById('username').value.trim().toLowerCase();
+  const bio = document.getElementById('bio').value.trim();
+  if(!name){ showMsg(msg,'add your name.'); return; }
+  if(!/^[a-z0-9_]{3,24}$/.test(username)){ showMsg(msg,'username: 3-24 chars, lowercase letters, numbers or _ only.'); return; }
+  if(selected.size===0){ showMsg(msg,'pick at least one niche.'); return; }
+  const socials = {};
+  let anySocial = false;
+  for(const f of SOCIAL_FIELDS){
+    const v = document.getElementById('soc_'+f.key).value.trim();
+    if(v){ socials[f.key]=v; anySocial=true; }
+  }
+  if(!anySocial){ showMsg(msg,'add at least one social link so people can reach you.'); return; }
+
+  const btn = document.getElementById('save'); btn.innerHTML='<span class="spin"></span>';
+  try{
+    // avatar upload
+    let avatar_url = existing?.avatar_url || '';
+    const file = document.getElementById('avatar').files[0];
+    if(file){
+      const ext = (file.name.split('.').pop()||'jpg').toLowerCase();
+      const path = `${user.id}.${ext}`;
+      const { error: upErr } = await sb.storage.from('avatars').upload(path, file, { upsert:true });
+      if(upErr) throw upErr;
+      avatar_url = sb.storage.from('avatars').getPublicUrl(path).data.publicUrl + '?v=' + Date.now();
+    }
+    const row = { id:user.id, role, username, name, bio, avatar_url, socials, niches:[...selected] };
+    const { error } = await sb.from('profiles').upsert(row);
+    if(error){
+      if((error.message||'').includes('duplicate') || (error.message||'').includes('unique')) throw new Error('that username is taken — try another.');
+      throw error;
+    }
+    location.href = 'app.html';
+  }catch(err){
+    showMsg(msg, err.message || 'could not save — try again.');
+    btn.textContent='save profile →';
+  }
+});
+</script>
+</body>
+</html>

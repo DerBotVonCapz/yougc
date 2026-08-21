@@ -19,7 +19,7 @@
 
   <div class="pane wide">
     <div class="card reveal on" id="profileCard"><p class="muted center">loading…</p></div>
-    <h2 class="page mt3" style="font-size:1.3rem">latest posts</h2>
+    <h2 class="page mt3" style="font-size:1.6rem">latest posts</h2>
     <div id="posts" class="mt1"></div>
   </div>
 </div>
@@ -55,7 +55,7 @@ if(!p){
         <div class="pmeta">@${esc(p.username)}</div>
       </div>
     </div>
-    ${p.bio ? `<p class="mt2" style="line-height:1.65;font-size:.94rem">${esc(p.bio)}</p>` : ''}
+    ${p.bio ? `<p class="mt2" style="line-height:1.7;font-size:1.08rem;font-weight:500">${esc(p.bio)}</p>` : ''}
     <div class="ptags mt2">${(p.niches||[]).map(n=>`<span>${esc(n)}</span>`).join('')}</div>
     ${socials ? `<div class="socialrow">${socials}</div>` : ''}
     ${socials && !isOwner ? `<a class="btn mt3" id="contact" href="${esc(Object.values(p.socials)[0])}" target="_blank" rel="noopener">message ${esc(p.name.split(' ')[0])} →</a>` : ''}

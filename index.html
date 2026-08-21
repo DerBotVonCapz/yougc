@@ -29,13 +29,13 @@
   /* background */
   .bg-blobs{position:fixed;inset:0;z-index:0;pointer-events:none;filter:blur(70px);opacity:.85}
   .blob{position:absolute;border-radius:50%;will-change:transform,translate}
-  .b1{width:52vw;height:52vw;background:var(--blue);top:-14vw;left:-10vw;animation:drift1 26s ease-in-out infinite alternate}
-  .b2{width:44vw;height:44vw;background:var(--pink);top:24vh;right:-14vw;animation:drift2 32s ease-in-out infinite alternate}
-  .b3{width:40vw;height:40vw;background:var(--mint);bottom:-16vw;left:16vw;animation:drift3 29s ease-in-out infinite alternate}
-  .b4{width:26vw;height:26vw;background:#DCE9F9;bottom:8vh;right:22vw;animation:drift1 36s 3s ease-in-out infinite alternate-reverse}
-  @keyframes drift1{from{translate:0 0}to{translate:6vw 5vh}}
-  @keyframes drift2{from{translate:0 0}to{translate:-7vw 6vh}}
-  @keyframes drift3{from{translate:0 0}to{translate:5vw -6vh}}
+  .b1{width:52vw;height:52vw;background:var(--blue);top:-14vw;left:-10vw;animation:drift1 14s ease-in-out infinite alternate}
+  .b2{width:44vw;height:44vw;background:var(--pink);top:24vh;right:-14vw;animation:drift2 17s ease-in-out infinite alternate}
+  .b3{width:40vw;height:40vw;background:var(--mint);bottom:-16vw;left:16vw;animation:drift3 15s ease-in-out infinite alternate}
+  .b4{width:26vw;height:26vw;background:#DCE9F9;bottom:8vh;right:22vw;animation:drift1 20s 2s ease-in-out infinite alternate-reverse}
+  @keyframes drift1{from{translate:0 0}to{translate:14vw 10vh}}
+  @keyframes drift2{from{translate:0 0}to{translate:-16vw 12vh}}
+  @keyframes drift3{from{translate:0 0}to{translate:12vw -12vh}}
   .glow{position:fixed;z-index:1;pointer-events:none;width:460px;height:460px;border-radius:50%;
     background:radial-gradient(circle,rgba(255,255,255,.35) 0%,rgba(191,215,242,.14) 40%,transparent 70%);
     transform:translate(-50%,-50%);will-change:left,top}

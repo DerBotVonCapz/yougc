@@ -7,11 +7,12 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="stylesheet" href="style.css">
 <style>
-  .floatlogo{position:fixed;z-index:60;font-family:'Space Grotesk','Poppins',sans-serif;font-weight:700;font-size:2.4rem;line-height:1;
-    display:inline-flex;align-items:center;gap:.14em;color:var(--ink);
+  .floatlogo{position:fixed;z-index:60;font-family:'Space Grotesk','Poppins',sans-serif;font-weight:700;font-size:2.4rem;line-height:1;letter-spacing:-.05em;
+    display:inline-flex;align-items:baseline;
+    background:linear-gradient(100deg,#2E4A73 0%,#5B84B8 34%,#6E96C8 52%,#D98BB0 78%,#C9A0C4 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
     opacity:.9;user-select:none;pointer-events:none;will-change:transform;left:0;top:0}
-  .floatlogo .you{letter-spacing:-.05em;background:linear-gradient(95deg,#2E4A73,#6E96C8);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .floatlogo .tag{display:inline-flex;background:linear-gradient(120deg,#6E96C8,#D98BB0);color:#fff;border-radius:.32em;padding:.04em .3em .1em;font-size:.8em;transform:rotate(-6deg);box-shadow:0 .3em .9em -.3em rgba(110,150,200,.7)}
+  .floatlogo .gc{font-size:.86em;font-style:italic;letter-spacing:-.04em}
   .prep{text-align:center;padding:2vh 0 6vh;max-width:100% !important}
   .prep .big{font-family:'Space Grotesk','Poppins',sans-serif;font-weight:700;letter-spacing:-.05em;line-height:.98;
     font-size:clamp(3.4rem,10.5vw,9rem);
@@ -97,7 +98,7 @@ if(!LAUNCHED){
   // ---------- logo drifting in space, nudged by your cursor ----------
   const fl = document.createElement('div');
   fl.className = 'floatlogo';
-  fl.innerHTML = '<span class="you">YOU</span><span class="tag">gc</span>';
+  fl.innerHTML = '<span class="you">YOU</span><span class="gc">gc</span>';
   document.body.appendChild(fl);
   const rect = () => fl.getBoundingClientRect();
   let x = innerWidth*0.14, y = innerHeight*0.68;

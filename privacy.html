@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>privacy — YOUgc</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="stylesheet" href="style.css">
+<style>
+.legal h2{font-size:1.15rem;font-weight:700;margin:26px 0 8px}
+.legal p{line-height:1.75;font-size:.95rem;color:var(--ink-soft);margin-bottom:10px}
+</style>
+</head>
+<body>
+<div id="bg"></div>
+<div class="wrap">
+  <nav class="top">
+    <span id="logo"></span>
+    <div class="navlinks">
+      <a class="nav-cta" href="index.html">home</a>
+    </div>
+  </nav>
+
+  <div class="pane wide">
+    <div class="card reveal on legal">
+      <h1 class="page">privacy <span class="grad">policy.</span></h1>
+      <p class="muted">last updated: august 2026</p>
+
+      <h2>what we collect</h2>
+      <p>When you create an account we store your email address and password (encrypted). When you build your profile we store what you enter: name, username, bio, profile picture, niches and the social links you add. If you join the waitlist we store your email.</p>
+
+      <h2>google sign in</h2>
+      <p>If you sign in with Google, Google shares your name, email address and profile picture with us. We use it only to create and log you into your YOUgc account. We never post anything to your Google account and we don't get access to your emails or files.</p>
+
+      <h2>what's public</h2>
+      <p>Your profile (name, username, picture, bio, niches, social links) and your posts are visible to everyone on the marketplace. That's the point of the platform. Your email address and password are never public.</p>
+
+      <h2>how we use your data</h2>
+      <p>To run the marketplace, show your profile to brands and creators, and email you about the platform (like when the marketplace goes live). We don't sell your data. Ever.</p>
+
+      <h2>where it's stored</h2>
+      <p>Data is stored with Supabase, our database provider, on secure servers. Payments don't exist on the platform yet, so we store zero payment data.</p>
+
+      <h2>your rights</h2>
+      <p>You can edit your profile anytime. Want your account and data deleted? Email us and it's gone. You can also request a copy of the data we hold about you.</p>
+
+      <h2>contact</h2>
+      <p>Questions about your data? Reach us at hessler.hugo@gmail.com.</p>
+
+      <p class="mt2"><a href="terms.html" style="color:var(--cblue);font-weight:600">terms of use →</a></p>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { blobsHTML, initMotion, logoHTML } from './app.js';
+document.getElementById('bg').outerHTML = blobsHTML();
+document.getElementById('logo').outerHTML = logoHTML();
+initMotion();
+</script>
+</body>
+</html>

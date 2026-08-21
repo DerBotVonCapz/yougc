@@ -13,10 +13,13 @@ body{font-family:'Poppins',-apple-system,'Segoe UI',sans-serif;background:var(--
 
 /* blobs */
 .bg-blobs{position:fixed;inset:0;z-index:0;pointer-events:none;filter:blur(70px);opacity:.75}
-.blob{position:absolute;border-radius:50%;will-change:transform;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
-.b1{width:48vw;height:48vw;background:var(--blue);top:-16vw;left:-12vw}
-.b2{width:40vw;height:40vw;background:var(--pink);top:30vh;right:-16vw}
-.b3{width:36vw;height:36vw;background:var(--mint);bottom:-14vw;left:20vw}
+.blob{position:absolute;border-radius:50%;will-change:transform,translate}
+.b1{width:48vw;height:48vw;background:var(--blue);top:-16vw;left:-12vw;animation:drift1 26s ease-in-out infinite alternate}
+.b2{width:40vw;height:40vw;background:var(--pink);top:30vh;right:-16vw;animation:drift2 32s ease-in-out infinite alternate}
+.b3{width:36vw;height:36vw;background:var(--mint);bottom:-14vw;left:20vw;animation:drift3 29s ease-in-out infinite alternate}
+@keyframes drift1{from{translate:0 0}to{translate:6vw 5vh}}
+@keyframes drift2{from{translate:0 0}to{translate:-7vw 6vh}}
+@keyframes drift3{from{translate:0 0}to{translate:5vw -6vh}}
 .grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.05;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 .wrap{position:relative;z-index:2}
 

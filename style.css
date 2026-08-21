@@ -29,10 +29,9 @@ body{font-family:'Poppins',-apple-system,'Segoe UI',sans-serif;background:var(--
   background:linear-gradient(115deg,transparent 42%,rgba(255,255,255,.92) 50%,transparent 58%),linear-gradient(100deg,#2E4A73 0%,#5B84B8 34%,#6E96C8 52%,#D98BB0 78%,#C9A0C4 100%);
   background-size:260% 100%,100% 100%;background-position:-160% 0,0 0;
   -webkit-background-clip:text;background-clip:text;color:transparent;
-  animation:logosheen 5s ease-in-out 1s infinite;
   transition:transform .3s}
 .logo:hover{transform:translateY(-2px)}
-@keyframes logosheen{0%{background-position:-160% 0,0 0}38%{background-position:260% 0,0 0}100%{background-position:260% 0,0 0}}
+
 .logo .u{font-size:.94em;font-style:italic;letter-spacing:-.045em}
 .logo .gc{font-size:.86em;margin-left:-.015em;font-style:italic;letter-spacing:normal;padding-right:.1em}
 

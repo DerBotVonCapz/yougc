@@ -42,3 +42,13 @@ on conflict (id) do nothing;
 create policy "avatar read" on storage.objects for select using (bucket_id = 'avatars');
 create policy "avatar upload" on storage.objects for insert with check (bucket_id = 'avatars' and auth.role() = 'authenticated');
 create policy "avatar replace" on storage.objects for update using (bucket_id = 'avatars' and owner = auth.uid());
+
+-- WAITLIST (public email capture, write-only from the site)
+create table public.waitlist (
+  id bigint generated always as identity primary key,
+  email text unique not null,
+  created_at timestamptz default now()
+);
+alter table public.waitlist enable row level security;
+create policy "anyone can join waitlist" on public.waitlist for insert with check (true);
+-- no select policy on purpose: emails are not readable through the public API

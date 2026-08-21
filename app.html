@@ -91,11 +91,35 @@ if(!LAUNCHED){
         your profile is locked in. you'll be here from <span class="grad2">day one</span> when the doors open.
       </p>
       <a class="btn mt3" id="prepProfile" href="#" style="font-size:1.05rem;padding:17px 38px">my profile →</a>
+      <div class="card" style="max-width:480px;margin:36px auto 0;text-align:left">
+        <div style="font-weight:700;margin-bottom:10px">get an email the moment the doors open</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <input type="email" id="wlEmail" style="flex:1;min-width:180px">
+          <button class="btn small" id="wlBtn" style="padding:13px 24px">notify me</button>
+        </div>
+        <div class="msg" id="wlMsg"></div>
+      </div>
       <div class="prepmarq"><div class="ptrack">
         creators joining &nbsp;·&nbsp; <b>brands watching</b> &nbsp;·&nbsp; profiles building &nbsp;·&nbsp; <b>deals loading</b> &nbsp;·&nbsp; doors opening soon &nbsp;·&nbsp; creators joining &nbsp;·&nbsp; <b>brands watching</b> &nbsp;·&nbsp; profiles building &nbsp;·&nbsp; <b>deals loading</b> &nbsp;·&nbsp; doors opening soon &nbsp;·&nbsp;
       </div></div>
     </div>`;
   document.getElementById('prepProfile').href = 'profile.html?u=' + encodeURIComponent(me.username);
+
+  // launch notification
+  const wlInp=document.getElementById('wlEmail'), wlBtn=document.getElementById('wlBtn'), wlMsg=document.getElementById('wlMsg');
+  wlInp.value = ctx.user.email || '';
+  wlBtn.addEventListener('click', async ()=>{
+    const email=wlInp.value.trim().toLowerCase();
+    wlMsg.className='msg';
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ showMsg(wlMsg,'enter a valid email.'); return; }
+    wlBtn.innerHTML='<span class="spin"></span>';
+    const { error } = await sb.from('waitlist').insert({ email });
+    wlBtn.textContent='notify me';
+    if(error){
+      if((error.message||'').includes('duplicate')) showMsg(wlMsg,"you're on the list already.", true);
+      else showMsg(wlMsg,'something went wrong. try again.');
+    } else showMsg(wlMsg,"locked in. you'll get the launch email.", true);
+  });
 
   // ---------- logo drifting in space, nudged by your cursor ----------
   const fl = document.createElement('div');

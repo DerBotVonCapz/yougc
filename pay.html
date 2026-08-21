@@ -27,6 +27,7 @@
     <div class="card reveal on">
       <h1 class="page">almost <span class="grad">there.</span></h1>
       <p class="sub" id="itemLine">complete your purchase and it activates within a few hours.</p>
+      <div id="perks" style="display:none;margin:2px 0 18px;padding:16px 18px;border-radius:16px;background:linear-gradient(120deg,rgba(191,215,242,.45),rgba(244,207,223,.45))"></div>
 
       <div class="step"><span class="n">1</span><p>we accept <b>crypto</b> — any major coin works:
         <span class="coins"><span>USDC</span><span>USDT</span><span>SOL</span><span>ETH</span><span>BTC</span><span>+ more</span></span></p></div>
@@ -46,6 +47,18 @@ document.getElementById('logo').outerHTML = logoHTML('app.html');
 initMotion();
 const q = new URLSearchParams(location.search);
 const item = q.get('item'), price = q.get('price');
+const PERKS = {
+  verified: ['the ✓ badge on your name, everywhere on the platform','highlighted profile picture, instantly recognizable','3 posts a day instead of 2','your first featured post free, worth $25','brands filter for trust. verified is the shortcut.'],
+  featured: ['pinned above every post for a full 24 hours','the first thing every brand sees today','clicks, follows and messages follow the top spot'],
+  spotlight: ['your whole profile pinned on top of the marketplace, 7 days','seen before anyone even starts scrolling','limited slots. when they are taken, they are taken.']
+};
+const key = Object.keys(PERKS).find(k => (item||'').toLowerCase().includes(k));
+if(key){
+  const el = document.getElementById('perks');
+  el.style.display='block';
+  el.innerHTML = '<div style="font-weight:800;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:8px">what you get</div>' +
+    PERKS[key].map(p=>`<div style="font-size:.9rem;line-height:1.8">✦ ${p}</div>`).join('');
+}
 if(item && price){
   document.getElementById('itemLine').innerHTML = `you're getting: <b>${item.replace(/[<>&"']/g,'')}</b> — <b>$${String(price).replace(/[<>&"']/g,'')}</b>. complete the payment and it activates within a few hours.`;
   document.getElementById('mailBtn').href = 'mailto:yougcmarket@gmail.com?subject=' + encodeURIComponent('buying: ' + item + ' ($' + price + ')');

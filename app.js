@@ -69,7 +69,7 @@ export function initMotion(){
 }
 
 export function logoHTML(href='index.html'){
-  return `<a class="logo" href="${href}"><span class="you">YOU</span><span class="gc">gc</span></a>`;
+  return `<a class="logo" href="${href}"><span class="you">YO</span><span class="u">U</span><span class="gc">gc</span></a>`;
 }
 
 export function showMsg(el, text, ok=false){

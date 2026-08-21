@@ -28,7 +28,8 @@ body{font-family:'Poppins',-apple-system,'Segoe UI',sans-serif;background:var(--
   -webkit-background-clip:text;background-clip:text;color:transparent;
   transition:transform .3s, background-position .6s}
 .logo:hover{transform:translateY(-2px);background-position:90% 0}
-.logo .gc{font-size:.86em;margin-left:-.02em;font-style:italic;letter-spacing:-.04em}
+.logo .u{font-size:.94em;font-style:italic;letter-spacing:-.045em}
+.logo .gc{font-size:.86em;margin-left:-.015em;font-style:italic;letter-spacing:-.04em}
 
 .grad{background:linear-gradient(90deg,#2E4A73 0%,#6E96C8 45%,#D98BB0 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
 

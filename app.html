@@ -191,7 +191,7 @@ if(!LIVE){
       const { data: sp } = await sb.from('profiles').select('*').gt('spotlight_until', new Date().toISOString()).limit(20);
       const cs=(sp||[]).filter(p=>p.role==='creator').slice(0,2);
       const bs=(sp||[]).filter(p=>p.role==='brand').slice(0,2);
-      const mk = p => `<a class="spotcard" href="profile.html?u=${encodeURIComponent(p.username)}">${avatarHTML(p)}<div><div class="sname">${esc(p.name)}${vbadge(p)}</div><span class="rolebadge ${p.role}">${p.role}</span></div></a>`;
+      const mk = p => `<a class="spotcard" href="profile.html?u=${encodeURIComponent(p.username)}">${avatarHTML(p)}<div style="min-width:0"><div class="sname">${esc(p.name)}${vbadge(p)}</div><span class="rolebadge ${p.role}">${p.role}</span>${p.bio?`<div class="sbio">${esc(p.bio.length>70?p.bio.slice(0,70)+'…':p.bio)}</div>`:''}</div></a>`;
       const cards = [...cs.map(mk), ...bs.map(mk)];
       document.getElementById('spotrow').innerHTML = cards.length
         ? `<div class="spotrow"><div class="spotlabel">✦ spotlight</div>${cards.join('')}</div>` : '';

@@ -37,6 +37,9 @@
       <div class="chips" id="nicheChips"></div>
       <input type="text" id="customNiche" class="mt1" placeholder="type your own niche and press enter">
 
+      <label class="mt2">profile color <span style="text-transform:none;font-weight:400">(the vibe of your profile page)</span></label>
+      <div class="accents" id="accentPick"></div>
+
       <label class="mt2">your links <span style="text-transform:none;font-weight:400">(add at least one. socials, or your brand website)</span></label>
       <div id="socialInputs"></div>
 
@@ -86,6 +89,19 @@ document.getElementById('customNiche').addEventListener('keydown', e=>{
 });
 renderChips();
 
+// accent colors
+const ACCENTS = { blue:['#BFD7F2','#DCE9F9'], pink:['#F4CFDF','#FBE3EE'], mint:['#BFE8D4','#DFF2E7'], lavender:['#D8CCF2','#EAE3F9'], peach:['#F8D8C4','#FBEBDD'], sand:['#EFE3C6','#F7F0DE'] };
+let accent = existing?.accent || 'blue';
+function renderAccents(){
+  document.getElementById('accentPick').innerHTML = Object.entries(ACCENTS).map(([k,c])=>
+    `<span class="swatch ${accent===k?'on':''}" data-a="${k}" style="background:linear-gradient(135deg,${c[0]},${c[1]})" title="${k}"></span>`).join('');
+}
+document.getElementById('accentPick').addEventListener('click', e=>{
+  const s = e.target.closest('.swatch'); if(!s) return;
+  accent = s.dataset.a; renderAccents();
+});
+renderAccents();
+
 // socials
 const socialWrap = document.getElementById('socialInputs');
 socialWrap.innerHTML = SOCIAL_FIELDS.map(f=>`
@@ -134,7 +150,7 @@ document.getElementById('save').addEventListener('click', async ()=>{
       if(upErr) throw upErr;
       avatar_url = sb.storage.from('avatars').getPublicUrl(path).data.publicUrl + '?v=' + Date.now();
     }
-    const row = { id:user.id, role, username, name, bio, avatar_url, socials, niches:[...selected] };
+    const row = { id:user.id, role, username, name, bio, avatar_url, socials, niches:[...selected], accent };
     const { error } = await sb.from('profiles').upsert(row);
     if(error){
       if((error.message||'').includes('duplicate') || (error.message||'').includes('unique')) throw new Error('that username is taken — try another.');

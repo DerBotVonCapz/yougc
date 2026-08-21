@@ -82,3 +82,29 @@ create policy "record own referral" on public.referrals for insert with check (a
 create policy "see own referral stats" on public.referrals for select using (
   auth.uid() = referred or referrer_username = (select username from public.profiles where id = auth.uid())
 );
+
+
+-- MESSAGES (internal DMs)
+create table if not exists public.messages (
+  id bigint generated always as identity primary key,
+  sender uuid not null references public.profiles(id) on delete cascade,
+  recipient uuid not null references public.profiles(id) on delete cascade,
+  text text not null check (char_length(text) between 1 and 1000),
+  read boolean not null default false,
+  created_at timestamptz default now(),
+  constraint no_self_dm check (sender <> recipient)
+);
+-- RLS: participants only; sender inserts; recipient can mark read (column-limited grant)
+
+
+-- PROFILE ACCENT COLOR + FOLLOWS
+alter table public.profiles add column if not exists accent text not null default 'blue';
+create table if not exists public.follows (
+  follower uuid not null references public.profiles(id) on delete cascade,
+  followed uuid not null references public.profiles(id) on delete cascade,
+  seen boolean not null default false,
+  created_at timestamptz default now(),
+  primary key (follower, followed),
+  constraint no_self_follow check (follower <> followed)
+);
+-- RLS: public counts, follow/unfollow own, followed marks seen (column-limited)

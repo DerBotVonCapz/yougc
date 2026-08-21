@@ -35,6 +35,8 @@
   <nav class="top">
     <span id="logo"></span>
     <div class="navlinks">
+      <a class="nav-cta" href="chat.html" id="notifNav" style="display:none">🔔</a>
+      <a class="nav-cta" href="chat.html" id="chatNav">chats</a>
       <a class="nav-cta" id="mypage" href="#">my profile</a>
     </div>
   </nav>
@@ -81,6 +83,10 @@ if(!ctx) throw new Error('redirecting');
 const me = ctx.profile;
 
 document.getElementById('mypage').href = 'profile.html?u=' + encodeURIComponent(me.username);
+sb.from('messages').select('id',{count:'exact',head:true}).eq('recipient', me.id).eq('read', false)
+  .then(({count})=>{ if(count) document.getElementById('chatNav').textContent = 'chats · ' + count; });
+sb.from('follows').select('*',{count:'exact',head:true}).eq('followed', me.id).eq('seen', false)
+  .then(({count})=>{ if(count){ const n=document.getElementById('notifNav'); n.style.display='inline-flex'; n.textContent = '🔔 ' + count; } });
 
 // secret preview: add ?preview=1 to the URL to see the live marketplace before launch
 const LIVE = LAUNCHED || new URLSearchParams(location.search).get('preview') === '1';

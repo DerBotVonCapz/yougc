@@ -108,3 +108,15 @@ textarea{resize:vertical;min-height:90px}
 .muted{color:var(--ink-soft);font-size:.82rem}
 .spin{display:inline-block;width:16px;height:16px;border:2.5px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:sp 1s linear infinite;vertical-align:middle}
 @keyframes sp{to{transform:rotate(360deg)}}
+
+/* polish */
+::selection{background:#F4CFDF;color:#1E3350}
+.card{transition:border-color .3s, transform .3s}
+.card:hover{border-color:rgba(30,51,80,.3)}
+.tab{transition:all .25s}
+.tab:hover{transform:translateY(-2px)}
+.chip{transition:transform .25s, background .25s, color .25s}
+.btn{transition:transform .25s, opacity .25s, box-shadow .25s}
+.btn:hover{box-shadow:0 14px 30px -12px rgba(46,74,115,.5)}
+.btn.google{background:#fff;color:#1E3350;border:1.5px solid rgba(30,51,80,.18);gap:10px}
+.btn.google:hover{border-color:#1E3350}

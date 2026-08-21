@@ -150,6 +150,27 @@
     .doors{flex-direction:column;align-items:center}
     .hero{min-height:auto;padding-top:4vh}
   }
+
+  /* ---- polish ---- */
+  ::selection{background:#F4CFDF;color:#1E3350}
+  .progress{position:fixed;top:0;left:0;height:3px;z-index:99;width:0;
+    background:linear-gradient(90deg,var(--gradA),var(--gradB),var(--gradC))}
+  .marquee:hover .track{animation-play-state:paused}
+  .step h4{transition:transform .25s;transform-origin:left}
+  .step:hover h4{transform:scale(1.05)}
+  .step .n{transition:transform .3s}
+  .step:hover .n{transform:rotate(-6deg) scale(1.1)}
+  .chip{transition:transform .25s, background .25s}
+  .chip:hover{transform:translateY(-3px) scale(1.05);background:rgba(255,255,255,.95)}
+  .door{overflow:hidden}
+  .door::after{content:'';position:absolute;inset:0;border-radius:999px;
+    background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.4) 50%,transparent 70%);
+    transform:translateX(-130%);transition:transform .6s ease}
+  .door:hover::after{transform:translateX(130%)}
+  .heroQ .grad{background-size:200% 100%;transition:background-position .5s}
+  .heroQ:hover .grad{background-position:100% 0}
+  h2 .grad{background-size:200% 100%;transition:background-position .6s}
+  h2:hover .grad{background-position:100% 0}
 </style>
 </head>
 <body>
@@ -162,6 +183,7 @@
 </div>
 <div class="glow" id="glow"></div>
 <div class="grain"></div>
+<div class="progress" id="prog"></div>
 
 <div class="wrap">
 
@@ -280,7 +302,10 @@
     glow.style.left=e.clientX+'px'; glow.style.top=e.clientY+'px';
     requestPaint();
   },{passive:true});
-  window.addEventListener('scroll',()=>{ scrollY0=window.scrollY; requestPaint(); },{passive:true});
+  window.addEventListener('scroll',()=>{ scrollY0=window.scrollY; requestPaint();
+    const dh=document.documentElement.scrollHeight-innerHeight;
+    if(dh>0) document.getElementById('prog').style.width=(scrollY0/dh*100)+'%';
+  },{passive:true});
 
   // tilt
   document.querySelectorAll('[data-tilt]').forEach(card=>{

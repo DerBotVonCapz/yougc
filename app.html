@@ -47,10 +47,10 @@
     <h1 class="page">the <span class="grad">marketplace.</span></h1>
 
     <div class="card" id="composer" style="display:none;margin-bottom:18px">
-      <label style="margin-top:0">your daily post</label>
+      <label style="margin-top:0">your post</label>
       <textarea id="postText" maxlength="500" placeholder="what can you shoot right now? where are you? share an idea, an achievement, what you'd love to create next…"></textarea>
       <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
-        <span class="muted">one post per day — make it count</span>
+        <span class="muted">up to 2 posts a day. make them count</span>
         <button class="btn small" id="postBtn">post</button>
       </div>
       <div class="msg" id="postMsg"></div>
@@ -141,7 +141,7 @@ if(!LAUNCHED){
       const btn=document.getElementById('postBtn'); btn.innerHTML='<span class="spin"></span>';
       const { error } = await sb.from('posts').insert({ user_id: me.id, text: t });
       if(error){
-        showMsg(msg, (error.message||'').includes('row-level') ? 'you already posted in the last 24 hours — come back tomorrow.' : error.message);
+        showMsg(msg, (error.message||'').includes('row-level') ? 'you posted in the last 12 hours. come back a bit later.' : error.message);
       } else {
         document.getElementById('postText').value='';
         showMsg(msg,'posted. brands can see it now.', true);

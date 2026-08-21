@@ -12,6 +12,7 @@ export const SOCIAL_FIELDS = [
   {key:'tiktok', label:'TikTok', ph:'https://tiktok.com/@yourname'},
   {key:'youtube', label:'YouTube', ph:'https://youtube.com/@yourname'},
   {key:'telegram', label:'Telegram', ph:'https://t.me/yourname'},
+  {key:'website', label:'Website', ph:'https://yourbrand.com'},
 ];
 
 export async function currentUser(){

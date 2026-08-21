@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>set up your profile — youGC</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="stylesheet" href="style.css">
 </head>
@@ -37,7 +37,7 @@
       <div class="chips" id="nicheChips"></div>
       <input type="text" id="customNiche" class="mt1" placeholder="type your own niche and press enter">
 
-      <label class="mt2">socials <span style="text-transform:none;font-weight:400">(add at least one — it's how people reach you)</span></label>
+      <label class="mt2">your links <span style="text-transform:none;font-weight:400">(add at least one. socials, or your brand website)</span></label>
       <div id="socialInputs"></div>
 
       <button class="btn full mt3" id="save">save profile →</button>
@@ -119,7 +119,7 @@ document.getElementById('save').addEventListener('click', async ()=>{
     const v = document.getElementById('soc_'+f.key).value.trim();
     if(v){ socials[f.key]=v; anySocial=true; }
   }
-  if(!anySocial){ showMsg(msg,'add at least one social link so people can reach you.'); return; }
+  if(!anySocial){ showMsg(msg,'add at least one link so people can reach you.'); return; }
 
   const btn = document.getElementById('save'); btn.innerHTML='<span class="spin"></span>';
   try{

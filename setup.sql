@@ -17,7 +17,7 @@ create policy "profiles are public" on public.profiles for select using (true);
 create policy "insert own profile" on public.profiles for insert with check (auth.uid() = id);
 create policy "update own profile" on public.profiles for update using (auth.uid() = id);
 
--- POSTS (one per 24h per user, enforced by policy)
+-- POSTS (max 2 per day: one per 12h per user, enforced by policy)
 create table public.posts (
   id bigint generated always as identity primary key,
   user_id uuid not null references public.profiles(id) on delete cascade,
@@ -26,12 +26,12 @@ create table public.posts (
 );
 alter table public.posts enable row level security;
 create policy "posts are public" on public.posts for select using (true);
-create policy "one post per day" on public.posts for insert with check (
+create policy "one post per 12 hours" on public.posts for insert with check (
   auth.uid() = user_id
   and not exists (
     select 1 from public.posts p
     where p.user_id = auth.uid()
-    and p.created_at > now() - interval '24 hours'
+    and p.created_at > now() - interval '12 hours'
   )
 );
 create policy "delete own posts" on public.posts for delete using (auth.uid() = user_id);

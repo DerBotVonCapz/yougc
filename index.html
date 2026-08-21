@@ -4,7 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>YOUgc — where creators get found</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<meta name="description" content="The UGC marketplace. Brands scroll real creator profiles and message them directly. Creators build a profile once and let the deals come to them.">
+<meta property="og:title" content="YOUgc — where creators get found">
+<meta property="og:description" content="The UGC marketplace — real people, real deals. Build your creator profile or find creators for your brand.">
+<meta property="og:image" content="https://yougc-six.vercel.app/og.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://yougc-six.vercel.app/og.png">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
 <style>
   :root{
     --ink:#1E3350; --ink-soft:#4A5E7E;
@@ -43,14 +51,16 @@
 
   .wrap{position:relative;z-index:3}
 
-  /* ---------- logo: one continuous pastel fade across YOU→gc ---------- */
-  .logo{display:inline-flex;align-items:baseline;gap:1px;text-decoration:none;position:relative;
-    background:linear-gradient(95deg,#4E79AE 0%,#7BA8D9 30%,#C9748F 62%,#5FA88A 100%);
+  /* ---------- logo: chunky rounded pastel wordmark ---------- */
+  .logo{display:inline-flex;align-items:baseline;gap:0;text-decoration:none;position:relative;
+    font-family:'Baloo 2','Poppins',sans-serif;
+    background:linear-gradient(95deg,#8FB4E0 0%,#A9C6EA 26%,#E3A2C0 55%,#A5D8BE 100%);
     -webkit-background-clip:text;background-clip:text;color:transparent;
-    filter:drop-shadow(0 2px 8px rgba(110,150,200,.28));transition:transform .3s}
-  .logo:hover{transform:translateY(-2px) scale(1.03)}
-  .lg-you{font-weight:800;font-size:1.8rem;letter-spacing:-.045em}
-  .lg-gc{font-weight:800;font-size:1.15rem;letter-spacing:-.02em}
+    filter:drop-shadow(0 3px 1px rgba(255,255,255,.9)) drop-shadow(0 8px 22px rgba(110,150,200,.4));
+    transition:transform .3s}
+  .logo:hover{transform:translateY(-2px) scale(1.04) rotate(-1deg)}
+  .lg-you{font-weight:800;font-size:2.05rem;letter-spacing:-.02em}
+  .lg-gc{font-weight:800;font-size:1.35rem;letter-spacing:-.01em}
 
   /* ---------- nav ---------- */
   nav{display:flex;justify-content:space-between;align-items:center;padding:24px 5vw;position:relative;z-index:5}

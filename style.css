@@ -20,14 +20,16 @@ body{font-family:'Poppins',-apple-system,'Segoe UI',sans-serif;background:var(--
 .grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.05;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 .wrap{position:relative;z-index:2}
 
-/* logo — continuous pastel fade YOU→gc */
-.logo{display:inline-flex;align-items:baseline;gap:1px;text-decoration:none;position:relative;
-  background:linear-gradient(95deg,#4E79AE 0%,#7BA8D9 30%,#C9748F 62%,#5FA88A 100%);
+/* logo — chunky rounded pastel wordmark */
+.logo{display:inline-flex;align-items:baseline;gap:0;text-decoration:none;position:relative;
+  font-family:'Baloo 2','Poppins',sans-serif;
+  background:linear-gradient(95deg,#8FB4E0 0%,#A9C6EA 26%,#E3A2C0 55%,#A5D8BE 100%);
   -webkit-background-clip:text;background-clip:text;color:transparent;
-  filter:drop-shadow(0 2px 8px rgba(110,150,200,.28));transition:transform .3s}
-.logo:hover{transform:translateY(-2px) scale(1.03)}
-.lg-you{font-weight:800;font-size:1.55rem;letter-spacing:-.045em}
-.lg-gc{font-weight:800;font-size:1rem;letter-spacing:-.02em}
+  filter:drop-shadow(0 3px 1px rgba(255,255,255,.9)) drop-shadow(0 8px 22px rgba(110,150,200,.4));
+  transition:transform .3s}
+.logo:hover{transform:translateY(-2px) scale(1.04) rotate(-1deg)}
+.lg-you{font-weight:800;font-size:1.7rem;letter-spacing:-.02em}
+.lg-gc{font-weight:800;font-size:1.12rem;letter-spacing:-.01em}
 
 .grad{background:linear-gradient(90deg,#2E4A73 0%,#6E96C8 45%,#D98BB0 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
 

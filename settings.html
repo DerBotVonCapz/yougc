@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>settings — YOUgc</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="bg"></div>
+<div class="wrap">
+  <nav class="top">
+    <span id="logo"></span>
+    <div class="navlinks">
+      <a class="nav-cta" href="app.html">marketplace</a>
+      <a class="nav-cta" id="mypage" href="#">my profile</a>
+    </div>
+  </nav>
+
+  <div class="pane">
+    <div class="card reveal on">
+      <h1 class="page">account <span class="grad">settings.</span></h1>
+
+      <label>your email</label>
+      <input type="email" id="curEmail" disabled>
+
+      <label>change email</label>
+      <input type="email" id="newEmail" placeholder="new@email.com">
+      <button class="btn small mt1" id="emailBtn">update email</button>
+
+      <label class="mt2">change password</label>
+      <input type="password" id="newPass" placeholder="new password, min 6 characters" autocomplete="new-password">
+      <button class="btn small mt1" id="passBtn">update password</button>
+
+      <div class="msg" id="msg"></div>
+
+      <p class="muted mt3">name, username, picture, links and niches are changed in <a href="onboard.html" style="color:var(--cblue);font-weight:600">edit profile</a>.</p>
+      <button class="btn ghost full mt2" id="logout">log out</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { sb, requireAuth, blobsHTML, initMotion, logoHTML, showMsg } from './app.js';
+document.getElementById('bg').outerHTML = blobsHTML();
+document.getElementById('logo').outerHTML = logoHTML('app.html');
+initMotion();
+
+const ctx = await requireAuth();
+if(!ctx) throw new Error('redirecting');
+document.getElementById('mypage').href = 'profile.html?u=' + encodeURIComponent(ctx.profile.username);
+document.getElementById('curEmail').value = ctx.user.email || '';
+
+const msg = document.getElementById('msg');
+
+document.getElementById('emailBtn').addEventListener('click', async ()=>{
+  const v = document.getElementById('newEmail').value.trim();
+  msg.className='msg';
+  if(!v){ showMsg(msg,'enter the new email first.'); return; }
+  const { error } = await sb.auth.updateUser({ email: v });
+  if(error) showMsg(msg, error.message);
+  else showMsg(msg,'email update started. if a confirmation email arrives, click it to finish.', true);
+});
+
+document.getElementById('passBtn').addEventListener('click', async ()=>{
+  const v = document.getElementById('newPass').value;
+  msg.className='msg';
+  if(v.length < 6){ showMsg(msg,'password needs at least 6 characters.'); return; }
+  const { error } = await sb.auth.updateUser({ password: v });
+  if(error) showMsg(msg, error.message);
+  else { document.getElementById('newPass').value=''; showMsg(msg,'password updated.', true); }
+});
+
+document.getElementById('logout').addEventListener('click', async ()=>{
+  await sb.auth.signOut(); location.href='index.html';
+});
+</script>
+</body>
+</html>

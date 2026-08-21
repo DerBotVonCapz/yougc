@@ -106,7 +106,7 @@ if(!LIVE){
       </div>
       <div class="reffloat"><div class="refbox" style="margin-top:0">
         <div class="rtitle">your YOUgc referral link 🔗</div>
-        <div class="rsub">every friend who joins through your link = <b>20% off your next purchase</b>.</div>
+        <div class="rsub">friend joins through your link: <b>they get 10% off</b> their next purchase, <b>you get 10% off</b> yours.</div>
         <div class="refrow">
           <input type="text" id="refLink" readonly>
           <button class="btn small" id="refCopy">copy</button>
@@ -128,7 +128,9 @@ if(!LIVE){
     setTimeout(()=>document.getElementById('refCopy').textContent='copy',1600);
   });
   sb.from('referrals').select('id',{count:'exact',head:true}).eq('referrer_username', me.username)
-    .then(({count})=>{ if(count) document.getElementById('refCount').textContent = count + (count===1?' friend joined':' friends joined') + ' through your link'; });
+    .then(({count})=>{ if(count) document.getElementById('refCount').textContent = count + (count===1?' friend joined':' friends joined') + ' — your code: YOUGC10-' + me.username.toUpperCase(); });
+  sb.from('referrals').select('referrer_username').eq('referred', me.id).maybeSingle()
+    .then(({data})=>{ if(data) document.getElementById('refCount').textContent += (document.getElementById('refCount').textContent?' · ':'') + 'you joined via @' + data.referrer_username + ' — code YOUGC10-' + me.username.toUpperCase() + ' = 10% off your next purchase'; });
 
   // launch notification
   const wlInp=document.getElementById('wlEmail'), wlBtn=document.getElementById('wlBtn'), wlMsg=document.getElementById('wlMsg');

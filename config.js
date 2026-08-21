@@ -5,7 +5,9 @@ export const SUPABASE_KEY = 'sb_publishable_sXia33UR_g43dCp59RsAKA_1FBKOlL_';
 // flip this to true when we announce MARKETPLACE IS LIVE — one word, commit, done
 export const LAUNCHED = false;
 
-// featured posts: price per 24h + where people pay.
-// FEATURED_PAY_URL: put your PayPal.me or Stripe payment link here (e.g. 'https://paypal.me/yourname/25')
-export const FEATURED_PRICE = 25;
-export const FEATURED_PAY_URL = '';
+// paid extras — PAY_URL: your PayPal.me or Stripe payment link (e.g. 'https://paypal.me/yougc')
+// people pay there with their @username as reference, you activate in Supabase
+export const PAY_URL = '';
+export const FEATURED_PRICE = 25;    // pin one post on top, 24h
+export const VERIFIED_PRICE = 3.99;  // verified pack: badge + pro look + 3 posts/day
+export const SPOTLIGHT_PRICE = 19;   // spotlight profile card on top, 7 days

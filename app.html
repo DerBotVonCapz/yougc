@@ -47,11 +47,13 @@
       <textarea id="postText" maxlength="500" placeholder="what can you shoot right now? where are you? share an idea, an achievement, what you'd love to create next…"></textarea>
       <label class="feat"><input type="checkbox" id="featChk"><span><b>feature this post</b> — pinned on top of the feed for 24h · $<span id="featPrice">25</span></span></label>
       <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
-        <span class="muted">up to 2 posts a day. make them count</span>
+        <span class="muted" id="capNote">up to 2 posts a day. make them count</span>
         <button class="btn small" id="postBtn">post</button>
       </div>
       <div class="msg" id="postMsg"></div>
     </div>
+
+    <div id="spotrow"></div>
 
     <div class="tabs">
       <span class="tab on" data-tab="all">everyone</span>
@@ -64,8 +66,9 @@
 </div>
 
 <script type="module">
-import { sb, requireAuth, NICHES, blobsHTML, initMotion, logoHTML, esc, timeAgo, avatarHTML, showMsg } from './app.js';
-import { LAUNCHED, FEATURED_PRICE, FEATURED_PAY_URL } from './config.js';
+import { sb, requireAuth, NICHES, blobsHTML, initMotion, logoHTML, esc, timeAgo, avatarHTML, vbadge, hasSlurs, showMsg } from './app.js';
+import { LAUNCHED, FEATURED_PRICE, VERIFIED_PRICE, SPOTLIGHT_PRICE, PAY_URL } from './config.js';
+const payHref = ref => PAY_URL || ('mailto:yougcmarket@gmail.com?subject=' + encodeURIComponent(ref));
 document.getElementById('bg').outerHTML = blobsHTML();
 document.getElementById('logo').outerHTML = logoHTML('app.html');
 initMotion();
@@ -160,21 +163,38 @@ if(!LAUNCHED){
       document.getElementById('postText').placeholder = "what are you looking for? e.g. 3 fitness creators for a winter campaign, german or english, video + photos…";
     }
     document.getElementById('featPrice').textContent = FEATURED_PRICE;
+    if(me.verified) document.getElementById('capNote').textContent = 'up to 3 posts a day (verified). make them count';
+
+    // ---- spotlight row: 2 creators + 2 brands on top ----
+    (async ()=>{
+      const { data: sp } = await sb.from('profiles').select('*').gt('spotlight_until', new Date().toISOString()).limit(20);
+      const cs=(sp||[]).filter(p=>p.role==='creator').slice(0,2);
+      const bs=(sp||[]).filter(p=>p.role==='brand').slice(0,2);
+      const mk = p => `<a class="spotcard" href="profile.html?u=${encodeURIComponent(p.username)}">${avatarHTML(p)}<div><div class="sname">${esc(p.name)}${vbadge(p)}</div><span class="rolebadge ${p.role}">${p.role}</span></div></a>`;
+      const ph = role => `<a class="spotcard ph" href="${payHref('spotlight '+role+' @'+me.username)}" target="_blank" rel="noopener">✦ your ${role} spotlight<br>$${SPOTLIGHT_PRICE} / week</a>`;
+      const cards = [...cs.map(mk)]; while(cards.length<2) cards.push(ph('creator'));
+      const bcards = [...bs.map(mk)]; while(bcards.length<2) bcards.push(ph('brand'));
+      document.getElementById('spotrow').innerHTML =
+        `<div class="spotrow"><div class="spotlabel">✦ spotlight</div>${cards.join('')}${bcards.join('')}</div>`;
+    })();
     document.getElementById('postBtn').addEventListener('click', async ()=>{
       const t = document.getElementById('postText').value.trim();
       const wantsFeat = document.getElementById('featChk').checked;
       const msg = document.getElementById('postMsg'); msg.className='msg';
       if(!t){ showMsg(msg,'write something first.'); return; }
+      if(hasSlurs(t)){ showMsg(msg,'that language has no place here. rewrite it.'); return; }
       const btn=document.getElementById('postBtn'); btn.innerHTML='<span class="spin"></span>';
       const { error } = await sb.from('posts').insert({ user_id: me.id, text: t });
       if(error){
-        showMsg(msg, (error.message||'').includes('row-level') ? 'you posted in the last 12 hours. come back a bit later.' : error.message);
+        const m = error.message||'';
+        showMsg(msg, m.includes('no_slurs') ? 'that language has no place here. rewrite it.'
+          : m.includes('row-level') ? 'you hit your daily post limit. come back a bit later.' : m);
       } else {
         document.getElementById('postText').value='';
         if(wantsFeat){
-          const pay = FEATURED_PAY_URL
-            ? `<a href="${FEATURED_PAY_URL}" target="_blank" rel="noopener" style="font-weight:700;text-decoration:underline">pay $${FEATURED_PRICE} here</a>`
-            : `send $${FEATURED_PRICE} — payment details via <a href="mailto:yougcmarket@gmail.com" style="font-weight:700;text-decoration:underline">yougcmarket@gmail.com</a>`;
+          const pay = PAY_URL
+            ? `<a href="${PAY_URL}" target="_blank" rel="noopener" style="font-weight:700;text-decoration:underline">pay $${FEATURED_PRICE} here</a>`
+            : `send $${FEATURED_PRICE} — payment details via <a href="${payHref('featured post')}" style="font-weight:700;text-decoration:underline">yougcmarket@gmail.com</a>`;
           msg.className='msg ok';
           msg.innerHTML = `posted. one step left to get featured: ${pay} with your @username as reference. your post moves to the top within a few hours after payment.`;
           document.getElementById('featChk').checked = false;
@@ -206,7 +226,7 @@ if(!LAUNCHED){
     const feed=document.getElementById('feed');
     feed.innerHTML='<p class="muted center mt3">loading…</p>';
     const { data, error } = await sb.from('posts')
-      .select('id,text,created_at,featured_until,profiles(id,username,name,avatar_url,niches,role)')
+      .select('id,text,created_at,featured_until,profiles(id,username,name,avatar_url,niches,role,verified)')
       .order('created_at',{ascending:false}).limit(100);
     if(error){ feed.innerHTML=`<p class="muted center mt3">${esc(error.message)}</p>`; return; }
     let rows = (data||[]).filter(p=>p.profiles);
@@ -229,7 +249,7 @@ if(!LAUNCHED){
         <div class="phead">
           ${avatarHTML(p.profiles)}
           <div>
-            <a class="pname" href="profile.html?u=${encodeURIComponent(p.profiles.username)}">${esc(p.profiles.name)}</a> <span class="rolebadge ${p.profiles.role}">${p.profiles.role==='creator'?'creator':'brand'}</span>
+            <a class="pname" href="profile.html?u=${encodeURIComponent(p.profiles.username)}">${esc(p.profiles.name)}</a>${vbadge(p.profiles)} <span class="rolebadge ${p.profiles.role}">${p.profiles.role==='creator'?'creator':'brand'}</span>
             <div class="pmeta">@${esc(p.profiles.username)} · ${timeAgo(p.created_at)}</div>
           </div>
         </div>

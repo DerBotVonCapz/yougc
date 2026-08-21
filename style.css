@@ -123,3 +123,21 @@ textarea{resize:vertical;min-height:90px}
              linear-gradient(120deg,#6E96C8,#D98BB0,#E8926B) border-box}
 .featbadge{position:absolute;top:-11px;right:18px;font-size:.64rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;
   padding:4px 12px;border-radius:999px;background:linear-gradient(120deg,#2E4A73,#6E96C8);color:#fff;box-shadow:0 6px 16px -6px rgba(46,74,115,.5)}
+
+/* verified */
+.vbadge{display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;
+  background:linear-gradient(120deg,#2E4A73,#6E96C8);color:#fff;font-size:.62rem;font-weight:800;margin-left:6px;vertical-align:middle;flex-shrink:0}
+.avatar.vring{box-shadow:0 0 0 2px #fff,0 0 0 4.5px #6E96C8}
+
+/* spotlight */
+.spotrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin:2px 0 20px}
+.spotlabel{grid-column:1/-1;font-size:.7rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+.spotcard{display:flex;align-items:center;gap:11px;padding:13px 15px;border-radius:16px;background:rgba(255,255,255,.82);
+  border:1.5px solid rgba(255,255,255,.95);text-decoration:none;color:var(--ink);
+  transition:transform .25s, border-color .25s;box-shadow:0 12px 28px -16px rgba(46,74,115,.3)}
+.spotcard:hover{transform:translateY(-3px);border-color:rgba(30,51,80,.3)}
+.spotcard .avatar{width:42px;height:42px}
+.spotcard .sname{font-weight:700;font-size:.86rem;display:flex;align-items:center;margin-bottom:3px}
+.spotcard.ph{border:1.5px dashed rgba(30,51,80,.25);background:rgba(255,255,255,.45);color:var(--ink-soft);
+  font-size:.78rem;font-weight:600;justify-content:center;text-align:center;line-height:1.5}
+.spotcard.ph:hover{color:var(--ink);border-color:rgba(30,51,80,.45)}

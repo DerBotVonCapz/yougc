@@ -49,11 +49,19 @@ export function timeAgo(ts){
 }
 
 export function avatarHTML(p, big=false){
-  const cls = 'avatar'+(big?' big':'');
+  const cls = 'avatar'+(big?' big':'')+((p && p.verified)?' vring':'');
   if(p && p.avatar_url) return `<img class="${cls}" src="${esc(p.avatar_url)}" alt="">`;
   const ini = esc((p && p.name ? p.name : '?').trim().charAt(0).toUpperCase() || '?');
   return `<div class="${cls} ph">${ini}</div>`;
 }
+
+export function vbadge(p){
+  return (p && p.verified) ? '<span class="vbadge" title="verified">✓</span>' : '';
+}
+
+// hate speech filter — swearing is fine, slurs are not
+const SLURS = /\bn[i1!]+gg+[e3a4]*r?s?\b|\bn[i1]gs?\b|\bf[a4@]gg?[o0]t?s?\b|\bk[i1]kes?\b|\bch[i1]nks?\b|\btr[a4]nn(?:y|ies)\b|\bwetbacks?\b|\bsp[i1]cs?\b|\bc[o0]{2}ns?\b|\br[e3]t[a4]rd(?:ed|s)?\b/i;
+export function hasSlurs(t){ return SLURS.test(String(t||'')); }
 
 export function blobsHTML(){
   return `<div class="bg-blobs"><div class="blob b1" data-depth="26"></div><div class="blob b2" data-depth="-34"></div><div class="blob b3" data-depth="20"></div></div><div class="grain"></div>`;

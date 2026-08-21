@@ -47,7 +47,7 @@
 </div>
 
 <script type="module">
-import { sb, currentUser, myProfile, NICHES, SOCIAL_FIELDS, blobsHTML, initMotion, logoHTML, showMsg, esc } from './app.js';
+import { sb, currentUser, myProfile, NICHES, SOCIAL_FIELDS, blobsHTML, initMotion, logoHTML, showMsg, esc, hasSlurs } from './app.js';
 document.getElementById('bg').outerHTML = blobsHTML();
 document.getElementById('logo').outerHTML = logoHTML();
 initMotion();
@@ -111,6 +111,7 @@ document.getElementById('save').addEventListener('click', async ()=>{
   const username = document.getElementById('username').value.trim().toLowerCase();
   const bio = document.getElementById('bio').value.trim();
   if(!name){ showMsg(msg,'add your name.'); return; }
+  if(hasSlurs(name) || hasSlurs(bio) || hasSlurs(username)){ showMsg(msg,'that language has no place here. change it.'); return; }
   if(!/^[a-z0-9_]{3,24}$/.test(username)){ showMsg(msg,'username: 3-24 chars, lowercase letters, numbers or _ only.'); return; }
   if(selected.size===0){ showMsg(msg,'pick at least one niche.'); return; }
   const socials = {};

@@ -25,7 +25,8 @@
 </div>
 
 <script type="module">
-import { sb, currentUser, blobsHTML, initMotion, logoHTML, esc, timeAgo, avatarHTML, SOCIAL_FIELDS } from './app.js';
+import { sb, currentUser, blobsHTML, initMotion, logoHTML, esc, timeAgo, avatarHTML, vbadge, SOCIAL_FIELDS } from './app.js';
+import { VERIFIED_PRICE, PAY_URL } from './config.js';
 document.getElementById('bg').outerHTML = blobsHTML();
 document.getElementById('logo').outerHTML = logoHTML();
 initMotion();
@@ -49,7 +50,7 @@ if(!p){
       ${avatarHTML(p, true)}
       <div style="flex:1;min-width:200px">
         <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-          <h1 class="page" style="margin:0">${esc(p.name)}</h1>
+          <h1 class="page" style="margin:0">${esc(p.name)}</h1>${vbadge(p)}
           <span class="rolebadge ${p.role}">${p.role==='creator'?'creator':'brand'}</span>
         </div>
         <div class="pmeta">@${esc(p.username)}</div>
@@ -59,7 +60,7 @@ if(!p){
     <div class="ptags mt2">${(p.niches||[]).map(n=>`<span>${esc(n)}</span>`).join('')}</div>
     ${socials ? `<div class="socialrow">${socials}</div>` : ''}
     ${socials && !isOwner ? `<a class="btn mt3" id="contact" href="${esc(Object.values(p.socials)[0])}" target="_blank" rel="noopener">message ${esc(p.name.split(' ')[0])} →</a>` : ''}
-    ${isOwner ? `<div class="mt3" style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center"><a class="btn" href="onboard.html">edit profile →</a><a class="btn ghost" href="settings.html">settings</a></div>` : ''}
+    ${isOwner ? `<div class="mt3" style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center"><a class="btn" href="onboard.html">edit profile →</a><a class="btn ghost" href="settings.html">settings</a>${p.verified?'':`<a class="btn ghost" href="${PAY_URL||('mailto:yougcmarket@gmail.com?subject='+encodeURIComponent('verified pack @'+p.username))}" target="_blank" rel="noopener" title="✓ badge, pro look, 3 posts a day">get verified ✓ — $${VERIFIED_PRICE}</a>`}</div>` : ''}
   `;
 
   const { data: posts } = await sb.from('posts').select('id,text,created_at').eq('user_id', p.id).order('created_at',{ascending:false}).limit(10);

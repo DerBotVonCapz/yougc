@@ -56,3 +56,15 @@ create policy "anyone can join waitlist" on public.waitlist for insert with chec
 -- FEATURED POSTS (paid pin: set featured_until = now() + interval '24 hours' manually after payment)
 alter table public.posts add column if not exists featured_until timestamptz;
 -- insert policy includes "featured_until is null" so users can't feature themselves
+
+-- VERIFIED PACK + SPOTLIGHT (activate manually after payment)
+-- verified: update public.profiles set verified = true where username = 'xxx';
+-- spotlight: update public.profiles set spotlight_until = now() + interval '7 days' where username = 'xxx';
+alter table public.profiles add column if not exists verified boolean not null default false;
+alter table public.profiles add column if not exists spotlight_until timestamptz;
+-- users cannot set paid columns themselves (column-level grants):
+revoke update on table public.profiles from authenticated, anon;
+grant update (role, username, name, bio, avatar_url, socials, niches) on table public.profiles to authenticated;
+revoke insert on table public.profiles from authenticated, anon;
+grant insert (id, role, username, name, bio, avatar_url, socials, niches) on table public.profiles to authenticated;
+-- verified users: 3 posts/day (8h gap), others 2/day (12h gap) — policy defined above replaced accordingly

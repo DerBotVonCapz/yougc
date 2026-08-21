@@ -79,7 +79,9 @@ const me = ctx.profile;
 
 document.getElementById('mypage').href = 'profile.html?u=' + encodeURIComponent(me.username);
 
-if(!LAUNCHED){
+// secret preview: add ?preview=1 to the URL to see the live marketplace before launch
+const LIVE = LAUNCHED || new URLSearchParams(location.search).get('preview') === '1';
+if(!LIVE){
   // ---------- PRE-LAUNCH HOLDING SCREEN ----------
   document.getElementById('appwrap').style.maxWidth='100%';
   document.getElementById('appwrap').innerHTML = `

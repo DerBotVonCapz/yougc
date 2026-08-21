@@ -16,11 +16,11 @@
   .floatlogo .gc{font-size:.86em;font-style:italic;letter-spacing:-.04em}
   .prep{text-align:center;padding:2vh 0 6vh;max-width:100% !important}
   .prep .big{font-family:'Space Grotesk','Poppins',sans-serif;font-weight:700;letter-spacing:-.05em;line-height:.98;
-    font-size:clamp(3.4rem,10.5vw,9rem);
+    font-size:clamp(2.8rem,8.6vw,7.6rem);white-space:nowrap;
     background:linear-gradient(95deg,#2E4A73 0%,#6E96C8 46%,#D98BB0 100%);
     -webkit-background-clip:text;background-clip:text;color:transparent}
   .prep .big2{font-family:'Space Grotesk','Poppins',sans-serif;font-weight:700;letter-spacing:-.04em;line-height:1;
-    font-size:clamp(2rem,6vw,5rem);color:var(--ink);margin-top:6px}
+    font-size:clamp(1.8rem,5.2vw,4.4rem);color:var(--ink);margin-top:6px}
   .prep .dots span{display:inline-block;animation:blink 1.4s infinite}
   .prep .dots span:nth-child(2){animation-delay:.2s}
   .prep .dots span:nth-child(3){animation-delay:.4s}
@@ -81,6 +81,7 @@ document.getElementById('mypage').href = 'profile.html?u=' + encodeURIComponent(
 
 if(!LAUNCHED){
   // ---------- PRE-LAUNCH HOLDING SCREEN ----------
+  document.getElementById('appwrap').style.maxWidth='100%';
   document.getElementById('appwrap').innerHTML = `
     <div class="prep">
       <div class="big">MARKETPLACE</div>

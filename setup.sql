@@ -52,3 +52,7 @@ create table public.waitlist (
 alter table public.waitlist enable row level security;
 create policy "anyone can join waitlist" on public.waitlist for insert with check (true);
 -- no select policy on purpose: emails are not readable through the public API
+
+-- FEATURED POSTS (paid pin: set featured_until = now() + interval '24 hours' manually after payment)
+alter table public.posts add column if not exists featured_until timestamptz;
+-- insert policy includes "featured_until is null" so users can't feature themselves

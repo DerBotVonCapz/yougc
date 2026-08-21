@@ -113,3 +113,13 @@ textarea{resize:vertical;min-height:90px}
 .btn:hover{box-shadow:0 14px 30px -12px rgba(46,74,115,.5)}
 .btn.google{background:#fff;color:#1E3350;border:1.5px solid rgba(30,51,80,.18);gap:10px}
 .btn.google:hover{border-color:#1E3350}
+
+/* featured posts */
+.feat{display:flex;align-items:center;gap:9px;font-size:.85rem;color:var(--ink-soft);margin-top:12px;cursor:pointer;user-select:none}
+.feat input{accent-color:#2E4A73;width:16px;height:16px;cursor:pointer}
+.feat b{color:var(--ink)}
+.post.featured{position:relative;border:2px solid transparent;
+  background:linear-gradient(rgba(255,255,255,.85),rgba(255,255,255,.85)) padding-box,
+             linear-gradient(120deg,#6E96C8,#D98BB0,#E8926B) border-box}
+.featbadge{position:absolute;top:-11px;right:18px;font-size:.64rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;
+  padding:4px 12px;border-radius:999px;background:linear-gradient(120deg,#2E4A73,#6E96C8);color:#fff;box-shadow:0 6px 16px -6px rgba(46,74,115,.5)}

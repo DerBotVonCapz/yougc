@@ -46,14 +46,15 @@
   /* logo: one word, one flowing fade, U melts into gc */
   .logo{display:inline-flex;align-items:baseline;text-decoration:none;
     font-family:'Space Grotesk','Poppins',sans-serif;font-weight:700;letter-spacing:-.05em;
-    background:linear-gradient(100deg,var(--gradA) 0%,#5B84B8 34%,var(--gradB) 52%,var(--gradC) 78%,#C9A0C4 100%);
-    background-size:150% 100%;background-position:0% 0;
+    background:linear-gradient(115deg,transparent 42%,rgba(255,255,255,.92) 50%,transparent 58%),linear-gradient(100deg,var(--gradA) 0%,#5B84B8 34%,var(--gradB) 52%,var(--gradC) 78%,#C9A0C4 100%);
+    background-size:260% 100%,100% 100%;background-position:-160% 0,0 0;
     -webkit-background-clip:text;background-clip:text;color:transparent;
-    transition:transform .3s, background-position .6s}
-  .logo:hover{transform:translateY(-2px);background-position:90% 0}
+    animation:logosheen 5s ease-in-out 1s infinite;
+    transition:transform .3s}
+  .logo:hover{transform:translateY(-2px)}
+  @keyframes logosheen{0%{background-position:-160% 0,0 0}38%{background-position:260% 0,0 0}100%{background-position:260% 0,0 0}}
   .logo .u{font-size:.94em;font-style:italic;letter-spacing:-.045em}
-  .logo .gc{font-size:.86em;margin-left:-.015em;font-style:italic;letter-spacing:normal}
-  .logo .gc::after{content:'.';font-style:normal;font-weight:800;margin-left:.04em;padding-right:.08em}
+  .logo .gc{font-size:.86em;margin-left:-.015em;font-style:italic;letter-spacing:normal;padding-right:.1em}
   nav .logo{font-size:1.65rem}
 
   nav{display:flex;justify-content:space-between;align-items:center;padding:18px 22px;position:relative;z-index:5}
@@ -67,15 +68,14 @@
   .orbit i{position:absolute;border-radius:50%;transform:translate(-50%,-50%);will-change:left,top}
 
   .heroLogo{font-size:clamp(4rem,12vw,9.5rem);line-height:.95;
-    opacity:0;animation:rise 1s .15s forwards, fadeslide 9s 1.2s ease-in-out infinite alternate;will-change:transform;
+    opacity:0;animation:rise 1s .15s forwards, logosheen 5s ease-in-out 1.6s infinite;will-change:transform;
     display:inline-flex;align-items:baseline;
     font-family:'Space Grotesk','Poppins',sans-serif;font-weight:700;letter-spacing:-.055em;
-    background:linear-gradient(100deg,var(--gradA) 0%,#5B84B8 34%,var(--gradB) 52%,var(--gradC) 78%,#C9A0C4 100%);
-    background-size:160% 100%;background-position:0% 0;
+    background:linear-gradient(115deg,transparent 42%,rgba(255,255,255,.92) 50%,transparent 58%),linear-gradient(100deg,var(--gradA) 0%,#5B84B8 34%,var(--gradB) 52%,var(--gradC) 78%,#C9A0C4 100%);
+    background-size:260% 100%,100% 100%;background-position:-160% 0,0 0;
     -webkit-background-clip:text;background-clip:text;color:transparent}
   .heroLogo .u{font-size:.94em;font-style:italic;letter-spacing:-.045em}
-  .heroLogo .gc{font-size:.86em;margin-left:-.015em;font-style:italic;letter-spacing:normal}
-  .heroLogo .gc::after{content:'.';font-style:normal;font-weight:800;margin-left:.04em;padding-right:.1em}
+  .heroLogo .gc{font-size:.86em;margin-left:-.015em;font-style:italic;letter-spacing:normal;padding-right:.12em}
   @keyframes fadeslide{from{background-position:0% 0}to{background-position:100% 0}}
   .heroQ{margin-top:30px;font-size:clamp(1.15rem,2.3vw,1.7rem);font-weight:700;letter-spacing:-.015em;line-height:1.5;opacity:0;animation:rise 1s .35s forwards}
   .heroQ .grad{font-weight:800}

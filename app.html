@@ -3,20 +3,30 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>marketplace — YOUgc</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="stylesheet" href="style.css">
 <style>
-  .floatlogo{position:fixed;z-index:60;font-family:'Baloo 2','Poppins',sans-serif;font-weight:800;font-size:2.4rem;line-height:1;
-    background:linear-gradient(95deg,#8FB4E0,#A9C6EA,#E3A2C0,#A5D8BE);-webkit-background-clip:text;background-clip:text;color:transparent;
-    filter:drop-shadow(0 3px 1px rgba(255,255,255,.9)) drop-shadow(0 10px 24px rgba(110,150,200,.45));
-    cursor:grab;user-select:none;will-change:transform;left:0;top:0}
-  .floatlogo:active{cursor:grabbing}
-  .prep{text-align:center;padding:9vh 0 4vh}
+  .floatlogo{position:fixed;z-index:60;font-family:'Space Grotesk','Poppins',sans-serif;font-weight:700;font-size:2.6rem;line-height:1;letter-spacing:-.05em;
+    background:linear-gradient(95deg,#2E4A73,#6E96C8,#D98BB0);-webkit-background-clip:text;background-clip:text;color:transparent;
+    opacity:.85;user-select:none;pointer-events:none;will-change:transform;left:0;top:0}
+  .prep{text-align:center;padding:2vh 0 6vh;max-width:100% !important}
+  .prep .big{font-family:'Space Grotesk','Poppins',sans-serif;font-weight:700;letter-spacing:-.05em;line-height:.98;
+    font-size:clamp(3.4rem,10.5vw,9rem);
+    background:linear-gradient(95deg,#2E4A73 0%,#6E96C8 46%,#D98BB0 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  .prep .big2{font-family:'Space Grotesk','Poppins',sans-serif;font-weight:700;letter-spacing:-.04em;line-height:1;
+    font-size:clamp(2rem,6vw,5rem);color:var(--ink);margin-top:6px}
   .prep .dots span{display:inline-block;animation:blink 1.4s infinite}
   .prep .dots span:nth-child(2){animation-delay:.2s}
   .prep .dots span:nth-child(3){animation-delay:.4s}
-  @keyframes blink{0%,60%,100%{opacity:.25}30%{opacity:1}}
+  @keyframes blink{0%,60%,100%{opacity:.2}30%{opacity:1}}
+  .prep .sub{margin:34px auto 0;max-width:620px;font-size:clamp(1.05rem,1.9vw,1.35rem);font-weight:600;line-height:1.65;color:var(--ink)}
+  .prep .sub .grad2{background:linear-gradient(90deg,#2E4A73,#6E96C8,#D98BB0);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .prepmarq{margin:6vh 0 0;overflow:hidden;white-space:nowrap;padding:10px 0}
+  .prepmarq .ptrack{display:inline-block;animation:pscroll 36s linear infinite;font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:-.02em;font-size:1.5rem;color:rgba(30,51,80,.16)}
+  .prepmarq .ptrack b{color:rgba(110,150,200,.45);font-weight:700}
+  @keyframes pscroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 </style>
 </head>
 <body>
@@ -26,7 +36,6 @@
     <span id="logo"></span>
     <div class="navlinks">
       <a class="nav-cta" id="mypage" href="#">my profile</a>
-      <a class="nav-cta" href="#" id="logout">log out</a>
     </div>
   </nav>
 
@@ -65,66 +74,56 @@ if(!ctx) throw new Error('redirecting');
 const me = ctx.profile;
 
 document.getElementById('mypage').href = 'profile.html?u=' + encodeURIComponent(me.username);
-document.getElementById('logout').addEventListener('click', async e=>{e.preventDefault(); await sb.auth.signOut(); location.href='index.html';});
 
 if(!LAUNCHED){
   // ---------- PRE-LAUNCH HOLDING SCREEN ----------
   document.getElementById('appwrap').innerHTML = `
     <div class="prep">
-      <h1 class="page" style="font-size:clamp(2.2rem,5vw,3.8rem);letter-spacing:-.03em">
-        marketplace <span class="grad">in preparation</span><span class="dots grad"><span>.</span><span>.</span><span>.</span></span>
-      </h1>
-      <p class="lead" style="margin:20px auto 0;max-width:540px">
-        creators and brands are joining right now. your profile is locked in —
-        you'll be here from <b>day one</b> when the doors open.
+      <div class="big">MARKETPLACE</div>
+      <div class="big2">in preparation<span class="dots"><span>.</span><span>.</span><span>.</span></span></div>
+      <p class="sub">
+        creators and brands are joining <span class="grad2">right now</span>.<br>
+        your profile is locked in. you'll be here from <span class="grad2">day one</span> when the doors open.
       </p>
-      <p class="muted" style="margin-top:28px">tip: make your profile perfect now. first impressions run the feed.</p>
-      <a class="btn mt3" id="prepProfile" href="#">polish my profile →</a>
+      <a class="btn mt3" id="prepProfile" href="#" style="font-size:1.05rem;padding:17px 38px">my profile →</a>
+      <div class="prepmarq"><div class="ptrack">
+        creators joining &nbsp;·&nbsp; <b>brands watching</b> &nbsp;·&nbsp; profiles building &nbsp;·&nbsp; <b>deals loading</b> &nbsp;·&nbsp; doors opening soon &nbsp;·&nbsp; creators joining &nbsp;·&nbsp; <b>brands watching</b> &nbsp;·&nbsp; profiles building &nbsp;·&nbsp; <b>deals loading</b> &nbsp;·&nbsp; doors opening soon &nbsp;·&nbsp;
+      </div></div>
     </div>`;
   document.getElementById('prepProfile').href = 'profile.html?u=' + encodeURIComponent(me.username);
 
-  // ---------- floating logo you can kick around ----------
+  // ---------- logo drifting in space, nudged by your cursor ----------
   const fl = document.createElement('div');
   fl.className = 'floatlogo';
   fl.textContent = 'YOUgc';
   document.body.appendChild(fl);
   const rect = () => fl.getBoundingClientRect();
-  let x = innerWidth*0.2, y = innerHeight*0.6;
-  let vx = 2.1, vy = 1.6;
+  let x = innerWidth*0.14, y = innerHeight*0.68;
+  let vx = 0.5, vy = -0.35;
   function loop(){
-    const w = rect().width, h = rect().height;
+    const w = rect().width || 140, h = rect().height || 50;
     x += vx; y += vy;
-    vx *= 0.999; vy *= 0.999;
-    // keep a minimum drift
+    vx *= 0.996; vy *= 0.996;
     const sp = Math.hypot(vx,vy);
-    if(sp < 1.2){ vx *= 1.2/Math.max(sp,.01); vy *= 1.2/Math.max(sp,.01); }
-    if(sp > 22){ vx *= 22/sp; vy *= 22/sp; }
-    if(x < 0){ x = 0; vx = Math.abs(vx)*0.9; }
-    if(y < 0){ y = 0; vy = Math.abs(vy)*0.9; }
-    if(x + w > innerWidth){ x = innerWidth - w; vx = -Math.abs(vx)*0.9; }
-    if(y + h > innerHeight){ y = innerHeight - h; vy = -Math.abs(vy)*0.9; }
-    fl.style.transform = `translate(${x}px, ${y}px) rotate(${vx*1.4}deg)`;
+    if(sp < 0.35){ vx *= 0.5/Math.max(sp,.01); vy *= 0.5/Math.max(sp,.01); }
+    if(sp > 6){ vx *= 6/sp; vy *= 6/sp; }
+    if(x < 0){ x = 0; vx = Math.abs(vx); }
+    if(y < 0){ y = 0; vy = Math.abs(vy); }
+    if(x + w > innerWidth){ x = innerWidth - w; vx = -Math.abs(vx); }
+    if(y + h > innerHeight){ y = innerHeight - h; vy = -Math.abs(vy); }
+    fl.style.transform = `translate(${x}px, ${y}px)`;
     requestAnimationFrame(loop);
   }
   loop();
-  // push it with the cursor
   window.addEventListener('mousemove', e=>{
-    const w = rect().width, h = rect().height;
+    const w = rect().width || 140, h = rect().height || 50;
     const cx = x + w/2, cy = y + h/2;
     const dx = cx - e.clientX, dy = cy - e.clientY;
     const dist = Math.hypot(dx,dy);
-    if(dist < 130 && dist > 1){
-      const f = (130-dist)/130 * 2.6;
+    if(dist < 120 && dist > 1){
+      const f = (120-dist)/120 * 0.9;
       vx += (dx/dist)*f; vy += (dy/dist)*f;
     }
-  });
-  // kick it with a click
-  fl.addEventListener('mousedown', e=>{
-    e.preventDefault();
-    const ang = Math.random()*Math.PI*2;
-    vx += Math.cos(ang)*14; vy += Math.sin(ang)*14;
-    fl.style.filter = 'drop-shadow(0 3px 1px rgba(255,255,255,.9)) drop-shadow(0 14px 34px rgba(217,139,176,.7))';
-    setTimeout(()=>fl.style.filter='',300);
   });
 
 } else {

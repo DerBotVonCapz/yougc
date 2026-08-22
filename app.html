@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>marketplace — YOUgc</title>
+<title>marketplace · YOUgc</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="stylesheet" href="style.css">
@@ -64,8 +64,8 @@
         <div class="card" id="composer" style="display:none">
           <label style="margin-top:0">your post</label>
           <textarea id="postText" maxlength="500" placeholder=""></textarea>
-          <label class="feat"><input type="checkbox" id="featChk"><span><b>feature this post</b> — pinned on top for 24h · $<span id="featPrice">25</span></span></label>
           <button class="btn small full mt1" id="postBtn">post</button>
+          <a class="feat" id="featLink" href="#" style="text-decoration:none"><span>✦ <b>feature your post</b> · top of the feed for 24h · $<span id="featPrice">25</span></span></a>
           <div class="msg" id="postMsg"></div>
         </div>
       </aside>
@@ -137,9 +137,9 @@ if(!LIVE){
     setTimeout(()=>document.getElementById('refCopy').textContent='copy',1600);
   });
   sb.from('referrals').select('id',{count:'exact',head:true}).eq('referrer_username', me.username)
-    .then(({count})=>{ if(count) document.getElementById('refCount').textContent = count + (count===1?' friend joined':' friends joined') + ' — your code: YOUGC10-' + me.username.toUpperCase(); });
+    .then(({count})=>{ if(count) document.getElementById('refCount').textContent = count + (count===1?' friend joined':' friends joined') + '. your code: YOUGC10-' + me.username.toUpperCase(); });
   sb.from('referrals').select('referrer_username').eq('referred', me.id).maybeSingle()
-    .then(({data})=>{ if(data) document.getElementById('refCount').textContent += (document.getElementById('refCount').textContent?' · ':'') + 'you joined via @' + data.referrer_username + ' — code YOUGC10-' + me.username.toUpperCase() + ' = 10% off your next purchase'; });
+    .then(({data})=>{ if(data) document.getElementById('refCount').textContent += (document.getElementById('refCount').textContent?' · ':'') + 'you joined via @' + data.referrer_username + '. code YOUGC10-' + me.username.toUpperCase() + ' = 10% off your next purchase'; });
 
   // launch notification
   const wlInp=document.getElementById('wlEmail'), wlBtn=document.getElementById('wlBtn'), wlMsg=document.getElementById('wlMsg');
@@ -196,6 +196,7 @@ if(!LIVE){
   {
     document.getElementById('composer').style.display='block';
     document.getElementById('featPrice').textContent = FEATURED_PRICE;
+    document.getElementById('featLink').href = payHref('featured post @' + me.username, FEATURED_PRICE);
 
     // ---- spotlight row: 2 creators + 2 brands on top ----
     (async ()=>{
@@ -209,7 +210,6 @@ if(!LIVE){
     })();
     document.getElementById('postBtn').addEventListener('click', async ()=>{
       const t = document.getElementById('postText').value.trim();
-      const wantsFeat = document.getElementById('featChk').checked;
       const msg = document.getElementById('postMsg'); msg.className='msg';
       if(!t){ showMsg(msg,'write something first.'); return; }
       if(hasSlurs(t)){ showMsg(msg,'that language has no place here. rewrite it.'); return; }
@@ -218,20 +218,16 @@ if(!LIVE){
       if(error){
         const m = error.message||'';
         showMsg(msg, m.includes('no_slurs') ? 'that language has no place here. rewrite it.'
-          : m.includes('row-level') ? 'you hit your daily post limit. come back a bit later.' : m);
+          : m.includes('row-level') ? 'you posted recently. the 12 hour lock is still running.' : m);
+        btn.textContent='post';
       } else {
         document.getElementById('postText').value='';
-        if(wantsFeat){
-          const pay = `<a href="${payHref('featured post', FEATURED_PRICE)}" style="font-weight:700;text-decoration:underline">complete the $${FEATURED_PRICE} payment here</a>`;
-          msg.className='msg ok';
-          msg.innerHTML = `posted. one step left to get featured: ${pay} with your @username as reference. your post moves to the top within a few hours after payment.`;
-          document.getElementById('featChk').checked = false;
-        } else {
-          showMsg(msg, me.role==='brand' ? 'posted. creators can see it now.' : 'posted. brands can see it now.', true);
-        }
+        showMsg(msg, 'posted. next post unlocks in 12 hours.', true);
+        btn.textContent='locked for 12h';
+        btn.disabled = true;
+        btn.style.opacity = '.55';
         load();
       }
-      btn.textContent='post';
     });
   }
 
@@ -275,8 +271,10 @@ if(!LIVE){
       .order('created_at',{ascending:false}).limit(100);
     if(error){ feed.innerHTML=`<p class="muted center mt3">${esc(error.message)}</p>`; return; }
     let rows = (data||[]).filter(p=>p.profiles);
-    const isFeat = p => p.featured_until && new Date(p.featured_until).getTime() > Date.now();
-    rows = [...rows.filter(isFeat), ...rows.filter(p=>!isFeat(p))];
+    const isFeatRaw = p => p.featured_until && new Date(p.featured_until).getTime() > Date.now();
+    const featTop = rows.filter(isFeatRaw).slice(0,5);
+    const isFeat = p => featTop.includes(p);
+    rows = [...featTop, ...rows.filter(p=>!featTop.includes(p))];
     if(tab==='mine' && me.niches?.length){
       const mine=new Set(me.niches);
       rows = rows.filter(p=>(p.profiles.niches||[]).some(n=>mine.has(n)));
@@ -285,7 +283,7 @@ if(!LIVE){
       rows = rows.filter(p=>(p.profiles.niches||[]).some(n=>activeNiches.has(n)));
     }
     if(!rows.length){
-      feed.innerHTML = `<div class="card center"><p class="muted">nothing here yet${tab==='mine'?' for your categories':''} — check back soon, or switch filters.</p></div>`;
+      feed.innerHTML = `<div class="card center"><p class="muted">nothing here yet${tab==='mine'?' for your categories':''}. check back soon, or switch filters.</p></div>`;
       return;
     }
     feed.innerHTML = rows.map(p=>`

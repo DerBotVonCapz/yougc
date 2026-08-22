@@ -2,17 +2,24 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>payment — YOUgc</title>
+<title>payment · YOUgc</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="stylesheet" href="style.css">
 <style>
-.step{display:flex;gap:14px;margin-top:18px;align-items:flex-start}
-.step .n{flex-shrink:0;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;
-  font-weight:800;font-size:.85rem;background:linear-gradient(135deg,#BFD7F2,#F4CFDF);color:#2E4A73}
-.step p{line-height:1.65;font-size:.93rem;color:var(--ink-soft);padding-top:4px}
-.coins{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
-.coins span{font-size:.78rem;font-weight:700;padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.85);border:1.5px solid rgba(30,51,80,.12);color:var(--ink)}
+.paygrid{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:stretch;margin-top:6px}
+@media(max-width:760px){.paygrid{grid-template-columns:1fr}}
+.perkcard{padding:24px 26px;border-radius:20px;background:linear-gradient(135deg,rgba(191,215,242,.55),rgba(244,207,223,.5))}
+.perkcard .pt{font-weight:800;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:12px}
+.perkcard div.pl{font-size:.92rem;line-height:1.9;font-weight:500}
+.paysteps{padding:24px 26px;border-radius:20px;background:rgba(255,255,255,.85);border:1.5px solid rgba(255,255,255,.95)}
+.pstep{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px}
+.pstep .n{flex-shrink:0;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.78rem;background:linear-gradient(135deg,#BFD7F2,#F4CFDF);color:#2E4A73}
+.pstep p{line-height:1.6;font-size:.88rem;color:var(--ink-soft);padding-top:3px}
+.coins{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.coins span{font-size:.72rem;font-weight:700;padding:5px 12px;border-radius:999px;background:rgba(255,255,255,.9);border:1.5px solid rgba(30,51,80,.1);color:var(--ink)}
+.btn.pay{background:linear-gradient(120deg,#6E96C8,#D98BB0);color:#fff;font-size:1rem;padding:16px 34px}
+.addr{font-size:.78rem;font-family:monospace;background:rgba(255,255,255,.9);border:1.5px solid rgba(30,51,80,.1);border-radius:10px;padding:8px 12px;margin-top:6px;word-break:break-all}
 </style>
 </head>
 <body>
@@ -23,45 +30,58 @@
     <div class="navlinks"><a class="nav-cta" href="app.html">marketplace</a></div>
   </nav>
 
-  <div class="pane">
+  <div class="pane wide" style="max-width:860px">
     <div class="card reveal on">
       <h1 class="page">almost <span class="grad">there.</span></h1>
-      <p class="sub" id="itemLine">complete your purchase and it activates within a few hours.</p>
-      <div id="perks" style="display:none;margin:2px 0 18px;padding:16px 18px;border-radius:16px;background:linear-gradient(120deg,rgba(191,215,242,.45),rgba(244,207,223,.45))"></div>
+      <p class="sub" id="itemLine">complete the payment and your perk activates within a few hours.</p>
 
-      <div class="step"><span class="n">1</span><p>we accept <b>crypto</b> — any major coin works:
-        <span class="coins"><span>USDC</span><span>USDT</span><span>SOL</span><span>ETH</span><span>BTC</span><span>+ more</span></span></p></div>
-      <div class="step"><span class="n">2</span><p>email <a href="mailto:yougcmarket@gmail.com" style="color:var(--cblue);font-weight:700">yougcmarket@gmail.com</a> with what you're buying and your <b>@username</b> — you'll get the payment address right back.</p></div>
-      <div class="step"><span class="n">3</span><p>after sending, reply with the transaction link. your perk goes live within a few hours.</p></div>
+      <div class="paygrid">
+        <div class="perkcard">
+          <div class="pt">what you get</div>
+          <div class="pl" id="perkList">pick a perk on the marketplace or your profile.</div>
+        </div>
+        <div class="paysteps">
+          <div class="pstep"><span class="n">1</span><p>pay in crypto. any major coin works.
+            <span class="coins"><span>USDC</span><span>USDT</span><span>SOL</span><span>ETH</span><span>BTC</span><span>+ more</span></span>
+            <span id="addrBox"></span></p></div>
+          <div class="pstep"><span class="n">2</span><p id="step2">email <a href="mailto:yougcmarket@gmail.com" style="color:var(--cblue);font-weight:700">yougcmarket@gmail.com</a> with your <b>@username</b>. you get the payment address right back. fast response.</p></div>
+          <div class="pstep"><span class="n">3</span><p>send the transaction link back. done, it goes live within a few hours.</p></div>
+          <p class="muted" style="margin-top:6px">referral code? add it to the email for <b>10% off</b>.</p>
+        </div>
+      </div>
 
-      <p class="muted mt3">got a referral code (YOUGC10-...) or joined through a friend's link? put the code in the email — <b>10% off</b>, automatically checked on our side.</p>
-      <a class="btn full mt2" id="mailBtn" href="mailto:yougcmarket@gmail.com">start my purchase →</a>
+      <a class="btn pay full mt3" id="mailBtn" href="mailto:yougcmarket@gmail.com">start my purchase</a>
     </div>
   </div>
 </div>
 
 <script type="module">
 import { blobsHTML, initMotion, logoHTML } from './app.js';
+import { CRYPTO_ADDR } from './config.js';
 document.getElementById('bg').outerHTML = blobsHTML();
 document.getElementById('logo').outerHTML = logoHTML('app.html');
 initMotion();
+
 const q = new URLSearchParams(location.search);
 const item = q.get('item'), price = q.get('price');
+const clean = v => String(v||'').replace(/[<>&"']/g,'');
+
 const PERKS = {
-  verified: ['the ✓ badge on your name, everywhere on the platform','highlighted profile picture, instantly recognizable','3 posts a day instead of 2','your first featured post free, worth $25','brands filter for trust. verified is the shortcut.'],
-  featured: ['pinned above every post for a full 24 hours','the first thing every brand sees today','clicks, follows and messages follow the top spot'],
-  spotlight: ['your whole profile pinned on top of the marketplace, 7 days','seen before anyone even starts scrolling','limited slots. when they are taken, they are taken.']
+  verified: ['✓ badge on your name, everywhere','highlighted profile picture','3 posts a day instead of 2','your first featured post free'],
+  featured: ['your post in the featured row on top of the feed, 24 hours','max 5 featured slots at a time','clicks, follows and messages follow the top'],
+  spotlight: ['your profile card on top of the marketplace, 7 days','seen before anyone scrolls','limited slots']
 };
 const key = Object.keys(PERKS).find(k => (item||'').toLowerCase().includes(k));
-if(key){
-  const el = document.getElementById('perks');
-  el.style.display='block';
-  el.innerHTML = '<div style="font-weight:800;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:8px">what you get</div>' +
-    PERKS[key].map(p=>`<div style="font-size:.9rem;line-height:1.8">✦ ${p}</div>`).join('');
-}
+if(key) document.getElementById('perkList').innerHTML = PERKS[key].map(p=>`✦ ${p}`).join('<br>');
 if(item && price){
-  document.getElementById('itemLine').innerHTML = `you're getting: <b>${item.replace(/[<>&"']/g,'')}</b> — <b>$${String(price).replace(/[<>&"']/g,'')}</b>. complete the payment and it activates within a few hours.`;
+  document.getElementById('itemLine').innerHTML = `you're getting: <b>${clean(item)}</b> for <b>$${clean(price)}</b>. it activates within a few hours after payment.`;
   document.getElementById('mailBtn').href = 'mailto:yougcmarket@gmail.com?subject=' + encodeURIComponent('buying: ' + item + ' ($' + price + ')');
+}
+// direct wallet addresses, if configured
+if(CRYPTO_ADDR && Object.keys(CRYPTO_ADDR).length){
+  document.getElementById('addrBox').innerHTML = Object.entries(CRYPTO_ADDR)
+    .map(([k,v])=>`<span class="addr"><b>${clean(k)}:</b> ${clean(v)}</span>`).join('');
+  document.getElementById('step2').innerHTML = 'send the amount to one of the addresses above, then email <a href="mailto:yougcmarket@gmail.com" style="color:var(--cblue);font-weight:700">yougcmarket@gmail.com</a> with your <b>@username</b>. fast response.';
 }
 </script>
 </body>

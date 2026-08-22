@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>set up your profile — youGC</title>
+<title>set up your profile · YOUgc</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="stylesheet" href="style.css">
@@ -28,7 +28,7 @@
       <input type="text" id="name" placeholder="your name or creator name" maxlength="50">
 
       <label>username</label>
-      <input type="text" id="username" placeholder="lowercase, no spaces — e.g. miafit" maxlength="24">
+      <input type="text" id="username" placeholder="lowercase, no spaces, e.g. miafit" maxlength="24">
 
       <label>bio</label>
       <textarea id="bio" placeholder="who you are, what you create, what makes you good" maxlength="240"></textarea>
@@ -64,7 +64,7 @@ let role = sessionStorage.getItem('yougc_role') || 'creator';
 const existing = await myProfile();
 if(existing) role = existing.role;
 document.getElementById('rolesub').textContent = role==='brand'
-  ? 'your brand profile — this is what creators see.'
+  ? 'your brand profile. this is what creators see.'
   : 'this is what brands see. keep it you.';
 
 // niches
@@ -111,7 +111,7 @@ previewAccent();
 // socials
 const socialWrap = document.getElementById('socialInputs');
 socialWrap.innerHTML = SOCIAL_FIELDS.map(f=>`
-  <input type="url" id="soc_${f.key}" class="mt1" placeholder="${f.label} — ${f.ph}" value="${esc(existing?.socials?.[f.key]||'')}">`).join('');
+  <input type="url" id="soc_${f.key}" class="mt1" placeholder="${f.label} · ${f.ph}" value="${esc(existing?.socials?.[f.key]||'')}">`).join('');
 
 // prefill
 if(existing){
@@ -159,7 +159,7 @@ document.getElementById('save').addEventListener('click', async ()=>{
     const row = { id:user.id, role, username, name, bio, avatar_url, socials, niches:[...selected], accent };
     const { error } = await sb.from('profiles').upsert(row);
     if(error){
-      if((error.message||'').includes('duplicate') || (error.message||'').includes('unique')) throw new Error('that username is taken — try another.');
+      if((error.message||'').includes('duplicate') || (error.message||'').includes('unique')) throw new Error('that username is taken. try another.');
       throw error;
     }
     try{
@@ -171,7 +171,7 @@ document.getElementById('save').addEventListener('click', async ()=>{
     }catch(e){}
     location.href = 'app.html';
   }catch(err){
-    showMsg(msg, err.message || 'could not save — try again.');
+    showMsg(msg, err.message || 'could not save. try again.');
     btn.textContent='save profile →';
   }
 });

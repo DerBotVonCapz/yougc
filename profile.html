@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>profile — youGC</title>
+<title>profile · YOUgc</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="stylesheet" href="style.css">
@@ -53,7 +53,7 @@ const { data: p } = await sb.from('profiles').select('*').eq('username', usernam
 if(!p){
   card.innerHTML = '<p class="muted center">profile not found.</p>';
 } else {
-  document.title = p.name + ' — youGC';
+  document.title = p.name + ' · YOUgc';
   const u = await currentUser();
   const isOwner = !!(u && u.id === p.id);
   const ac = ACCENTS[p.accent] || ACCENTS.blue;
@@ -84,7 +84,7 @@ if(!p){
     <div class="ptags mt2">${(p.niches||[]).map(n=>`<span>${esc(n)}</span>`).join('')}</div>
     ${socials ? `<div class="socialrow">${socials}</div>` : ''}
     ${!isOwner ? (u ? `<div class="mt3" style="display:flex;gap:12px;flex-wrap:wrap"><a class="btn" id="contact" href="chat.html?u=${encodeURIComponent(p.username)}">message ${esc(p.name.split(' ')[0])} →</a><button class="btn ghost" id="followBtn">${iFollow?'following ✓':'+ follow'}</button></div>` : `<a class="btn mt3" id="contact" href="auth.html">log in to message ${esc(p.name.split(' ')[0])} →</a>`) : ''}
-    ${isOwner ? `<div class="mt3" style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center"><a class="btn" href="onboard.html">edit profile →</a><a class="btn ghost" href="settings.html">settings</a>${p.verified?'':`<a class="btn ghost" href="${payHref('verified pack @'+p.username, VERIFIED_PRICE)}" title="✓ badge, pro look, 3 posts a day">get verified ✓ — $${VERIFIED_PRICE}</a>`}${(p.spotlight_until && new Date(p.spotlight_until)>new Date())?'':`<a class="btn ghost" href="${payHref('spotlight @'+p.username, SPOTLIGHT_PRICE)}" title="your profile pinned on top of the marketplace for 7 days">get spotlighted ✦ — $${SPOTLIGHT_PRICE}/week</a>`}</div>
+    ${isOwner ? `<div class="mt3" style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center"><a class="btn" href="onboard.html">edit profile →</a><a class="btn ghost" href="settings.html">settings</a>${p.verified?'':`<a class="btn ghost" href="${payHref('verified pack @'+p.username, VERIFIED_PRICE)}" title="✓ badge, pro look, 3 posts a day">get verified ✓ · $${VERIFIED_PRICE}</a>`}${(p.spotlight_until && new Date(p.spotlight_until)>new Date())?'':`<a class="btn ghost" href="${payHref('spotlight @'+p.username, SPOTLIGHT_PRICE)}" title="your profile pinned on top of the marketplace for 7 days">get spotlighted ✦ · $${SPOTLIGHT_PRICE}/week</a>`}</div>
     <div class="refbox">
       <div class="rtitle">your YOUgc referral link</div>
       <div class="rsub">friend joins through your link: <b>they get 10% off</b> their next purchase, <b>you get 10% off</b> yours. your code: <b>YOUGC10-${esc(p.username.toUpperCase())}</b></div>
@@ -121,7 +121,7 @@ if(!p){
     sb.from('referrals').select('id',{count:'exact',head:true}).eq('referrer_username', p.username)
       .then(({count})=>{ if(count) document.getElementById('refCount').textContent = count + (count===1?' friend joined':' friends joined') + ' through your link'; });
     sb.from('referrals').select('referrer_username').eq('referred', p.id).maybeSingle()
-      .then(({data})=>{ if(data){ const el=document.getElementById('refCount'); el.textContent += (el.textContent?' · ':'') + 'you joined via @' + data.referrer_username + ' — 10% off your next purchase locked in'; } });
+      .then(({data})=>{ if(data){ const el=document.getElementById('refCount'); el.textContent += (el.textContent?' · ':'') + 'you joined via @' + data.referrer_username + '. 10% off your next purchase locked in'; } });
   }
 
   const { data: posts } = await sb.from('posts').select('id,text,created_at').eq('user_id', p.id).order('created_at',{ascending:false}).limit(10);

@@ -51,7 +51,7 @@ html.dark .sugg span{background:rgba(110,150,200,.16)}
 import { sb, requireAuth, blobsHTML, initMotion, logoHTML, esc } from './app.js';
 import { SUPABASE_URL, SUPABASE_KEY, AGENT_PRICE, PAY_URL } from './config.js';
 document.getElementById('bg').outerHTML = blobsHTML();
-document.getElementById('logo').outerHTML = logoHTML('app.html');
+document.getElementById('logo').outerHTML = logoHTML();
 initMotion();
 
 const ctx = await requireAuth();

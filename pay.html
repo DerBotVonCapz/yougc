@@ -68,7 +68,7 @@ label{font-size:.8rem}
 import { blobsHTML, initMotion, logoHTML } from './app.js';
 import { CRYPTO_ADDR, PAY_LINKS } from './config.js';
 document.getElementById('bg').outerHTML = blobsHTML();
-document.getElementById('logo').outerHTML = logoHTML('app.html');
+document.getElementById('logo').outerHTML = logoHTML();
 initMotion();
 
 const q = new URLSearchParams(location.search);
@@ -76,7 +76,7 @@ const item = q.get('item'), price = q.get('price');
 const clean = v => String(v||'').replace(/[<>&"']/g,'');
 
 const PERKS = {
-  verified: ['✓ badge on your name, everywhere','highlighted profile picture','3 posts a day','first featured post free'],
+  verified: ['✓ badge on your name, everywhere','highlighted profile picture','3 posts a day','first featured post free','runs for 30 days, renew any time'],
   featured: ['your post in the featured row, 24 hours','max 5 slots at a time','clicks and follows go to the top'],
   spotlight: ['your profile card on top of the marketplace','2 full days','limited slots'],
   agent: ['your personal agent, trained on your profile','sharper bio, better posts, cleaner deal setups','remembers your goals, works only for you','monthly, cancel anytime']

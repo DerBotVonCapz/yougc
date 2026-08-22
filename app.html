@@ -175,11 +175,11 @@
 </div>
 
 <script type="module">
-import { sb, requireAuth, NICHES, blobsHTML, initMotion, logoHTML, esc, timeAgo, avatarHTML, vbadge, hasSlurs, hasBadLinks, showMsg } from './app.js';
+import { sb, requireAuth, NICHES, blobsHTML, initMotion, logoHTML, esc, timeAgo, avatarHTML, vbadge, isVerified, hasSlurs, hasBadLinks, showMsg } from './app.js';
 import { LAUNCHED, FEATURED_PRICE, VERIFIED_PRICE, SPOTLIGHT_PRICE, PAY_URL } from './config.js';
 const payHref = (item, price) => PAY_URL || ('pay.html?item=' + encodeURIComponent(item) + '&price=' + encodeURIComponent(price));
 document.getElementById('bg').outerHTML = blobsHTML();
-document.getElementById('logo').outerHTML = logoHTML('app.html');
+document.getElementById('logo').outerHTML = logoHTML();
 initMotion();
 
 const ctx = await requireAuth();
@@ -400,7 +400,7 @@ if(!LIVE){
   }
   function baseScore(p){
     let s=0;
-    if(p.verified) s+=1;
+    if(isVerified(p)) s+=1;
     if((p.clips||[]).length) s+=1;
     if(p.avatar_url) s+=.4;
     if(p.bio) s+=.3;
@@ -411,7 +411,7 @@ if(!LIVE){
     const why=[];
     if(hits && hits.size) why.push('matches ' + [...hits].slice(0,3).join(', '));
     const c=(p.clips||[]).length; if(c) why.push(c+' clip'+(c>1?'s':''));
-    if(p.verified) why.push('verified ✓');
+    if(isVerified(p)) why.push('verified ✓');
     const l=Object.keys(p.socials||{}).length; if(l) why.push(l+' linked account'+(l>1?'s':''));
     return why.join(' · ') || 'young profile, worth a look';
   }
@@ -560,7 +560,7 @@ if(!LIVE){
     const mine=new Set(me.niches||[]);
     if(mineOnly && mine.size) rows=rows.filter(p=>(p.niches||[]).some(n=>mine.has(n)));
     if(activeNiches.size) rows=rows.filter(p=>(p.niches||[]).some(n=>activeNiches.has(n)));
-    const score=p=>((p.spotlight_until&&new Date(p.spotlight_until).getTime()>Date.now())?10:0)+(p.verified?3:0)+((p.clips||[]).length?2:0)+(p.avatar_url?1:0)+(p.bio?1:0)+Math.min(Object.keys(p.socials||{}).length,3)*.5;
+    const score=p=>((p.spotlight_until&&new Date(p.spotlight_until).getTime()>Date.now())?10:0)+(isVerified(p)?3:0)+((p.clips||[]).length?2:0)+(p.avatar_url?1:0)+(p.bio?1:0)+Math.min(Object.keys(p.socials||{}).length,3)*.5;
     rows.sort((a,b)=>score(b)-score(a));
     if(!rows.length){
       feed.innerHTML = `<div class="card center"><p class="muted">no ${role==='creator'?'creators':'brands'} for these filters yet. new people join daily.</p></div>`;

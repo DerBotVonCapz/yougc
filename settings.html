@@ -73,10 +73,10 @@ input[type=email],input[type=password]{font-size:1rem;padding:15px 18px}
 </div>
 
 <script type="module">
-import { sb, requireAuth, blobsHTML, initMotion, logoHTML, showMsg } from './app.js';
+import { sb, requireAuth, blobsHTML, initMotion, logoHTML, isVerified, showMsg } from './app.js';
 import { VERIFIED_PRICE, PAY_URL } from './config.js';
 document.getElementById('bg').outerHTML = blobsHTML();
-document.getElementById('logo').outerHTML = logoHTML('app.html');
+document.getElementById('logo').outerHTML = logoHTML();
 initMotion();
 
 const ctx = await requireAuth();
@@ -86,7 +86,7 @@ document.getElementById('infoEmail').textContent = ctx.user.email || '';
 document.getElementById('infoName').textContent = ctx.profile.name + ' · @' + ctx.profile.username;
 document.getElementById('infoJoined').textContent = new Date(ctx.profile.created_at).toLocaleDateString('en-US',{month:'short',year:'numeric'}).toLowerCase();
 
-if(!ctx.profile.verified){
+if(!isVerified(ctx.profile)){
   document.getElementById('verBox').style.display='block';
   document.getElementById('verPrice').textContent = VERIFIED_PRICE;
   document.getElementById('verBtn').href = PAY_URL || ('pay.html?item=' + encodeURIComponent('verified pack @' + ctx.profile.username) + '&price=' + VERIFIED_PRICE);

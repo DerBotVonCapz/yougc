@@ -48,15 +48,23 @@ export function timeAgo(ts){
   return Math.floor(s/86400)+'d ago';
 }
 
+
+// verified is a monthly subscription: active only while verified_until is in the future
+export function isVerified(p){
+  if(!p || !p.verified) return false;
+  if(!p.verified_until) return true;              // legacy / lifetime grants
+  return new Date(p.verified_until).getTime() > Date.now();
+}
+
 export function avatarHTML(p, big=false){
-  const cls = 'avatar'+(big?' big':'')+((p && p.verified)?' vring':'');
+  const cls = 'avatar'+(big?' big':'')+(isVerified(p)?' vring':'');
   if(p && p.avatar_url) return `<img class="${cls}" src="${esc(p.avatar_url)}" alt="">`;
   const ini = esc((p && p.name ? p.name : '?').trim().charAt(0).toUpperCase() || '?');
   return `<div class="${cls} ph">${ini}</div>`;
 }
 
 export function vbadge(p){
-  return (p && p.verified) ? '<span class="vbadge" title="verified">✓</span>' : '';
+  return isVerified(p) ? '<span class="vbadge" title="verified">✓</span>' : '';
 }
 
 // hate speech filter — swearing is fine, slurs are not

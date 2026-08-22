@@ -143,6 +143,7 @@ html.dark .obright{background:linear-gradient(160deg,rgba(46,74,115,.35),rgba(13
 
             <label class="mt2">your name</label>
             <input type="text" id="name" placeholder="your creator or brand name" maxlength="50" autocomplete="off">
+            <div class="hint" id="handleHint" style="font-size:.84rem;margin-top:6px"></div>
 
             <label>bio</label>
             <textarea id="bio" placeholder="what you make, who you make it for, why you are good at it" maxlength="240"></textarea>
@@ -217,7 +218,7 @@ html.dark .obright{background:linear-gradient(160deg,rgba(46,74,115,.35),rgba(13
 </div>
 
 <script type="module">
-import { sb, currentUser, myProfile, NICHES, SOCIAL_FIELDS, blobsHTML, initMotion, logoHTML, showMsg, esc, hasSlurs, clipEmbed, isDark } from './app.js';
+import { sb, currentUser, myProfile, NICHES, SOCIAL_FIELDS, blobsHTML, initMotion, logoHTML, showMsg, esc, hasSlurs, clipEmbed, isDark, track } from './app.js';
 document.getElementById('bg').outerHTML = blobsHTML();
 document.getElementById('logo').outerHTML = logoHTML();
 initMotion();
@@ -323,6 +324,43 @@ function paint(){
   document.getElementById('bioCount').textContent = bio.length;
 }
 ['name','bio','clip1','clip2','clip3'].forEach(id=>document.getElementById(id).addEventListener('input', paint));
+
+/* ---- live username availability ---- */
+let handleOk = true, handleT = null;
+const hintEl = document.getElementById('handleHint');
+function baseHandle(){
+  const n = document.getElementById('name').value.trim().toLowerCase();
+  return n.replace(/[^a-z0-9_]/g,'').slice(0,24);
+}
+async function checkHandle(){
+  if(existing?.username){ handleOk = true; hintEl.textContent=''; return; }
+  const h = baseHandle();
+  if(h.length < 3){ handleOk = false; hintEl.innerHTML = h ? 'needs at least 3 letters or numbers' : ''; return; }
+  hintEl.textContent = 'checking @' + h + '…';
+  const { data } = await sb.from('profiles').select('username').eq('username', h).maybeSingle();
+  if(!data){
+    handleOk = true; window.__handle = h;
+    hintEl.innerHTML = '<b style="color:#3E9068">@' + h + ' is free ✓</b>';
+    return;
+  }
+  // taken: find the first free variant
+  for(let i=2;i<12;i++){
+    const alt = (h + i).slice(0,24);
+    const { data: t } = await sb.from('profiles').select('username').eq('username', alt).maybeSingle();
+    if(!t){
+      handleOk = true; window.__handle = alt;
+      hintEl.innerHTML = '@' + h + ' is taken, you will be <b style="color:#3E9068">@' + alt + ' ✓</b>';
+      document.getElementById('pvuser').textContent = '@' + alt;
+      return;
+    }
+  }
+  handleOk = false;
+  hintEl.innerHTML = '<b style="color:#B4453A">@' + h + ' is taken.</b> try a different name.';
+}
+document.getElementById('name').addEventListener('input', ()=>{
+  window.__handle = null;
+  clearTimeout(handleT); handleT = setTimeout(checkHandle, 450);
+});
 SOCIAL_FIELDS.forEach(f=>document.getElementById('soc_'+f.key).addEventListener('input', paint));
 
 /* ---------- step machine ---------- */
@@ -343,6 +381,7 @@ function goto(n){
   document.getElementById('save').style.display = step === LAST ? '' : 'none';
   document.getElementById('skip').style.display = (step === LAST && !isBrand) ? '' : 'none';
   document.getElementById('msg').className = 'msg';
+  try{ track('onboard·step' + (step+1)); }catch(e){}
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function validate(n){
@@ -354,6 +393,7 @@ function validate(n){
     if(!existing){
       const u = name.toLowerCase().replace(/[^a-z0-9_]/g,'');
       if(u.length < 3){ showMsg(msg,'your name needs at least 3 letters or numbers.'); return false; }
+      if(handleOk === false){ showMsg(msg,'that name is taken. pick a slightly different one.'); return false; }
     }
     return true;
   }
@@ -401,7 +441,7 @@ document.getElementById('save').addEventListener('click', async ()=>{
   const name = document.getElementById('name').value.trim();
   const bio = document.getElementById('bio').value.trim();
   let username = existing?.username;
-  if(!username) username = name.toLowerCase().replace(/[^a-z0-9_]/g,'').slice(0,24);
+  if(!username) username = window.__handle || name.toLowerCase().replace(/[^a-z0-9_]/g,'').slice(0,24);
   const socials = {};
   for(const f of SOCIAL_FIELDS){
     const v = document.getElementById('soc_'+f.key).value.trim();

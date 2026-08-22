@@ -72,6 +72,22 @@ h2.page{font-size:1.7rem !important;margin-top:4px}
 html.dark .upcard{background:rgba(20,28,46,.94)}
 html.dark .upsell{background:linear-gradient(150deg,rgba(46,74,115,.42),rgba(138,75,110,.32) 52%,rgba(44,92,70,.36));border-color:rgba(255,255,255,.12)}
 html.dark .ownerrow{border-top-color:rgba(255,255,255,.1)}
+
+/* ---- profile views (owner only) ---- */
+.viewbox{margin-top:34px;padding:26px 28px;border-radius:26px;position:relative;overflow:hidden;
+  background:linear-gradient(150deg,rgba(46,74,115,.96),rgba(110,150,200,.92));color:#fff;
+  box-shadow:0 24px 54px -26px rgba(46,74,115,.7)}
+.viewbox::after{content:'';position:absolute;width:280px;height:280px;border-radius:50%;background:rgba(255,255,255,.14);
+  filter:blur(50px);top:-110px;right:-70px}
+.vhead{position:relative;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.vkick{font-size:.7rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;opacity:.72}
+.vrow{position:relative;display:flex;gap:34px;flex-wrap:wrap;margin-top:14px}
+.vstat .vn{font-family:'Space Grotesk',sans-serif;font-size:2.5rem;font-weight:700;letter-spacing:-.04em;line-height:1;
+  font-variant-numeric:tabular-nums}
+.vstat .vl{font-size:.8rem;font-weight:600;opacity:.78;margin-top:6px}
+.vbars{position:relative;display:flex;align-items:flex-end;gap:7px;height:62px;margin-top:20px}
+.vbars i{flex:1;border-radius:6px 6px 3px 3px;background:rgba(255,255,255,.72);min-height:4px;display:block}
+.vnote{position:relative;font-size:.86rem;opacity:.85;margin-top:16px;line-height:1.55}
 </style>
 </head>
 <body>
@@ -97,7 +113,7 @@ html.dark .ownerrow{border-top-color:rgba(255,255,255,.1)}
 </div>
 
 <script type="module">
-import { sb, currentUser, blobsHTML, initMotion, logoHTML, esc, timeAgo, avatarHTML, vbadge, isVerified, SOCIAL_FIELDS, clipEmbed, isDark } from './app.js';
+import { sb, currentUser, blobsHTML, initMotion, logoHTML, esc, timeAgo, avatarHTML, vbadge, isVerified, SOCIAL_FIELDS, clipEmbed, isDark, track } from './app.js';
 import { VERIFIED_PRICE, SPOTLIGHT_PRICE, AGENT_PRICE, PAY_URL } from './config.js';
 const ACCENTS = { blue:['#BFD7F2','#DCE9F9'], pink:['#F4CFDF','#FBE3EE'], mint:['#BFE8D4','#DFF2E7'], lavender:['#D8CCF2','#EAE3F9'], peach:['#F8D8C4','#FBEBDD'], sand:['#EFE3C6','#F7F0DE'], coral:['#FBC9C2','#FDE2DE'], sky:['#BEE6F5','#DCF2FA'], lime:['#DCEFB8','#EDF7DB'], grape:['#CFC3EE','#E4DDF7'], rose:['#F6C6D8','#FBE0EA'], sunset:['#FBD3A8','#FDE9CE'], ocean:['#B6DCE0','#D9EFF1'], berry:['#E7C2E4','#F3DEF2'], slate:['#CBD5E6','#E3E9F3'] };
 const payHref = (item, price) => PAY_URL || ('pay.html?item=' + encodeURIComponent(item) + '&price=' + encodeURIComponent(price));
@@ -112,7 +128,11 @@ const { data: p } = await sb.from('profiles').select('*').eq('username', usernam
 if(!p){
   card.innerHTML = '<p class="muted center">profile not found.</p>';
 } else {
-  document.title = p.name + ' · YOUgc';
+  document.title = p.name + ' · ' + (p.role === 'brand' ? 'brand' : 'ugc creator') + ' on YOUgc';
+  const md = document.querySelector('meta[name=description]');
+  if(md) md.content = (p.bio || (p.name + ' on YOUgc')).slice(0,155);
+  // count this as a profile view (not the owner looking at their own page)
+  try{ if(!isOwner) track('view:@' + p.username); }catch(e){}
   const u = await currentUser();
   const isOwner = !!(u && u.id === p.id);
   const ac = ACCENTS[p.accent] || ACCENTS.blue;
@@ -147,6 +167,7 @@ if(!p){
     ${socials ? `<div class="socialrow">${socials}</div>` : ''}
     ${!isOwner ? (u ? `<div class="mt3" style="display:flex;gap:12px;flex-wrap:wrap"><a class="btn" id="contact" href="chat.html?u=${encodeURIComponent(p.username)}">message ${esc(p.name.split(' ')[0])} →</a><button class="btn ghost" id="followBtn">${iFollow?'following ✓':'+ follow'}</button></div>` : `<a class="btn mt3" id="contact" href="auth.html">log in to message ${esc(p.name.split(' ')[0])} →</a>`) : ''}
     ${isOwner ? `<div class="ownerrow"><a class="btn" href="onboard.html">edit profile →</a><a class="btn ghost" href="settings.html">settings</a>${(p.agent_until && new Date(p.agent_until)>new Date()) ? `<a class="btn" style="background:linear-gradient(120deg,#6E96C8,#D98BB0);color:#fff" href="agent.html">my agent ✨</a>` : ``}</div>
+    <div id="viewsBox"></div>
     <div class="upsell">
       <div class="uphead"><span class="upkick">grow faster</span><h3>get seen by more brands.</h3></div>
       <div class="upgrid">
@@ -191,7 +212,33 @@ if(!p){
 
   if(isOwner){
     const refUrl = location.origin + '/?ref=' + encodeURIComponent(p.username);
-    document.getElementById('refLink').value = refUrl;
+  
+  // ---- profile views (owner only) ----
+  if(isOwner){
+    sb.rpc('my_profile_views').then(({data})=>{
+      const box = document.getElementById('viewsBox');
+      if(!box || !data) return;
+      const daily = data.daily || [];
+      const max = Math.max(1, ...daily.map(d=>d.c));
+      const bars = daily.length
+        ? daily.map(d=>`<i style="height:${Math.round(d.c/max*58)+4}px" title="${d.d}: ${d.c}"></i>`).join('')
+        : '';
+      box.innerHTML = `
+        <div class="viewbox">
+          <div class="vhead"><span class="vkick">your profile</span></div>
+          <div class="vrow">
+            <div class="vstat"><div class="vn">${data.d1||0}</div><div class="vl">views today</div></div>
+            <div class="vstat"><div class="vn">${data.d7||0}</div><div class="vl">views this week</div></div>
+            <div class="vstat"><div class="vn">${data.total||0}</div><div class="vl">views all time</div></div>
+          </div>
+          ${bars?`<div class="vbars">${bars}</div>`:''}
+          <div class="vnote">${(data.d7||0) === 0
+            ? 'nobody has been here yet. share your link and add your clips, profiles with 3 clips get opened the most.'
+            : 'people are checking you out. keep your clips fresh and your dms open.'}</div>
+        </div>`;
+    });
+  }
+  document.getElementById('refLink').value = refUrl;
     document.getElementById('refCopy').addEventListener('click', async ()=>{
       try{ await navigator.clipboard.writeText(refUrl); }catch(e){ document.getElementById('refLink').select(); document.execCommand('copy'); }
       document.getElementById('refCopy').textContent='copied ✓';

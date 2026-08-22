@@ -20,6 +20,17 @@ label{font-size:.82rem}
 input[type=email],input[type=password]{font-size:1rem;padding:15px 18px}
 .setcard .muted{font-size:.92rem;line-height:1.7}
 .setcard .btn.small{font-size:.95rem;padding:14px 28px}
+
+.dangerzone{margin-top:34px;padding:24px 26px;border-radius:22px;border:2px solid rgba(180,69,58,.28);
+  background:rgba(180,69,58,.06)}
+.dztitle{font-weight:800;font-size:1.02rem;color:#B4453A}
+.dzsub{font-size:.88rem;color:var(--ink-soft);line-height:1.6;margin-top:6px}
+.dzbtn{margin-top:14px;cursor:pointer;font-family:'Poppins',sans-serif;font-weight:700;font-size:.9rem;
+  padding:12px 24px;border-radius:999px;border:2px solid #B4453A;background:transparent;color:#B4453A;transition:all .22s}
+.dzbtn:hover{background:#B4453A;color:#fff}
+html.dark .dangerzone{background:rgba(240,161,153,.08);border-color:rgba(240,161,153,.3)}
+html.dark .dztitle,html.dark .dzbtn{color:#F0A199;border-color:#F0A199}
+html.dark .dzbtn:hover{background:#F0A199;color:#2A1414}
 </style>
 </head>
 <body>
@@ -66,7 +77,12 @@ input[type=email],input[type=password]{font-size:1rem;padding:15px 18px}
         <div class="msg" id="msgB"></div>
 
         <button class="btn ghost full mt3" id="logout">log out</button>
-        <p class="muted mt2 center" style="font-size:.75rem">want your account deleted? <a href="mailto:yougcmarket@gmail.com?subject=delete%20my%20account" style="color:var(--cblue);font-weight:600">email us</a> · fast response</p>
+        <div class="dangerzone">
+          <div class="dztitle">delete your account</div>
+          <p class="dzsub">this removes your profile, your posts and every message you sent. it cannot be undone.</p>
+          <button class="dzbtn" id="delAcc">delete my account</button>
+          <div class="msg" id="delMsg"></div>
+        </div>
       </div>
 
     </div>
@@ -120,6 +136,26 @@ document.getElementById('passBtn').addEventListener('click', async ()=>{
 document.getElementById('logout').addEventListener('click', async ()=>{
   await sb.auth.signOut(); location.href='index.html';
 });
+
+/* ---- delete account ---- */
+let delArmed = false;
+document.getElementById('delAcc')?.addEventListener('click', async ()=>{
+  const btn = document.getElementById('delAcc'), m = document.getElementById('delMsg');
+  m.className='msg';
+  if(!delArmed){
+    delArmed = true;
+    btn.textContent = 'tap again to delete everything';
+    showMsg(m, 'this is permanent. tap the button again if you are sure.');
+    setTimeout(()=>{ delArmed=false; btn.textContent='delete my account'; m.className='msg'; }, 8000);
+    return;
+  }
+  btn.innerHTML = '<span class="spin"></span>';
+  const { error } = await sb.rpc('delete_my_account');
+  if(error){ showMsg(m, error.message || 'could not delete. email us and we do it by hand.'); btn.textContent='delete my account'; return; }
+  await sb.auth.signOut();
+  location.href = 'index.html';
+});
+
 </script>
 </body>
 </html>

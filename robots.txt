@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /settings.html
+Disallow: /chat.html
+Disallow: /pay.html
+Disallow: /onboard.html
+Disallow: /reset.html
+
+Sitemap: https://yougcmarket.com/sitemap.xml

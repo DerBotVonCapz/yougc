@@ -91,13 +91,17 @@ if(item && price){
 const coinRow = document.getElementById('coinRow');
 coinRow.innerHTML = Object.keys(CRYPTO_ADDR).map(k=>
   `<button class="coinbtn" data-c="${clean(k)}"><span class="cn">${clean(k)}</span><span class="ch" style="display:block">tap to copy address</span></button>`).join('');
-coinRow.addEventListener('click', async e=>{
+coinRow.addEventListener('click', e=>{
   const b = e.target.closest('.coinbtn'); if(!b) return;
   const addr = CRYPTO_ADDR[b.dataset.c]; if(!addr) return;
-  try{ await navigator.clipboard.writeText(addr); }
-  catch(err){
-    const t=document.createElement('textarea'); t.value=addr; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove();
-  }
+  // synchronous copy inside the click gesture, works everywhere
+  let ok = false;
+  try{
+    const t=document.createElement('textarea'); t.value=addr; t.style.position='fixed'; t.style.opacity='0';
+    document.body.appendChild(t); t.focus(); t.select();
+    ok = document.execCommand('copy'); t.remove();
+  }catch(err){}
+  if(!ok && navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(addr).catch(()=>{}); }
   coinRow.querySelectorAll('.coinbtn').forEach(x=>{ x.classList.remove('copied'); x.querySelector('.ch').textContent='tap to copy address'; });
   b.classList.add('copied');
   b.querySelector('.ch').textContent='address copied ✓';

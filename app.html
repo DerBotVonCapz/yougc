@@ -49,10 +49,14 @@
   /* people marketplace grid */
     .pplgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:22px;margin-top:4px}
   /* posts as a wide multi column grid */
-  .postgrid{column-count:3;column-gap:20px;margin-top:4px}
-  @media(max-width:1180px){.postgrid{column-count:2}}
-  @media(max-width:720px){.postgrid{column-count:1}}
-  .postgrid .post{break-inside:avoid;margin:0 0 20px;padding:26px;display:inline-block;width:100%}
+  .postgrid{column-count:2;column-gap:20px;margin-top:4px}
+  @media(min-width:1750px){.postgrid{column-count:3}}
+  @media(max-width:860px){.postgrid{column-count:1}}
+  .postgrid .post{break-inside:avoid;margin:0 0 20px;padding:24px 22px;display:inline-block;width:100%}
+  .postgrid .phead{gap:12px}
+  .postgrid .avatar{width:46px;height:46px}
+  .postgrid .pname{font-size:.98rem !important}
+  .postgrid .pmeta{font-size:.74rem}
   .postgrid .ptext{font-size:.98rem !important}
   /* toolbar */
   .mtools{display:flex;flex-direction:column;gap:14px;margin:6px 0 24px}

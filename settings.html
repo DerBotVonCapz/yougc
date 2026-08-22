@@ -7,14 +7,18 @@
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="stylesheet" href="style.css">
 <style>
-.setgrid{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start;margin-top:8px}
+.setgrid{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:stretch;margin-top:12px}
 @media(max-width:800px){.setgrid{grid-template-columns:1fr}}
-.setcard{padding:30px 32px}
-.setcard h3{font-size:1.05rem;font-weight:800;margin-bottom:14px}
-.inforow{display:flex;justify-content:space-between;gap:10px;font-size:.92rem;padding:10px 0;border-bottom:1.5px solid rgba(30,51,80,.07)}
+.setcard{padding:40px 44px}
+.setcard h3{font-size:1.4rem;font-weight:700;margin-bottom:18px;font-family:'Space Grotesk',sans-serif;letter-spacing:-.02em}
+.inforow{display:flex;justify-content:space-between;gap:10px;font-size:1.02rem;padding:14px 0;border-bottom:1.5px solid rgba(30,51,80,.07)}
 .inforow:last-of-type{border-bottom:none}
 .inforow b{font-weight:700}
 .inforow span{color:var(--ink-soft)}
+label{font-size:.82rem}
+input[type=email],input[type=password]{font-size:1rem;padding:15px 18px}
+.setcard .muted{font-size:.92rem;line-height:1.7}
+.setcard .btn.small{font-size:.95rem;padding:14px 28px}
 </style>
 </head>
 <body>
@@ -29,7 +33,7 @@
     </div>
   </nav>
 
-  <div class="pane wide" style="max-width:900px">
+  <div class="pane wide" style="max-width:1020px">
     <h1 class="page big">sett<span class="grad">ings</span></h1>
     <div class="setgrid">
 

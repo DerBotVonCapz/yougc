@@ -7,19 +7,28 @@
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="stylesheet" href="style.css">
 <style>
-.paygrid{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start;margin-top:6px}
-@media(max-width:760px){.paygrid{grid-template-columns:1fr}}
-.perkcard{padding:24px 26px;border-radius:20px;background:linear-gradient(135deg,rgba(191,215,242,.55),rgba(244,207,223,.5))}
-.perkcard .pt{font-weight:800;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:12px}
-.perkcard div.pl{font-size:.92rem;line-height:1.9;font-weight:500}
-.paysteps{padding:24px 26px;border-radius:20px;background:rgba(255,255,255,.85);border:1.5px solid rgba(255,255,255,.95)}
-.pstep{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px}
-.pstep .n{flex-shrink:0;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.78rem;background:linear-gradient(135deg,#BFD7F2,#F4CFDF);color:#2E4A73}
-.pstep p{line-height:1.6;font-size:.88rem;color:var(--ink-soft);padding-top:3px}
-.coins{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
-.coins span{font-size:.72rem;font-weight:700;padding:5px 12px;border-radius:999px;background:rgba(255,255,255,.9);border:1.5px solid rgba(30,51,80,.1);color:var(--ink)}
-.btn.pay{background:linear-gradient(120deg,#6E96C8,#D98BB0);color:#fff;font-size:1rem;padding:16px 34px}
-.addr{font-size:.78rem;font-family:monospace;background:rgba(255,255,255,.9);border:1.5px solid rgba(30,51,80,.1);border-radius:10px;padding:8px 12px;margin-top:6px;word-break:break-all}
+.pane.wide{max-width:1020px}
+#payCard{padding:46px 52px}
+#payCard h1.page{font-size:clamp(2.4rem,4.8vw,3.4rem)}
+#payCard .sub{font-size:1.08rem;margin-bottom:4px}
+.perkstrip{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.perkstrip span{font-size:.92rem;font-weight:600;padding:11px 20px;border-radius:999px;background:linear-gradient(135deg,rgba(191,215,242,.6),rgba(244,207,223,.55));color:var(--ink)}
+.psec{margin-top:30px}
+.psec .ph{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.psec .n{flex-shrink:0;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1rem;background:linear-gradient(135deg,#BFD7F2,#F4CFDF);color:#2E4A73}
+.psec .pt{font-weight:800;font-size:1.25rem;font-family:'Space Grotesk',sans-serif}
+.psec p{font-size:1.02rem;line-height:1.7;color:var(--ink-soft)}
+.psec p b, .psec p a{color:var(--ink)}
+.coinrow{display:flex;gap:14px;flex-wrap:wrap;margin-top:14px}
+.coinbtn{flex:1;min-width:150px;border:none;cursor:pointer;font-family:'Poppins',sans-serif;padding:18px 22px;border-radius:18px;background:rgba(255,255,255,.92);border:2px solid rgba(30,51,80,.1);transition:transform .18s,box-shadow .18s,border-color .18s;text-align:center}
+.coinbtn:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(46,74,115,.14);border-color:#6E96C8}
+.coinbtn .cn{font-weight:800;font-size:1.25rem;color:var(--ink);font-family:'Space Grotesk',sans-serif}
+.coinbtn .ch{font-size:.78rem;font-weight:600;color:var(--ink-soft);margin-top:3px}
+.coinbtn.copied{border-color:#7FBF9E;background:rgba(191,232,212,.45)}
+.coinbtn.copied .ch{color:#3D7A5C}
+.othercoin{font-size:.88rem;color:var(--ink-soft);margin-top:12px}
+.btn.pay{background:linear-gradient(120deg,#6E96C8,#D98BB0);color:#fff;font-size:1.08rem;padding:18px 36px}
+label{font-size:.8rem}
 </style>
 </head>
 <body>
@@ -30,29 +39,27 @@
     <div class="navlinks"><a class="nav-cta" href="app.html">marketplace</a></div>
   </nav>
 
-  <div class="pane wide" style="max-width:860px">
-    <div class="card reveal on">
+  <div class="pane wide">
+    <div class="card reveal on" id="payCard">
       <h1 class="page">almost <span class="grad">there.</span></h1>
-      <p class="sub" id="itemLine">complete the payment and your perk activates within a few hours.</p>
+      <p class="sub" id="itemLine">complete the payment and your perk goes live.</p>
+      <div class="perkstrip" id="perkList"></div>
 
-      <div class="paygrid">
-        <div class="perkcard">
-          <div class="pt">what you get</div>
-          <div class="pl" id="perkList">pick a perk on the marketplace or your profile.</div>
-        </div>
-        <div class="paysteps">
-          <div class="pstep"><span class="n">1</span><p>pay in crypto. any major coin works.
-            <span class="coins"><span>USDC</span><span>USDT</span><span>SOL</span><span>ETH</span><span>BTC</span><span>+ more</span></span>
-            <span id="addrBox"></span></p></div>
-          <div class="pstep"><span class="n">2</span><p id="step2">email <a href="mailto:yougcmarket@gmail.com" style="color:var(--cblue);font-weight:700">yougcmarket@gmail.com</a> with your <b>@username</b>. you get the payment address right back. fast response.</p></div>
-          <div class="pstep"><span class="n">3</span><p>send the transaction link back. done, it goes live within a few hours.</p></div>
-          <p class="muted" style="margin-top:6px">referral code? add it to the email for <b>10% off</b>.</p>
-        </div>
+      <div class="psec">
+        <div class="ph"><span class="n">1</span><span class="pt">pay</span></div>
+        <p>tap a coin to copy the address, then send the amount.</p>
+        <div class="coinrow" id="coinRow"></div>
+        <p class="othercoin">want to pay with another coin? email <a href="mailto:yougcmarket@gmail.com" style="font-weight:700">yougcmarket@gmail.com</a> and it gets sorted.</p>
       </div>
 
-      <label class="mt2">promo or referral code <span style="text-transform:none;font-weight:400">(optional)</span></label>
+      <div class="psec">
+        <div class="ph"><span class="n">2</span><span class="pt">send one email</span></div>
+        <p>hit the button below. it opens an email to support, just fill in your <b>@username</b> and the <b>transaction link</b>. once it arrives, your payment gets verified and your perk goes live. that's it.</p>
+      </div>
+
+      <label class="mt3">promo or referral code <span style="text-transform:none;font-weight:400">(optional, 10% off)</span></label>
       <input type="text" id="promo" placeholder="YOUGC10-..." maxlength="40">
-      <a class="btn pay full mt2" id="mailBtn" href="mailto:yougcmarket@gmail.com">start my purchase</a>
+      <a class="btn pay full mt2" id="mailBtn" href="mailto:yougcmarket@gmail.com">i paid, verify it →</a>
     </div>
   </div>
 </div>
@@ -69,29 +76,42 @@ const item = q.get('item'), price = q.get('price');
 const clean = v => String(v||'').replace(/[<>&"']/g,'');
 
 const PERKS = {
-  verified: ['✓ badge on your name, everywhere','highlighted profile picture','3 posts a day instead of 2','your first featured post free'],
-  featured: ['your post in the featured row on top of the feed, 24 hours','max 5 featured slots at a time','clicks, follows and messages follow the top'],
-  spotlight: ['your profile card on top of the marketplace, 2 days','seen before anyone scrolls','limited slots']
+  verified: ['✓ badge on your name, everywhere','highlighted profile picture','3 posts a day','first featured post free'],
+  featured: ['your post in the featured row, 24 hours','max 5 slots at a time','clicks and follows go to the top'],
+  spotlight: ['your profile card on top of the marketplace','2 full days','limited slots']
 };
 const key = Object.keys(PERKS).find(k => (item||'').toLowerCase().includes(k));
-if(key) document.getElementById('perkList').innerHTML = PERKS[key].map(p=>`✦ ${p}`).join('<br>');
+document.getElementById('perkList').innerHTML = (key ? PERKS[key] : ['pick a perk on the marketplace or your profile']).map(p=>`<span>✦ ${p}</span>`).join('');
+
+if(item && price){
+  document.getElementById('itemLine').innerHTML = `you're getting: <b>${clean(item)}</b> for <b>$${clean(price)}</b>.`;
+}
+
+// coin buttons: tap to copy, address never shown
+const coinRow = document.getElementById('coinRow');
+coinRow.innerHTML = Object.keys(CRYPTO_ADDR).map(k=>
+  `<button class="coinbtn" data-c="${clean(k)}"><span class="cn">${clean(k)}</span><span class="ch" style="display:block">tap to copy address</span></button>`).join('');
+coinRow.addEventListener('click', async e=>{
+  const b = e.target.closest('.coinbtn'); if(!b) return;
+  const addr = CRYPTO_ADDR[b.dataset.c]; if(!addr) return;
+  try{ await navigator.clipboard.writeText(addr); }
+  catch(err){
+    const t=document.createElement('textarea'); t.value=addr; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove();
+  }
+  coinRow.querySelectorAll('.coinbtn').forEach(x=>{ x.classList.remove('copied'); x.querySelector('.ch').textContent='tap to copy address'; });
+  b.classList.add('copied');
+  b.querySelector('.ch').textContent='address copied ✓';
+  setTimeout(()=>{ b.classList.remove('copied'); b.querySelector('.ch').textContent='tap to copy address'; }, 2600);
+});
+
 function buildMail(){
   const code = document.getElementById('promo').value.trim();
-  let subj = 'buying: ' + (item || 'a YOUgc perk') + (price ? ' ($' + price + ')' : '');
-  let body = 'hi, i just paid for: ' + (item || '') + '\nmy @username: \ntransaction link: ' + (code ? '\npromo code: ' + code : '');
+  let subj = 'payment: ' + (item || 'YOUgc perk') + (price ? ' ($' + price + ')' : '');
+  let body = 'i paid for: ' + (item || '') + '\nmy @username: \ntransaction link: ' + (code ? '\npromo code: ' + code : '');
   document.getElementById('mailBtn').href = 'mailto:yougcmarket@gmail.com?subject=' + encodeURIComponent(subj) + '&body=' + encodeURIComponent(body);
-}
-if(item && price){
-  document.getElementById('itemLine').innerHTML = `you're getting: <b>${clean(item)}</b> for <b>$${clean(price)}</b>. it activates within a few hours after payment.`;
 }
 buildMail();
 document.getElementById('promo').addEventListener('input', buildMail);
-// direct wallet addresses, if configured
-if(CRYPTO_ADDR && Object.keys(CRYPTO_ADDR).length){
-  document.getElementById('addrBox').innerHTML = Object.entries(CRYPTO_ADDR)
-    .map(([k,v])=>`<span class="addr"><b>${clean(k)}:</b> ${clean(v)}</span>`).join('');
-  document.getElementById('step2').innerHTML = 'send the amount to one of the addresses above, then email <a href="mailto:yougcmarket@gmail.com" style="color:var(--cblue);font-weight:700">yougcmarket@gmail.com</a> with your <b>@username</b>. fast response. want to pay with a different coin? just email us, we sort it out.';
-}
 </script>
 </body>
 </html>

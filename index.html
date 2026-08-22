@@ -87,13 +87,13 @@
   .heroQ{margin-top:30px;font-size:clamp(1.15rem,2.3vw,1.7rem);font-weight:700;letter-spacing:-.015em;line-height:1.5;opacity:0;animation:rise 1s .35s forwards}
   .heroQ .grad{font-weight:800}
   .heroSub{margin-top:12px;font-size:clamp(.95rem,1.5vw,1.15rem);font-weight:500;color:var(--ink-soft);opacity:0;animation:rise 1s .5s forwards}
-  .realpill{margin-top:18px;display:inline-block;padding:13px 30px;border-radius:999px;font-weight:600;font-size:.98rem;color:var(--ink);
-    border:2.5px solid transparent;
+  .realpill{display:inline-block;margin-bottom:16px;padding:8px 20px;border-radius:999px;font-weight:700;font-size:.82rem;letter-spacing:.02em;color:var(--ink);
+    border:2px solid transparent;
     background:linear-gradient(rgba(255,255,255,.88),rgba(255,255,255,.88)) padding-box,
                linear-gradient(120deg,#BFD7F2,#F4CFDF,#BFE8D4,#BFD7F2) border-box;
-    box-shadow:0 14px 32px -16px rgba(46,74,115,.4);
-    opacity:0;animation:rise 1s .58s forwards, pillfl 5s 1.6s ease-in-out infinite alternate}
-  @keyframes pillfl{from{transform:translateY(-3px)}to{transform:translateY(3px)}}
+    box-shadow:0 10px 24px -14px rgba(46,74,115,.35);
+    animation:pillfl 5s ease-in-out infinite alternate}
+  @keyframes pillfl{from{transform:translateY(-2px)}to{transform:translateY(2px)}}
   html.dark .realpill{background:linear-gradient(rgba(23,31,52,.94),rgba(23,31,52,.94)) padding-box,
     linear-gradient(120deg,#2E4A73,#8A4B6E,#2C5C46,#2E4A73) border-box;color:#EAF0FA}
   .grad{background:linear-gradient(90deg,var(--gradA) 0%,var(--gradB) 45%,var(--gradC) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -386,7 +386,6 @@
   </div>
   <div class="heroQ">you're a <span class="grad">UGC creator</span>?<br>you're looking for <span class="grad">UGC creators</span>?</div>
   <p class="heroSub">one marketplace. both sides.</p>
-  <div class="realpill">💯 real creators · real content · <b>no AI</b></div>
 
   <div class="doors" id="join">
     <span class="dfloat d1"><a class="door creator" href="auth.html?role=creator">
@@ -454,6 +453,7 @@
 <section id="screens">
   <div class="reveal" style="text-align:center">
     <div class="kicker">the content</div>
+    <div class="realpill">💯 100% human · no AI</div>
     <h2 style="margin:0 auto">we help make videos <span class="grad">like these.</span></h2>
     <p class="lead" style="margin:18px auto 0">find each other, close the deal in the DMs, and if you want it, the <a href="studio.html" style="color:var(--gradB);font-weight:700">YOUgc studio</a> jumps in with hooks, scripts and edits that make the video hit.</p>
   </div>

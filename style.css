@@ -244,3 +244,15 @@ html.dark .mfb.bot{background:#1B2440;border-color:rgba(255,255,255,.1);color:va
 html.dark .mfcard{background:rgba(110,150,200,.14);color:var(--ink)}
 html.dark .mfhead{border-bottom-color:rgba(255,255,255,.1)}
 html.dark .mfbar{border-top-color:rgba(255,255,255,.1)}
+
+/* ---- mobile polish ---- */
+@media(max-width:640px){
+  nav.top{padding:14px 14px;gap:8px}
+  nav.top .logo img{height:32px}
+  .navlinks{gap:7px}
+  .nav-cta{padding:8px 13px;font-size:.78rem;white-space:nowrap}
+  .card{padding:26px 20px}
+  h1.page{font-size:2.1rem}
+  input[type=email],input[type=password],input[type=text]{font-size:1rem;padding:15px 16px}
+  .btn.full{font-size:1rem;padding:16px 24px}
+}

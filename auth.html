@@ -10,7 +10,20 @@
 .wrap{min-height:96vh;display:flex;flex-direction:column}
 .pane{max-width:1220px;width:100%;margin:auto;padding-bottom:5vh}
 .authgrid{display:grid;grid-template-columns:1.05fr 1fr;gap:64px;align-items:start}
-@media(max-width:820px){.authgrid{grid-template-columns:1fr;gap:12px}}
+@media(max-width:820px){
+  .authgrid{grid-template-columns:1fr;gap:18px}
+  .card{padding:34px 24px !important;animation:none}
+  h1.page{font-size:2.2rem}
+  .sub{font-size:1rem}
+  input[type=email],input[type=password]{font-size:1rem;padding:16px 18px}
+  .btn.full{font-size:1rem;padding:17px 24px}
+  .rolecard{padding:18px 20px;font-size:1rem;margin-top:12px}
+  .rolecard .ric{width:44px;height:44px;font-size:1.4rem}
+  .authfoot{flex-direction:column;text-align:center;gap:10px;margin-top:28px;padding-top:24px;animation:none}
+  .authfoot img{height:42px;margin:0 auto}
+  .afbig{font-size:1.15rem}
+  .afsub{font-size:.8rem}
+}
 .card{padding:76px 86px;border-radius:34px;border:3px solid transparent;
   background:linear-gradient(rgba(255,255,255,.9),rgba(255,255,255,.9)) padding-box,
              linear-gradient(120deg,#BFD7F2,#F4CFDF,#BFE8D4,#BFD7F2) border-box;

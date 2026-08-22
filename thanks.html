@@ -72,11 +72,19 @@ const COPY = {
       ['3','your posting limit goes to <b>3 a day</b> and your first pin is free']
     ]
   },
-  pin: {
+  pin_profile: {
     sub: 'payment went through. your <b>24 hours on top</b> are ready to start.',
     steps: [
-      ['1','tell us <b>what to pin</b>: one of your posts, or your profile card'],
-      ['2','we put it on top of the marketplace and <b>the clock starts then</b>, not now'],
+      ['1','we match the <b>@username</b> you gave at checkout to your profile'],
+      ['2','say the word and your card goes to the top, <b>the clock starts then</b>, not now'],
+      ['3','you keep every follow and message it brings in']
+    ]
+  },
+  pin_post: {
+    sub: 'payment went through. your post is ready for its <b>24 hours on top.</b>',
+    steps: [
+      ['1','tell us <b>which post</b> to pin'],
+      ['2','it goes above every other post and <b>the clock starts then</b>, not now'],
       ['3','you keep every follow and message it brings in']
     ]
   },
@@ -100,7 +108,7 @@ document.getElementById('tsteps').innerHTML = c.steps.map((s,i)=>
 
 const p = await myProfile().catch(()=>null);
 const mine = p ? 'profile.html?u=' + encodeURIComponent(p.username) : 'app.html';
-document.getElementById('trow').innerHTML = perk === 'pin'
+document.getElementById('trow').innerHTML = perk.startsWith('pin')
   ? `<a class="btn" href="chat.html">tell us what to pin →</a><a class="btn ghost" href="${mine}">my profile</a>`
   : (perk === 'agent'
     ? `<a class="btn" href="agent.html">open my agent →</a><a class="btn ghost" href="${mine}">my profile</a>`

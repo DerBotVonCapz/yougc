@@ -177,16 +177,27 @@ const PERKS = {
     ],
     why: 'unverified profiles get scrolled past.'
   },
-  pin: {
-    ic: I.pin, name: 'pin', price: PIN_PRICE, per: 'once · 24 hours', note: 'one payment · no subscription',
-    hook: '<b>24 hours on top.</b> everyone who opens the marketplace lands on you first.',
+  pin_profile: {
+    ic: I.pin, name: 'profile pin', price: PIN_PRICE, per: 'once · 24 hours', note: 'one payment · no subscription',
+    hook: '<b>24 hours on top.</b> everyone who opens the marketplace lands on your profile first.',
     bubbles: [
-      [I.pin,   'straight to the top', 'above every other post and profile'],
-      [I.split, 'a post or your profile', 'you pick after you pay, not before'],
+      [I.pin,   'your card, top row', 'above every other creator and brand'],
+      [I.ring,  'your whole profile', 'photo, bio, niches, all of it visible'],
       [I.clock, 'you start the clock', 'run it when your audience is awake'],
       [I.rare,  'only a few slots', 'the top row stays rare on purpose']
     ],
     why: 'the top row takes most of the clicks.'
+  },
+  pin_post: {
+    ic: I.pin, name: 'post pin', price: PIN_PRICE, per: 'once · 24 hours', note: 'one payment · no subscription',
+    hook: '<b>24 hours on top.</b> one post, above every other post in the feed.',
+    bubbles: [
+      [I.pin,   'first post everyone reads', 'the top of the feed for a full day'],
+      [I.split, 'you pick which post', 'the one that actually pitches you'],
+      [I.clock, 'you start the clock', 'run it when brands are scrolling'],
+      [I.rare,  'only a few slots', 'the top row stays rare on purpose']
+    ],
+    why: 'one post at the top beats ten buried.'
   },
   agent: {
     ic: I.spark, name: 'agent', price: AGENT_PRICE, per: '/ month', note: 'renews every 30 days · cancel any time',
@@ -204,13 +215,17 @@ const PERKS = {
 const item = q.get('item') || '';
 let key = (q.get('perk')||'').toLowerCase();
 if(!PERKS[key]) key = Object.keys(PERKS).find(k => item.toLowerCase().includes(k)) || '';
-if(!key && /featured|spotlight/i.test(item)) key = 'pin';
+if(!key){
+  if(/post/i.test(item) && /pin|featured/i.test(item)) key = 'pin_post';
+  else if(/pin|spotlight|featured/i.test(item)) key = 'pin_profile';
+}
+if(key === 'pin') key = 'pin_profile';
 const P = PERKS[key];
 const vMain = document.getElementById('vMain'), vCrypto = document.getElementById('vCrypto');
 
 if(!P){
   vMain.innerHTML = `<div class="hero"><div class="hname">pick a perk<span class="grad">.</span></div>
-    <div class="hhook">open your profile and choose <b>verified</b>, <b>pin</b> or <b>agent</b>.</div></div>
+    <div class="hhook">open your profile and choose <b>verified</b>, a <b>pin</b> or your <b>agent</b>.</div></div>
     <div class="paybox"><a class="way primary" href="app.html"><span class="wt">go to the marketplace →</span></a></div>`;
 } else {
   const link = PAY_LINKS[key] || '';

@@ -207,12 +207,12 @@ if(!p){
           <ul class="upl"><li>✓ next to your name, everywhere</li><li>3 posts a day instead of 2</li><li>your photo gets the ring</li><li>your first pin is free</li></ul>
           <div class="uprow"><span class="upbtn">$${VERIFIED_PRICE} / month</span><span class="upnote">cancel any time</span></div></a>`}
 
-        ${(p.spotlight_until && new Date(p.spotlight_until)>new Date())?`<div class="upcard c2 owned"><span class="upic">${IC_PIN}</span><div class="upt">pin</div>
-          <div class="uphook">you are <b>on top</b> of the marketplace.</div>
+        ${(p.spotlight_until && new Date(p.spotlight_until)>new Date())?`<div class="upcard c2 owned"><span class="upic">${IC_PIN}</span><div class="upt">profile pin</div>
+          <div class="uphook">your profile is <b>on top</b> of the marketplace.</div>
           <div class="uprow"><span class="upbtn done">running ✓</span><span class="upnote">ends ${new Date(p.spotlight_until).toLocaleString([], {hour:'2-digit',minute:'2-digit',day:'numeric',month:'short'})}</span></div></div>`
-        :`<a class="upcard c2" data-ev="perk:pin" href="${payHref('pin','pin @'+p.username, PIN_PRICE)}"><span class="upic">${IC_PIN}</span><div class="upt">pin</div>
+        :`<a class="upcard c2" data-ev="perk:pin_profile" href="${payHref('pin_profile','profile pin @'+p.username, PIN_PRICE)}"><span class="upic">${IC_PIN}</span><div class="upt">profile pin</div>
           <div class="uphook"><b>24 hours on top.</b> everyone who opens the marketplace lands on you.</div>
-          <ul class="upl"><li>you pick: a post, or your profile</li><li>only a few slots run at once</li><li>starts the second it is live</li></ul>
+          <ul class="upl"><li>your whole card, first row</li><li>only a few slots run at once</li><li>want a post pinned instead? that is separate</li></ul>
           <div class="uprow"><span class="upbtn">$${PIN_PRICE} once</span><span class="upnote">24 hours</span></div></a>`}
 
         ${(p.agent_until && new Date(p.agent_until)>new Date())?`<div class="upcard c3 owned"><span class="upic">${IC_AGENT}</span><div class="upt">agent</div>

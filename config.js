@@ -15,7 +15,7 @@ export const CRYPTO_ADDR = {
   'BTC': 'bc1q4ksum7x504umv8jdcpypeayvrs0rcuz9z9q7uq'
 };
 export const VERIFIED_PRICE = 4.99;  // badge + highlighted photo + 3 posts a day, per month
-export const PIN_PRICE = 10;         // 24h on top of the marketplace: a post OR your profile
+export const PIN_PRICE = 10;         // 24h on top of the marketplace. profile pin and post pin are sold separately
 export const AGENT_PRICE = 4.99;     // personal creator/brand agent, per month
 // kept as aliases so nothing breaks anywhere that still imports the old names
 export const FEATURED_PRICE = PIN_PRICE;
@@ -23,10 +23,9 @@ export const SPOTLIGHT_PRICE = PIN_PRICE;
 
 // stripe payment links: paste the link per perk once created, card button appears automatically on the pay page
 export const PAY_LINKS = {
-  verified: 'https://buy.stripe.com/fZu9ALdxr4OXbl4b2p77O00',
-  pin:      'https://buy.stripe.com/00w5kv64Z2GP1Ku7Qd77O01',
-  agent:    'https://buy.stripe.com/3cIfZ92SNchp3SCdax77O02',
-  featured: 'https://buy.stripe.com/00w5kv64Z2GP1Ku7Qd77O01',
-  spotlight:'https://buy.stripe.com/00w5kv64Z2GP1Ku7Qd77O01',
-  studio:   ''
+  verified:    'https://buy.stripe.com/fZu9ALdxr4OXbl4b2p77O00',
+  pin_profile: 'https://buy.stripe.com/00w5kv64Z2GP1Ku7Qd77O01',
+  pin_post:    'https://buy.stripe.com/00weV5bpj95d60K8Uh77O03',
+  agent:       'https://buy.stripe.com/3cIfZ92SNchp3SCdax77O02',
+  studio:      ''
 };

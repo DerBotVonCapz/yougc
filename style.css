@@ -257,3 +257,16 @@ html.dark .mfbar{border-top-color:rgba(255,255,255,.1)}
   input[type=email],input[type=password],input[type=text]{font-size:1rem;padding:15px 16px}
   .btn.full{font-size:1rem;padding:16px 24px}
 }
+
+
+/* animated pastel rim: lights up on hover, used on every card-ish block */
+@keyframes rimflow{0%{background-position:0% 50%}100%{background-position:300% 50%}}
+.step, .stcard, .spotcard, .upcard, .bub, .pcard{position:relative}
+.step::before, .stcard::before, .spotcard::before, .bub::before{
+  content:'';position:absolute;inset:0;border-radius:inherit;padding:2px;pointer-events:none;z-index:1;
+  background:linear-gradient(90deg,#BFD7F2,#F4CFDF,#BFE8D4,#F7D9C4,#DCD4F2,#BFD7F2);background-size:300% 100%;
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  opacity:0;transition:opacity .35s;animation:rimflow 7s linear infinite}
+.step:hover::before, .stcard:hover::before, .spotcard:hover::before, .bub:hover::before{opacity:1}
+@media(prefers-reduced-motion:reduce){.step::before,.stcard::before,.spotcard::before,.bub::before{animation:none}}

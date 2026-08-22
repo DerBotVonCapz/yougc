@@ -29,6 +29,8 @@ h2.page{font-size:1.7rem !important;margin-top:4px}
 .clip.tall iframe{aspect-ratio:9/16}
 .clip.wide{width:min(100%,470px)}
 .clip.wide iframe{aspect-ratio:16/9}
+.clipgrid.multi .clip.tall{width:min(100%,205px)}
+.clipgrid.multi .clip.wide{width:min(100%,364px)}
 .gig{padding:24px 28px;border-radius:20px;background:linear-gradient(120deg,rgba(191,215,242,.45),rgba(244,207,223,.4));margin-top:14px}
 .gigbadge{display:inline-block;font-size:.7rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:6px 14px;border-radius:999px;background:linear-gradient(120deg,#2E4A73,#6E96C8);color:#fff;margin-bottom:10px}
 .gig p{line-height:1.7;font-size:1rem}
@@ -119,7 +121,7 @@ if(!p){
   const embeds = (p.clips||[]).map(clipEmbed).filter(Boolean);
   if(embeds.length){
     document.getElementById('clipsWrap').innerHTML =
-      '<div class="clipgrid">' + embeds.map(e=>
+      '<div class="clipgrid' + (embeds.length>1?' multi':'') + '">' + embeds.map(e=>
         `<div class="clip ${e.tall?'tall':'wide'}"><iframe src="${esc(e.src)}" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe></div>`
       ).join('') + '</div>';
   }

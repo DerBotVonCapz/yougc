@@ -99,8 +99,8 @@ html.dark .dealband .big{color:#EAF0FA}
       <h2>the studio <span class="grad">pass.</span></h2>
       <p>a monthly studio subscription gets you in. from there we take a small share of every video we help produce, usually <b>10 to 15 percent</b>, agreed upfront before we touch anything.</p>
       <div class="big">you get videos that perform, we grow when you grow.</div>
-      <a class="cta" href="mailto:yougcmarket@gmail.com?subject=YOUgc%20studio%20request&body=hey%2C%20we%20want%20the%20studio%20in%20on%20our%20deal.%0A%0Acreator%3A%20%40...%0Abrand%3A%20%40...%0Aproduct%3A%20...%0Aplatform%3A%20tiktok%20%2F%20reels%20%2F%20shorts%0Adeadline%3A%20...%0Awhat%20we%20need%3A%20hooks%20%2F%20script%20%2F%20ideas%20%2F%20editing">bring the studio into your deal →</a>
-      <div class="smallnote">answer within a day · yougcmarket@gmail.com</div>
+      <a class="cta" id="stMail" href="mailto:yougcmarket@gmail.com?subject=YOUgc%20studio%20request&body=hey%2C%20we%20want%20the%20studio%20in%20on%20our%20deal.%0A%0Acreator%3A%20%40...%0Abrand%3A%20%40...%0Aproduct%3A%20...%0Aplatform%3A%20tiktok%20%2F%20reels%20%2F%20shorts%0Adeadline%3A%20...%0Awhat%20we%20need%3A%20hooks%20%2F%20script%20%2F%20ideas%20%2F%20editing">bring the studio into your deal →</a>
+      <div class="smallnote" id="stNote">opens your email app · or tap the button to copy <b>yougcmarket@gmail.com</b></div>
     </div>
 
   </div>
@@ -113,6 +113,15 @@ document.getElementById('logo').outerHTML = logoHTML();
 initMotion();
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target);}}),{threshold:.15});
 document.querySelectorAll('.reveal:not(.on)').forEach(el=>io.observe(el));
+document.getElementById('stMail').addEventListener('click', ()=>{
+  try{
+    const ta=document.createElement('textarea');
+    ta.value='yougcmarket@gmail.com';
+    document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    document.getElementById('stNote').innerHTML='✅ <b>yougcmarket@gmail.com</b> copied. if no email app opened, just paste it in gmail and tell us about your deal.';
+  }catch(e){}
+});
 </script>
 </body>
 </html>

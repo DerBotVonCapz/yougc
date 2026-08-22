@@ -87,6 +87,15 @@
   .heroQ{margin-top:30px;font-size:clamp(1.15rem,2.3vw,1.7rem);font-weight:700;letter-spacing:-.015em;line-height:1.5;opacity:0;animation:rise 1s .35s forwards}
   .heroQ .grad{font-weight:800}
   .heroSub{margin-top:12px;font-size:clamp(.95rem,1.5vw,1.15rem);font-weight:500;color:var(--ink-soft);opacity:0;animation:rise 1s .5s forwards}
+  .realpill{margin-top:18px;display:inline-block;padding:13px 30px;border-radius:999px;font-weight:600;font-size:.98rem;color:var(--ink);
+    border:2.5px solid transparent;
+    background:linear-gradient(rgba(255,255,255,.88),rgba(255,255,255,.88)) padding-box,
+               linear-gradient(120deg,#BFD7F2,#F4CFDF,#BFE8D4,#BFD7F2) border-box;
+    box-shadow:0 14px 32px -16px rgba(46,74,115,.4);
+    opacity:0;animation:rise 1s .58s forwards, pillfl 5s 1.6s ease-in-out infinite alternate}
+  @keyframes pillfl{from{transform:translateY(-3px)}to{transform:translateY(3px)}}
+  html.dark .realpill{background:linear-gradient(rgba(23,31,52,.94),rgba(23,31,52,.94)) padding-box,
+    linear-gradient(120deg,#2E4A73,#8A4B6E,#2C5C46,#2E4A73) border-box;color:#EAF0FA}
   .grad{background:linear-gradient(90deg,var(--gradA) 0%,var(--gradB) 45%,var(--gradC) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
   @keyframes rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
 
@@ -377,6 +386,7 @@
   </div>
   <div class="heroQ">you're a <span class="grad">UGC creator</span>?<br>you're looking for <span class="grad">UGC creators</span>?</div>
   <p class="heroSub">one marketplace. both sides.</p>
+  <div class="realpill">💯 real creators · real content · <b>no AI</b></div>
 
   <div class="doors" id="join">
     <span class="dfloat d1"><a class="door creator" href="auth.html?role=creator">
@@ -557,6 +567,7 @@
     <div class="step reveal"><span class="n">💬</span><h4>direct chats</h4><p>chat directly with creators and brands inside the marketplace. add your personal AI agent to sharpen every message, if you want the edge.</p></div>
     <div class="step reveal"><span class="n">🔥</span><h4>featured &amp; spotlight</h4><p>put your post or your whole profile on top of the marketplace when it counts.</p></div>
     <div class="step reveal"><span class="n">✓</span><h4>verified names</h4><p>the badge that shows brands you are real and serious.</p></div>
+    <div class="step reveal"><span class="n">💯</span><h4>real content, no AI</h4><p>every creator on YOUgc shoots real, self-made videos. no AI faces, no generated clips, no fakes. what brands get here is authentic, and you can feel it.</p></div>
     <div class="step reveal"><span class="n">🔗</span><h4>referral rewards</h4><p>bring a friend: they get 10% off their first purchase, you get 10% off yours.</p></div>
   </div>
 </section>

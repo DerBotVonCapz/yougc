@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="description" content="the YOUgc marketplace: browse ugc creators and brands by niche, message them directly."><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>marketplace · YOUgc</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="icon" type="image/png" href="favicon.png">
@@ -62,7 +63,15 @@
   .mtools{display:flex;flex-direction:column;gap:14px;margin:6px 0 24px}
   .mtoprow{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
   .mtoprow #searchInp{flex:1;min-width:260px;margin:0 !important}
-  .mtools .tabs.main{margin:0 !important;flex-shrink:0}
+  .mtools .tabs.main{margin:0 !important;flex-shrink:0;flex-wrap:wrap}
+  @media(max-width:760px){
+    .mtoprow{flex-direction:column;align-items:stretch;gap:12px}
+    .mtoprow #searchInp{min-width:0;width:100%;font-size:.98rem;padding:15px 20px}
+    .mtools .tabs.main{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%}
+    .tabs.main .tab{font-size:.86rem;padding:12px 6px;text-align:center;white-space:nowrap}
+    #filterChips{gap:7px}
+    #filterChips .chip{font-size:.8rem;padding:8px 14px}
+  }
   .mtools #filterChips{margin:0 !important}
   .pcard{border-radius:26px;padding:28px 20px 24px;text-align:center;border:2.5px solid transparent;
     background:linear-gradient(rgba(255,255,255,.85),rgba(255,255,255,.85)) padding-box,

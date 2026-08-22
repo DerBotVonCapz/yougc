@@ -262,6 +262,20 @@
   h2 .grad{background-size:200% 100%;transition:background-position .6s}
   h2:hover .grad{background-position:100% 0}
 
+  /* live profile screenshot */
+  .crewrap{display:flex;justify-content:space-between;align-items:center;gap:44px}
+  .psfl{flex-shrink:0;display:inline-block;animation:psfloat 6s ease-in-out infinite alternate;will-change:transform}
+  @keyframes psfloat{from{transform:translateY(-7px) rotate(2deg)}to{transform:translateY(7px) rotate(3deg)}}
+  .proshot{display:block;width:330px;border-radius:28px;padding:10px 10px 4px;border:3px solid transparent;text-decoration:none;
+    background:linear-gradient(#fff,#fff) padding-box, linear-gradient(120deg,#BFD7F2,#F4CFDF,#BFE8D4,#BFD7F2) border-box;
+    box-shadow:0 32px 66px -26px rgba(46,74,115,.5);transition:transform .3s,box-shadow .3s}
+  .proshot:hover{transform:scale(1.045) rotate(-1deg);box-shadow:0 40px 80px -28px rgba(46,74,115,.6)}
+  .proshot img{width:100%;border-radius:20px;display:block}
+  .pslabel{display:block;text-align:center;font-size:.85rem;font-weight:700;color:var(--ink);padding:10px 0 6px}
+  @media(max-width:940px){.psfl{display:none}}
+  html.dark .proshot{background:linear-gradient(#171F34,#171F34) padding-box, linear-gradient(120deg,#2E4A73,#8A4B6E,#2C5C46,#2E4A73) border-box}
+  html.dark .pslabel{color:#EAF0FA}
+
   /* studio band */
   #studio{padding-top:2vh}
   .stub{position:relative;overflow:hidden;border-radius:34px;padding:70px 6vw;text-align:center;border:3px solid transparent;
@@ -383,10 +397,16 @@
 </div>
 
 <section id="creators">
-  <div class="reveal">
-    <div class="kicker">creators</div>
-    <h2>your profile is <span class="grad">your pitch.</span></h2>
-    <p class="lead">set it up once. brands come to you.</p>
+  <div class="crewrap">
+    <div class="reveal">
+      <div class="kicker">creators</div>
+      <h2>your profile is <span class="grad">your pitch.</span></h2>
+      <p class="lead">set it up once. brands come to you.</p>
+    </div>
+    <span class="psfl reveal"><a class="proshot" href="profile.html?u=liacreates" title="open lia's live profile">
+      <img src="lia_profile.jpg" alt="a live creator profile on YOUgc">
+      <span class="pslabel">✨ a live creator profile · tap to open</span>
+    </a></span>
   </div>
   <div class="steps">
     <div class="step reveal"><span class="n">01</span><h4>build your profile</h4><p>photo, bio, and links to all your accounts. one profile, everything you do.</p></div>

@@ -29,17 +29,17 @@ html.dark .key{background:rgba(23,31,52,.94);color:#EAF0FA}
 @keyframes krise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 @keyframes kfloat{from{transform:translateY(-3px)}to{transform:translateY(3px)}}
 @media(max-width:820px){.karr{display:none}}
-.stgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:52px}
-@media(max-width:1000px){.stgrid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:560px){.stgrid{grid-template-columns:1fr}}
-.stcard{padding:44px 36px;border-radius:26px;border:3px solid transparent;
+.stgrid{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:52px}
+@media(max-width:1000px){.stgrid{grid-template-columns:1fr 1fr}}
+@media(max-width:700px){.stgrid{grid-template-columns:1fr}}
+.stcard{display:flex;align-items:center;gap:26px;text-align:left;padding:38px 42px;border-radius:36px;border:3px solid transparent;
   background:linear-gradient(rgba(255,255,255,.92),rgba(255,255,255,.92)) padding-box,
              linear-gradient(120deg,#BFD7F2,#F4CFDF,#BFE8D4,#BFD7F2) border-box;
   box-shadow:0 22px 52px -24px rgba(46,74,115,.32);transition:transform .3s,box-shadow .3s;will-change:transform}
 .stcard:hover{transform:translateY(-7px);box-shadow:0 34px 68px -26px rgba(46,74,115,.45)}
 html.dark .stcard{background:linear-gradient(rgba(23,31,52,.96),rgba(23,31,52,.96)) padding-box,
   linear-gradient(120deg,#2E4A73,#8A4B6E,#2C5C46,#2E4A73) border-box}
-.stcard .ic{font-size:2rem;width:62px;height:62px;display:flex;align-items:center;justify-content:center;border-radius:20px;margin-bottom:18px;transition:transform .3s}
+.stcard .ic{font-size:2.3rem;width:84px;height:84px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:26px;margin-bottom:0;transition:transform .3s}
 .stcard:hover .ic{transform:rotate(-8deg) scale(1.12)}
 .stcard:nth-child(1) .ic{background:linear-gradient(135deg,#BFD7F2,#DCE9F9)}
 .stcard:nth-child(2) .ic{background:linear-gradient(135deg,#F4CFDF,#FBE3EE)}
@@ -73,7 +73,7 @@ html.dark .dealband .big{color:#EAF0FA}
 <body>
 <div id="bg"></div>
 <div class="wrap">
-  <nav class="top"><span id="logo"></span><a class="nav-cta" href="app.html">marketplace</a></nav>
+  <nav class="top"><span id="logo"></span><span style="display:flex;gap:10px;align-items:center"><a class="nav-cta" href="app.html">marketplace</a><a class="nav-cta" href="chat.html">chats</a><a class="nav-cta" id="navProf" href="auth.html">my profile</a></span></nav>
   <div class="pane">
 
     <div class="hero reveal on">
@@ -100,14 +100,15 @@ html.dark .dealband .big{color:#EAF0FA}
       <p>a monthly studio subscription gets you in. from there we take a small share of every video we help produce, usually <b>10 to 15 percent</b>, agreed upfront before we touch anything.</p>
       <div class="big">you get videos that perform, we grow when you grow.</div>
       <a class="cta" id="stMail" href="mailto:yougcmarket@gmail.com?subject=YOUgc%20studio%20request&body=hey%2C%20we%20want%20the%20studio%20in%20on%20our%20deal.%0A%0Acreator%3A%20%40...%0Abrand%3A%20%40...%0Aproduct%3A%20...%0Aplatform%3A%20tiktok%20%2F%20reels%20%2F%20shorts%0Adeadline%3A%20...%0Awhat%20we%20need%3A%20hooks%20%2F%20script%20%2F%20ideas%20%2F%20editing">bring the studio into your deal →</a>
-      <div class="smallnote" id="stNote">opens your email app · or tap the button to copy <b>yougcmarket@gmail.com</b></div>
+      <div class="smallnote" id="stNote">tap the button, the email gets copied for you · <b>yougcmarket@gmail.com</b></div>
     </div>
 
   </div>
   <footer style="padding:52px 6vw 40px;text-align:center;color:var(--ink-soft);font-size:.85rem;font-weight:500">© 2026 YOUgc</footer>
 </div>
 <script type="module">
-import { blobsHTML, initMotion, logoHTML } from './app.js';
+import { blobsHTML, initMotion, logoHTML, myProfile } from './app.js';
+myProfile().then(p=>{ if(p) document.getElementById('navProf').href='profile.html?u='+encodeURIComponent(p.username); }).catch(()=>{});
 document.getElementById('bg').outerHTML = blobsHTML();
 document.getElementById('logo').outerHTML = logoHTML();
 initMotion();
@@ -119,7 +120,7 @@ document.getElementById('stMail').addEventListener('click', ()=>{
     ta.value='yougcmarket@gmail.com';
     document.body.appendChild(ta); ta.select();
     document.execCommand('copy'); document.body.removeChild(ta);
-    document.getElementById('stNote').innerHTML='✅ <b>yougcmarket@gmail.com</b> copied. if no email app opened, just paste it in gmail and tell us about your deal.';
+    document.getElementById('stNote').innerHTML='✅ email copied: <b>yougcmarket@gmail.com</b>. shoot us a message and we get to work together.';
   }catch(e){}
 });
 </script>

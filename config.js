@@ -9,7 +9,11 @@ export const LAUNCHED = false;
 // people pay there with their @username as reference, you activate in Supabase
 export const PAY_URL = '';
 // direct wallet addresses shown on pay.html, e.g. { 'USDC (SOL)': 'abc...', 'ETH': '0x...' }
-export const CRYPTO_ADDR = {};
+export const CRYPTO_ADDR = {
+  'SOL': '6ixCsYathgPeH7MZBHxpjzg2wGWKBr86qohWbFYw7T3H',
+  'ETH': '0x741587BbA8F5C50118b0D40D04cE4Bb72cBacB24',
+  'BTC': 'bc1q4ksum7x504umv8jdcpypeayvrs0rcuz9z9q7uq'
+};
 export const FEATURED_PRICE = 25;    // pin one post on top, 24h
 export const VERIFIED_PRICE = 3.99;  // verified pack: badge + pro look + 3 posts/day
 export const SPOTLIGHT_PRICE = 19;   // spotlight profile card on top, 7 days

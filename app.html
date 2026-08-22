@@ -231,14 +231,14 @@ if(!LIVE){
   document.body.appendChild(fl);
   const rect = () => fl.getBoundingClientRect();
   let x = innerWidth*0.14, y = innerHeight*0.68;
-  let vx = 0.5, vy = -0.35;
+  let vx = 0.3, vy = -0.22;
   function loop(){
     const w = rect().width || 140, h = rect().height || 50;
     x += vx; y += vy;
-    vx *= 0.996; vy *= 0.996;
+    vx *= 0.994; vy *= 0.994;
     const sp = Math.hypot(vx,vy);
-    if(sp < 0.35){ vx *= 0.5/Math.max(sp,.01); vy *= 0.5/Math.max(sp,.01); }
-    if(sp > 6){ vx *= 6/sp; vy *= 6/sp; }
+    if(sp < 0.22){ vx *= 0.3/Math.max(sp,.01); vy *= 0.3/Math.max(sp,.01); }
+    if(sp > 3){ vx *= 3/sp; vy *= 3/sp; }
     if(x < 0){ x = 0; vx = Math.abs(vx); }
     if(y < 0){ y = 0; vy = Math.abs(vy); }
     if(x + w > innerWidth){ x = innerWidth - w; vx = -Math.abs(vx); }

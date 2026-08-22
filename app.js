@@ -133,3 +133,11 @@ export function clipEmbed(u){
   }catch(e){}
   return null;
 }
+
+// page hit beacon (anonymous analytics)
+try{
+  fetch(SUPABASE_URL + '/rest/v1/hits', { method:'POST',
+    headers:{ apikey: SUPABASE_KEY, 'Content-Type':'application/json', Prefer:'return=minimal' },
+    body: JSON.stringify({ path: location.pathname.replace(/^\//,'') || 'index', ref: document.referrer ? new URL(document.referrer).hostname : null })
+  }).catch(()=>{});
+}catch(e){}

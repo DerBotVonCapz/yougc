@@ -578,7 +578,7 @@
 <footer>
   <a class="logo" href="index.html"><img src="logo.png" alt="YOUgc" style="height:44px"></a><br>
   real creators. real brands. real deals.<br>© 2026 YOUgc<br>
-  <span style="font-size:.78rem"><a href="terms.html" style="color:var(--ink-soft)">terms</a> · <a href="privacy.html" style="color:var(--ink-soft)">privacy</a></span>
+  <span style="font-size:.78rem"><a href="terms.html" style="color:var(--ink-soft)">terms</a> · <a href="privacy.html" style="color:var(--ink-soft)">privacy</a> · <a href="impressum.html" style="color:var(--ink-soft)">legal notice</a></span>
 </footer>
 
 </div>
@@ -586,6 +586,14 @@
 <script>
 const _ref = new URLSearchParams(location.search).get('ref');
 if(_ref) try{ localStorage.setItem('yougc_ref', _ref); }catch(e){}
+
+  // page hit beacon
+  try{
+    fetch('https://oemezcziuqefzhtsnotm.supabase.co/rest/v1/hits', { method:'POST',
+      headers:{ apikey:'sb_publishable_sXia33UR_g43dCp59RsAKA_1FBKOlL_', 'Content-Type':'application/json', Prefer:'return=minimal' },
+      body: JSON.stringify({ path:'index', ref: document.referrer ? new URL(document.referrer).hostname : null })
+    }).catch(()=>{});
+  }catch(e){}
 
   // dark toggle
   const dkt=document.getElementById('dkt');

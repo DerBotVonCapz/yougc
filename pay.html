@@ -66,7 +66,7 @@ label{font-size:.8rem}
 
 <script type="module">
 import { blobsHTML, initMotion, logoHTML } from './app.js';
-import { CRYPTO_ADDR } from './config.js';
+import { CRYPTO_ADDR, PAY_LINKS } from './config.js';
 document.getElementById('bg').outerHTML = blobsHTML();
 document.getElementById('logo').outerHTML = logoHTML('app.html');
 initMotion();
@@ -83,6 +83,15 @@ const PERKS = {
 };
 const key = Object.keys(PERKS).find(k => (item||'').toLowerCase().includes(k));
 document.getElementById('perkList').innerHTML = (key ? PERKS[key] : ['pick a perk on the marketplace or your profile']).map(p=>`<span>✦ ${p}</span>`).join('');
+if(key && PAY_LINKS[key]){
+  const cb = document.createElement('a');
+  cb.href = PAY_LINKS[key]; cb.target = '_blank'; cb.rel = 'noopener';
+  cb.className = 'btn full mt2';
+  cb.style.cssText = 'background:linear-gradient(120deg,#2E4A73,#6E96C8,#D98BB0);color:#fff;font-size:1.05rem;padding:18px 30px';
+  cb.textContent = '💳 pay with card, instant';
+  const pl = document.getElementById('perkList');
+  pl.parentNode.insertBefore(cb, pl.nextSibling);
+}
 
 if(item && price){
   document.getElementById('itemLine').innerHTML = `you're getting: <b>${clean(item)}</b> for <b>$${clean(price)}</b>.`;

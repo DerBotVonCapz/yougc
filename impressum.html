@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>legal notice · YOUgc</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="stylesheet" href="style.css">
+<style>
+.pane{max-width:760px}
+.card{padding:52px 56px}
+h1.page{font-size:clamp(2rem,4vw,2.8rem)}
+h3{font-size:1.15rem;font-weight:800;margin:28px 0 8px;letter-spacing:-.01em}
+p{font-size:1rem;line-height:1.75;color:var(--ink-soft);font-weight:500}
+a{color:var(--cblue);font-weight:600}
+</style>
+</head>
+<body>
+<div id="bg"></div>
+<div class="wrap">
+  <nav class="top"><span id="logo"></span><a class="nav-cta" href="index.html">back</a></nav>
+  <div class="pane">
+    <div class="card reveal on">
+      <h1 class="page">legal <span class="grad">notice.</span></h1>
+      <p style="margin-top:10px">information according to § 5 DDG (German Digital Services Act)</p>
+
+      <h3>operator</h3>
+      <p>Hugo Hessler<br>[street and number]<br>[postal code, city]<br>Germany</p>
+
+      <h3>contact</h3>
+      <p>email: <a href="mailto:yougcmarket@gmail.com">yougcmarket@gmail.com</a></p>
+
+      <h3>responsible for content</h3>
+      <p>Hugo Hessler, address as above (§ 18 Abs. 2 MStV)</p>
+
+      <h3>dispute resolution</h3>
+      <p>the european commission provides a platform for online dispute resolution: <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener">ec.europa.eu/consumers/odr</a>. we are not obliged and not willing to participate in dispute resolution proceedings before a consumer arbitration board.</p>
+
+      <h3>liability for content</h3>
+      <p>profiles, posts and messages on YOUgc are created by users. we remove reported unlawful content promptly. for external links we take no responsibility, their operators are responsible for their content.</p>
+    </div>
+  </div>
+  <footer style="padding:40px 6vw;text-align:center;color:var(--ink-soft);font-size:.85rem;font-weight:500">© 2026 YOUgc · <a href="terms.html">terms</a> · <a href="privacy.html">privacy</a></footer>
+</div>
+<script type="module">
+import { blobsHTML, initMotion, logoHTML } from './app.js';
+document.getElementById('bg').outerHTML = blobsHTML();
+document.getElementById('logo').outerHTML = logoHTML();
+initMotion();
+</script>
+</body>
+</html>

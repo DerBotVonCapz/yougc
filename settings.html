@@ -62,7 +62,7 @@ html.dark .dzbtn:hover{background:#F0A199;color:#2A1414}
 
         <div id="verBox" class="mt3" style="display:none;padding:22px 24px;border-radius:18px;background:linear-gradient(120deg,rgba(191,215,242,.5),rgba(244,207,223,.5))">
           <div style="font-weight:700;margin-bottom:4px;font-size:1.05rem">verified pack <span class="vbadge">✓</span></div>
-          <p class="muted" style="margin-bottom:12px">the ✓ on your name, highlighted profile, 3 posts a day and your first featured post free. one time $<span id="verPrice">3.99</span>.</p>
+          <p class="muted" style="margin-bottom:12px">the ✓ on your name, a highlighted photo, 3 posts a day and your first pin free. $<span id="verPrice">4.99</span> a month, cancel any time.</p>
           <a class="btn small" id="verBtn">get verified →</a>
         </div>
       </div>
@@ -91,7 +91,7 @@ html.dark .dzbtn:hover{background:#F0A199;color:#2A1414}
 
 <script type="module">
 import { sb, requireAuth, blobsHTML, initMotion, logoHTML, isVerified, showMsg } from './app.js';
-import { VERIFIED_PRICE, PAY_URL } from './config.js';
+import { VERIFIED_PRICE } from './config.js';
 document.getElementById('bg').outerHTML = blobsHTML();
 document.getElementById('logo').outerHTML = logoHTML();
 initMotion();
@@ -106,7 +106,7 @@ document.getElementById('infoJoined').textContent = new Date(ctx.profile.created
 if(!isVerified(ctx.profile)){
   document.getElementById('verBox').style.display='block';
   document.getElementById('verPrice').textContent = VERIFIED_PRICE;
-  document.getElementById('verBtn').href = PAY_URL || ('pay.html?item=' + encodeURIComponent('verified pack @' + ctx.profile.username) + '&price=' + VERIFIED_PRICE);
+  document.getElementById('verBtn').href = 'pay.html?perk=verified&item=' + encodeURIComponent('verified @' + ctx.profile.username) + '&price=' + VERIFIED_PRICE;
 }
 
 const msgA = document.getElementById('msgA'), msgB = document.getElementById('msgB');

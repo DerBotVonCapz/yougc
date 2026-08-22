@@ -190,7 +190,7 @@
 
 <script type="module">
 import { sb, requireAuth, NICHES, blobsHTML, initMotion, logoHTML, esc, timeAgo, avatarHTML, vbadge, isVerified, hasSlurs, hasBadLinks, showMsg } from './app.js';
-import { LAUNCHED, PIN_PRICE, VERIFIED_PRICE, PAY_URL } from './config.js';
+import { LAUNCHED, PIN_PRICE, VERIFIED_PRICE } from './config.js';
 const IC_PIN_S = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="width:1em;height:1em;vertical-align:-.13em"><path d="M4.5 4h15"/><path d="M12 21V9.2"/><path d="M7.2 14L12 9.2 16.8 14"/></svg>';
 const payHref = (perk, item, price) => 'pay.html?perk=' + perk + '&item=' + encodeURIComponent(item) + '&price=' + encodeURIComponent(price);
 document.getElementById('bg').outerHTML = blobsHTML();

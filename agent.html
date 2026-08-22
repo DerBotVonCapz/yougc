@@ -50,7 +50,7 @@ html.dark .sugg span{background:rgba(110,150,200,.16)}
 
 <script type="module">
 import { sb, requireAuth, blobsHTML, initMotion, logoHTML, esc } from './app.js';
-import { SUPABASE_URL, SUPABASE_KEY, AGENT_PRICE, PAY_URL } from './config.js';
+import { SUPABASE_URL, SUPABASE_KEY, AGENT_PRICE } from './config.js';
 document.getElementById('bg').outerHTML = blobsHTML();
 document.getElementById('logo').outerHTML = logoHTML();
 initMotion();
@@ -64,7 +64,7 @@ const roleWord = me.role === 'brand' ? 'brand' : 'creator';
 const active = me.agent_until && new Date(me.agent_until) > new Date();
 
 if(!active){
-  const payHref = PAY_URL || ('pay.html?item=' + encodeURIComponent(roleWord + ' agent @' + me.username) + '&price=' + AGENT_PRICE);
+  const payHref = 'pay.html?perk=agent&item=' + encodeURIComponent(roleWord + ' agent @' + me.username) + '&price=' + AGENT_PRICE;
   pane.innerHTML = `<div class="card lockcard reveal on">
     <h2>your personal <span class="grad">${roleWord} agent</span> ✨</h2>
     <p>an agent that knows your profile and works only for you. sharper bio, better posts, more recognition, cleaner deal setups in your DMs. feed it your goals, it remembers everything and pushes your value up.</p>

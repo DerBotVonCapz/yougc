@@ -2,79 +2,95 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="description" content="get verified, pin your post or turn on your agent. card or crypto, live in minutes."><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="get verified, pin your post or turn on your agent. card or crypto."><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>checkout · YOUgc</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="stylesheet" href="style.css">
 <style>
-.pane.wide{max-width:1180px}
-.checkout{display:grid;grid-template-columns:1.05fr .95fr;gap:22px;align-items:start}
-@media(max-width:940px){.checkout{grid-template-columns:1fr}}
+.pane.wide{max-width:1080px}
+.view{display:none}
+.view.on{display:block;animation:vin .45s cubic-bezier(.2,.8,.2,1) both}
+@keyframes vin{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 
-.pk{position:relative;overflow:hidden;padding:44px 42px 40px;border-radius:34px;border:2px solid rgba(255,255,255,.9);
+.hero{position:relative;overflow:hidden;padding:52px 46px 46px;border-radius:36px;text-align:center;
+  border:2px solid rgba(255,255,255,.9);
   background:linear-gradient(150deg,rgba(191,215,242,.5),rgba(244,207,223,.38) 55%,rgba(191,232,212,.46))}
-.pk::before{content:'';position:absolute;width:340px;height:340px;border-radius:50%;background:rgba(255,255,255,.6);
-  filter:blur(70px);top:-140px;right:-110px;animation:pkfl 9s ease-in-out infinite alternate}
-@keyframes pkfl{from{transform:translate(0,0)}to{transform:translate(-46px,46px)}}
-.pk>*{position:relative}
-.pkic{width:72px;height:72px;border-radius:24px;display:flex;align-items:center;justify-content:center;color:#2E4A73;
-  background:linear-gradient(135deg,#BFD7F2,#F4CFDF);box-shadow:0 18px 38px -18px rgba(46,74,115,.6);animation:pkic 5s ease-in-out infinite alternate}
-@keyframes pkic{from{transform:translateY(-4px) rotate(-4deg)}to{transform:translateY(4px) rotate(4deg)}}
-.pkic svg{width:36px;height:36px}
-.pkname{margin-top:20px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(2.3rem,5vw,3.2rem);letter-spacing:-.045em;line-height:1}
-.pkhook{margin-top:14px;font-size:1.18rem;line-height:1.5;font-weight:600;max-width:26em;color:var(--ink)}
-.pkhook b{font-weight:800;background:linear-gradient(90deg,#2E4A73,#6E96C8,#D98BB0);-webkit-background-clip:text;background-clip:text;color:transparent}
-.pkl{list-style:none;margin:26px 0 0;padding:0;display:flex;flex-direction:column;gap:11px}
-.pkl li{display:flex;gap:11px;align-items:flex-start;font-size:1.02rem;font-weight:600;line-height:1.45;
-  opacity:0;transform:translateY(8px);animation:pkin .5s cubic-bezier(.2,.8,.2,1) forwards}
-@keyframes pkin{to{opacity:1;transform:none}}
-.pkl li i{flex:none;width:23px;height:23px;border-radius:8px;display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(135deg,#C8E6D4,#BFD7F2);color:#245C42;font-style:normal;font-weight:800;font-size:.78rem;margin-top:1px}
-.pkwhy{margin-top:26px;padding:18px 20px;border-radius:18px;background:rgba(255,255,255,.66);
-  font-size:.95rem;line-height:1.6;font-weight:600;color:var(--ink-soft)}
-.pkwhy b{color:var(--ink)}
+.hero::before{content:'';position:absolute;width:360px;height:360px;border-radius:50%;background:rgba(255,255,255,.6);
+  filter:blur(74px);top:-150px;right:-110px;animation:hfl 9s ease-in-out infinite alternate}
+@keyframes hfl{from{transform:translate(0,0)}to{transform:translate(-48px,48px)}}
+.hero>*{position:relative}
+.hic{width:76px;height:76px;margin:0 auto;border-radius:26px;display:flex;align-items:center;justify-content:center;color:#2E4A73;
+  background:linear-gradient(135deg,#BFD7F2,#F4CFDF);box-shadow:0 20px 42px -18px rgba(46,74,115,.65);
+  animation:hic 5s ease-in-out infinite alternate}
+@keyframes hic{from{transform:translateY(-4px) rotate(-4deg)}to{transform:translateY(4px) rotate(4deg)}}
+.hic svg{width:38px;height:38px}
+.hname{margin-top:22px;font-family:'Space Grotesk',sans-serif;font-weight:700;
+  font-size:clamp(2.4rem,6vw,3.6rem);letter-spacing:-.05em;line-height:1}
+.hhook{margin:16px auto 0;max-width:22em;font-size:1.22rem;line-height:1.5;font-weight:600;color:var(--ink)}
+.hhook b{font-weight:800;background:linear-gradient(90deg,#2E4A73,#6E96C8,#D98BB0);-webkit-background-clip:text;background-clip:text;color:transparent}
 
-.paycard{padding:38px 34px 32px;border-radius:34px;background:rgba(255,255,255,.96);
-  border:2px solid rgba(255,255,255,.9);box-shadow:0 30px 70px -34px rgba(46,74,115,.55);position:sticky;top:24px}
-html.dark .paycard{background:rgba(20,28,46,.96)}
-.pricerow{display:flex;align-items:baseline;gap:9px}
-.price{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:3.1rem;letter-spacing:-.05em;line-height:1}
+.bubbles{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:22px}
+@media(max-width:720px){.bubbles{grid-template-columns:1fr}.hero{padding:40px 24px 36px}}
+.bub{display:flex;gap:15px;align-items:flex-start;padding:24px 24px;border-radius:26px;
+  background:rgba(255,255,255,.94);border:2px solid rgba(255,255,255,.9);
+  box-shadow:0 18px 42px -26px rgba(46,74,115,.5);
+  opacity:0;transform:translateY(12px);animation:bin .5s cubic-bezier(.2,.8,.2,1) forwards;
+  transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s}
+@keyframes bin{to{opacity:1;transform:none}}
+.bub:hover{transform:translateY(-5px);box-shadow:0 28px 54px -26px rgba(110,150,200,.7)}
+html.dark .bub{background:rgba(20,28,46,.94);border-color:rgba(255,255,255,.08)}
+.bub i{flex:none;width:46px;height:46px;border-radius:15px;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#BFD7F2,#F4CFDF);color:#2E4A73}
+.bub:nth-child(2) i{background:linear-gradient(135deg,#F7D9C4,#F4CFDF);color:#8A4B2E}
+.bub:nth-child(3) i{background:linear-gradient(135deg,#C8E6D4,#BFD7F2);color:#245C42}
+.bub:nth-child(4) i{background:linear-gradient(135deg,#DCD4F2,#BFD7F2);color:#453B7A}
+.bub i svg{width:23px;height:23px}
+.bub .bt{font-weight:800;font-size:1.06rem;letter-spacing:-.02em;line-height:1.25}
+.bub .bd{font-size:.89rem;line-height:1.5;color:var(--ink-soft);font-weight:600;margin-top:4px}
+
+.why{margin-top:16px;padding:26px 30px;border-radius:26px;text-align:center;
+  background:linear-gradient(135deg,rgba(46,74,115,.96),rgba(110,150,200,.93));color:#fff;
+  font-size:1.06rem;line-height:1.6;font-weight:600;box-shadow:0 24px 54px -28px rgba(46,74,115,.8)}
+.why b{font-weight:800}
+
+.paybox{margin-top:16px;padding:34px 32px 30px;border-radius:30px;text-align:center;
+  background:rgba(255,255,255,.96);border:2px solid rgba(255,255,255,.9);box-shadow:0 26px 62px -32px rgba(46,74,115,.55)}
+html.dark .paybox{background:rgba(20,28,46,.96);border-color:rgba(255,255,255,.08)}
+.pricerow{display:flex;align-items:baseline;gap:9px;justify-content:center}
+.price{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:3rem;letter-spacing:-.05em;line-height:1}
 .per{font-size:1rem;font-weight:700;color:var(--ink-soft)}
-.pricenote{margin-top:8px;font-size:.87rem;font-weight:700;color:var(--ink-soft)}
-.bigpay{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;margin-top:22px;
-  font-family:'Poppins',sans-serif;font-weight:800;font-size:1.08rem;color:#fff;padding:19px 26px;border-radius:999px;
-  text-decoration:none;border:none;cursor:pointer;background:linear-gradient(120deg,#2E4A73,#6E96C8,#D98BB0);
-  background-size:220% 100%;box-shadow:0 18px 40px -16px rgba(110,150,200,.9);
-  transition:background-position .55s,transform .22s}
-.bigpay:hover{background-position:100% 0;transform:translateY(-2px)}
-.bigpay svg{width:21px;height:21px}
-.trust{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px;justify-content:center}
-.trust span{font-size:.74rem;font-weight:700;color:var(--ink-soft);padding:6px 12px;border-radius:999px;background:rgba(191,215,242,.34)}
-.steps{margin-top:26px;padding-top:22px;border-top:1.5px solid rgba(30,51,80,.09);display:flex;flex-direction:column;gap:13px}
-html.dark .steps{border-top-color:rgba(255,255,255,.1)}
-.step{display:flex;gap:12px;align-items:flex-start;font-size:.93rem;font-weight:600;line-height:1.5;color:var(--ink-soft)}
-.step b{color:var(--ink)}
-.step i{flex:none;width:25px;height:25px;border-radius:9px;display:flex;align-items:center;justify-content:center;
-  font-style:normal;font-weight:800;font-size:.8rem;background:linear-gradient(135deg,#BFD7F2,#F4CFDF);color:#2E4A73}
-.alt{margin-top:24px;padding-top:20px;border-top:1.5px solid rgba(30,51,80,.09)}
-html.dark .alt{border-top-color:rgba(255,255,255,.1)}
-.altbtn{width:100%;background:none;border:none;cursor:pointer;font-family:'Poppins',sans-serif;font-size:.9rem;
-  font-weight:700;color:var(--ink-soft);display:flex;align-items:center;justify-content:space-between;padding:4px 2px}
-.altbtn:hover{color:var(--ink)}
-.altwrap{max-height:0;overflow:hidden;transition:max-height .45s cubic-bezier(.2,.8,.2,1)}
-.altwrap.open{max-height:640px}
-.coinrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
-.coinbtn{flex:1;min-width:98px;cursor:pointer;font-family:'Poppins',sans-serif;padding:15px 12px;border-radius:16px;
-  background:rgba(255,255,255,.9);border:2px solid rgba(30,51,80,.1);transition:transform .18s,box-shadow .18s,border-color .18s;text-align:center}
-html.dark .coinbtn{background:rgba(255,255,255,.06)}
-.coinbtn:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(46,74,115,.14);border-color:#6E96C8}
-.coinbtn .cn{font-weight:800;font-size:1.05rem;color:var(--ink);font-family:'Space Grotesk',sans-serif;display:block}
-.coinbtn .ch{font-size:.7rem;font-weight:600;color:var(--ink-soft);margin-top:2px;display:block}
+.pricenote{margin-top:7px;font-size:.86rem;font-weight:700;color:var(--ink-soft)}
+.choose{font-size:.7rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin-top:26px}
+.ways{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+@media(max-width:620px){.ways{grid-template-columns:1fr}}
+.way{display:flex;flex-direction:column;align-items:center;gap:7px;padding:22px 20px;border-radius:22px;cursor:pointer;
+  text-decoration:none;color:inherit;font-family:'Poppins',sans-serif;border:2px solid rgba(30,51,80,.12);
+  background:rgba(255,255,255,.7);transition:transform .24s cubic-bezier(.2,.8,.2,1),box-shadow .24s,border-color .24s}
+html.dark .way{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.12)}
+.way:hover{transform:translateY(-4px);border-color:#6E96C8;box-shadow:0 22px 46px -24px rgba(110,150,200,.8)}
+.way.primary{color:#fff;border-color:transparent;background:linear-gradient(120deg,#2E4A73,#6E96C8,#D98BB0);background-size:220% 100%;transition:background-position .55s,transform .24s}
+.way.primary:hover{background-position:100% 0}
+.way svg{width:26px;height:26px}
+.way .wt{font-weight:800;font-size:1.06rem}
+.way .wd{font-size:.79rem;font-weight:600;opacity:.78}
+.trust{display:flex;flex-wrap:wrap;gap:7px;margin-top:18px;justify-content:center}
+.trust span{font-size:.73rem;font-weight:700;color:var(--ink-soft);padding:6px 12px;border-radius:999px;background:rgba(191,215,242,.32)}
+.backlink{display:inline-flex;align-items:center;gap:7px;margin-bottom:18px;font-size:.86rem;font-weight:700;
+  color:var(--ink-soft);cursor:pointer;background:none;border:none;font-family:'Poppins',sans-serif}
+.backlink:hover{color:var(--ink)}
+.coinrow{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
+@media(max-width:560px){.coinrow{grid-template-columns:1fr}}
+.coinbtn{cursor:pointer;font-family:'Poppins',sans-serif;padding:20px 14px;border-radius:20px;
+  background:rgba(255,255,255,.9);border:2px solid rgba(30,51,80,.12);transition:transform .2s,box-shadow .2s,border-color .2s;text-align:center}
+html.dark .coinbtn{background:rgba(255,255,255,.05)}
+.coinbtn:hover{transform:translateY(-4px);box-shadow:0 16px 34px -18px rgba(46,74,115,.5);border-color:#6E96C8}
+.coinbtn .cn{font-weight:800;font-size:1.25rem;color:var(--ink);font-family:'Space Grotesk',sans-serif;display:block}
+.coinbtn .ch{font-size:.74rem;font-weight:600;color:var(--ink-soft);margin-top:3px;display:block}
 .coinbtn.copied{border-color:#7FBF9E;background:rgba(191,232,212,.45)}
 .coinbtn.copied .ch{color:#3D7A5C}
-.smalllink{display:block;text-align:center;margin-top:16px;font-size:.83rem;font-weight:700;color:var(--ink-soft)}
 label{font-size:.78rem}
+.smalllink{display:block;text-align:center;margin-top:18px;font-size:.83rem;font-weight:700;color:var(--ink-soft)}
 </style>
 </head>
 <body>
@@ -84,12 +100,9 @@ label{font-size:.78rem}
     <span id="logo"></span>
     <div class="navlinks"><a class="nav-cta" href="app.html">back to marketplace</a></div>
   </nav>
-
   <div class="pane wide">
-    <div class="checkout">
-      <div class="pk reveal on" id="pkBox"></div>
-      <div class="paycard reveal on" id="payBox"></div>
-    </div>
+    <div class="view on" id="vMain"></div>
+    <div class="view" id="vCrypto"></div>
   </div>
 </div>
 
@@ -102,33 +115,59 @@ initMotion();
 
 const q = new URLSearchParams(location.search);
 const clean = v => String(v||'').replace(/[<>&"']/g,'');
+const sv = (d,f) => `<svg viewBox="0 0 24 24" fill="${f?'currentColor':'none'}" stroke="${f?'none':'currentColor'}" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
 
-const IC_VERIFIED = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.4l2.4 2.1 3.2-.3.9 3.1 2.6 1.9-1.4 2.9 1.4 2.9-2.6 1.9-.9 3.1-3.2-.3L12 21.6l-2.4-2.1-3.2.3-.9-3.1L2.9 15l1.4-2.9L2.9 9.2l2.6-1.9.9-3.1 3.2.3z"/><path d="M8.6 12.2l2.3 2.3 4.5-4.6"/></svg>';
-const IC_PIN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 4h15"/><path d="M12 21V9.2"/><path d="M7.2 14L12 9.2 16.8 14"/></svg>';
-const IC_AGENT = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M11 2.2l1.85 5.35L18.2 9.4l-5.35 1.85L11 16.6l-1.85-5.35L3.8 9.4l5.35-1.85z"/><path d="M18.3 13.6l.85 2.45 2.45.85-2.45.85-.85 2.45-.85-2.45-2.45-.85 2.45-.85z" opacity=".6"/></svg>';
-const IC_CARD = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><rect x="2.5" y="5" width="19" height="14" rx="3"/><path d="M2.5 10h19"/></svg>';
+const I = {
+  badge:  sv('<path d="M12 2.4l2.4 2.1 3.2-.3.9 3.1 2.6 1.9-1.4 2.9 1.4 2.9-2.6 1.9-.9 3.1-3.2-.3L12 21.6l-2.4-2.1-3.2.3-.9-3.1L2.9 15l1.4-2.9L2.9 9.2l2.6-1.9.9-3.1 3.2.3z"/><path d="M8.6 12.2l2.3 2.3 4.5-4.6"/>'),
+  pin:    sv('<path d="M4.5 4h15"/><path d="M12 21V9.2"/><path d="M7.2 14L12 9.2 16.8 14"/>'),
+  spark:  sv('<path d="M11 2.2l1.85 5.35L18.2 9.4l-5.35 1.85L11 16.6l-1.85-5.35L3.8 9.4l5.35-1.85z"/><path d="M18.3 13.6l.85 2.45 2.45.85-2.45.85-.85 2.45-.85-2.45-2.45-.85 2.45-.85z" opacity=".6"/>', true),
+  ring:   sv('<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.4"/>'),
+  stack:  sv('<rect x="3" y="4" width="18" height="6" rx="2"/><rect x="3" y="14" width="18" height="6" rx="2"/>'),
+  gift:   sv('<rect x="3" y="9" width="18" height="12" rx="2"/><path d="M3 13h18"/><path d="M12 9v12"/><path d="M12 9S9.5 3.6 7.4 4.6 9.6 9 12 9zm0 0s2.5-5.4 4.6-4.4S14.4 9 12 9z"/>'),
+  clock:  sv('<circle cx="12" cy="12" r="9"/><path d="M12 7v5.3l3.4 2"/>'),
+  split:  sv('<rect x="3" y="4" width="7.5" height="16" rx="2"/><rect x="13.5" y="4" width="7.5" height="16" rx="2"/>'),
+  rare:   sv('<path d="M12 3l2.3 6.1L20.7 11l-6.4 1.9L12 19l-2.3-6.1L3.3 11l6.4-1.9z"/>'),
+  pen:    sv('<path d="M4 20h4l10.3-10.3a2.4 2.4 0 0 0-3.4-3.4L4.6 16.6z"/><path d="M14.4 6.6l3.4 3.4"/>'),
+  cycle:  sv('<path d="M20.5 12a8.5 8.5 0 0 1-14.6 6"/><path d="M3.5 12a8.5 8.5 0 0 1 14.6-6"/><path d="M18.1 2.6V6H14.7"/><path d="M5.9 21.4V18h3.4"/>'),
+  tag:    sv('<path d="M20.5 12.6l-8 8a2 2 0 0 1-2.8 0l-6.3-6.3a2 2 0 0 1-.6-1.4V4.5a2 2 0 0 1 2-2h8.4a2 2 0 0 1 1.4.6l5.9 5.9a2 2 0 0 1 0 2.8z"/><circle cx="8" cy="8" r="1.4"/>'),
+  brain:  sv('<path d="M6 4.5h12a2.5 2.5 0 0 1 2.5 2.5v13l-4.2-3H6A2.5 2.5 0 0 1 3.5 14.5V7A2.5 2.5 0 0 1 6 4.5z"/><path d="M8 9.5h8M8 13h5"/>'),
+  card:   sv('<rect x="2.5" y="5" width="19" height="14" rx="3"/><path d="M2.5 10h19"/>'),
+  coin:   sv('<circle cx="12" cy="12" r="9"/><path d="M12 7v10"/><path d="M14.8 9.4c-.5-.9-1.5-1.4-2.8-1.4-1.7 0-2.9.8-2.9 2s1.1 1.7 2.9 2 2.9.8 2.9 2-1.2 2-2.9 2c-1.3 0-2.3-.5-2.8-1.4"/>')
+};
 
 const PERKS = {
   verified: {
-    ic: IC_VERIFIED, name: 'verified', price: VERIFIED_PRICE, per: '/ month',
+    ic: I.badge, name: 'verified', price: VERIFIED_PRICE, per: '/ month', note: 'renews every 30 days · cancel any time',
     hook: 'the badge <b>brands look for</b> before they message anyone.',
-    list: ['the ✓ next to your name, everywhere on YOUgc','your photo gets the highlight ring','3 posts a day instead of 2','your first pin, free'],
-    why: 'a brand opening the marketplace has thirty tabs open. <b>the badge is the fastest proof</b> that you are real, active and worth a message.',
-    note: 'renews every 30 days · cancel any time'
+    bubbles: [
+      [I.badge, 'the ✓ on your name', 'everywhere you show up on YOUgc'],
+      [I.ring,  'your photo gets the ring', 'in a grid of faces, yours reads first'],
+      [I.stack, '3 posts a day', 'instead of 2, so you stay near the top'],
+      [I.gift,  'your first pin, free', 'that is $' + PIN_PRICE + ' back on day one']
+    ],
+    why: 'a brand opening the marketplace has thirty tabs open and ten minutes. <b>the badge is the fastest proof</b> that you are real, active and worth a message.'
   },
   pin: {
-    ic: IC_PIN, name: 'pin', price: PIN_PRICE, per: 'once · 24 hours',
+    ic: I.pin, name: 'pin', price: PIN_PRICE, per: 'once · 24 hours', note: 'one payment · no subscription',
     hook: '<b>24 hours on top.</b> everyone who opens the marketplace lands on you first.',
-    list: ['you pick: one of your posts, or your profile card','only a few pin slots run at a time','starts the moment it goes live','works on every device, every filter'],
-    why: 'position beats everything else on a marketplace. <b>the top row gets most of the clicks</b> and a pin puts you there for a full day.',
-    note: 'one payment · no subscription'
+    bubbles: [
+      [I.pin,   'straight to the top', 'above every other post and profile'],
+      [I.split, 'a post or your profile', 'you pick after you pay, not before'],
+      [I.clock, 'you start the clock', 'run it when your audience is awake'],
+      [I.rare,  'only a few slots', 'the top row stays rare on purpose']
+    ],
+    why: 'on a marketplace, <b>position beats everything else.</b> the top row takes most of the clicks, and a pin puts you there for a full day.'
   },
   agent: {
-    ic: IC_AGENT, name: 'agent', price: AGENT_PRICE, per: '/ month',
+    ic: I.spark, name: 'agent', price: AGENT_PRICE, per: '/ month', note: 'renews every 30 days · cancel any time',
     hook: 'hooks, scripts and edit notes <b>on demand.</b>',
-    list: ['ideas built around your niche, not generic ones','rewrites your posts so they actually land','tells you what to charge for a deal','remembers your goals between chats'],
-    why: 'the creators who win are not the ones filming more. <b>they are the ones with better hooks.</b> this is that, on tap.',
-    note: 'renews every 30 days · cancel any time'
+    bubbles: [
+      [I.pen,   'hooks that fit your niche', 'not generic AI filler, yours'],
+      [I.cycle, 'rewrites your posts', 'same idea, the version that lands'],
+      [I.tag,   'tells you what to charge', 'per deal, based on what you show'],
+      [I.brain, 'remembers your goals', 'pick up where you left off']
+    ],
+    why: 'the creators who win are not filming more. <b>they have better hooks.</b> this is that, any time you open it.'
   }
 };
 
@@ -137,50 +176,67 @@ let key = (q.get('perk')||'').toLowerCase();
 if(!PERKS[key]) key = Object.keys(PERKS).find(k => item.toLowerCase().includes(k)) || '';
 if(!key && /featured|spotlight/i.test(item)) key = 'pin';
 const P = PERKS[key];
+const vMain = document.getElementById('vMain'), vCrypto = document.getElementById('vCrypto');
 
 if(!P){
-  document.getElementById('pkBox').innerHTML = `<div class="pkname">pick a perk.</div>
-    <div class="pkhook">open your profile or the marketplace and choose <b>verified</b>, <b>pin</b> or <b>agent</b>.</div>`;
-  document.getElementById('payBox').innerHTML = `<a class="bigpay" href="app.html">go to the marketplace →</a>`;
+  vMain.innerHTML = `<div class="hero"><div class="hname">pick a perk<span class="grad">.</span></div>
+    <div class="hhook">open your profile and choose <b>verified</b>, <b>pin</b> or <b>agent</b>.</div></div>
+    <div class="paybox"><a class="way primary" href="app.html"><span class="wt">go to the marketplace →</span></a></div>`;
 } else {
-  document.getElementById('pkBox').innerHTML = `
-    <div class="pkic">${P.ic}</div>
-    <div class="pkname">${P.name}<span class="grad">.</span></div>
-    <div class="pkhook">${P.hook}</div>
-    <ul class="pkl">${P.list.map((l,i)=>`<li style="animation-delay:${.08*i+.1}s"><i>✓</i><span>${l}</span></li>`).join('')}</ul>
-    <div class="pkwhy">${P.why}</div>`;
-
   const link = PAY_LINKS[key] || '';
-  document.getElementById('payBox').innerHTML = `
-    <div class="pricerow"><span class="price">$${P.price}</span><span class="per">${P.per}</span></div>
-    <div class="pricenote">${item ? 'for <b>'+clean(item)+'</b>' : 'billed in USD, secured by Stripe'}</div>
-    ${link ? `<a class="bigpay" id="cardBtn" href="${link}" target="_blank" rel="noopener">${IC_CARD} pay with card</a>` : ''}
-    <div class="trust"><span>🔒 stripe checkout</span><span>apple pay</span><span>no card details touch us</span></div>
-    <div class="steps">
-      <div class="step"><i>1</i><span>put your <b>@username</b> in at checkout, that is how we find you</span></div>
-      <div class="step"><i>2</i><span>your perk switches on, usually <b>within minutes</b></span></div>
-      <div class="step"><i>3</i><span>${key==='pin' ? 'you get a message asking <b>what to pin</b>' : 'nothing else to do, it is live on your profile'}</span></div>
+  vMain.innerHTML = `
+    <div class="hero">
+      <div class="hic">${P.ic}</div>
+      <div class="hname">${P.name}<span class="grad">.</span></div>
+      <div class="hhook">${P.hook}</div>
     </div>
-    <div class="alt">
-      <button class="altbtn" id="altBtn"><span>or pay with crypto</span><span id="altChev">＋</span></button>
-      <div class="altwrap" id="altWrap">
-        <div class="coinrow" id="coinRow"></div>
+
+    <div class="bubbles">
+      ${P.bubbles.map((b,i)=>`<div class="bub" style="animation-delay:${.07*i+.12}s"><i>${b[0]}</i>
+        <div><div class="bt">${b[1]}</div><div class="bd">${b[2]}</div></div></div>`).join('')}
+    </div>
+
+    <div class="why">${P.why}</div>
+
+    <div class="paybox">
+      <div class="pricerow"><span class="price">$${P.price}</span><span class="per">${P.per}</span></div>
+      <div class="pricenote">${P.note}</div>
+      <div class="choose">how do you want to pay</div>
+      <div class="ways">
+        ${link ? `<a class="way primary" id="wCard" href="${link}" target="_blank" rel="noopener">${I.card}
+          <span class="wt">card</span><span class="wd">visa, mastercard, apple pay</span></a>` : ''}
+        <button class="way" id="wCrypto">${I.coin}<span class="wt">crypto</span><span class="wd">SOL · ETH · BTC</span></button>
+      </div>
+      <div class="trust"><span>🔒 card payments run on stripe</span><span>we never see your card</span><span>put your @username in at checkout</span></div>
+    </div>`;
+
+  vCrypto.innerHTML = `
+    <button class="backlink" id="cBack">← back</button>
+    <div class="paybox" style="margin-top:0">
+      <div class="pricerow"><span class="price">$${P.price}</span><span class="per">in ${P.name}</span></div>
+      <div class="pricenote">send the amount, then tell us and it goes live</div>
+      <div class="choose">tap a coin to copy the address</div>
+      <div class="coinrow" id="coinRow"></div>
+      <div style="max-width:420px;margin:26px auto 0;text-align:left">
+        <label>your @username on YOUgc</label>
+        <input type="text" id="cUser" placeholder="@yourname" maxlength="40">
         <label class="mt2">promo or referral code <span style="text-transform:none;font-weight:400">(optional)</span></label>
         <input type="text" id="promo" placeholder="YOUGC10-..." maxlength="40">
-        <a class="btn ghost full mt2" id="mailBtn" href="mailto:yougcmarket@gmail.com">i sent it, verify me →</a>
+        <a class="btn full mt2" id="mailBtn" href="mailto:yougcmarket@gmail.com">i sent it, turn it on →</a>
       </div>
-      <a class="smalllink" href="mailto:yougcmarket@gmail.com">something wrong? write to us</a>
+      <a class="smalllink" href="mailto:yougcmarket@gmail.com">another coin, or something wrong? write to us</a>
     </div>`;
 
   try{ track('pay·view·'+key); }catch(e){}
-  const cb = document.getElementById('cardBtn');
-  if(cb) cb.addEventListener('click', ()=>{ try{ track('pay·card·'+key); }catch(e){} });
+  document.getElementById('wCard')?.addEventListener('click', ()=>{ try{ track('pay·card·'+key); }catch(e){} });
 
-  const altBtn = document.getElementById('altBtn'), altWrap = document.getElementById('altWrap');
-  altBtn.addEventListener('click', ()=>{
-    altWrap.classList.toggle('open');
-    document.getElementById('altChev').textContent = altWrap.classList.contains('open') ? '−' : '＋';
-  });
+  const show = which => {
+    vMain.classList.toggle('on', which === 'main');
+    vCrypto.classList.toggle('on', which === 'crypto');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+  document.getElementById('wCrypto').addEventListener('click', ()=>{ try{ track('pay·crypto·'+key); }catch(e){} show('crypto'); });
+  document.getElementById('cBack').addEventListener('click', ()=> show('main'));
 
   const coinRow = document.getElementById('coinRow');
   coinRow.innerHTML = Object.keys(CRYPTO_ADDR).map(k=>
@@ -200,12 +256,14 @@ if(!P){
   });
 
   function buildMail(){
+    const user = document.getElementById('cUser').value.trim();
     const code = document.getElementById('promo').value.trim();
-    const subj = 'payment: ' + (item || P.name) + ' ($' + P.price + ')';
-    const body = 'perk: ' + P.name + '\nmy @username: \ntransaction link: ' + (code ? '\npromo code: ' + code : '');
+    const subj = 'crypto payment: ' + P.name + ' ($' + P.price + ')' + (user ? ' — ' + user : '');
+    const body = 'perk: ' + P.name + '\nmy @username: ' + user + '\ntransaction link: ' + (code ? '\npromo code: ' + code : '');
     document.getElementById('mailBtn').href = 'mailto:yougcmarket@gmail.com?subject=' + encodeURIComponent(subj) + '&body=' + encodeURIComponent(body);
   }
   buildMail();
+  document.getElementById('cUser').addEventListener('input', buildMail);
   document.getElementById('promo').addEventListener('input', buildMail);
 }
 </script>

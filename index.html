@@ -234,8 +234,11 @@
   @keyframes phf1{from{transform:rotate(-7deg) translateY(26px)}to{transform:rotate(-8.5deg) translateY(8px)}}
   @keyframes phf2{from{transform:translateY(0)}to{transform:translateY(-16px)}}
   @keyframes phf3{from{transform:rotate(7deg) translateY(30px)}to{transform:rotate(8.5deg) translateY(12px)}}
-  @media(max-width:940px){.ph3{display:none}.ph1{margin-right:-20px}}
-  @media(max-width:640px){.ph1{display:none}.phones{margin-top:36px}}
+  .phonewrap{transform-origin:top center}
+  @media(max-width:1040px){.phonewrap{transform:scale(.86);margin-bottom:-70px}}
+  @media(max-width:860px){.phonewrap{transform:scale(.62);margin-bottom:-200px}}
+  @media(max-width:640px){.phonewrap{transform:scale(.42);margin-bottom:-320px}}
+  @media(max-width:420px){.phonewrap{transform:scale(.34);margin-bottom:-360px}}
 
   /* floating chips around the feed post */
   .postwrap{flex:1;min-width:300px;max-width:440px;position:relative}
@@ -245,7 +248,8 @@
   .fc2{bottom:-20px;left:-30px;animation:fch2 6s ease-in-out infinite alternate}
   @keyframes fch1{from{transform:translateY(0) rotate(1.5deg)}to{transform:translateY(-10px) rotate(-1deg)}}
   @keyframes fch2{from{transform:translateY(0) rotate(-1.5deg)}to{transform:translateY(9px) rotate(1deg)}}
-  @media(max-width:760px){.fchip{display:none}}
+  @media(max-width:760px){.fchip{font-size:.68rem;padding:8px 14px}.fc1{top:-16px;right:-8px}.fc2{bottom:-14px;left:-8px}}
+  @media(max-width:460px){.fchip{display:none}}
 
   footer{padding:52px 6vw 40px;text-align:center;color:var(--ink-soft);font-size:.85rem;font-weight:500}
   footer .logo{font-size:1.6rem;margin-bottom:12px}
@@ -291,7 +295,16 @@
   .proshot img{width:100%;border-radius:20px;display:block}
   .extag{position:absolute;top:-15px;right:22px;z-index:2;padding:9px 20px;border-radius:999px;font-size:.82rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#fff;
     background:linear-gradient(120deg,#6E96C8,#D98BB0);box-shadow:0 10px 22px -10px rgba(110,150,200,.7)}
-  @media(max-width:1040px){.psfl{display:none}}
+  @media(max-width:1040px){
+    .crewrap{flex-direction:column;align-items:stretch;gap:26px}
+    .psfl{margin:0 auto;align-self:center;max-width:100%}
+    .proshot{width:min(430px,88vw)}
+  }
+  @media(max-width:640px){
+    .psfl{animation:none}
+    .proshot{width:min(400px,92vw);padding:7px;border-radius:24px}
+    .proshot img{border-radius:17px}
+  }
   html.dark .proshot{background:linear-gradient(#171F34,#171F34) padding-box, linear-gradient(120deg,#2E4A73,#8A4B6E,#2C5C46,#2E4A73) border-box}
 
   /* studio band */
@@ -317,7 +330,7 @@
   .sf3{bottom:40px;left:9%;animation-delay:1.4s}
   .sf4{bottom:34px;right:9%;animation-delay:.4s}
   @keyframes sfl{from{transform:translateY(-7px) rotate(-5deg)}to{transform:translateY(7px) rotate(5deg)}}
-  @media(max-width:640px){.stubfloat{display:none}}
+  @media(max-width:640px){.stubfloat{font-size:1.5rem;opacity:.55}}
 
   /* ---- dark mode ---- */
   html.dark body{background:#182136;color:#EAF0FA}
@@ -467,7 +480,7 @@
     <h2 style="margin:0 auto">we help make videos <span class="grad">like these.</span></h2>
     <p class="lead" style="margin:18px auto 0">find each other, close the deal in the DMs, and if you want it, the <a href="studio.html" style="color:var(--gradB);font-weight:700">YOUgc studio</a> jumps in with hooks, scripts and edits that make the video hit.</p>
   </div>
-  <div class="phones reveal">
+  <div class="phonewrap"><div class="phones reveal">
 
     <div class="phone ph1">
       <div class="screen">
@@ -538,7 +551,7 @@
       <div class="homebar"></div>
     </div>
 
-  </div>
+  </div></div>
 </section>
 
 <section id="studio">

@@ -7,7 +7,7 @@
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="stylesheet" href="style.css">
 <style>
-.setgrid{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:stretch;margin-top:12px}
+.setgrid{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:start;margin-top:12px}
 @media(max-width:800px){.setgrid{grid-template-columns:1fr}}
 .setcard{padding:40px 44px}
 .setcard h3{font-size:1.4rem;font-weight:700;margin-bottom:18px;font-family:'Space Grotesk',sans-serif;letter-spacing:-.02em}
@@ -47,6 +47,12 @@ input[type=email],input[type=password]{font-size:1rem;padding:15px 18px}
         <button class="btn small mt1" id="emailBtn">update email</button>
         <div class="msg" id="msgA"></div>
         <p class="muted mt2">name, picture, links, niches and profile color live in <a href="onboard.html" style="color:var(--cblue);font-weight:600">edit profile</a>.</p>
+
+        <div id="verBox" class="mt3" style="display:none;padding:22px 24px;border-radius:18px;background:linear-gradient(120deg,rgba(191,215,242,.5),rgba(244,207,223,.5))">
+          <div style="font-weight:700;margin-bottom:4px;font-size:1.05rem">verified pack <span class="vbadge">✓</span></div>
+          <p class="muted" style="margin-bottom:12px">the ✓ on your name, highlighted profile, 3 posts a day and your first featured post free. one time $<span id="verPrice">3.99</span>.</p>
+          <a class="btn small" id="verBtn">get verified →</a>
+        </div>
       </div>
 
       <div class="card setcard reveal on">
@@ -57,12 +63,6 @@ input[type=email],input[type=password]{font-size:1rem;padding:15px 18px}
         <input type="password" id="newPass" placeholder="min 6 characters" autocomplete="new-password">
         <button class="btn small mt1" id="passBtn">update password</button>
         <div class="msg" id="msgB"></div>
-
-        <div id="verBox" class="mt3" style="display:none;padding:18px 20px;border-radius:18px;background:linear-gradient(120deg,rgba(191,215,242,.5),rgba(244,207,223,.5))">
-          <div style="font-weight:700;margin-bottom:4px">verified pack <span class="vbadge">✓</span></div>
-          <p class="muted" style="margin-bottom:12px">the ✓ on your name, highlighted profile, 3 posts a day and your first featured post free. one time $<span id="verPrice">3.99</span>.</p>
-          <a class="btn small" id="verBtn">get verified →</a>
-        </div>
 
         <button class="btn ghost full mt3" id="logout">log out</button>
         <p class="muted mt2 center" style="font-size:.75rem">want your account deleted? <a href="mailto:yougcmarket@gmail.com?subject=delete%20my%20account" style="color:var(--cblue);font-weight:600">email us</a> · fast response</p>

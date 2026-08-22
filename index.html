@@ -127,9 +127,8 @@
   .reveal.on{opacity:1;transform:translateY(0)}
 
   .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:26px;margin-top:52px}
-  #creators .steps{grid-template-columns:repeat(4,1fr)}
-  @media(max-width:1000px){#creators .steps{grid-template-columns:repeat(2,1fr)}}
-  @media(max-width:560px){#creators .steps{grid-template-columns:1fr}}
+  #creators .steps{grid-template-columns:repeat(2,1fr)}
+  @media(max-width:640px){#creators .steps{grid-template-columns:1fr}}
   .step{background:rgba(255,255,255,.8);backdrop-filter:blur(10px);border:1.5px solid rgba(255,255,255,.95);border-radius:30px;padding:48px 40px;box-shadow:0 18px 46px -22px rgba(46,74,115,.24);transition:transform .3s, border-color .3s;will-change:transform}
   .step:hover{transform:translateY(-6px);border-color:var(--ink)}
   .step .n{font-size:1rem;font-weight:800;letter-spacing:.1em;display:inline-block;padding:11px 22px;border-radius:999px;margin-bottom:22px}
@@ -266,15 +265,15 @@
   .crewrap{display:flex;justify-content:space-between;align-items:center;gap:44px}
   .psfl{flex-shrink:0;display:inline-block;animation:psfloat 6s ease-in-out infinite alternate;will-change:transform}
   @keyframes psfloat{from{transform:translateY(-7px) rotate(2deg)}to{transform:translateY(7px) rotate(3deg)}}
-  .proshot{display:block;width:330px;border-radius:28px;padding:10px 10px 4px;border:3px solid transparent;text-decoration:none;
+  .proshot{position:relative;display:block;width:310px;border-radius:28px;padding:9px;border:3px solid transparent;
     background:linear-gradient(#fff,#fff) padding-box, linear-gradient(120deg,#BFD7F2,#F4CFDF,#BFE8D4,#BFD7F2) border-box;
     box-shadow:0 32px 66px -26px rgba(46,74,115,.5);transition:transform .3s,box-shadow .3s}
-  .proshot:hover{transform:scale(1.045) rotate(-1deg);box-shadow:0 40px 80px -28px rgba(46,74,115,.6)}
+  .proshot:hover{transform:scale(1.035) rotate(-1deg);box-shadow:0 40px 80px -28px rgba(46,74,115,.6)}
   .proshot img{width:100%;border-radius:20px;display:block}
-  .pslabel{display:block;text-align:center;font-size:.85rem;font-weight:700;color:var(--ink);padding:10px 0 6px}
+  .extag{position:absolute;top:-13px;right:18px;z-index:2;padding:7px 16px;border-radius:999px;font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#fff;
+    background:linear-gradient(120deg,#6E96C8,#D98BB0);box-shadow:0 10px 22px -10px rgba(110,150,200,.7)}
   @media(max-width:940px){.psfl{display:none}}
   html.dark .proshot{background:linear-gradient(#171F34,#171F34) padding-box, linear-gradient(120deg,#2E4A73,#8A4B6E,#2C5C46,#2E4A73) border-box}
-  html.dark .pslabel{color:#EAF0FA}
 
   /* studio band */
   #studio{padding-top:2vh}
@@ -403,10 +402,10 @@
       <h2>your profile is <span class="grad">your pitch.</span></h2>
       <p class="lead">set it up once. brands come to you.</p>
     </div>
-    <span class="psfl reveal"><a class="proshot" href="profile.html?u=liacreates" title="open lia's live profile">
-      <img src="lia_profile.jpg" alt="a live creator profile on YOUgc">
-      <span class="pslabel">✨ a live creator profile · tap to open</span>
-    </a></span>
+    <span class="psfl reveal"><span class="proshot">
+      <span class="extag">example profile</span>
+      <img src="lia_profile.jpg" alt="example creator profile on YOUgc">
+    </span></span>
   </div>
   <div class="steps">
     <div class="step reveal"><span class="n">01</span><h4>build your profile</h4><p>photo, bio, and links to all your accounts. one profile, everything you do.</p></div>

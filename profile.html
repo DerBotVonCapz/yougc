@@ -59,7 +59,7 @@ h2.page{font-size:1.7rem !important;margin-top:4px}
 </div>
 
 <script type="module">
-import { sb, currentUser, blobsHTML, initMotion, logoHTML, esc, timeAgo, avatarHTML, vbadge, SOCIAL_FIELDS, clipEmbed } from './app.js';
+import { sb, currentUser, blobsHTML, initMotion, logoHTML, esc, timeAgo, avatarHTML, vbadge, SOCIAL_FIELDS, clipEmbed, isDark } from './app.js';
 import { VERIFIED_PRICE, SPOTLIGHT_PRICE, PAY_URL } from './config.js';
 const ACCENTS = { blue:['#BFD7F2','#DCE9F9'], pink:['#F4CFDF','#FBE3EE'], mint:['#BFE8D4','#DFF2E7'], lavender:['#D8CCF2','#EAE3F9'], peach:['#F8D8C4','#FBEBDD'], sand:['#EFE3C6','#F7F0DE'] };
 const payHref = (item, price) => PAY_URL || ('pay.html?item=' + encodeURIComponent(item) + '&price=' + encodeURIComponent(price));
@@ -78,7 +78,9 @@ if(!p){
   const u = await currentUser();
   const isOwner = !!(u && u.id === p.id);
   const ac = ACCENTS[p.accent] || ACCENTS.blue;
-  card.style.background = `radial-gradient(circle at 18% 12%, ${ac[0]}B3, transparent 58%), radial-gradient(circle at 88% 85%, ${ac[1]}A6, transparent 55%), radial-gradient(circle at 60% 40%, ${ac[0]}40, transparent 60%), rgba(255,255,255,.8)`;
+  card.style.background = isDark()
+    ? `radial-gradient(circle at 18% 12%, ${ac[0]}30, transparent 58%), radial-gradient(circle at 88% 85%, ${ac[1]}28, transparent 55%), rgba(18,26,44,.88)`
+    : `radial-gradient(circle at 18% 12%, ${ac[0]}B3, transparent 58%), radial-gradient(circle at 88% 85%, ${ac[1]}A6, transparent 55%), radial-gradient(circle at 60% 40%, ${ac[0]}40, transparent 60%), rgba(255,255,255,.8)`;
   const joined = new Date(p.created_at).toLocaleDateString('en-US',{month:'short',year:'numeric'}).toLowerCase();
   const { count: followers } = await sb.from('follows').select('*',{count:'exact',head:true}).eq('followed', p.id);
   let iFollow = false;

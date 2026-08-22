@@ -53,6 +53,8 @@
         <div class="thead" id="thead"><span class="muted" style="font-weight:500">pick a chat, or hit "message" on any profile</span></div>
         <div class="msgs" id="msgs"><div class="emptyc">no chat open.<br>find creators and brands on the marketplace and message them.</div></div>
         <div class="msgbar" style="display:none" id="msgbar">
+          <button class="btn small ghost" id="attBtn" title="send a photo, video or file" style="padding:10px 15px;font-size:1rem">📎</button>
+          <input type="file" id="attFile" style="display:none">
           <input type="text" id="msgText" maxlength="1000" placeholder="write a message…">
           <button class="btn small" id="sendBtn">send</button>
         </div>
@@ -130,8 +132,17 @@ function renderThread(msgs){
   const sorted = [...msgs].sort((a,b)=> new Date(a.created_at) - new Date(b.created_at));
   const nearBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 80;
   const maxId = sorted.length ? sorted[sorted.length-1].id : 0;
-  el.innerHTML = sorted.map(m=>`
-    <div class="bubble ${m.sender===me.id?'me':'them'}">${esc(m.text)}<div class="btime">${timeAgo(m.created_at)}</div></div>`).join('')
+  el.innerHTML = sorted.map(m=>{
+    let att='';
+    if(m.att && m.att.url){
+      const u=esc(m.att.url), ty=String(m.att.type||'');
+      if(ty.startsWith('image/')) att=`<a href="${u}" target="_blank" rel="noopener"><img src="${u}" style="max-width:100%;max-height:340px;border-radius:12px;display:block;margin-bottom:6px" loading="lazy"></a>`;
+      else if(ty.startsWith('video/')) att=`<video src="${u}" controls style="max-width:100%;max-height:340px;border-radius:12px;display:block;margin-bottom:6px"></video>`;
+      else att=`<a href="${u}" target="_blank" rel="noopener" style="display:block;font-weight:700;margin-bottom:4px;color:inherit">📎 ${esc(m.att.name||'file')}</a>`;
+    }
+    const hideText = att && m.text && m.text.startsWith('📎 ');
+    return `<div class="bubble ${m.sender===me.id?'me':'them'}">${att}${hideText?'':esc(m.text)}<div class="btime">${timeAgo(m.created_at)}</div></div>`;
+  }).join('')
     || '<div class="emptyc">say hi. keep it professional, deals start here.</div>';
   if(nearBottom || maxId > lastMsgId) el.scrollTop = el.scrollHeight;
   lastMsgId = maxId;
@@ -148,6 +159,35 @@ async function send(){
 }
 document.getElementById('sendBtn').addEventListener('click', send);
 document.getElementById('msgText').addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); send(); } });
+
+// attachments: photos, videos, files
+const attBtn = document.getElementById('attBtn'), attFile = document.getElementById('attFile');
+attBtn.addEventListener('click', ()=>{ if(active) attFile.click(); });
+attFile.addEventListener('change', async ()=>{
+  const f = attFile.files[0]; attFile.value='';
+  const inp = document.getElementById('msgText');
+  if(!f || !active) return;
+  if(f.size > 25*1024*1024){ inp.value=''; inp.placeholder='max file size is 25 MB.'; return; }
+  attBtn.disabled = true; attBtn.textContent = '⏳';
+  try{
+    const safe = f.name.replace(/[^a-zA-Z0-9._-]/g,'_').slice(-60);
+    const path = `${me.id}/${Date.now()}_${safe}`;
+    const { error: upErr } = await sb.storage.from('chatfiles').upload(path, f);
+    if(upErr) throw upErr;
+    const url = sb.storage.from('chatfiles').getPublicUrl(path).data.publicUrl;
+    const t = inp.value.trim();
+    if(t && hasSlurs(t)){ inp.value=''; inp.placeholder='that language has no place here.'; throw new Error('slur'); }
+    inp.value='';
+    const { error } = await sb.from('messages').insert({
+      sender: me.id, recipient: active.id,
+      text: t || ('📎 ' + f.name.slice(0,80)),
+      att: { url, type: f.type, name: f.name, size: f.size }
+    });
+    if(error) throw error;
+    await loadAll();
+  }catch(err){ if((err.message||'')!=='slur'){ inp.placeholder='upload failed. try again.'; } }
+  attBtn.disabled = false; attBtn.textContent = '📎';
+});
 
 // notifications: new followers
 (async ()=>{

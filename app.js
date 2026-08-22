@@ -67,7 +67,26 @@ export function blobsHTML(){
   return `<div class="bg-blobs"><div class="blob b1" data-depth="26"></div><div class="blob b2" data-depth="-34"></div><div class="blob b3" data-depth="20"></div></div><div class="grain"></div>`;
 }
 
+// dark mode: remembers choice, adds a moon toggle to the top nav
+export function isDark(){ try{ return localStorage.getItem('yougc_dark')==='1'; }catch(e){ return false; } }
+function initTheme(){
+  if(isDark()) document.documentElement.classList.add('dark');
+  const nav = document.querySelector('nav.top .navlinks') || document.querySelector('nav.top');
+  if(!nav || document.getElementById('themeBtn')) return;
+  const b = document.createElement('a');
+  b.id='themeBtn'; b.className='nav-cta'; b.href='#'; b.title='switch theme';
+  b.style.cssText='padding:9px 13px;font-size:1rem;line-height:1';
+  b.textContent = isDark() ? '☀️' : '🌙';
+  b.addEventListener('click', e=>{
+    e.preventDefault();
+    try{ localStorage.setItem('yougc_dark', isDark() ? '0' : '1'); }catch(err){}
+    location.reload();
+  });
+  nav.appendChild(b);
+}
+
 export function initMotion(){
+  initTheme();
   const blobs=[...document.querySelectorAll('[data-depth]')];
   window.addEventListener('mousemove',e=>{
     const mx=(e.clientX/innerWidth-.5), my=(e.clientY/innerHeight-.5);

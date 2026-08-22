@@ -75,7 +75,7 @@ textarea#bio{min-height:130px}
 </div>
 
 <script type="module">
-import { sb, currentUser, myProfile, NICHES, SOCIAL_FIELDS, blobsHTML, initMotion, logoHTML, showMsg, esc, hasSlurs, clipEmbed } from './app.js';
+import { sb, currentUser, myProfile, NICHES, SOCIAL_FIELDS, blobsHTML, initMotion, logoHTML, showMsg, esc, hasSlurs, clipEmbed, isDark } from './app.js';
 document.getElementById('bg').outerHTML = blobsHTML();
 document.getElementById('logo').outerHTML = logoHTML();
 initMotion();
@@ -119,8 +119,9 @@ const ACCENTS = { blue:['#BFD7F2','#DCE9F9'], pink:['#F4CFDF','#FBE3EE'], mint:[
 let accent = existing?.accent || 'blue';
 function previewAccent(){
   const c = ACCENTS[accent];
-  document.querySelector('.card').style.background =
-    `radial-gradient(circle at 18% 12%, ${c[0]}99, transparent 55%), radial-gradient(circle at 88% 85%, ${c[1]}88, transparent 52%), rgba(255,255,255,.82)`;
+  document.querySelector('.card').style.background = isDark()
+    ? `radial-gradient(circle at 18% 12%, ${c[0]}28, transparent 55%), radial-gradient(circle at 88% 85%, ${c[1]}22, transparent 52%), rgba(18,26,44,.88)`
+    : `radial-gradient(circle at 18% 12%, ${c[0]}99, transparent 55%), radial-gradient(circle at 88% 85%, ${c[1]}88, transparent 52%), rgba(255,255,255,.82)`;
 }
 function renderAccents(){
   document.getElementById('accentPick').innerHTML = Object.entries(ACCENTS).map(([k,c])=>

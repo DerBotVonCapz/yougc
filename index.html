@@ -171,6 +171,12 @@
   .band p{color:var(--ink-soft);font-size:1rem;margin-top:12px;max-width:480px;line-height:1.65;font-weight:500}
   .band .bcta{background:linear-gradient(120deg,#BFD7F2,#F4CFDF);color:var(--ink);border:2.5px solid rgba(255,255,255,.98);box-shadow:0 16px 34px -14px rgba(110,150,200,.6);font-weight:800;font-size:1.05rem;padding:18px 42px;border-radius:999px;text-decoration:none;transition:transform .25s,box-shadow .25s}
   .band .bcta:hover{transform:scale(1.06);box-shadow:0 22px 44px -16px rgba(110,150,200,.75)}
+  .band .bcta.xbtn{display:inline-flex;align-items:center;gap:9px;background:#0F1419;color:#fff;border-color:transparent;box-shadow:0 16px 34px -14px rgba(15,20,25,.6)}
+  .band .bcta.xbtn:hover{background:#000}
+  .sico{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.75);color:var(--ink);border:1.5px solid rgba(30,51,80,.12);transition:transform .22s,background .22s,color .22s}
+  .sico:hover{transform:translateY(-3px);background:var(--ink);color:#fff}
+  html.dark .sico{background:rgba(23,32,50,.7);border-color:rgba(255,255,255,.14);color:#EAF0FA}
+  html.dark .sico:hover{background:#E7EDF7;color:#16213A}
   .jarrow{font-size:2.6rem;font-weight:800;line-height:1;animation:jax 1.4s ease-in-out infinite, jcol 4.5s linear infinite;will-change:transform,opacity}
   @keyframes jax{0%,100%{transform:translateX(-8px);opacity:.5}50%{transform:translateX(8px);opacity:1}}
   @keyframes jcol{0%{color:#6E96C8}30%{color:#D98BB0}60%{color:#E8926B}80%{color:#57C7A3}100%{color:#6E96C8}}
@@ -586,6 +592,7 @@
       <span class="jarrow" aria-hidden="true">→</span>
       <a class="bcta" href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false">join free</a>
       <a class="bcta" href="https://discord.gg/kXcK5W9HC" target="_blank" rel="noopener" style="background:linear-gradient(120deg,#5865F2,#7983F5);color:#fff;border-color:transparent">join the discord</a>
+      <a class="bcta xbtn" href="https://x.com/yougcmarket" target="_blank" rel="noopener" aria-label="follow YOUgc on X"><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>follow on X</a>
     </span>
   </div>
 </section>
@@ -593,6 +600,10 @@
 <footer>
   <a class="logo" href="index.html"><img src="logo.png" alt="YOUgc" style="height:44px"></a><br>
   real creators. real brands. real deals.<br>© 2026 YOUgc<br>
+  <span style="display:inline-flex;gap:10px;justify-content:center;margin:14px 0 12px">
+    <a class="sico" href="https://x.com/yougcmarket" target="_blank" rel="noopener" aria-label="YOUgc on X"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+    <a class="sico" href="https://discord.gg/kXcK5W9HC" target="_blank" rel="noopener" aria-label="YOUgc discord"><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="currentColor" d="M20.317 4.369A19.79 19.79 0 0 0 15.432 3c-.21.375-.455.88-.624 1.28a18.27 18.27 0 0 0-5.487 0A12.6 12.6 0 0 0 8.69 3 19.74 19.74 0 0 0 3.8 4.37C.72 8.94-.116 13.394.302 17.786a19.9 19.9 0 0 0 6.03 3.03c.487-.662.92-1.365 1.294-2.104a12.9 12.9 0 0 1-2.038-.978c.171-.125.338-.256.5-.39a14.2 14.2 0 0 0 12.028 0c.163.135.33.266.5.39-.65.383-1.334.71-2.04.98.374.738.807 1.441 1.293 2.103a19.85 19.85 0 0 0 6.032-3.03c.49-5.09-.838-9.51-3.584-13.418ZM8.02 15.114c-1.183 0-2.157-1.086-2.157-2.42 0-1.332.952-2.42 2.157-2.42 1.204 0 2.177 1.088 2.157 2.42 0 1.334-.953 2.42-2.157 2.42Zm7.96 0c-1.184 0-2.157-1.086-2.157-2.42 0-1.332.952-2.42 2.157-2.42 1.204 0 2.177 1.088 2.157 2.42 0 1.334-.952 2.42-2.157 2.42Z"/></svg></a>
+  </span><br>
   <span style="font-size:.78rem"><a href="terms.html" style="color:var(--ink-soft)">terms</a> · <a href="privacy.html" style="color:var(--ink-soft)">privacy</a> · <a href="impressum.html" style="color:var(--ink-soft)">legal notice</a></span>
 </footer>
 

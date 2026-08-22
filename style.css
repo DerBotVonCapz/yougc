@@ -72,7 +72,7 @@ textarea{resize:vertical;min-height:90px}
 .avatar.ph{display:flex;align-items:center;justify-content:center;font-weight:700;color:#2E4A73;font-size:1.1rem}
 
 /* feed */
-.appwrap{max-width:1120px;margin:0 auto;padding:0 5vw 10vh}
+.appwrap{max-width:1200px;margin:0 auto;padding:0 5vw 10vh}
 .mainGrid{display:grid;grid-template-columns:1fr 330px;gap:26px;align-items:start;margin-top:10px}
 @media(max-width:920px){.mainGrid{grid-template-columns:1fr}}
 .sideCol{position:sticky;top:20px}

@@ -22,10 +22,27 @@
   @keyframes blink{0%,60%,100%{opacity:.2}30%{opacity:1}}
   .prep .sub{margin:34px auto 0;max-width:620px;font-size:clamp(1.05rem,1.9vw,1.35rem);font-weight:600;line-height:1.65;color:var(--ink)}
   .prep .sub .grad2{background:linear-gradient(90deg,#2E4A73,#6E96C8,#D98BB0);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .prepmarq{margin:6vh 0 0;overflow:hidden;white-space:nowrap;padding:10px 0}
+  .prepmarq{margin:calc(6vh + 56px) 0 0;overflow:hidden;white-space:nowrap;padding:10px 0}
   .prepmarq .ptrack{display:inline-block;animation:pscroll 36s linear infinite;font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:-.02em;font-size:1.5rem;color:rgba(30,51,80,.16)}
   .prepmarq .ptrack b{color:rgba(110,150,200,.45);font-weight:700}
   @keyframes logosheen{from{background-position:-160% 0,0 0}to{background-position:260% 0,0 0}}
+  .mainGrid{grid-template-columns:1fr 380px !important;gap:34px !important}
+  #composer textarea{min-height:230px;font-size:1rem}
+  #composer{padding:34px}
+  #composer label{font-size:.85rem}
+  .tabs.main{gap:10px;margin:16px 0 14px}
+  .tabs.main .tab{font-size:1rem;font-weight:700;padding:13px 30px}
+  .tabs.main .tab.on{background:linear-gradient(120deg,#2E4A73,#6E96C8);border-color:transparent;box-shadow:0 10px 24px -10px rgba(46,74,115,.5)}
+  .tabs.roletabs{gap:8px;margin:0 0 14px}
+  .rtab{padding:8px 20px;border-radius:999px;font-size:.82rem;font-weight:600;cursor:pointer;background:rgba(255,255,255,.6);border:1.5px solid rgba(30,51,80,.1);color:var(--ink-soft);transition:all .2s}
+  .rtab:hover{transform:translateY(-2px)}
+  .rtab.on{background:linear-gradient(120deg,#F4CFDF,#BFD7F2);color:var(--ink);border-color:transparent;font-weight:700}
+  .post{padding:34px}
+  .ptext{font-size:1rem !important;line-height:1.7 !important}
+  .pname{font-size:1.05rem !important}
+  .avatar{width:56px;height:56px}
+  .spotrow{gap:14px !important;margin-bottom:26px !important}
+  #searchInp{padding:16px 20px;font-size:1rem}
   @keyframes pscroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 </style>
 </head>
@@ -51,11 +68,16 @@
         <input type="text" id="searchInp" placeholder="🔎 search creators and brands…" autocomplete="off" style="margin-bottom:12px">
         <div id="searchRes"></div>
 
-        <div class="tabs">
+        <div class="tabs main">
           <span class="tab on" data-tab="all">everyone</span>
           <span class="tab" data-tab="mine">my categories</span>
         </div>
-        <div class="chips" id="filterChips" style="margin-bottom:18px"></div>
+        <div class="tabs roletabs">
+          <span class="rtab on" data-r="">all</span>
+          <span class="rtab" data-r="creator">creators</span>
+          <span class="rtab" data-r="brand">brands</span>
+        </div>
+        <div class="chips" id="filterChips" style="margin-bottom:22px"></div>
 
         <div id="feed"><p class="muted center mt3">loading…</p></div>
       </div>
@@ -65,7 +87,7 @@
           <label style="margin-top:0">your post</label>
           <textarea id="postText" maxlength="500" placeholder=""></textarea>
           <button class="btn small full mt1" id="postBtn">post</button>
-          <a class="feat" id="featLink" href="#" style="text-decoration:none"><span>✦ <b>feature your post</b> · top of the feed for 24h · $<span id="featPrice">25</span></span></a>
+          <a class="btn ghost small full mt1" id="featLink" href="#" style="border-color:rgba(30,51,80,.3)">✦ feature your post · 24h on top · $<span id="featPrice">25</span></a>
           <div class="msg" id="postMsg"></div>
         </div>
       </aside>
@@ -106,10 +128,10 @@ if(!LIVE){
       </p>
       <a class="btn mt3" id="prepProfile" href="#" style="font-size:1.05rem;padding:17px 38px">my profile →</a>
       <div class="card" style="max-width:480px;margin:36px auto 0;text-align:left">
-        <div style="font-weight:700;margin-bottom:10px">get an email the moment the doors open</div>
+        <div style="font-weight:700;margin-bottom:10px">get an email the moment the doors open 🔔</div>
         <div style="display:flex;gap:10px;flex-wrap:wrap">
           <input type="email" id="wlEmail" style="flex:1;min-width:180px">
-          <button class="btn small" id="wlBtn" style="padding:13px 24px">notify me</button>
+          <button class="btn small" id="wlBtn" style="padding:13px 26px;background:linear-gradient(120deg,#6E96C8,#D98BB0);font-size:.9rem">notify me 🔔</button>
         </div>
         <div class="msg" id="wlMsg"></div>
       </div>
@@ -248,9 +270,14 @@ if(!LIVE){
     }, 280);
   });
 
-  let tab='all', activeNiches=new Set();
+  let tab='all', activeNiches=new Set(), roleFilter='';
+  document.querySelectorAll('.rtab').forEach(t=>t.addEventListener('click',()=>{
+    document.querySelectorAll('.rtab').forEach(x=>x.classList.remove('on'));
+    t.classList.add('on'); roleFilter=t.dataset.r; load();
+  }));
   const filterEl=document.getElementById('filterChips');
-  filterEl.innerHTML = NICHES.map(n=>`<span class="chip filter" data-n="${esc(n)}">${esc(n)}</span>`).join('');
+  const TOP_NICHES = ['lifestyle','crypto','beauty','fitness','fashion','gaming','food','travel'];
+  filterEl.innerHTML = TOP_NICHES.map(n=>`<span class="chip filter" data-n="${esc(n)}">${esc(n)}</span>`).join('');
   filterEl.addEventListener('click',e=>{
     const c=e.target.closest('.chip'); if(!c) return;
     const n=c.dataset.n;
@@ -275,6 +302,7 @@ if(!LIVE){
     const featTop = rows.filter(isFeatRaw).slice(0,5);
     const isFeat = p => featTop.includes(p);
     rows = [...featTop, ...rows.filter(p=>!featTop.includes(p))];
+    if(roleFilter){ rows = rows.filter(p=>p.profiles.role===roleFilter); }
     if(tab==='mine' && me.niches?.length){
       const mine=new Set(me.niches);
       rows = rows.filter(p=>(p.profiles.niches||[]).some(n=>mine.has(n)));

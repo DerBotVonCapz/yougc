@@ -10,16 +10,22 @@
   .floatlogo{position:fixed;z-index:60;opacity:.9;user-select:none;pointer-events:none;will-change:transform;left:0;top:0}
   .floatlogo img{height:56px;display:block}
   .prep{text-align:center;padding:6vh 0 8vh;max-width:100% !important}
-  .prep .big{font-family:'Space Grotesk','Poppins',sans-serif;font-weight:700;letter-spacing:-.05em;line-height:.98;
+  .prep .big{position:relative;display:inline-block;font-family:'Space Grotesk','Poppins',sans-serif;font-weight:700;letter-spacing:-.04em;line-height:.98;
     font-size:clamp(3.2rem,10.2vw,9.6rem);white-space:nowrap;
-    background:linear-gradient(95deg,#2E4A73 0%,#6E96C8 22%,#D98BB0 44%,#E8926B 62%,#6E96C8 82%,#2E4A73 100%);
+    background:linear-gradient(95deg,#7FA6D4 0%,#A9C6EA 18%,#EFB9D2 42%,#F2C9AE 62%,#A9DCC4 82%,#7FA6D4 100%);
     background-size:220% 100%;
     -webkit-background-clip:text;background-clip:text;color:transparent;
-    animation:bigsweep 7s linear infinite, bigfloat 6s ease-in-out infinite alternate;
-    filter:drop-shadow(0 5px 0 rgba(46,74,115,.16)) drop-shadow(0 11px 0 rgba(46,74,115,.08)) drop-shadow(0 30px 38px rgba(46,74,115,.38));
+    animation:bigsweep 8s linear infinite, bigfloat 6s ease-in-out infinite alternate;
     will-change:background-position,transform}
+  .prep .big::before{content:attr(data-text);position:absolute;left:0;top:0;z-index:-1;
+    transform:translate(.035em,.055em);
+    background:linear-gradient(95deg,#2E4A73,#54688F 40%,#8A5B7A 75%,#2E4A73 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    filter:blur(1.5px) drop-shadow(0 28px 34px rgba(46,74,115,.45));opacity:.9}
+  .prep .big::after{content:attr(data-text);position:absolute;left:0;top:0;z-index:-2;
+    color:#fff;filter:blur(20px);opacity:.85}
   @keyframes bigsweep{from{background-position:0% 0}to{background-position:220% 0}}
-  @keyframes bigfloat{from{transform:translateY(-7px) scale(1)}to{transform:translateY(7px) scale(1.015)}}
+  @keyframes bigfloat{from{transform:translateY(-7px) rotate(-.3deg)}to{transform:translateY(7px) rotate(.3deg)}}
   .prep .big2{font-family:'Space Grotesk','Poppins',sans-serif;font-weight:700;letter-spacing:-.04em;line-height:1;
     font-size:clamp(1.9rem,5.6vw,4.8rem);color:var(--ink);margin-top:18px}
   .prep .dots span{display:inline-block;animation:blink 1.4s infinite}
@@ -162,7 +168,7 @@ if(!LIVE){
   document.getElementById('appwrap').style.maxWidth='100%';
   document.getElementById('appwrap').innerHTML = `
     <div class="prep">
-      <div class="big">MARKETPLACE</div>
+      <div class="big" data-text="MARKETPLACE">MARKETPLACE</div>
       <div class="big2">in preparation<span class="dots"><span>.</span><span>.</span><span>.</span></span></div>
       <p class="sub">
         creators and brands are joining <span class="grad2">right now</span>.<br>

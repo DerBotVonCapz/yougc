@@ -263,16 +263,16 @@
 
   /* live profile screenshot */
   .crewrap{display:flex;justify-content:space-between;align-items:center;gap:44px}
-  .psfl{flex-shrink:0;display:inline-block;animation:psfloat 6s ease-in-out infinite alternate;will-change:transform}
+  .psfl{flex-shrink:0;display:inline-block;margin-right:-2vw;animation:psfloat 6s ease-in-out infinite alternate;will-change:transform}
   @keyframes psfloat{from{transform:translateY(-7px) rotate(2deg)}to{transform:translateY(7px) rotate(3deg)}}
-  .proshot{position:relative;display:block;width:310px;border-radius:28px;padding:9px;border:3px solid transparent;
+  .proshot{position:relative;display:block;width:430px;border-radius:30px;padding:10px;border:3px solid transparent;
     background:linear-gradient(#fff,#fff) padding-box, linear-gradient(120deg,#BFD7F2,#F4CFDF,#BFE8D4,#BFD7F2) border-box;
     box-shadow:0 32px 66px -26px rgba(46,74,115,.5);transition:transform .3s,box-shadow .3s}
   .proshot:hover{transform:scale(1.035) rotate(-1deg);box-shadow:0 40px 80px -28px rgba(46,74,115,.6)}
   .proshot img{width:100%;border-radius:20px;display:block}
-  .extag{position:absolute;top:-13px;right:18px;z-index:2;padding:7px 16px;border-radius:999px;font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#fff;
+  .extag{position:absolute;top:-15px;right:22px;z-index:2;padding:9px 20px;border-radius:999px;font-size:.82rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#fff;
     background:linear-gradient(120deg,#6E96C8,#D98BB0);box-shadow:0 10px 22px -10px rgba(110,150,200,.7)}
-  @media(max-width:940px){.psfl{display:none}}
+  @media(max-width:1040px){.psfl{display:none}}
   html.dark .proshot{background:linear-gradient(#171F34,#171F34) padding-box, linear-gradient(120deg,#2E4A73,#8A4B6E,#2C5C46,#2E4A73) border-box}
 
   /* studio band */

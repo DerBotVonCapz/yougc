@@ -61,7 +61,14 @@
   .orbit{position:absolute;inset:0;pointer-events:none;z-index:1 !important}
   .orbit i{position:absolute;border-radius:50%;transform:translate(-50%,-50%);will-change:left,top}
 
-  .heroLogo{width:min(82vw,620px);height:auto;opacity:0;animation:rise 1s .15s forwards;will-change:transform}
+  .heroLogo{width:min(82vw,620px);aspect-ratio:1442/509;position:relative;opacity:0;animation:rise 1s .15s forwards;will-change:transform}
+  .heroLogo .hl{position:absolute;height:auto;animation:lfloat 6s ease-in-out infinite alternate;will-change:transform}
+  .hl1{left:0;top:0;width:29.06%;animation-duration:5.6s}
+  .hl2{left:22.19%;top:6.29%;width:30.31%;animation-duration:6.8s;animation-delay:.7s}
+  .hl3{left:49.10%;top:8.25%;width:25.52%;animation-duration:6.2s;animation-delay:1.4s}
+  .hl4{left:67.27%;top:15.13%;width:22.12%;animation-duration:7.4s;animation-delay:.3s}
+  .hl5{left:82.73%;top:24.95%;width:17.27%;animation-duration:5.2s;animation-delay:1.9s}
+  @keyframes lfloat{from{transform:translateY(-4px) rotate(-.5deg)}to{transform:translateY(5px) rotate(.5deg)}}
   .heroQ{margin-top:30px;font-size:clamp(1.15rem,2.3vw,1.7rem);font-weight:700;letter-spacing:-.015em;line-height:1.5;opacity:0;animation:rise 1s .35s forwards}
   .heroQ .grad{font-weight:800}
   .heroSub{margin-top:12px;font-size:clamp(.95rem,1.5vw,1.15rem);font-weight:500;color:var(--ink-soft);opacity:0;animation:rise 1s .5s forwards}
@@ -129,8 +136,8 @@
   .band:hover{border-color:var(--ink);transform:translateY(-4px)}
   .band h3{font-size:clamp(1.6rem,3vw,2.4rem);font-weight:800;letter-spacing:-.02em;max-width:560px;line-height:1.25}
   .band p{color:var(--ink-soft);font-size:1rem;margin-top:12px;max-width:480px;line-height:1.65;font-weight:500}
-  .band .bcta{background:var(--ink);color:#fff;font-weight:800;font-size:1rem;padding:17px 38px;border-radius:999px;text-decoration:none;transition:transform .25s}
-  .band .bcta:hover{transform:scale(1.06)}
+  .band .bcta{background:linear-gradient(120deg,#BFD7F2,#F4CFDF);color:var(--ink);border:2.5px solid rgba(255,255,255,.98);box-shadow:0 16px 34px -14px rgba(110,150,200,.6);font-weight:800;font-size:1.05rem;padding:18px 42px;border-radius:999px;text-decoration:none;transition:transform .25s,box-shadow .25s}
+  .band .bcta:hover{transform:scale(1.06);box-shadow:0 22px 44px -16px rgba(110,150,200,.75)}
 
   footer{padding:52px 6vw 40px;text-align:center;color:var(--ink-soft);font-size:.85rem;font-weight:500}
   footer .logo{font-size:1.6rem;margin-bottom:12px}
@@ -186,7 +193,13 @@
 
 <div class="hero">
   <div class="orbit" id="orbit"></div>
-  <img class="heroLogo" id="heroTitle" src="logo.png" alt="YOUgc">
+  <div class="heroLogo" id="heroTitle" role="img" aria-label="YOUgc">
+    <img class="hl hl1" src="logo_l1.png" alt="">
+    <img class="hl hl2" src="logo_l2.png" alt="">
+    <img class="hl hl3" src="logo_l3.png" alt="">
+    <img class="hl hl4" src="logo_l4.png" alt="">
+    <img class="hl hl5" src="logo_l5.png" alt="">
+  </div>
   <div class="heroQ">you're a <span class="grad">UGC creator</span>?<br>you're looking for <span class="grad">UGC creators</span>?</div>
   <p class="heroSub">one marketplace. both sides.</p>
 
@@ -275,10 +288,10 @@
 <section>
   <div class="band reveal">
     <div>
-      <h3>everyone starts free.</h3>
-      <p>join early, build your profile, and be there when the doors open.</p>
+      <h3>everyone starts <span class="grad">free.</span></h3>
+      <p>build your profile now and be in from <b>day one</b>. the earliest profiles get seen first when the doors open.</p>
     </div>
-    <a class="bcta" href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false">join now</a>
+    <a class="bcta" href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false">join free →</a>
   </div>
 </section>
 

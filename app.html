@@ -348,19 +348,37 @@ if(!LIVE){
 
   async function mfFind(q){
     const ql = q.toLowerCase();
+    // how many did they ask for?
+    const cntM = ql.match(/\b([1-9]\d?)\b/);
+    const limit = cntM ? Math.min(parseInt(cntM[1],10), 10) : 5;
     // follow-up: show the next ones instead of repeating
     if(/^(any\s*)?(more|next|another|others?|show\s*more)\??!?\s*$/.test(ql.trim()) && mfState.list.length){
-      const next = mfState.list.slice(mfState.shown, mfState.shown+5);
+      const next = mfState.list.slice(mfState.shown, mfState.shown+limit);
       if(!next.length) return `that's everyone matching that search right now. new ${mfState.target==='creator'?'creators':'brands'} join daily, ask me again soon.`;
       mfState.shown += next.length;
       return `next best matches:` + next.map(mfCard).join('');
     }
+    // "show me everyone / all users"
+    if(/\b(all|every(one|body)?|users|members|profiles)\b/.test(ql) && !/\bfor\b/.test(ql)){
+      const { data: allp } = await sb.from('profiles').select('*').limit(500);
+      const rows = (allp||[]).filter(p=>p.id!==me.id).map(p=>({ p, s: baseScore(p), why: (p.role==='creator'?'creator':'brand') + ' · ' + whyLine(p, null) })).sort((a,b)=>b.s-a.s);
+      mfState = { list: rows, shown: Math.min(limit, rows.length), target: me.role==='brand'?'creator':'brand' };
+      if(!rows.length) return 'nobody else here yet. you are early, that is the whole point.';
+      return `everyone on here, strongest profiles first:` + rows.slice(0,limit).map(mfCard).join('') + (rows.length>limit?`<div style="font-size:.78rem;color:var(--ink-soft);margin-top:8px">say <b>"more"</b> for the next ones.</div>`:'');
+    }
     let target = me.role==='brand' ? 'creator' : 'brand';
-    if(/\bbrands?\b/.test(ql) && !/\bcreators?\b/.test(ql)) target='brand';
-    if(/\bcreators?\b/.test(ql) && !/\bbrands?\b/.test(ql)) target='creator';
+    const words = ql.replace(/[^a-z0-9 ]/g,' ').split(/\s+/).filter(w=>w.length>2);
+    const saysBrand = words.some(w=>lev(w,'brand')<=1||lev(w,'brands')<=1);
+    const saysCreator = words.some(w=>lev(w,'creator')<=2||lev(w,'creators')<=2);
+    if(saysBrand && !saysCreator) target='brand';
+    if(saysCreator && !saysBrand) target='creator';
     const other = target==='creator' ? 'brand' : 'creator';
-    const rawToks = [...new Set(ql.replace(/[^a-z0-9 ]/g,' ').split(/\s+/).filter(w=>w.length>2 && !STOP.has(w)).map(w=>SYN[w]||w))];
-    const toks = rawToks.map(t=>({ t, niche: nicheFor(t) }));
+    const rawToks = [...new Set(words.filter(w=>!STOP.has(w)).map(w=>SYN[w]||w))];
+    const toks = rawToks.map(t=>({ t, niche: nicheFor(t) })).filter(x=>lev(x.t,'brand')>1&&lev(x.t,'brands')>1&&lev(x.t,'creator')>2&&lev(x.t,'creators')>2);
+    // no niche words in the question? match against their own profile instead ("who fits me")
+    if(!toks.some(x=>x.niche) && (me.niches||[]).length){
+      (me.niches||[]).forEach(n=>{ const nn=String(n).toLowerCase(); toks.push({ t:nn, niche: nlAll.includes(nn)?nn:null }); });
+    }
     const { data: profs } = await sb.from('profiles').select('*').limit(500);
     const all = (profs||[]).filter(p=>p.id!==me.id);
     function scoreFor(p){
@@ -387,17 +405,15 @@ if(!LIVE){
       const strongest = all.filter(p=>p.role===target)
         .map(p=>({ p, s: baseScore(p), why: whyLine(p, null) }))
         .sort((a,b)=>b.s-a.s).slice(0,3);
-      let out = `nothing exact for that${rawToks.length?'':' yet'}. `;
-      out += strongest.length
-        ? `strongest ${target==='creator'?'creators':'brands'} on here right now:` + strongest.map(mfCard).join('')
-        : `the marketplace is young, more ${target==='creator'?'creators':'brands'} join every day.`;
-      if(oppHit.length) out += `<div style="margin-top:10px">but on the ${other} side this matches:</div>` + oppHit.map(mfCard).join('');
-      out += `<div style="font-size:.74rem;color:var(--ink-soft);margin-top:8px">tip: use niche words like crypto, fitness, food, gaming…</div>`;
+      let out = strongest.length
+        ? `here's who fits you best right now:` + strongest.map(mfCard).join('')
+        : `the marketplace is young, more ${target==='creator'?'creators':'brands'} join every day. you're early, that's the advantage.`;
+      if(oppHit.length) out += `<div style="margin-top:10px">also a strong fit on the ${other} side:</div>` + oppHit.map(mfCard).join('');
       return out;
     }
-    mfState = { list: scored, shown: Math.min(5, scored.length), target };
-    let out = `your top ${target==='creator'?'creator':'brand'} matches, best first:` + scored.slice(0,5).map(mfCard).join('');
-    if(scored.length>5) out += `<div style="font-size:.78rem;color:var(--ink-soft);margin-top:8px">say <b>"more"</b> for the next ones.</div>`;
+    mfState = { list: scored, shown: Math.min(limit, scored.length), target };
+    let out = `found your best ${target==='creator'?'creator':'brand'} matches:` + scored.slice(0,limit).map(mfCard).join('');
+    if(scored.length>limit) out += `<div style="font-size:.78rem;color:var(--ink-soft);margin-top:8px">say <b>"more"</b> for the next ones.</div>`;
     if(oppHit.length) out += `<div style="margin-top:10px">also matching on the ${other} side:</div>` + oppHit.map(mfCard).join('');
     return out;
   }

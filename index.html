@@ -163,12 +163,9 @@
   .band p{color:var(--ink-soft);font-size:1rem;margin-top:12px;max-width:480px;line-height:1.65;font-weight:500}
   .band .bcta{background:linear-gradient(120deg,#BFD7F2,#F4CFDF);color:var(--ink);border:2.5px solid rgba(255,255,255,.98);box-shadow:0 16px 34px -14px rgba(110,150,200,.6);font-weight:800;font-size:1.05rem;padding:18px 42px;border-radius:999px;text-decoration:none;transition:transform .25s,box-shadow .25s}
   .band .bcta:hover{transform:scale(1.06);box-shadow:0 22px 44px -16px rgba(110,150,200,.75)}
-  .bar{display:inline-flex;gap:7px}
-  .bar span{font-size:2.1rem;font-weight:800;line-height:1;opacity:.25;animation:arw 1.5s ease-in-out infinite;will-change:transform,opacity}
-  .bar span:nth-child(1){color:#6E96C8;animation-delay:0s}
-  .bar span:nth-child(2){color:#D98BB0;animation-delay:.22s}
-  .bar span:nth-child(3){color:#E8926B;animation-delay:.44s}
-  @keyframes arw{0%,100%{opacity:.18;transform:translateX(0) scale(1)}50%{opacity:1;transform:translateX(8px) scale(1.12)}}
+  .jarrow{font-size:2.6rem;font-weight:800;line-height:1;animation:jax 1.4s ease-in-out infinite, jcol 4.5s linear infinite;will-change:transform,opacity}
+  @keyframes jax{0%,100%{transform:translateX(-8px);opacity:.5}50%{transform:translateX(8px);opacity:1}}
+  @keyframes jcol{0%{color:#6E96C8}30%{color:#D98BB0}60%{color:#E8926B}80%{color:#57C7A3}100%{color:#6E96C8}}
 
   /* phone showcase */
   .phones{display:flex;justify-content:center;align-items:center;margin-top:58px}
@@ -265,6 +262,31 @@
   h2 .grad{background-size:200% 100%;transition:background-position .6s}
   h2:hover .grad{background-position:100% 0}
 
+  /* studio band */
+  #studio{padding-top:2vh}
+  .stub{position:relative;overflow:hidden;border-radius:34px;padding:70px 6vw;text-align:center;border:3px solid transparent;
+    background:linear-gradient(rgba(255,255,255,.88),rgba(255,255,255,.88)) padding-box,
+               linear-gradient(120deg,#BFD7F2,#F4CFDF,#BFE8D4,#BFD7F2) border-box;
+    box-shadow:0 34px 80px -32px rgba(46,74,115,.42);animation:stubfl 8s ease-in-out infinite alternate}
+  @keyframes stubfl{from{transform:translateY(-5px)}to{transform:translateY(5px)}}
+  .stub::after{content:'';position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.5) 50%,transparent 70%);transform:translateX(-130%);animation:stubshine 6s ease-in-out infinite}
+  @keyframes stubshine{0%,55%{transform:translateX(-130%)}75%,100%{transform:translateX(130%)}}
+  .stublead{color:var(--ink-soft);font-size:1.15rem;font-weight:500;line-height:1.7;max-width:680px;margin:18px auto 0}
+  .stubchips{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:28px}
+  .stubchips span{padding:13px 26px;border-radius:999px;font-weight:700;font-size:1rem;background:rgba(255,255,255,.8);border:1.5px solid rgba(30,51,80,.12);transition:transform .25s}
+  .stubchips span:hover{transform:translateY(-4px) scale(1.05)}
+  .stubcta{display:inline-block;position:relative;z-index:2;margin-top:32px;padding:20px 46px;border-radius:999px;font-weight:800;font-size:1.12rem;text-decoration:none;color:#fff;
+    background:linear-gradient(120deg,#2E4A73,#6E96C8,#D98BB0);background-size:220% 100%;transition:background-position .5s,transform .25s,box-shadow .25s;
+    box-shadow:0 18px 40px -16px rgba(46,74,115,.6)}
+  .stubcta:hover{background-position:100% 0;transform:translateY(-3px) scale(1.04)}
+  .stubfloat{position:absolute;font-size:2.2rem;opacity:.9;filter:drop-shadow(0 8px 16px rgba(46,74,115,.25));animation:sfl 5s ease-in-out infinite alternate;pointer-events:none}
+  .sf1{top:34px;left:6%;animation-delay:0s}
+  .sf2{top:44px;right:7%;animation-delay:.8s}
+  .sf3{bottom:40px;left:9%;animation-delay:1.4s}
+  .sf4{bottom:34px;right:9%;animation-delay:.4s}
+  @keyframes sfl{from{transform:translateY(-7px) rotate(-5deg)}to{transform:translateY(7px) rotate(5deg)}}
+  @media(max-width:640px){.stubfloat{display:none}}
+
   /* ---- dark mode ---- */
   html.dark body{background:#182136;color:#EAF0FA}
   html.dark .bg-blobs{opacity:.26}
@@ -299,6 +321,11 @@
   html.dark footer{color:#93A5C4}
   html.dark footer a{color:#93A5C4}
   html.dark .phone{box-shadow:0 44px 90px -28px rgba(0,0,0,.75), inset 0 1.5px 2px rgba(255,255,255,.5), inset 0 -1.5px 2px rgba(0,0,0,.4)}
+  html.dark .stub{background:linear-gradient(rgba(23,31,52,.94),rgba(23,31,52,.94)) padding-box,
+    linear-gradient(120deg,#2E4A73,#8A4B6E,#2C5C46,#2E4A73) border-box}
+  html.dark .stub::after{background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.08) 50%,transparent 70%)}
+  html.dark .stublead{color:#93A5C4}
+  html.dark .stubchips span{background:rgba(14,21,38,.85);border-color:rgba(255,255,255,.1);color:#EAF0FA}
   html.dark ::selection{background:#2E4A73;color:#EAF0FA}
 </style>
 </head>
@@ -475,6 +502,17 @@
   </div>
 </section>
 
+<section id="studio">
+  <div class="stub reveal">
+    <span class="stubfloat sf1">🪝</span><span class="stubfloat sf2">✂️</span><span class="stubfloat sf3">💡</span><span class="stubfloat sf4">🎬</span>
+    <div class="kicker" style="color:var(--ink-soft);text-shadow:none">the studio</div>
+    <h2 style="margin:0 auto">deal closed? <span class="grad">we make it hit.</span></h2>
+    <p class="stublead">the first service of its kind inside a ugc marketplace. you set up the deal, the YOUgc studio jumps in with hooks, scripts, video ideas and edits until the video performs. one monthly pass, plus a small share of the videos we help produce.</p>
+    <div class="stubchips"><span>🪝 hooks</span><span>✍️ scripts</span><span>💡 ideas</span><span>✂️ edits</span></div>
+    <a class="stubcta" href="studio.html">see the YOUgc studio →</a>
+  </div>
+</section>
+
 <section id="brands">
   <div class="reveal">
     <div class="kicker">brands</div>
@@ -501,7 +539,6 @@
     <div class="step reveal"><span class="n">🔥</span><h4>featured &amp; spotlight</h4><p>put your post or your whole profile on top of the marketplace when it counts.</p></div>
     <div class="step reveal"><span class="n">✓</span><h4>verified names</h4><p>the badge that shows brands you are real and serious.</p></div>
     <div class="step reveal"><span class="n">🔗</span><h4>referral rewards</h4><p>bring a friend: they get 10% off their first purchase, you get 10% off yours.</p></div>
-    <a class="step reveal" href="studio.html" style="text-decoration:none;color:inherit;display:block"><span class="n">🎬</span><h4>YOUgc studio</h4><p>you close the deal, we help make the content: hooks, scripts, video ideas and edits. we only earn when your video does. <b style="color:var(--gradB)">see how →</b></p></a>
   </div>
 </section>
 
@@ -511,9 +548,9 @@
       <h3>everyone starts <span class="grad">free.</span></h3>
       <p>build your profile now and be in from <b>day one</b>. the earliest profiles get seen first when the doors open.</p>
     </div>
-    <span style="display:inline-flex;align-items:center;gap:16px">
-      <a class="bcta" href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false">join free →</a>
-      <span class="bar" aria-hidden="true"><span>❯</span><span>❯</span><span>❯</span></span>
+    <span style="display:inline-flex;align-items:center;gap:18px">
+      <span class="jarrow" aria-hidden="true">→</span>
+      <a class="bcta" href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false">join free</a>
     </span>
   </div>
 </section>

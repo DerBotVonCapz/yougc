@@ -58,6 +58,16 @@ textarea#bio{min-height:130px}
       <label class="mt2">profile color</label>
       <div class="accents" id="accentPick"></div>
 
+      <div id="creatorExtras">
+        <label class="mt2">your best clips <span style="text-transform:none;font-weight:400">(up to 3 full video links: tiktok, youtube, instagram. they play on your profile)</span></label>
+        <input type="url" id="clip1" class="mt1" placeholder="https://www.tiktok.com/@you/video/...">
+        <input type="url" id="clip2" class="mt1" placeholder="https://youtube.com/shorts/...">
+        <input type="url" id="clip3" class="mt1" placeholder="https://www.instagram.com/reel/...">
+
+        <label class="mt2">starting price <span style="text-transform:none;font-weight:400">(optional. in $, per video. brands see "from $X")</span></label>
+        <input type="text" id="rate" inputmode="numeric" placeholder="50" maxlength="6">
+      </div>
+
       </div>
       </div>
 
@@ -68,7 +78,7 @@ textarea#bio{min-height:130px}
 </div>
 
 <script type="module">
-import { sb, currentUser, myProfile, NICHES, SOCIAL_FIELDS, blobsHTML, initMotion, logoHTML, showMsg, esc, hasSlurs } from './app.js';
+import { sb, currentUser, myProfile, NICHES, SOCIAL_FIELDS, blobsHTML, initMotion, logoHTML, showMsg, esc, hasSlurs, clipEmbed } from './app.js';
 document.getElementById('bg').outerHTML = blobsHTML();
 document.getElementById('logo').outerHTML = logoHTML();
 initMotion();
@@ -136,7 +146,12 @@ if(existing){
   document.getElementById('name').value = existing.name||'';
   document.getElementById('bio').value = existing.bio||'';
   if(existing.avatar_url) document.getElementById('avPreview').innerHTML = `<img class="avatar big" src="${esc(existing.avatar_url)}">`;
+  (existing.clips||[]).slice(0,3).forEach((c,i)=>{ document.getElementById('clip'+(i+1)).value = c; });
+  if(existing.rate) document.getElementById('rate').value = existing.rate;
 }
+
+// clips and rate are creator features
+if(role === 'brand') document.getElementById('creatorExtras').style.display = 'none';
 
 // avatar preview
 document.getElementById('avatar').addEventListener('change', e=>{
@@ -164,6 +179,22 @@ document.getElementById('save').addEventListener('click', async ()=>{
   }
   if(!anySocial){ showMsg(msg,'add at least one link so people can reach you.'); return; }
 
+  // clips + rate (creators)
+  let clips = [], rate = null;
+  if(role !== 'brand'){
+    for(let i=1;i<=3;i++){
+      const v = document.getElementById('clip'+i).value.trim();
+      if(!v) continue;
+      if(!clipEmbed(v)){ showMsg(msg,'clip '+i+' is not a full video link. open the video on tiktok, youtube or instagram and copy the full link.'); return; }
+      clips.push(v);
+    }
+    const r = document.getElementById('rate').value.trim().replace(/[^0-9]/g,'');
+    if(r) rate = Math.min(parseInt(r,10), 100000) || null;
+  } else {
+    clips = existing?.clips || [];
+    rate = existing?.rate || null;
+  }
+
   const btn = document.getElementById('save'); btn.innerHTML='<span class="spin"></span>';
   try{
     // avatar upload
@@ -176,7 +207,7 @@ document.getElementById('save').addEventListener('click', async ()=>{
       if(upErr) throw upErr;
       avatar_url = sb.storage.from('avatars').getPublicUrl(path).data.publicUrl + '?v=' + Date.now();
     }
-    const row = { id:user.id, role, username, name, bio, avatar_url, socials, niches:[...selected], accent };
+    const row = { id:user.id, role, username, name, bio, avatar_url, socials, niches:[...selected], accent, clips, rate };
     const { error } = await sb.from('profiles').upsert(row);
     if(error){
       if((error.message||'').includes('duplicate') || (error.message||'').includes('unique')) throw new Error('that username is taken. try another.');

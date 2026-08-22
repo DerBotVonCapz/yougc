@@ -85,3 +85,28 @@ export function showMsg(el, text, ok=false){
   el.textContent = text;
   el.className = 'msg ' + (ok ? 'ok' : 'err');
 }
+
+// turn a tiktok / youtube / instagram video link into an embeddable player
+// returns {src, tall} or null if the link is not a recognizable full video link
+export function clipEmbed(u){
+  try{
+    const url = new URL(String(u||'').trim());
+    const h = url.hostname.replace(/^www\./,'');
+    if(h === 'youtu.be' || h.endsWith('youtube.com')){
+      let id = '';
+      if(h === 'youtu.be') id = url.pathname.split('/')[1];
+      else if(url.pathname.startsWith('/shorts/') || url.pathname.startsWith('/embed/')) id = url.pathname.split('/')[2];
+      else id = url.searchParams.get('v');
+      if(id) return { src:'https://www.youtube.com/embed/'+encodeURIComponent(id), tall:url.pathname.startsWith('/shorts/') };
+    }
+    if(h.endsWith('tiktok.com')){
+      const m = url.pathname.match(/\/video\/(\d+)/);
+      if(m) return { src:'https://www.tiktok.com/embed/v2/'+m[1], tall:true };
+    }
+    if(h.endsWith('instagram.com')){
+      const m = url.pathname.match(/\/(p|reel|reels|tv)\/([A-Za-z0-9_-]+)/);
+      if(m) return { src:'https://www.instagram.com/'+(m[1]==='reels'?'reel':m[1])+'/'+m[2]+'/embed/', tall:true };
+    }
+  }catch(e){}
+  return null;
+}

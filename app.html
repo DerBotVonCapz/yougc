@@ -52,6 +52,12 @@
   .avatar{width:56px;height:56px}
   .spotrow{gap:14px !important;margin-bottom:26px !important}
   #searchInp{padding:16px 20px;font-size:1rem}
+  .gigcard{padding:24px 28px;border-radius:20px;background:linear-gradient(120deg,rgba(191,215,242,.5),rgba(244,207,223,.45));margin-bottom:14px;border:1.5px solid rgba(255,255,255,.9)}
+  .gigbadge{display:inline-block;font-size:.68rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:6px 14px;border-radius:999px;background:linear-gradient(120deg,#2E4A73,#6E96C8);color:#fff;margin-bottom:10px}
+  .gigcard p.gtext{line-height:1.7;font-size:1rem;margin:6px 0 10px}
+  .gigrow-head{display:flex;align-items:center;gap:10px;margin:4px 0 12px;font-weight:800;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+  #gigToggleRow{display:none;align-items:center;gap:9px;margin-top:12px;font-size:.85rem;font-weight:600;cursor:pointer;text-transform:none;letter-spacing:0}
+  #gigToggleRow input{width:auto;accent-color:#6E96C8;transform:scale(1.25);cursor:pointer}
   @keyframes pscroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 </style>
 </head>
@@ -73,6 +79,7 @@
     <div class="mainGrid" id="mainGrid">
       <div>
         <div id="spotrow"></div>
+        <div id="gigrow"></div>
 
         <input type="text" id="searchInp" placeholder="🔎 search creators and brands…" autocomplete="off" style="margin-bottom:12px">
         <div id="searchRes"></div>
@@ -95,6 +102,7 @@
         <div class="card" id="composer" style="display:none">
           <label style="margin-top:0">your post</label>
           <textarea id="postText" maxlength="500" placeholder=""></textarea>
+          <label id="gigToggleRow"><input type="checkbox" id="asGig"> post as job offer 🔎</label>
           <button class="btn small full mt1" id="postBtn">post</button>
           <a class="btn ghost small full mt1" id="featLink" href="#" style="border-color:rgba(30,51,80,.3)">✦ feature your post · 24h on top · $<span id="featPrice">25</span></a>
           <div class="msg" id="postMsg"></div>
@@ -242,12 +250,38 @@ if(!LIVE){
       document.getElementById('spotrow').innerHTML = cards.length
         ? `<div class="spotrow"><div class="spotlabel">✦ spotlight</div>${cards.join('')}</div>` : '';
     })();
+    // brands can post job offers
+    if(me.role === 'brand'){
+      document.getElementById('gigToggleRow').style.display = 'flex';
+      document.getElementById('asGig').addEventListener('change', e=>{
+        document.getElementById('postText').placeholder = e.target.checked
+          ? 'who you are looking for: niche, country, what content, budget…' : '';
+        document.getElementById('postBtn').textContent = e.target.checked ? 'post job offer 🔎' : 'post';
+      });
+    }
+
     document.getElementById('postBtn').addEventListener('click', async ()=>{
       const t = document.getElementById('postText').value.trim();
+      const asGig = me.role==='brand' && document.getElementById('asGig').checked;
       const msg = document.getElementById('postMsg'); msg.className='msg';
       if(!t){ showMsg(msg,'write something first.'); return; }
       if(hasSlurs(t)){ showMsg(msg,'that language has no place here. rewrite it.'); return; }
+      if(asGig && t.length < 10){ showMsg(msg,'say a bit more about who you are looking for.'); return; }
       const btn=document.getElementById('postBtn'); btn.innerHTML='<span class="spin"></span>';
+      if(asGig){
+        const { error } = await sb.from('gigs').insert({ user_id: me.id, text: t });
+        if(error){
+          const m = error.message||'';
+          showMsg(msg, m.includes('no_slurs') ? 'that language has no place here. rewrite it.'
+            : m.includes('row-level') ? 'one job offer per 24 hours. close or wait out your last one.' : m);
+        } else {
+          document.getElementById('postText').value='';
+          showMsg(msg, 'job offer is live. applications land in your chats.', true);
+          loadGigs();
+        }
+        btn.textContent='post job offer 🔎';
+        return;
+      }
       const { error } = await sb.from('posts').insert({ user_id: me.id, text: t });
       if(error){
         const m = error.message||'';
@@ -264,6 +298,35 @@ if(!LIVE){
       }
     });
   }
+
+  // ---- job offers row ----
+  async function loadGigs(){
+    const el = document.getElementById('gigrow');
+    const { data: gigs } = await sb.from('gigs').select('*').eq('open', true).order('created_at',{ascending:false}).limit(6);
+    if(!gigs || !gigs.length){ el.innerHTML=''; return; }
+    const ids = [...new Set(gigs.map(g=>g.user_id))];
+    const { data: profs } = await sb.from('profiles').select('id,username,name,avatar_url,verified,role').in('id', ids);
+    const pm = new Map((profs||[]).map(p=>[p.id,p]));
+    el.innerHTML = '<div class="gigrow-head">🔎 job offers · creators wanted</div>' + gigs.map(g=>{
+      const b = pm.get(g.user_id); if(!b) return '';
+      const mine = g.user_id === me.id;
+      return `<div class="gigcard">
+        <span class="gigbadge">🔎 looking for creators</span>
+        <div class="phead" style="margin-bottom:0">
+          ${avatarHTML(b)}
+          <div><a class="pname" href="profile.html?u=${encodeURIComponent(b.username)}">${esc(b.name)}</a>${vbadge(b)}
+          <div class="pmeta">@${esc(b.username)} · ${timeAgo(g.created_at)}</div></div>
+        </div>
+        <p class="gtext">${esc(g.text)}</p>
+        ${mine
+          ? `<button class="btn ghost small" data-close="${g.id}">close this offer</button>`
+          : (me.role==='creator' ? `<a class="btn small" href="chat.html?u=${encodeURIComponent(b.username)}&gig=${g.id}">apply →</a>` : '')}
+      </div>`;
+    }).join('');
+    el.querySelectorAll('[data-close]').forEach(b=>
+      b.addEventListener('click', async ()=>{ await sb.from('gigs').update({open:false}).eq('id', b.dataset.close); loadGigs(); }));
+  }
+  loadGigs();
 
   // profile search
   let srchT = null;

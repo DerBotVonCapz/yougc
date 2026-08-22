@@ -167,12 +167,25 @@ document.getElementById('msgText').addEventListener('keydown', e=>{ if(e.key==='
   }
 })();
 
-// deep link: chat.html?u=username
-const uq = new URLSearchParams(location.search).get('u');
+// deep link: chat.html?u=username (&gig=id prefills a job application)
+const qs = new URLSearchParams(location.search);
+const uq = qs.get('u');
 await loadAll();
 if(uq){
   const { data: p } = await sb.from('profiles').select('*').eq('username', uq).maybeSingle();
-  if(p && p.id !== me.id){ partners.set(p.id, p); openThread(p); }
+  if(p && p.id !== me.id){
+    partners.set(p.id, p);
+    await openThread(p);
+    const gid = qs.get('gig');
+    if(gid){
+      const { data: g } = await sb.from('gigs').select('text').eq('id', gid).maybeSingle();
+      if(g){
+        const inp = document.getElementById('msgText');
+        inp.value = 'applying to your job offer: "' + g.text.slice(0,120) + (g.text.length>120?'…':'') + '" · why i fit: ';
+        inp.focus();
+      }
+    }
+  }
 }
 
 // light polling so replies appear

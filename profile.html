@@ -17,6 +17,16 @@
 #profileCard .vbadge{width:27px;height:27px;font-size:.95rem}
 h2.page{font-size:1.8rem !important}
 .post .ptext{font-size:1rem}
+.ratechip{font-size:.85rem;font-weight:700;padding:8px 18px;border-radius:999px;background:linear-gradient(120deg,rgba(191,232,212,.8),rgba(191,215,242,.7));color:#1E3350}
+.clipgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:14px}
+@media(max-width:760px){.clipgrid{grid-template-columns:1fr}}
+.clip{border-radius:18px;overflow:hidden;background:rgba(255,255,255,.85);border:1.5px solid rgba(30,51,80,.08)}
+.clip iframe{display:block;width:100%;border:0}
+.clip.tall iframe{aspect-ratio:9/16;max-height:480px}
+.clip.wide iframe{aspect-ratio:16/9}
+.gig{padding:24px 28px;border-radius:20px;background:linear-gradient(120deg,rgba(191,215,242,.45),rgba(244,207,223,.4));margin-top:14px}
+.gigbadge{display:inline-block;font-size:.7rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:6px 14px;border-radius:999px;background:linear-gradient(120deg,#2E4A73,#6E96C8);color:#fff;margin-bottom:10px}
+.gig p{line-height:1.7;font-size:1rem}
 </style>
 </head>
 <body>
@@ -38,7 +48,7 @@ h2.page{font-size:1.8rem !important}
 </div>
 
 <script type="module">
-import { sb, currentUser, blobsHTML, initMotion, logoHTML, esc, timeAgo, avatarHTML, vbadge, SOCIAL_FIELDS } from './app.js';
+import { sb, currentUser, blobsHTML, initMotion, logoHTML, esc, timeAgo, avatarHTML, vbadge, SOCIAL_FIELDS, clipEmbed } from './app.js';
 import { VERIFIED_PRICE, SPOTLIGHT_PRICE, PAY_URL } from './config.js';
 const ACCENTS = { blue:['#BFD7F2','#DCE9F9'], pink:['#F4CFDF','#FBE3EE'], mint:['#BFE8D4','#DFF2E7'], lavender:['#D8CCF2','#EAE3F9'], peach:['#F8D8C4','#FBEBDD'], sand:['#EFE3C6','#F7F0DE'] };
 const payHref = (item, price) => PAY_URL || ('pay.html?item=' + encodeURIComponent(item) + '&price=' + encodeURIComponent(price));
@@ -76,11 +86,14 @@ if(!p){
         <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
           <h1 class="page" style="margin:0">${esc(p.name)}</h1>${vbadge(p)}
           <span class="rolebadge ${p.role}">${p.role==='creator'?'creator':'brand'}</span>
+          ${(p.role==='creator' && p.rate) ? `<span class="ratechip">from $${p.rate} per video</span>` : ''}
         </div>
         <div class="pmeta">@${esc(p.username)} · <span id="folCount">${followers||0}</span> followers · joined ${joined}</div>
       </div>
     </div>
     ${p.bio ? `<p class="mt2" style="line-height:1.75;font-size:1.18rem;font-weight:500">${esc(p.bio)}</p>` : ''}
+    <div id="clipsWrap"></div>
+    <div id="gigsWrap"></div>
     <div class="ptags mt2">${(p.niches||[]).map(n=>`<span>${esc(n)}</span>`).join('')}</div>
     ${socials ? `<div class="socialrow">${socials}</div>` : ''}
     ${!isOwner ? (u ? `<div class="mt3" style="display:flex;gap:12px;flex-wrap:wrap"><a class="btn" id="contact" href="chat.html?u=${encodeURIComponent(p.username)}">message ${esc(p.name.split(' ')[0])} →</a><button class="btn ghost" id="followBtn">${iFollow?'following ✓':'+ follow'}</button></div>` : `<a class="btn mt3" id="contact" href="auth.html">log in to message ${esc(p.name.split(' ')[0])} →</a>`) : ''}
@@ -93,6 +106,33 @@ if(!p){
       <div class="refcount" id="refCount"></div>
     </div>` : ''}
   `;
+
+  // best clips (creators)
+  const embeds = (p.clips||[]).map(clipEmbed).filter(Boolean);
+  if(embeds.length){
+    document.getElementById('clipsWrap').innerHTML =
+      '<div class="clipgrid">' + embeds.map(e=>
+        `<div class="clip ${e.tall?'tall':'wide'}"><iframe src="${esc(e.src)}" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe></div>`
+      ).join('') + '</div>';
+  }
+
+  // open job offers (brands)
+  if(p.role==='brand'){
+    const { data: gigs } = await sb.from('gigs').select('*').eq('user_id', p.id).eq('open', true).order('created_at',{ascending:false}).limit(5);
+    if(gigs && gigs.length){
+      document.getElementById('gigsWrap').innerHTML = gigs.map(g=>`
+        <div class="gig">
+          <span class="gigbadge">🔎 looking for creators</span>
+          <p>${esc(g.text)}</p>
+          <div class="pmeta" style="margin-top:8px">${timeAgo(g.created_at)}</div>
+          ${isOwner
+            ? `<button class="btn ghost small mt1" data-close="${g.id}">close this offer</button>`
+            : (u ? `<a class="btn small mt1" href="chat.html?u=${encodeURIComponent(p.username)}&gig=${g.id}">apply →</a>` : `<a class="btn small mt1" href="auth.html">log in to apply →</a>`)}
+        </div>`).join('');
+      document.getElementById('gigsWrap').querySelectorAll('[data-close]').forEach(b=>
+        b.addEventListener('click', async ()=>{ await sb.from('gigs').update({open:false}).eq('id', b.dataset.close); b.closest('.gig').remove(); }));
+    }
+  }
 
   const fb = document.getElementById('followBtn');
   if(fb){

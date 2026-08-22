@@ -286,17 +286,18 @@ if(!LIVE){
 
 
   // ---- match finder: ask who fits you best ----
+  const mfLabel = me.role==='brand' ? 'find creators' : 'find brands';
   document.body.insertAdjacentHTML('beforeend', `
-    <button class="mfbtn" id="mfBtn">✨ match finder</button>
+    <button class="mfbtn" id="mfBtn">✨ ${mfLabel}</button>
     <div class="card mfpanel" id="mfPanel">
-      <div class="mfhead"><span>✨ match <span class="grad">finder</span></span><span class="x" id="mfClose">✕</span></div>
+      <div class="mfhead"><span>✨ <span class="grad">${mfLabel}</span></span><span class="x" id="mfClose">✕</span></div>
       <div class="mflog" id="mfLog"></div>
-      <div class="mfbar"><input type="text" id="mfInp" maxlength="200" placeholder="describe what you're looking for…"><button class="btn small" id="mfSend">find</button></div>
+      <div class="mfbar"><input type="text" id="mfInp" maxlength="200" placeholder="what are you looking for?"><button class="btn small" id="mfSend">find</button></div>
     </div>`);
   const mfLog = document.getElementById('mfLog');
   const mfHello = me.role==='brand'
-    ? `hey ${esc(me.name.split(' ')[0])} 👋 tell me what your brand needs and i scan every creator profile for the best fit.<br><br>try: <b>"fitness creators with clips"</b> or <b>"someone for vegan recipe content"</b>`
-    : `hey ${esc(me.name.split(' ')[0])} 👋 tell me what you create and i scan every brand on here for your best fit.<br><br>try: <b>"brands in crypto"</b> or <b>"who needs gaming content"</b>`;
+    ? `say what you need, i scan every creator for your best fit.`
+    : `say what you create, i scan every brand for your best fit.`;
   mfLog.innerHTML = `<div class="mfb bot">${mfHello}</div>`;
   document.getElementById('mfBtn').addEventListener('click', ()=>{ document.getElementById('mfPanel').classList.toggle('open'); document.getElementById('mfInp').focus(); });
   document.getElementById('mfClose').addEventListener('click', ()=> document.getElementById('mfPanel').classList.remove('open'));

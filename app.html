@@ -303,45 +303,103 @@ if(!LIVE){
   document.getElementById('mfClose').addEventListener('click', ()=> document.getElementById('mfPanel').classList.remove('open'));
 
   const SYN = {vegan:'food',recipe:'food',recipes:'food',cooking:'food',cook:'food',restaurant:'food',foodie:'food',gym:'fitness',workout:'fitness',fit:'fitness',makeup:'beauty',skincare:'beauty',cosmetics:'beauty',web3:'crypto',nft:'crypto',bitcoin:'crypto',defi:'crypto',trading:'finance',invest:'finance',investing:'finance',money:'finance',game:'gaming',games:'gaming',gamer:'gaming',esports:'gaming',ml:'AI',chatgpt:'AI',artificial:'AI',auto:'cars',car:'cars',automotive:'cars',clothes:'fashion',clothing:'fashion',streetwear:'fashion',outfit:'fashion',sport:'sports',football:'sports',soccer:'sports',basketball:'sports',dog:'pets',dogs:'pets',cat:'pets',cats:'pets',meme:'memes',funny:'comedy',humor:'comedy',vlog:'vlogging',vlogs:'vlogging',wellness:'health',travelling:'travel',traveling:'travel',song:'music',songs:'music',unbox:'unboxing'};
+  const STOP = new Set(['the','and','for','with','who','what','which','best','content','looking','look','need','needs','someone','want','wants','good','creator','creators','brand','brands','people','person','right','now','into','that','this','are','can','you','make','makes','making','made','create','creates','creating','video','videos','some','about','from','have','get','find','one','ones','just','really','all','any','top']);
+  function lev(a,b){
+    if(Math.abs(a.length-b.length)>3) return 9;
+    const m=a.length,n=b.length,d=[];
+    for(let i=0;i<=m;i++) d[i]=[i];
+    for(let j=0;j<=n;j++) d[0][j]=j;
+    for(let i=1;i<=m;i++) for(let j=1;j<=n;j++)
+      d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1));
+    return d[m][n];
+  }
+  const nlAll = NICHES.map(n=>n.toLowerCase());
+  function nicheFor(t){
+    if(nlAll.includes(t)) return t;
+    const tol = t.length>=8 ? 3 : t.length>=5 ? 2 : 1;
+    let best=null, bd=9;
+    for(const n of nlAll){ const d=lev(t,n); if(d<bd){ bd=d; best=n; } }
+    return bd<=tol ? best : null;
+  }
+  function baseScore(p){
+    let s=0;
+    if(p.verified) s+=1;
+    if((p.clips||[]).length) s+=1;
+    if(p.avatar_url) s+=.4;
+    if(p.bio) s+=.3;
+    s+=Math.min(Object.keys(p.socials||{}).length,3)*.2;
+    return s;
+  }
+  function whyLine(p, hits){
+    const why=[];
+    if(hits && hits.size) why.push('matches ' + [...hits].slice(0,3).join(', '));
+    const c=(p.clips||[]).length; if(c) why.push(c+' clip'+(c>1?'s':''));
+    if(p.verified) why.push('verified ✓');
+    const l=Object.keys(p.socials||{}).length; if(l) why.push(l+' linked account'+(l>1?'s':''));
+    return why.join(' · ') || 'young profile, worth a look';
+  }
+  function mfCard(x){
+    return `<a class="mfcard" href="profile.html?u=${encodeURIComponent(x.p.username)}">
+      ${avatarHTML(x.p)}
+      <div style="min-width:0"><div class="mfn">${esc(x.p.name)}${vbadge(x.p)}</div>
+      <div class="mfr">${esc(x.why)}</div></div></a>`;
+  }
+  let mfState = { list:[], shown:0, target:null };
 
   async function mfFind(q){
     const ql = q.toLowerCase();
+    // follow-up: show the next ones instead of repeating
+    if(/^(any\s*)?(more|next|another|others?|show\s*more)\??!?\s*$/.test(ql.trim()) && mfState.list.length){
+      const next = mfState.list.slice(mfState.shown, mfState.shown+5);
+      if(!next.length) return `that's everyone matching that search right now. new ${mfState.target==='creator'?'creators':'brands'} join daily, ask me again soon.`;
+      mfState.shown += next.length;
+      return `next best matches:` + next.map(mfCard).join('');
+    }
     let target = me.role==='brand' ? 'creator' : 'brand';
     if(/\bbrands?\b/.test(ql) && !/\bcreators?\b/.test(ql)) target='brand';
     if(/\bcreators?\b/.test(ql) && !/\bbrands?\b/.test(ql)) target='creator';
-    const toks = [...new Set(ql.replace(/[^a-z0-9 ]/g,' ').split(/\s+/).filter(w=>w.length>2).map(w=>SYN[w]||w))];
-    const { data: profs } = await sb.from('profiles').select('*').eq('role', target).limit(400);
-    const nl = NICHES.map(n=>n.toLowerCase());
-    const scored = (profs||[]).filter(p=>p.id!==me.id).map(p=>{
+    const other = target==='creator' ? 'brand' : 'creator';
+    const rawToks = [...new Set(ql.replace(/[^a-z0-9 ]/g,' ').split(/\s+/).filter(w=>w.length>2 && !STOP.has(w)).map(w=>SYN[w]||w))];
+    const toks = rawToks.map(t=>({ t, niche: nicheFor(t) }));
+    const { data: profs } = await sb.from('profiles').select('*').limit(500);
+    const all = (profs||[]).filter(p=>p.id!==me.id);
+    function scoreFor(p){
       const pn = (p.niches||[]).map(n=>String(n).toLowerCase());
       const hay = (pn.join(' ')+' '+(p.bio||'')+' '+(p.name||'')).toLowerCase();
       let s=0; const hits=new Set();
-      toks.forEach(t=>{
-        const tl=t.toLowerCase();
-        if(pn.includes(tl)){ s+=3; hits.add(tl); }
-        else if(hay.includes(tl) && !['the','and','for','with','who','best','content','looking','need','someone','want','good'].includes(tl)){ s+=1.2; if(nl.includes(tl)) hits.add(tl); }
+      toks.forEach(({t,niche})=>{
+        if(niche && pn.includes(niche)){ s+=3; hits.add(niche); }
+        else if(hay.includes(t)){ s+=1.2; if(pn.includes(t)) hits.add(t); }
       });
-      if(p.verified) s+=1;
-      if((p.clips||[]).length) s+=1;
-      if(p.avatar_url) s+=.4;
-      if(p.bio) s+=.3;
-      const links = Object.keys(p.socials||{}).length; s+=Math.min(links,3)*.2;
-      const why=[];
-      if(hits.size) why.push('matches ' + [...hits].slice(0,3).join(', '));
-      if((p.clips||[]).length) why.push((p.clips||[]).length+' clip'+((p.clips||[]).length>1?'s':''));
-      if(p.verified) why.push('verified ✓');
-      if(links) why.push(links+' linked account'+(links>1?'s':''));
-      return { p, s, why: why.join(' · ') || 'young profile, worth a look' };
-    }).filter(x=>x.s>0).sort((a,b)=>b.s-a.s).slice(0,5);
-    if(!scored.length){
-      return `nothing strong for that yet. the marketplace is young, more ${target==='creator'?'creators':'brands'} join every day. try broader words like a niche (fitness, crypto, food…) or check back soon.`;
+      return { s, hits };
     }
-    return `your top ${target==='creator'?'creator':'brand'} matches, best first:` + scored.map(x=>`
-      <a class="mfcard" href="profile.html?u=${encodeURIComponent(x.p.username)}">
-        ${avatarHTML(x.p)}
-        <div style="min-width:0"><div class="mfn">${esc(x.p.name)}${vbadge(x.p)}</div>
-        <div class="mfr">${esc(x.why)}</div></div>
-      </a>`).join('') + `<div style="font-size:.74rem;color:var(--ink-soft);margin-top:8px">scored on niches, bio, clips, linked accounts and verification.</div>`;
+    const scored = all.filter(p=>p.role===target).map(p=>{
+      const { s, hits } = scoreFor(p);
+      return { p, s: s>0 ? s+baseScore(p) : 0, hits, why: whyLine(p, hits) };
+    }).filter(x=>x.s>0).sort((a,b)=>b.s-a.s);
+    // did the other side match the same words?
+    const oppHit = all.filter(p=>p.role===other).map(p=>{
+      const { s, hits } = scoreFor(p);
+      return { p, s, why: whyLine(p, hits) };
+    }).filter(x=>x.s>=3).sort((a,b)=>b.s-a.s).slice(0,2);
+    if(!scored.length){
+      mfState = { list:[], shown:0, target };
+      const strongest = all.filter(p=>p.role===target)
+        .map(p=>({ p, s: baseScore(p), why: whyLine(p, null) }))
+        .sort((a,b)=>b.s-a.s).slice(0,3);
+      let out = `nothing exact for that${rawToks.length?'':' yet'}. `;
+      out += strongest.length
+        ? `strongest ${target==='creator'?'creators':'brands'} on here right now:` + strongest.map(mfCard).join('')
+        : `the marketplace is young, more ${target==='creator'?'creators':'brands'} join every day.`;
+      if(oppHit.length) out += `<div style="margin-top:10px">but on the ${other} side this matches:</div>` + oppHit.map(mfCard).join('');
+      out += `<div style="font-size:.74rem;color:var(--ink-soft);margin-top:8px">tip: use niche words like crypto, fitness, food, gaming…</div>`;
+      return out;
+    }
+    mfState = { list: scored, shown: Math.min(5, scored.length), target };
+    let out = `your top ${target==='creator'?'creator':'brand'} matches, best first:` + scored.slice(0,5).map(mfCard).join('');
+    if(scored.length>5) out += `<div style="font-size:.78rem;color:var(--ink-soft);margin-top:8px">say <b>"more"</b> for the next ones.</div>`;
+    if(oppHit.length) out += `<div style="margin-top:10px">also matching on the ${other} side:</div>` + oppHit.map(mfCard).join('');
+    return out;
   }
   async function mfGo(){
     const inp = document.getElementById('mfInp');

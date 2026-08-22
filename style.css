@@ -238,3 +238,7 @@ html.dark .clip{background:#141C30;border-color:rgba(255,255,255,.1)}
 html.dark .prepmarq .ptrack{color:rgba(231,237,247,.14)}
 html.dark .prepmarq .ptrack b{color:rgba(110,150,200,.5)}
 html.dark .prep .big2{color:var(--ink)}
+html.dark .mfb.bot{background:#1B2440;border-color:rgba(255,255,255,.1);color:var(--ink)}
+html.dark .mfcard{background:rgba(110,150,200,.14);color:var(--ink)}
+html.dark .mfhead{border-bottom-color:rgba(255,255,255,.1)}
+html.dark .mfbar{border-top-color:rgba(255,255,255,.1)}

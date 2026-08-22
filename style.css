@@ -7,6 +7,7 @@
   --white:#FFFFFF; --radius:22px;
   --cblue:#4E79AE; --cpink:#C9748F; --cgreen:#5FA88A;
 }
+html{font-size:106.5%}
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{font-family:'Poppins',-apple-system,'Segoe UI',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden;min-height:100vh}

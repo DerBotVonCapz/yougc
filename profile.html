@@ -31,9 +31,6 @@ h2.page{font-size:1.7rem !important;margin-top:4px}
 .clip.wide iframe{aspect-ratio:16/9}
 .clipgrid.multi .clip.tall{width:min(100%,205px)}
 .clipgrid.multi .clip.wide{width:min(100%,364px)}
-.gig{padding:24px 28px;border-radius:20px;background:linear-gradient(120deg,rgba(191,215,242,.45),rgba(244,207,223,.4));margin-top:14px}
-.gigbadge{display:inline-block;font-size:.7rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:6px 14px;border-radius:999px;background:linear-gradient(120deg,#2E4A73,#6E96C8);color:#fff;margin-bottom:10px}
-.gig p{line-height:1.7;font-size:1rem}
 </style>
 </head>
 <body>
@@ -105,7 +102,6 @@ if(!p){
     </div>
     ${p.bio ? `<p class="mt2" style="line-height:1.75;font-size:1.18rem;font-weight:500">${esc(p.bio)}</p>` : ''}
     <div id="clipsWrap"></div>
-    <div id="gigsWrap"></div>
     <div class="ptags mt2">${(p.niches||[]).map(n=>`<span>${esc(n)}</span>`).join('')}</div>
     ${socials ? `<div class="socialrow">${socials}</div>` : ''}
     ${!isOwner ? (u ? `<div class="mt3" style="display:flex;gap:12px;flex-wrap:wrap"><a class="btn" id="contact" href="chat.html?u=${encodeURIComponent(p.username)}">message ${esc(p.name.split(' ')[0])} →</a><button class="btn ghost" id="followBtn">${iFollow?'following ✓':'+ follow'}</button></div>` : `<a class="btn mt3" id="contact" href="auth.html">log in to message ${esc(p.name.split(' ')[0])} →</a>`) : ''}
@@ -126,24 +122,6 @@ if(!p){
       '<div class="clipgrid' + (embeds.length>1?' multi':'') + '">' + embeds.map(e=>
         `<div class="clip ${e.tall?'tall':'wide'}"><iframe src="${esc(e.src)}" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe></div>`
       ).join('') + '</div>';
-  }
-
-  // open job offers (brands)
-  if(p.role==='brand'){
-    const { data: gigs } = await sb.from('gigs').select('*').eq('user_id', p.id).eq('open', true).order('created_at',{ascending:false}).limit(5);
-    if(gigs && gigs.length){
-      document.getElementById('gigsWrap').innerHTML = gigs.map(g=>`
-        <div class="gig">
-          <span class="gigbadge">🔎 looking for creators</span>
-          <p>${esc(g.text)}</p>
-          <div class="pmeta" style="margin-top:8px">${timeAgo(g.created_at)}</div>
-          ${isOwner
-            ? `<button class="btn ghost small mt1" data-close="${g.id}">close this offer</button>`
-            : (u ? `<a class="btn small mt1" href="chat.html?u=${encodeURIComponent(p.username)}&gig=${g.id}">apply →</a>` : `<a class="btn small mt1" href="auth.html">log in to apply →</a>`)}
-        </div>`).join('');
-      document.getElementById('gigsWrap').querySelectorAll('[data-close]').forEach(b=>
-        b.addEventListener('click', async ()=>{ await sb.from('gigs').update({open:false}).eq('id', b.dataset.close); b.closest('.gig').remove(); }));
-    }
   }
 
   const fb = document.getElementById('followBtn');

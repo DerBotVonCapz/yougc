@@ -37,15 +37,17 @@
   @keyframes drift1{from{translate:0 0}to{translate:14vw 10vh}}
   @keyframes drift2{from{translate:0 0}to{translate:-16vw 12vh}}
   @keyframes drift3{from{translate:0 0}to{translate:12vw -12vh}}
-  .glow{position:fixed;z-index:1;pointer-events:none;width:460px;height:460px;border-radius:50%;
-    background:radial-gradient(circle,rgba(255,255,255,.35) 0%,rgba(191,215,242,.14) 40%,transparent 70%);
+  .glow{position:fixed;z-index:1;pointer-events:none;width:520px;height:520px;border-radius:50%;opacity:.55;
+    background:radial-gradient(circle,rgba(191,215,242,.28) 0%,rgba(244,207,223,.12) 45%,transparent 70%);
     transform:translate(-50%,-50%);will-change:left,top}
-  .aurora{position:fixed;inset:-25%;z-index:1;pointer-events:none;opacity:.55;
-    background:radial-gradient(38% 30% at 22% 32%,rgba(191,215,242,.55) 0%,transparent 70%),
-               radial-gradient(34% 28% at 78% 58%,rgba(244,207,223,.5) 0%,transparent 70%),
-               radial-gradient(30% 30% at 55% 85%,rgba(191,232,212,.45) 0%,transparent 70%);
-    animation:aur 22s ease-in-out infinite alternate;will-change:transform}
-  @keyframes aur{from{transform:translate(-3%,-2%) rotate(-2deg) scale(1)}to{transform:translate(3%,3%) rotate(2deg) scale(1.1)}}
+  .fogwrap{position:fixed;inset:-30%;z-index:1;pointer-events:none;will-change:transform}
+  .aurora{position:absolute;inset:0;opacity:.45;
+    background:radial-gradient(52% 40% at 24% 36%,rgba(191,215,242,.4) 0%,transparent 72%),
+               radial-gradient(48% 38% at 76% 55%,rgba(244,207,223,.36) 0%,transparent 72%),
+               radial-gradient(46% 42% at 52% 82%,rgba(191,232,212,.32) 0%,transparent 72%);
+    filter:blur(30px);
+    animation:aur 34s ease-in-out infinite alternate;will-change:transform}
+  @keyframes aur{from{transform:translate(-3%,-2%) scale(1)}to{transform:translate(3%,3%) scale(1.12)}}
   .grain{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.05;
     background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
   .wrap{position:relative;z-index:3}
@@ -74,13 +76,13 @@
   .hl1{left:0;top:0;width:29.06%;z-index:1;animation:lf1 4.9s ease-in-out infinite alternate}
   .hl2{left:22.19%;top:6.29%;width:30.31%;z-index:2;animation:lf2 5.7s ease-in-out infinite alternate .4s}
   .hl3{left:49.10%;top:8.25%;width:25.52%;z-index:3;animation:lf3 5.2s ease-in-out infinite alternate .9s}
-  .hl4{left:67.27%;top:15.13%;width:22.12%;z-index:4;animation:lf4 6.1s ease-in-out infinite alternate .2s}
-  .hl5{left:82.73%;top:24.95%;width:17.27%;z-index:5;animation:lf5 4.6s ease-in-out infinite alternate 1.3s}
-  @keyframes lf1{from{transform:translate(-1px,-2px) rotate(-.4deg)}to{transform:translate(1px,2px) rotate(.3deg)}}
-  @keyframes lf2{from{transform:translate(1px,2px) rotate(.35deg)}to{transform:translate(-1px,-2px) rotate(-.3deg)}}
-  @keyframes lf3{from{transform:translate(-1px,-2px) rotate(.3deg)}to{transform:translate(1px,2px) rotate(-.35deg)}}
-  @keyframes lf4{from{transform:translate(1px,2px) rotate(-.3deg)}to{transform:translate(-1px,-2px) rotate(.4deg)}}
-  @keyframes lf5{from{transform:translate(-1px,-2px) rotate(.4deg)}to{transform:translate(1px,2px) rotate(-.3deg)}}
+  .hl4{left:67.27%;top:15.13%;width:22.12%;z-index:5;animation:lf4 6.1s ease-in-out infinite alternate .2s}
+  .hl5{left:82.73%;top:24.95%;width:17.27%;z-index:4;animation:lf5 4.6s ease-in-out infinite alternate 1.3s}
+  @keyframes lf1{from{transform:translate(-2px,-5px) rotate(-.6deg)}to{transform:translate(2px,4px) rotate(.5deg)}}
+  @keyframes lf2{from{transform:translate(2px,4px) rotate(.5deg)}to{transform:translate(-2px,-5px) rotate(-.5deg)}}
+  @keyframes lf3{from{transform:translate(-2px,-4px) rotate(.5deg)}to{transform:translate(2px,5px) rotate(-.6deg)}}
+  @keyframes lf4{from{transform:translate(2px,5px) rotate(-.5deg)}to{transform:translate(-2px,-4px) rotate(.6deg)}}
+  @keyframes lf5{from{transform:translate(-2px,-5px) rotate(.6deg)}to{transform:translate(2px,4px) rotate(-.5deg)}}
   .heroQ{margin-top:30px;font-size:clamp(1.15rem,2.3vw,1.7rem);font-weight:700;letter-spacing:-.015em;line-height:1.5;opacity:0;animation:rise 1s .35s forwards}
   .heroQ .grad{font-weight:800}
   .heroSub{margin-top:12px;font-size:clamp(.95rem,1.5vw,1.15rem);font-weight:500;color:var(--ink-soft);opacity:0;animation:rise 1s .5s forwards}
@@ -200,7 +202,7 @@
   <div class="blob b4" data-depth="-18" data-sp="-.14"></div>
 </div>
 <div class="glow" id="glow"></div>
-<div class="aurora"></div>
+<div class="fogwrap" id="fogwrap"><div class="aurora"></div></div>
 <div class="grain"></div>
 <div class="progress" id="prog"></div>
 
@@ -350,7 +352,9 @@ if(_ref) try{ localStorage.setItem('yougc_ref', _ref); }catch(e){}
     glow.style.left=e.clientX+'px'; glow.style.top=e.clientY+'px';
     requestPaint();
   },{passive:true});
+  const fogwrap=document.getElementById('fogwrap');
   window.addEventListener('scroll',()=>{ scrollY0=window.scrollY; requestPaint();
+    if(fogwrap) fogwrap.style.transform=`translateY(${scrollY0*-0.07}px) translateX(${Math.sin(scrollY0/600)*22}px)`;
     const dh=document.documentElement.scrollHeight-innerHeight;
     if(dh>0) document.getElementById('prog').style.width=(scrollY0/dh*100)+'%';
   },{passive:true});
@@ -390,7 +394,7 @@ if(_ref) try{ localStorage.setItem('yougc_ref', _ref); }catch(e){}
     }
     let theta=-1.6;
     function frame(){
-      theta+=0.011;
+      theta+=0.0055;
       const r=orbit.getBoundingClientRect();
       const cx=r.width/2, cy=r.height*0.46;
       const rx=Math.min(r.width*0.45,640), ry=Math.min(r.height*0.46,360);

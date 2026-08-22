@@ -50,6 +50,8 @@
   nav{display:flex;justify-content:space-between;align-items:center;padding:18px 22px;position:relative;z-index:5}
   .nav-cta{font-size:.88rem;font-weight:700;color:var(--ink);text-decoration:none;border:1.5px solid rgba(30,51,80,.25);padding:10px 24px;border-radius:999px;transition:all .25s;background:rgba(255,255,255,.6)}
   .nav-cta:hover{background:var(--ink);color:var(--white);transform:translateY(-2px)}
+  .nav-cta.primary{background:linear-gradient(120deg,#6E96C8,#D98BB0);color:#fff;border-color:transparent;box-shadow:0 10px 24px -12px rgba(110,150,200,.7)}
+  .nav-cta.primary:hover{background:linear-gradient(120deg,#5B84B8,#C97AA2);color:#fff;transform:translateY(-2px) scale(1.03)}
 
   /* hero */
   .hero{min-height:72vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:2vh 6vw 5vh;position:relative}
@@ -101,6 +103,8 @@
   .step:nth-child(2) .n{background:var(--pink);color:#7E3D5A}
   .step:nth-child(3) .n{background:var(--mint);color:#2C5C46}
   .step:nth-child(4) .n{background:#DCE9F9;color:#2E4A73}
+  .step:nth-child(5) .n{background:#F8D8C4;color:#8A4B2D}
+  .step:nth-child(6) .n{background:#D8CCF2;color:#5A4390}
   .step h4{font-size:1.45rem;font-weight:800;margin-bottom:10px;letter-spacing:-.02em;line-height:1.15}
   .step p{font-size:1.02rem;color:var(--ink-soft);line-height:1.65;font-weight:500}
 
@@ -172,7 +176,10 @@
 
 <nav>
   <a class="logo" href="index.html"><img src="logo.png" alt="YOUgc" style="height:44px"></a>
-  <a class="nav-cta" href="auth.html?mode=login">log in</a>
+  <div style="display:flex;gap:10px;align-items:center">
+    <a class="nav-cta" href="auth.html?mode=login">log in</a>
+    <a class="nav-cta primary" href="auth.html">sign up free</a>
+  </div>
 </nav>
 
 <div class="hero">
@@ -193,8 +200,8 @@
 
 <div class="marquee">
   <div class="track">
-    <span class="chip">lifestyle</span><span class="chip hl">crypto</span><span class="chip">beauty</span><span class="chip">fitness</span><span class="chip hl">vlogging</span><span class="chip">travel</span><span class="chip">tech</span><span class="chip">gaming</span><span class="chip hl">AI</span><span class="chip">food</span><span class="chip">fashion</span><span class="chip">memes</span><span class="chip">sports</span><span class="chip">unboxing</span><span class="chip">cars</span><span class="chip">music</span><span class="chip">+ type your own</span>
-    <span class="chip">lifestyle</span><span class="chip hl">crypto</span><span class="chip">beauty</span><span class="chip">fitness</span><span class="chip hl">vlogging</span><span class="chip">travel</span><span class="chip">tech</span><span class="chip">gaming</span><span class="chip hl">AI</span><span class="chip">food</span><span class="chip">fashion</span><span class="chip">memes</span><span class="chip">sports</span><span class="chip">unboxing</span><span class="chip">cars</span><span class="chip">music</span><span class="chip">+ type your own</span>
+    <span class="chip">lifestyle</span><span class="chip hl">crypto</span><span class="chip">beauty</span><span class="chip hl">fitness</span><span class="chip">vlogging</span><span class="chip">travel</span><span class="chip">tech</span><span class="chip hl">gaming</span><span class="chip hl">AI</span><span class="chip hl">food</span><span class="chip hl">fashion</span><span class="chip">memes</span><span class="chip hl">sports</span><span class="chip">unboxing</span><span class="chip">cars</span><span class="chip">music</span><span class="chip">+ type your own</span>
+    <span class="chip">lifestyle</span><span class="chip hl">crypto</span><span class="chip">beauty</span><span class="chip hl">fitness</span><span class="chip">vlogging</span><span class="chip">travel</span><span class="chip">tech</span><span class="chip hl">gaming</span><span class="chip hl">AI</span><span class="chip hl">food</span><span class="chip hl">fashion</span><span class="chip">memes</span><span class="chip hl">sports</span><span class="chip">unboxing</span><span class="chip">cars</span><span class="chip">music</span><span class="chip">+ type your own</span>
   </div>
 </div>
 
@@ -207,7 +214,7 @@
   <div class="steps">
     <div class="step reveal"><span class="n">01</span><h4>build your profile</h4><p>photo, bio, and links to all your accounts. one profile, everything you do.</p></div>
     <div class="step reveal"><span class="n">02</span><h4>pick your niches</h4><p>crypto, fitness, beauty, vlogging. pick from the list or type your own.</p></div>
-    <div class="step reveal"><span class="n">03</span><h4>post your day</h4><p>share what you can shoot, where you are, what you want to create next. up to 2 posts a day.</p></div>
+    <div class="step reveal"><span class="n">03</span><h4>post your skills</h4><p>what you can shoot, where you are, what opportunities you're open for. up to 2 posts a day.</p></div>
     <div class="step reveal"><span class="n">04</span><h4>brands reach out</h4><p>they find you through your posts and profile, then message you directly.</p></div>
   </div>
 </section>
@@ -244,6 +251,22 @@
     <div class="step reveal"><span class="n">01</span><h4>make your profile</h4><p>logo, your socials or brand website, short bio, your niches. two minutes.</p></div>
     <div class="step reveal"><span class="n">02</span><h4>scroll your niche</h4><p>filter creators by niche, read their posts, check their linked accounts.</p></div>
     <div class="step reveal"><span class="n">03</span><h4>message and close</h4><p>reach out directly, agree the deal, get your content.</p></div>
+  </div>
+</section>
+
+<section id="inside">
+  <div class="reveal">
+    <div class="kicker">inside</div>
+    <h2>built to get you <span class="grad">deals.</span></h2>
+    <p class="lead">everything inside the marketplace pushes one thing: creators and brands closing together.</p>
+  </div>
+  <div class="steps">
+    <div class="step reveal"><span class="n">🎬</span><h4>clips on your profile</h4><p>your best tiktoks, reels and shorts play right on your profile. brands see your work in seconds.</p></div>
+    <div class="step reveal"><span class="n">🔎</span><h4>job offers</h4><p>brands post exactly who they need. creators apply with one click and say why they fit.</p></div>
+    <div class="step reveal"><span class="n">💬</span><h4>direct chats</h4><p>no emails, no agency in between. message, agree, deliver.</p></div>
+    <div class="step reveal"><span class="n">✦</span><h4>featured &amp; spotlight</h4><p>put your post or your whole profile on top of the marketplace when it counts.</p></div>
+    <div class="step reveal"><span class="n">✓</span><h4>verified names</h4><p>the badge that shows brands you are real and serious.</p></div>
+    <div class="step reveal"><span class="n">🔗</span><h4>referral rewards</h4><p>bring a friend: they get 10% off their first purchase, you get 10% off yours.</p></div>
   </div>
 </section>
 

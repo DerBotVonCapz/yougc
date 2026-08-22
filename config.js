@@ -16,4 +16,4 @@ export const CRYPTO_ADDR = {
 };
 export const FEATURED_PRICE = 25;    // pin one post on top, 24h
 export const VERIFIED_PRICE = 3.99;  // verified pack: badge + pro look + 3 posts/day
-export const SPOTLIGHT_PRICE = 19;   // spotlight profile card on top, 7 days
+export const SPOTLIGHT_PRICE = 10;   // spotlight profile card on top, 2 days

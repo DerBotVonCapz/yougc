@@ -29,7 +29,7 @@ body{font-family:'Poppins',-apple-system,'Segoe UI',sans-serif;background:var(--
 .logo img{height:40px;display:block}
 .grad{background:linear-gradient(90deg,#2E4A73 0%,#6E96C8 45%,#D98BB0 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
 
-nav.top{display:flex;justify-content:space-between;align-items:center;padding:22px 5vw;position:relative;z-index:5}
+nav.top{display:flex;justify-content:space-between;align-items:center;padding:18px 22px;position:relative;z-index:5}
 .navlinks{display:flex;gap:12px;align-items:center}
 .nav-cta{font-size:.85rem;font-weight:600;color:var(--ink);text-decoration:none;border:1.5px solid rgba(30,51,80,.25);padding:9px 20px;border-radius:999px;transition:all .25s;background:rgba(255,255,255,.5)}
 .nav-cta:hover{background:var(--ink);color:#fff;transform:translateY(-2px)}

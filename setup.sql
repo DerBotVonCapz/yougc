@@ -59,7 +59,7 @@ alter table public.posts add column if not exists featured_until timestamptz;
 
 -- VERIFIED PACK + SPOTLIGHT (activate manually after payment)
 -- verified: update public.profiles set verified = true where username = 'xxx';
--- spotlight: update public.profiles set spotlight_until = now() + interval '7 days' where username = 'xxx';
+-- spotlight: update public.profiles set spotlight_until = now() + interval '2 days' where username = 'xxx';
 alter table public.profiles add column if not exists verified boolean not null default false;
 alter table public.profiles add column if not exists spotlight_until timestamptz;
 -- users cannot set paid columns themselves (column-level grants):

@@ -6,6 +6,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="stylesheet" href="style.css">
+<style>
+.pane.wide{max-width:980px}
+.obgrid{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:start;margin-top:6px}
+@media(max-width:820px){.obgrid{grid-template-columns:1fr}}
+.card{padding:38px 40px}
+input[type=text],input[type=url],textarea{font-size:1rem}
+textarea#bio{min-height:120px}
+</style>
 </head>
 <body>
 <div id="bg"></div>
@@ -16,6 +24,8 @@
       <h1 class="page">build your <span class="grad">profile.</span></h1>
       <p class="sub" id="rolesub">this is what people see. keep it you.</p>
 
+      <div class="obgrid">
+      <div>
       <div style="display:flex;align-items:center;gap:18px">
         <div id="avPreview"><div class="avatar big ph">+</div></div>
         <div>
@@ -24,16 +34,16 @@
         </div>
       </div>
 
-      <label>name</label>
-      <input type="text" id="name" placeholder="your name or creator name" maxlength="50">
-
-      <label>username</label>
-      <input type="text" id="username" placeholder="lowercase, no spaces, e.g. miafit" maxlength="24">
+      <label>your name</label>
+      <input type="text" id="name" placeholder="your creator or brand name" maxlength="50">
 
       <label>bio</label>
       <textarea id="bio" placeholder="who you are, what you create, what makes you good" maxlength="240"></textarea>
 
-      <label>your niches <span style="text-transform:none;font-weight:400">(pick all that fit, or add your own)</span></label>
+      </div>
+
+      <div>
+      <label style="margin-top:0">your niches <span style="text-transform:none;font-weight:400">(pick all that fit, or add your own)</span></label>
       <div class="chips" id="nicheChips"></div>
       <input type="text" id="customNiche" class="mt1" placeholder="type your own niche and press enter">
 
@@ -42,6 +52,9 @@
 
       <label class="mt2">your links <span style="text-transform:none;font-weight:400">(add at least one. socials, or your brand website)</span></label>
       <div id="socialInputs"></div>
+
+      </div>
+      </div>
 
       <button class="btn full mt3" id="save">save profile →</button>
       <div class="msg" id="msg"></div>
@@ -116,7 +129,6 @@ socialWrap.innerHTML = SOCIAL_FIELDS.map(f=>`
 // prefill
 if(existing){
   document.getElementById('name').value = existing.name||'';
-  document.getElementById('username').value = existing.username||'';
   document.getElementById('bio').value = existing.bio||'';
   if(existing.avatar_url) document.getElementById('avPreview').innerHTML = `<img class="avatar big" src="${esc(existing.avatar_url)}">`;
 }
@@ -130,11 +142,14 @@ document.getElementById('avatar').addEventListener('change', e=>{
 document.getElementById('save').addEventListener('click', async ()=>{
   const msg = document.getElementById('msg'); msg.className='msg';
   const name = document.getElementById('name').value.trim();
-  const username = document.getElementById('username').value.trim().toLowerCase();
   const bio = document.getElementById('bio').value.trim();
   if(!name){ showMsg(msg,'add your name.'); return; }
-  if(hasSlurs(name) || hasSlurs(bio) || hasSlurs(username)){ showMsg(msg,'that language has no place here. change it.'); return; }
-  if(!/^[a-z0-9_]{3,24}$/.test(username)){ showMsg(msg,'username: 3-24 chars, lowercase letters, numbers or _ only.'); return; }
+  if(hasSlurs(name) || hasSlurs(bio)){ showMsg(msg,'that language has no place here. change it.'); return; }
+  let username = existing?.username;
+  if(!username){
+    username = name.toLowerCase().replace(/[^a-z0-9_]/g,'').slice(0,24);
+    if(username.length < 3){ showMsg(msg,'your name needs at least 3 letters or numbers.'); return; }
+  }
   if(selected.size===0){ showMsg(msg,'pick at least one niche.'); return; }
   const socials = {};
   let anySocial = false;

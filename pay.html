@@ -71,7 +71,7 @@ const clean = v => String(v||'').replace(/[<>&"']/g,'');
 const PERKS = {
   verified: ['✓ badge on your name, everywhere','highlighted profile picture','3 posts a day instead of 2','your first featured post free'],
   featured: ['your post in the featured row on top of the feed, 24 hours','max 5 featured slots at a time','clicks, follows and messages follow the top'],
-  spotlight: ['your profile card on top of the marketplace, 7 days','seen before anyone scrolls','limited slots']
+  spotlight: ['your profile card on top of the marketplace, 2 days','seen before anyone scrolls','limited slots']
 };
 const key = Object.keys(PERKS).find(k => (item||'').toLowerCase().includes(k));
 if(key) document.getElementById('perkList').innerHTML = PERKS[key].map(p=>`✦ ${p}`).join('<br>');

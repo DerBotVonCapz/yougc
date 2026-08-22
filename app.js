@@ -63,6 +63,10 @@ export function vbadge(p){
 const SLURS = /\bn[i1!]+gg+[e3a4]*r?s?\b|\bn[i1]gs?\b|\bf[a4@]gg?[o0]t?s?\b|\bk[i1]kes?\b|\bch[i1]nks?\b|\btr[a4]nn(?:y|ies)\b|\bwetbacks?\b|\bsp[i1]cs?\b|\bc[o0]{2}ns?\b|\br[e3]t[a4]rd(?:ed|s)?\b/i;
 export function hasSlurs(t){ return SLURS.test(String(t||'')); }
 
+// adult / spam link filter. blocked at DB level too, this is the friendly frontend catch
+const BAD_LINKS = /(pornhub|xvideos|xnxx|xhamster|redtube|youporn|rule34|hentai|onlyfans|fansly|stripchat|chaturbate|livejasmin|brazzers|e621)\./i;
+export function hasBadLinks(t){ return BAD_LINKS.test(String(t||'')); }
+
 export function blobsHTML(){
   return `<div class="bg-blobs"><div class="blob b1" data-depth="26"></div><div class="blob b2" data-depth="-34"></div><div class="blob b3" data-depth="20"></div></div><div class="grain"></div>`;
 }

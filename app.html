@@ -48,6 +48,7 @@
   .rtab:hover{transform:translateY(-2px)}
   .rtab.on{background:linear-gradient(120deg,#F4CFDF,#BFD7F2);color:var(--ink);border-color:transparent;font-weight:700}
   .post{padding:34px}
+  .postimg{max-width:100%;max-height:440px;border-radius:16px;margin-top:14px;display:block;object-fit:cover}
   .ptext{font-size:1rem !important;line-height:1.7 !important}
   .pname{font-size:1.05rem !important}
   .avatar{width:56px;height:56px}
@@ -114,6 +115,8 @@
         <div class="card" id="composer" style="display:none">
           <label style="margin-top:0">your post</label>
           <textarea id="postText" maxlength="500" placeholder=""></textarea>
+          <input type="file" id="postImg" accept="image/*" style="display:none">
+          <button class="btn ghost small full mt1" id="postImgBtn">📷 add a picture</button>
           <button class="btn small full mt1" id="postBtn">post</button>
           <a class="btn ghost small full mt1" id="featLink" href="#" style="border-color:rgba(30,51,80,.3)">✦ feature your post · 24h on top · $<span id="featPrice">25</span></a>
           <div class="msg" id="postMsg"></div>
@@ -124,7 +127,7 @@
 </div>
 
 <script type="module">
-import { sb, requireAuth, NICHES, blobsHTML, initMotion, logoHTML, esc, timeAgo, avatarHTML, vbadge, hasSlurs, showMsg } from './app.js';
+import { sb, requireAuth, NICHES, blobsHTML, initMotion, logoHTML, esc, timeAgo, avatarHTML, vbadge, hasSlurs, hasBadLinks, showMsg } from './app.js';
 import { LAUNCHED, FEATURED_PRICE, VERIFIED_PRICE, SPOTLIGHT_PRICE, PAY_URL } from './config.js';
 const payHref = (item, price) => PAY_URL || ('pay.html?item=' + encodeURIComponent(item) + '&price=' + encodeURIComponent(price));
 document.getElementById('bg').outerHTML = blobsHTML();
@@ -261,19 +264,39 @@ if(!LIVE){
       document.getElementById('spotrow').innerHTML = cards.length
         ? `<div class="spotrow"><div class="spotlabel">✦ spotlight</div>${cards.join('')}</div>` : '';
     })();
+    const postImgInp = document.getElementById('postImg');
+    document.getElementById('postImgBtn').addEventListener('click', ()=> postImgInp.click());
+    postImgInp.addEventListener('change', ()=>{
+      const f = postImgInp.files[0];
+      document.getElementById('postImgBtn').textContent = f ? ('📷 ' + f.name.slice(0,26) + ' ✓') : '📷 add a picture';
+    });
     document.getElementById('postBtn').addEventListener('click', async ()=>{
       const t = document.getElementById('postText').value.trim();
       const msg = document.getElementById('postMsg'); msg.className='msg';
       if(!t){ showMsg(msg,'write something first.'); return; }
       if(hasSlurs(t)){ showMsg(msg,'that language has no place here. rewrite it.'); return; }
+      if(hasBadLinks(t)){ showMsg(msg,'links like that have no place here.'); return; }
       const btn=document.getElementById('postBtn'); btn.innerHTML='<span class="spin"></span>';
-      const { error } = await sb.from('posts').insert({ user_id: me.id, text: t });
+      let img = null;
+      const pf = postImgInp.files[0];
+      if(pf){
+        if(pf.size > 8*1024*1024){ showMsg(msg,'picture too big, max 8 MB.'); btn.textContent='post'; return; }
+        const safe = pf.name.replace(/[^a-zA-Z0-9._-]/g,'_').slice(-50);
+        const path = 'posts/' + me.id + '/' + Date.now() + '_' + safe;
+        const { error: upErr } = await sb.storage.from('chatfiles').upload(path, pf);
+        if(upErr){ showMsg(msg,'picture upload failed. try again.'); btn.textContent='post'; return; }
+        img = sb.storage.from('chatfiles').getPublicUrl(path).data.publicUrl;
+      }
+      const { error } = await sb.from('posts').insert({ user_id: me.id, text: t, img });
       if(error){
         const m = error.message||'';
         showMsg(msg, m.includes('no_slurs') ? 'that language has no place here. rewrite it.'
+          : m.includes('duplicate post') ? 'you already posted this. say something new.'
+          : m.includes('no place here') ? 'links like that have no place here.'
           : m.includes('row-level') ? 'you posted recently. the 12 hour lock is still running.' : m);
         btn.textContent='post';
       } else {
+        postImgInp.value=''; document.getElementById('postImgBtn').textContent='📷 add a picture';
         document.getElementById('postText').value='';
         showMsg(msg, 'posted. next post unlocks in 12 hours.', true);
         btn.textContent='locked for 12h';
@@ -472,7 +495,7 @@ if(!LIVE){
     const feed=document.getElementById('feed');
     feed.innerHTML='<p class="muted center mt3">loading…</p>';
     const { data, error } = await sb.from('posts')
-      .select('id,text,created_at,featured_until,profiles(id,username,name,avatar_url,niches,role,verified)')
+      .select('id,text,img,created_at,featured_until,profiles(id,username,name,avatar_url,niches,role,verified)')
       .order('created_at',{ascending:false}).limit(100);
     if(error){ feed.innerHTML=`<p class="muted center mt3">${esc(error.message)}</p>`; return; }
     let rows = (data||[]).filter(p=>p.profiles);
@@ -503,6 +526,7 @@ if(!LIVE){
           </div>
         </div>
         <div class="ptext">${esc(p.text)}</div>
+        ${p.img?`<a href="${esc(p.img)}" target="_blank" rel="noopener"><img class="postimg" src="${esc(p.img)}" loading="lazy"></a>`:''}
         <div class="ptags">${(p.profiles.niches||[]).slice(0,6).map(n=>`<span>${esc(n)}</span>`).join('')}</div>
       </div>`).join('');
   }

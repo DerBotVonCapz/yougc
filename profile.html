@@ -155,10 +155,10 @@ if(!p){
       .then(({data})=>{ if(data){ const el=document.getElementById('refCount'); el.textContent += (el.textContent?' · ':'') + 'you joined via @' + data.referrer_username + '. 10% off your next purchase locked in'; } });
   }
 
-  const { data: posts } = await sb.from('posts').select('id,text,created_at').eq('user_id', p.id).order('created_at',{ascending:false}).limit(10);
+  const { data: posts } = await sb.from('posts').select('id,text,img,created_at').eq('user_id', p.id).order('created_at',{ascending:false}).limit(10);
   const wrap = document.getElementById('posts');
   wrap.innerHTML = (posts&&posts.length)
-    ? posts.map(x=>`<div class="card post"><div class="pmeta" style="margin-bottom:8px">${timeAgo(x.created_at)}</div><div class="ptext">${esc(x.text)}</div></div>`).join('')
+    ? posts.map(x=>`<div class="card post"><div class="pmeta" style="margin-bottom:8px">${timeAgo(x.created_at)}</div><div class="ptext">${esc(x.text)}</div>${x.img?`<a href="${esc(x.img)}" target="_blank" rel="noopener"><img src="${esc(x.img)}" style="max-width:100%;max-height:340px;border-radius:14px;margin-top:12px;display:block;object-fit:cover" loading="lazy"></a>`:''}</div>`).join('')
     : '<div class="card"><p class="muted center">no posts yet.</p></div>';
 }
 </script>

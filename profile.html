@@ -43,51 +43,71 @@ h2.page{font-size:1.7rem !important;margin-top:4px}
 
 /* ---- owner actions + paid perks ---- */
 .ownerrow{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:40px;padding-top:32px;border-top:1.5px solid rgba(30,51,80,.09)}
-.upsell{margin-top:38px;padding:34px 34px 32px;border-radius:30px;position:relative;overflow:hidden;
-  background:linear-gradient(150deg,rgba(191,215,242,.42),rgba(244,207,223,.34) 52%,rgba(191,232,212,.4));
-  border:2px solid rgba(255,255,255,.85)}
-.upsell::before{content:'';position:absolute;width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,.55);filter:blur(64px);top:-120px;right:-90px;animation:upfl 9s ease-in-out infinite alternate}
-@keyframes upfl{from{transform:translate(0,0)}to{transform:translate(-40px,40px)}}
-.uphead{position:relative;text-align:center;margin-bottom:22px}
-.upkick{font-size:.72rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#5A6A85}
-.uphead h3{font-size:clamp(1.5rem,2.6vw,2rem);font-weight:800;letter-spacing:-.03em;margin-top:6px;
+.upsell{margin-top:46px;padding:44px 38px 40px;border-radius:34px;position:relative;overflow:hidden;
+  background:linear-gradient(150deg,rgba(191,215,242,.46),rgba(244,207,223,.36) 52%,rgba(191,232,212,.44));
+  border:2px solid rgba(255,255,255,.9)}
+.upsell::before{content:'';position:absolute;width:340px;height:340px;border-radius:50%;background:rgba(255,255,255,.55);filter:blur(70px);top:-130px;right:-100px;animation:upfl 9s ease-in-out infinite alternate}
+@keyframes upfl{from{transform:translate(0,0)}to{transform:translate(-44px,44px)}}
+.uphead{position:relative;text-align:center;margin-bottom:30px}
+.upkick{font-size:.7rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#5A6A85}
+.uphead h3{font-size:clamp(1.6rem,2.8vw,2.15rem);font-weight:800;letter-spacing:-.03em;margin-top:8px;
   background:linear-gradient(90deg,#2E4A73,#6E96C8,#D98BB0);-webkit-background-clip:text;background-clip:text;color:transparent}
-.upgrid{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-@media(max-width:880px){.upgrid{grid-template-columns:1fr}}
-.upcard{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;padding:26px 20px 22px;border-radius:22px;
-  background:rgba(255,255,255,.92);text-decoration:none;color:inherit;box-shadow:0 18px 40px -22px rgba(46,74,115,.45);
-  transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s}
-.upcard:hover{transform:translateY(-7px);box-shadow:0 30px 58px -22px rgba(110,150,200,.7)}
-.upic{width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;
-  background:linear-gradient(135deg,#BFD7F2,#F4CFDF);color:#2E4A73;animation:upic 5s ease-in-out infinite alternate}
-@keyframes upic{from{transform:translateY(-3px) rotate(-3deg)}to{transform:translateY(3px) rotate(3deg)}}
-.upt{font-weight:800;font-size:1.15rem;letter-spacing:-.02em}
-.upd{font-size:.88rem;line-height:1.55;color:var(--ink-soft);min-height:3.1em}
-.upbtn{margin-top:6px;font-weight:800;font-size:.92rem;color:#fff;padding:11px 26px;border-radius:999px;
-  background:linear-gradient(120deg,#2E4A73,#6E96C8,#D98BB0);background-size:200% 100%;box-shadow:0 12px 26px -12px rgba(110,150,200,.8);transition:background-position .5s}
+.upsub{margin-top:9px;font-size:.98rem;font-weight:600;color:var(--ink-soft)}
+.upgrid{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:stretch}
+@media(max-width:880px){.upgrid{grid-template-columns:1fr}.upsell{padding:34px 22px 30px}}
+.upcard{position:relative;display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:13px;
+  padding:30px 26px 26px;border-radius:26px;background:rgba(255,255,255,.95);text-decoration:none;color:inherit;
+  box-shadow:0 20px 44px -24px rgba(46,74,115,.5);overflow:hidden;
+  transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s}
+.upcard::after{content:'';position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(115deg,transparent 42%,rgba(255,255,255,.6) 50%,transparent 58%);
+  transform:translateX(-130%);transition:transform .75s ease}
+.upcard:hover::after{transform:translateX(130%)}
+.upcard:hover{transform:translateY(-8px);box-shadow:0 34px 66px -24px rgba(110,150,200,.75)}
+.upic{width:54px;height:54px;border-radius:18px;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#BFD7F2,#F4CFDF);color:#2E4A73;transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+.upic svg{width:27px;height:27px}
+.upcard:hover .upic{transform:rotate(-8deg) scale(1.09)}
+.upcard.c2 .upic{background:linear-gradient(135deg,#F7D9C4,#F4CFDF);color:#8A4B2E}
+.upcard.c3 .upic{background:linear-gradient(135deg,#C8E6D4,#BFD7F2);color:#245C42}
+.upt{font-weight:800;font-size:1.22rem;letter-spacing:-.025em}
+.uphook{font-size:1rem;line-height:1.5;font-weight:600;color:var(--ink)}
+.uphook b{font-weight:800;background:linear-gradient(90deg,#2E4A73,#6E96C8);-webkit-background-clip:text;background-clip:text;color:transparent}
+.upcard.c2 .uphook b{background:linear-gradient(90deg,#C4703F,#D98BB0);-webkit-background-clip:text;background-clip:text;color:transparent}
+.upcard.c3 .uphook b{background:linear-gradient(90deg,#2F7A57,#6E96C8);-webkit-background-clip:text;background-clip:text;color:transparent}
+.upl{list-style:none;display:flex;flex-direction:column;gap:6px;font-size:.855rem;color:var(--ink-soft);font-weight:600;margin:0;padding:0}
+.upl li{display:flex;gap:8px;align-items:flex-start}
+.upl li::before{content:'✓';color:#3E9068;font-weight:800;flex:none}
+.uprow{margin-top:auto;padding-top:16px;display:flex;align-items:center;gap:11px;width:100%;flex-wrap:wrap}
+.upbtn{font-weight:800;font-size:.95rem;color:#fff;padding:12px 24px;border-radius:999px;white-space:nowrap;
+  background:linear-gradient(120deg,#2E4A73,#6E96C8,#D98BB0);background-size:200% 100%;
+  box-shadow:0 12px 26px -12px rgba(110,150,200,.8);transition:background-position .5s}
 .upcard:hover .upbtn{background-position:100% 0}
+.upnote{font-size:.75rem;color:var(--ink-soft);font-weight:700}
+.uptag{position:absolute;top:15px;right:15px;font-size:.62rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase;
+  padding:5px 11px;border-radius:999px;background:linear-gradient(120deg,#2E4A73,#6E96C8);color:#fff;z-index:2}
 .upcard.owned{cursor:default}
-.upcard.owned:hover{transform:none;box-shadow:0 18px 40px -22px rgba(46,74,115,.45)}
+.upcard.owned:hover{transform:none;box-shadow:0 20px 44px -24px rgba(46,74,115,.5)}
+.upcard.owned::after{display:none}
 .upbtn.done{background:linear-gradient(120deg,#5FB78B,#BFE8D4);color:#14361F}
 html.dark .upcard{background:rgba(20,28,46,.94)}
 html.dark .upsell{background:linear-gradient(150deg,rgba(46,74,115,.42),rgba(138,75,110,.32) 52%,rgba(44,92,70,.36));border-color:rgba(255,255,255,.12)}
 html.dark .ownerrow{border-top-color:rgba(255,255,255,.1)}
 
 /* ---- profile views (owner only) ---- */
-.viewbox{margin-top:34px;padding:26px 28px;border-radius:26px;position:relative;overflow:hidden;
-  background:linear-gradient(150deg,rgba(46,74,115,.96),rgba(110,150,200,.92));color:#fff;
-  box-shadow:0 24px 54px -26px rgba(46,74,115,.7)}
-.viewbox::after{content:'';position:absolute;width:280px;height:280px;border-radius:50%;background:rgba(255,255,255,.14);
-  filter:blur(50px);top:-110px;right:-70px}
+.viewbox{margin-top:30px;padding:20px 22px 18px;border-radius:22px;position:relative;overflow:hidden;
+  background:rgba(191,215,242,.26);border:1.5px solid rgba(46,74,115,.1);color:var(--ink)}
+html.dark .viewbox{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1)}
 .vhead{position:relative;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
-.vkick{font-size:.7rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;opacity:.72}
-.vrow{position:relative;display:flex;gap:34px;flex-wrap:wrap;margin-top:14px}
-.vstat .vn{font-family:'Space Grotesk',sans-serif;font-size:2.5rem;font-weight:700;letter-spacing:-.04em;line-height:1;
+.vkick{font-size:.64rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft)}
+.vrow{position:relative;display:flex;gap:26px;flex-wrap:wrap;margin-top:10px}
+.vstat .vn{font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:700;letter-spacing:-.035em;line-height:1;
   font-variant-numeric:tabular-nums}
-.vstat .vl{font-size:.8rem;font-weight:600;opacity:.78;margin-top:6px}
-.vbars{position:relative;display:flex;align-items:flex-end;gap:7px;height:62px;margin-top:20px}
-.vbars i{flex:1;border-radius:6px 6px 3px 3px;background:rgba(255,255,255,.72);min-height:4px;display:block}
-.vnote{position:relative;font-size:.86rem;opacity:.85;margin-top:16px;line-height:1.55}
+.vstat .vl{font-size:.72rem;font-weight:600;color:var(--ink-soft);margin-top:4px}
+.vbars{position:relative;display:flex;align-items:flex-end;gap:5px;height:36px;margin-top:14px}
+.vbars i{flex:1;border-radius:4px 4px 2px 2px;background:rgba(46,74,115,.28);min-height:3px;display:block}
+html.dark .vbars i{background:rgba(255,255,255,.3)}
+.vnote{position:relative;font-size:.8rem;color:var(--ink-soft);margin-top:12px;line-height:1.5;font-weight:600}
 </style>
 </head>
 <body>
@@ -114,9 +134,13 @@ html.dark .ownerrow{border-top-color:rgba(255,255,255,.1)}
 
 <script type="module">
 import { sb, currentUser, blobsHTML, initMotion, logoHTML, esc, timeAgo, avatarHTML, vbadge, isVerified, SOCIAL_FIELDS, clipEmbed, isDark, track } from './app.js';
-import { VERIFIED_PRICE, SPOTLIGHT_PRICE, AGENT_PRICE, PAY_URL } from './config.js';
+import { VERIFIED_PRICE, PIN_PRICE, AGENT_PRICE, PAY_URL, PAY_LINKS } from './config.js';
+
+const IC_VERIFIED = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.4l2.4 2.1 3.2-.3.9 3.1 2.6 1.9-1.4 2.9 1.4 2.9-2.6 1.9-.9 3.1-3.2-.3L12 21.6l-2.4-2.1-3.2.3-.9-3.1L2.9 15l1.4-2.9L2.9 9.2l2.6-1.9.9-3.1 3.2.3z"/><path d="M8.6 12.2l2.3 2.3 4.5-4.6"/></svg>';
+const IC_PIN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 4h15"/><path d="M12 21V9.2"/><path d="M7.2 14L12 9.2 16.8 14"/></svg>';
+const IC_AGENT = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M11 2.2l1.85 5.35L18.2 9.4l-5.35 1.85L11 16.6l-1.85-5.35L3.8 9.4l5.35-1.85z"/><path d="M18.3 13.6l.85 2.45 2.45.85-2.45.85-.85 2.45-.85-2.45-2.45-.85 2.45-.85z" opacity=".6"/></svg>';
 const ACCENTS = { blue:['#BFD7F2','#DCE9F9'], pink:['#F4CFDF','#FBE3EE'], mint:['#BFE8D4','#DFF2E7'], lavender:['#D8CCF2','#EAE3F9'], peach:['#F8D8C4','#FBEBDD'], sand:['#EFE3C6','#F7F0DE'], coral:['#FBC9C2','#FDE2DE'], sky:['#BEE6F5','#DCF2FA'], lime:['#DCEFB8','#EDF7DB'], grape:['#CFC3EE','#E4DDF7'], rose:['#F6C6D8','#FBE0EA'], sunset:['#FBD3A8','#FDE9CE'], ocean:['#B6DCE0','#D9EFF1'], berry:['#E7C2E4','#F3DEF2'], slate:['#CBD5E6','#E3E9F3'] };
-const payHref = (item, price) => PAY_URL || ('pay.html?item=' + encodeURIComponent(item) + '&price=' + encodeURIComponent(price));
+const payHref = (perk, item, price) => 'pay.html?perk=' + perk + '&item=' + encodeURIComponent(item) + '&price=' + encodeURIComponent(price);
 document.getElementById('bg').outerHTML = blobsHTML();
 document.getElementById('logo').outerHTML = logoHTML();
 initMotion();
@@ -166,14 +190,35 @@ if(!p){
     <div class="ptags mt2">${(p.niches||[]).map(n=>`<span>${esc(n)}</span>`).join('')}</div>
     ${socials ? `<div class="socialrow">${socials}</div>` : ''}
     ${!isOwner ? (u ? `<div class="mt3" style="display:flex;gap:12px;flex-wrap:wrap"><a class="btn" id="contact" href="chat.html?u=${encodeURIComponent(p.username)}">message ${esc(p.name.split(' ')[0])} →</a><button class="btn ghost" id="followBtn">${iFollow?'following ✓':'+ follow'}</button></div>` : `<a class="btn mt3" id="contact" href="auth.html">log in to message ${esc(p.name.split(' ')[0])} →</a>`) : ''}
-    ${isOwner ? `<div class="ownerrow"><a class="btn" href="onboard.html">edit profile →</a><a class="btn ghost" href="settings.html">settings</a>${(p.agent_until && new Date(p.agent_until)>new Date()) ? `<a class="btn" style="background:linear-gradient(120deg,#6E96C8,#D98BB0);color:#fff" href="agent.html">my agent ✨</a>` : ``}</div>
+    ${isOwner ? `<div class="ownerrow"><a class="btn" href="onboard.html">edit profile →</a><button class="btn ghost" id="shareBtn">share my link</button><a class="btn ghost" href="settings.html">settings</a>${(p.agent_until && new Date(p.agent_until)>new Date()) ? `<a class="btn" style="background:linear-gradient(120deg,#6E96C8,#D98BB0);color:#fff" href="agent.html">my agent ✨</a>` : ``}</div>
     <div id="viewsBox"></div>
     <div class="upsell">
-      <div class="uphead"><span class="upkick">grow faster</span><h3>get seen by more brands.</h3></div>
+      <div class="uphead"><span class="upkick">grow faster</span><h3>three ways to get picked first.</h3>
+        <div class="upsub">brands scroll fast. these decide whether they stop on you.</div></div>
       <div class="upgrid">
-        ${isVerified(p)?`<div class="upcard owned"><span class="upic">✓</span><div class="upt">verified</div><div class="upd">active on your profile right now</div><span class="upbtn done">active ✓</span></div>`:`<a class="upcard" href="${payHref('verified pack @'+p.username, VERIFIED_PRICE)}"><span class="upic">✓</span><div class="upt">verified</div><div class="upd">the ✓ badge, a highlighted picture and 3 posts a day</div><span class="upbtn">$${VERIFIED_PRICE}/mo</span></a>`}
-        ${(p.spotlight_until && new Date(p.spotlight_until)>new Date())?`<div class="upcard owned"><span class="upic">✦</span><div class="upt">spotlight</div><div class="upd">you are pinned on top of the marketplace</div><span class="upbtn done">running ✓</span></div>`:`<a class="upcard" href="${payHref('spotlight @'+p.username, SPOTLIGHT_PRICE)}"><span class="upic">✦</span><div class="upt">spotlight</div><div class="upd">pinned on top of the marketplace for 2 full days</div><span class="upbtn">$${SPOTLIGHT_PRICE}</span></a>`}
-        ${(p.agent_until && new Date(p.agent_until)>new Date())?`<div class="upcard owned"><span class="upic">✨</span><div class="upt">your agent</div><div class="upd">your AI agent is active</div><span class="upbtn done">active ✓</span></div>`:`<a class="upcard" href="${payHref((p.role==='brand'?'brand':'creator')+' agent @'+p.username, AGENT_PRICE)}"><span class="upic">✨</span><div class="upt">your agent</div><div class="upd">an AI that prices your deals, fixes your profile and writes your posts</div><span class="upbtn">$${AGENT_PRICE}/mo</span></a>`}
+        ${isVerified(p)?`<div class="upcard owned"><span class="upic">${IC_VERIFIED}</span><div class="upt">verified</div>
+          <div class="uphook">running right now. <b>brands see the badge.</b></div>
+          <div class="uprow"><span class="upbtn done">active ✓</span><span class="upnote">until ${p.verified_until?new Date(p.verified_until).toLocaleDateString():'you cancel'}</span></div></div>`
+        :`<a class="upcard" data-ev="perk:verified" href="${payHref('verified','verified pack @'+p.username, VERIFIED_PRICE)}"><span class="uptag">most picked</span><span class="upic">${IC_VERIFIED}</span><div class="upt">verified</div>
+          <div class="uphook">the badge <b>brands look for</b> before they message anyone.</div>
+          <ul class="upl"><li>✓ next to your name, everywhere</li><li>3 posts a day instead of 2</li><li>your photo gets the ring</li><li>your first pin is free</li></ul>
+          <div class="uprow"><span class="upbtn">$${VERIFIED_PRICE} / month</span><span class="upnote">cancel any time</span></div></a>`}
+
+        ${(p.spotlight_until && new Date(p.spotlight_until)>new Date())?`<div class="upcard c2 owned"><span class="upic">${IC_PIN}</span><div class="upt">pin</div>
+          <div class="uphook">you are <b>on top</b> of the marketplace.</div>
+          <div class="uprow"><span class="upbtn done">running ✓</span><span class="upnote">ends ${new Date(p.spotlight_until).toLocaleString([], {hour:'2-digit',minute:'2-digit',day:'numeric',month:'short'})}</span></div></div>`
+        :`<a class="upcard c2" data-ev="perk:pin" href="${payHref('pin','pin @'+p.username, PIN_PRICE)}"><span class="upic">${IC_PIN}</span><div class="upt">pin</div>
+          <div class="uphook"><b>24 hours on top.</b> everyone who opens the marketplace lands on you.</div>
+          <ul class="upl"><li>you pick: a post, or your profile</li><li>only a few slots run at once</li><li>starts the second it is live</li></ul>
+          <div class="uprow"><span class="upbtn">$${PIN_PRICE} once</span><span class="upnote">24 hours</span></div></a>`}
+
+        ${(p.agent_until && new Date(p.agent_until)>new Date())?`<div class="upcard c3 owned"><span class="upic">${IC_AGENT}</span><div class="upt">agent</div>
+          <div class="uphook">your agent is <b>awake.</b></div>
+          <div class="uprow"><a class="upbtn done" href="agent.html">open it →</a><span class="upnote">until ${new Date(p.agent_until).toLocaleDateString()}</span></div></div>`
+        :`<a class="upcard c3" data-ev="perk:agent" href="${payHref('agent',(p.role==='brand'?'brand':'creator')+' agent @'+p.username, AGENT_PRICE)}"><span class="upic">${IC_AGENT}</span><div class="upt">agent</div>
+          <div class="uphook">hooks, scripts and edit notes <b>on demand.</b></div>
+          <ul class="upl"><li>ideas built for your niche</li><li>rewrites your posts so they land</li><li>tells you what to charge</li></ul>
+          <div class="uprow"><span class="upbtn">$${AGENT_PRICE} / month</span><span class="upnote">cancel any time</span></div></a>`}
       </div>
     </div>
     <div class="refbox">
@@ -221,7 +266,7 @@ if(!p){
       const daily = data.daily || [];
       const max = Math.max(1, ...daily.map(d=>d.c));
       const bars = daily.length
-        ? daily.map(d=>`<i style="height:${Math.round(d.c/max*58)+4}px" title="${d.d}: ${d.c}"></i>`).join('')
+        ? daily.map(d=>`<i style="height:${Math.round(d.c/max*32)+3}px" title="${d.d}: ${d.c}"></i>`).join('')
         : '';
       box.innerHTML = `
         <div class="viewbox">
@@ -232,10 +277,18 @@ if(!p){
             <div class="vstat"><div class="vn">${data.total||0}</div><div class="vl">views all time</div></div>
           </div>
           ${bars?`<div class="vbars">${bars}</div>`:''}
-          <div class="vnote">${(data.d7||0) === 0
-            ? 'nobody has been here yet. share your link and add your clips, profiles with 3 clips get opened the most.'
-            : 'people are checking you out. keep your clips fresh and your dms open.'}</div>
         </div>`;
+    });
+  }
+  const shareBtn = document.getElementById('shareBtn');
+  if(shareBtn){
+    const myLink = 'https://yougcmarket.com/u/' + p.username;
+    shareBtn.addEventListener('click', async ()=>{
+      try{ track('profile·share'); }catch(e){}
+      if(navigator.share){ try{ await navigator.share({ title: p.name + ' on YOUgc', url: myLink }); return; }catch(e){} }
+      try{ await navigator.clipboard.writeText(myLink); }catch(e){}
+      shareBtn.textContent = 'link copied ✓';
+      setTimeout(()=>shareBtn.textContent = 'share my link', 1800);
     });
   }
   document.getElementById('refLink').value = refUrl;

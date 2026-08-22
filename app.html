@@ -175,7 +175,7 @@
           <input type="file" id="postImg" accept="image/*" style="display:none">
           <button class="btn ghost small full mt1" id="postImgBtn">📷 add a picture</button>
           <button class="btn small full mt1" id="postBtn">post</button>
-          <a class="btn ghost small full mt1" id="featLink" href="#" style="border-color:rgba(30,51,80,.3);white-space:nowrap;font-size:.8rem;padding-left:8px;padding-right:8px;display:flex;align-items:center;justify-content:center;gap:6px"><span>feature your post · 24h on top · $<span id="featPrice">25</span></span><span>🔥</span></a>
+          <a class="btn ghost small full mt1" id="featLink" href="#" style="border-color:rgba(30,51,80,.3);white-space:nowrap;font-size:.8rem;padding-left:8px;padding-right:8px;display:flex;align-items:center;justify-content:center;gap:7px"><span>pin your post · 24h on top · $<span id="featPrice">10</span></span><span id="featIcon" style="display:flex"></span></a>
           <div class="msg" id="postMsg"></div>
         </div>
         <a class="card" href="studio.html" style="display:block;text-decoration:none;color:inherit;margin-top:18px">
@@ -190,8 +190,9 @@
 
 <script type="module">
 import { sb, requireAuth, NICHES, blobsHTML, initMotion, logoHTML, esc, timeAgo, avatarHTML, vbadge, isVerified, hasSlurs, hasBadLinks, showMsg } from './app.js';
-import { LAUNCHED, FEATURED_PRICE, VERIFIED_PRICE, SPOTLIGHT_PRICE, PAY_URL } from './config.js';
-const payHref = (item, price) => PAY_URL || ('pay.html?item=' + encodeURIComponent(item) + '&price=' + encodeURIComponent(price));
+import { LAUNCHED, PIN_PRICE, VERIFIED_PRICE, PAY_URL } from './config.js';
+const IC_PIN_S = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="width:1em;height:1em;vertical-align:-.13em"><path d="M4.5 4h15"/><path d="M12 21V9.2"/><path d="M7.2 14L12 9.2 16.8 14"/></svg>';
+const payHref = (perk, item, price) => 'pay.html?perk=' + perk + '&item=' + encodeURIComponent(item) + '&price=' + encodeURIComponent(price);
 document.getElementById('bg').outerHTML = blobsHTML();
 document.getElementById('logo').outerHTML = logoHTML();
 initMotion();
@@ -327,8 +328,9 @@ if(!LIVE){
   // ---------- LIVE MARKETPLACE ----------
   {
     document.getElementById('composer').style.display='block';
-    document.getElementById('featPrice').textContent = FEATURED_PRICE;
-    document.getElementById('featLink').href = payHref('featured post @' + me.username, FEATURED_PRICE);
+    document.getElementById('featPrice').textContent = PIN_PRICE;
+    document.getElementById('featLink').href = payHref('pin', 'pin a post @' + me.username, PIN_PRICE);
+    document.getElementById('featIcon').innerHTML = IC_PIN_S;
 
     // ---- spotlight row: 2 creators + 2 brands on top ----
     (async ()=>{
@@ -338,7 +340,7 @@ if(!LIVE){
       const mk = p => `<a class="spotcard" href="profile.html?u=${encodeURIComponent(p.username)}">${avatarHTML(p)}<div style="min-width:0"><div class="sname">${esc(p.name)}${vbadge(p)}</div><span class="rolebadge ${p.role}">${p.role}</span>${p.bio?`<div class="sbio">${esc(p.bio.length>70?p.bio.slice(0,70)+'…':p.bio)}</div>`:''}</div></a>`;
       const cards = [...cs.map(mk), ...bs.map(mk)];
       document.getElementById('spotrow').innerHTML = cards.length
-        ? `<div class="spotrow"><div class="spotlabel">🔥 spotlight</div>${cards.join('')}</div>` : '';
+        ? `<div class="spotrow"><div class="spotlabel">${IC_PIN_S} pinned right now</div>${cards.join('')}</div>` : '';
     })();
     const postImgInp = document.getElementById('postImg');
     document.getElementById('postImgBtn').addEventListener('click', ()=> postImgInp.click());
@@ -628,7 +630,7 @@ if(!LIVE){
     }
     feed.innerHTML = '<div class="postgrid">' + rows.map(p=>`
       <div class="card post${isFeat(p)?' featured':''}">
-        ${isFeat(p)?'<span class="featbadge">🔥 featured</span>':''}
+        ${isFeat(p)?`<span class="featbadge">${IC_PIN_S} pinned</span>`:''}
         <div class="phead">
           ${avatarHTML(p.profiles)}
           <div>

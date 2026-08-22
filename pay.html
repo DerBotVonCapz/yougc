@@ -2,34 +2,79 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="description" content="complete your YOUgc purchase and your perk goes live."><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>payment · YOUgc</title>
+<meta name="description" content="get verified, pin your post or turn on your agent. card or crypto, live in minutes."><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>checkout · YOUgc</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="stylesheet" href="style.css">
 <style>
-.pane.wide{max-width:1020px}
-#payCard{padding:46px 52px}
-#payCard h1.page{font-size:clamp(2.4rem,4.8vw,3.4rem)}
-#payCard .sub{font-size:1.08rem;margin-bottom:4px}
-.perkstrip{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
-.perkstrip span{font-size:.92rem;font-weight:600;padding:11px 20px;border-radius:999px;background:linear-gradient(135deg,rgba(191,215,242,.6),rgba(244,207,223,.55));color:var(--ink)}
-.psec{margin-top:30px}
-.psec .ph{display:flex;align-items:center;gap:12px;margin-bottom:12px}
-.psec .n{flex-shrink:0;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1rem;background:linear-gradient(135deg,#BFD7F2,#F4CFDF);color:#2E4A73}
-.psec .pt{font-weight:800;font-size:1.25rem;font-family:'Space Grotesk',sans-serif}
-.psec p{font-size:1.02rem;line-height:1.7;color:var(--ink-soft)}
-.psec p b, .psec p a{color:var(--ink)}
-.coinrow{display:flex;gap:14px;flex-wrap:wrap;margin-top:14px}
-.coinbtn{flex:1;min-width:150px;border:none;cursor:pointer;font-family:'Poppins',sans-serif;padding:18px 22px;border-radius:18px;background:rgba(255,255,255,.92);border:2px solid rgba(30,51,80,.1);transition:transform .18s,box-shadow .18s,border-color .18s;text-align:center}
+.pane.wide{max-width:1180px}
+.checkout{display:grid;grid-template-columns:1.05fr .95fr;gap:22px;align-items:start}
+@media(max-width:940px){.checkout{grid-template-columns:1fr}}
+
+.pk{position:relative;overflow:hidden;padding:44px 42px 40px;border-radius:34px;border:2px solid rgba(255,255,255,.9);
+  background:linear-gradient(150deg,rgba(191,215,242,.5),rgba(244,207,223,.38) 55%,rgba(191,232,212,.46))}
+.pk::before{content:'';position:absolute;width:340px;height:340px;border-radius:50%;background:rgba(255,255,255,.6);
+  filter:blur(70px);top:-140px;right:-110px;animation:pkfl 9s ease-in-out infinite alternate}
+@keyframes pkfl{from{transform:translate(0,0)}to{transform:translate(-46px,46px)}}
+.pk>*{position:relative}
+.pkic{width:72px;height:72px;border-radius:24px;display:flex;align-items:center;justify-content:center;color:#2E4A73;
+  background:linear-gradient(135deg,#BFD7F2,#F4CFDF);box-shadow:0 18px 38px -18px rgba(46,74,115,.6);animation:pkic 5s ease-in-out infinite alternate}
+@keyframes pkic{from{transform:translateY(-4px) rotate(-4deg)}to{transform:translateY(4px) rotate(4deg)}}
+.pkic svg{width:36px;height:36px}
+.pkname{margin-top:20px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(2.3rem,5vw,3.2rem);letter-spacing:-.045em;line-height:1}
+.pkhook{margin-top:14px;font-size:1.18rem;line-height:1.5;font-weight:600;max-width:26em;color:var(--ink)}
+.pkhook b{font-weight:800;background:linear-gradient(90deg,#2E4A73,#6E96C8,#D98BB0);-webkit-background-clip:text;background-clip:text;color:transparent}
+.pkl{list-style:none;margin:26px 0 0;padding:0;display:flex;flex-direction:column;gap:11px}
+.pkl li{display:flex;gap:11px;align-items:flex-start;font-size:1.02rem;font-weight:600;line-height:1.45;
+  opacity:0;transform:translateY(8px);animation:pkin .5s cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes pkin{to{opacity:1;transform:none}}
+.pkl li i{flex:none;width:23px;height:23px;border-radius:8px;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#C8E6D4,#BFD7F2);color:#245C42;font-style:normal;font-weight:800;font-size:.78rem;margin-top:1px}
+.pkwhy{margin-top:26px;padding:18px 20px;border-radius:18px;background:rgba(255,255,255,.66);
+  font-size:.95rem;line-height:1.6;font-weight:600;color:var(--ink-soft)}
+.pkwhy b{color:var(--ink)}
+
+.paycard{padding:38px 34px 32px;border-radius:34px;background:rgba(255,255,255,.96);
+  border:2px solid rgba(255,255,255,.9);box-shadow:0 30px 70px -34px rgba(46,74,115,.55);position:sticky;top:24px}
+html.dark .paycard{background:rgba(20,28,46,.96)}
+.pricerow{display:flex;align-items:baseline;gap:9px}
+.price{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:3.1rem;letter-spacing:-.05em;line-height:1}
+.per{font-size:1rem;font-weight:700;color:var(--ink-soft)}
+.pricenote{margin-top:8px;font-size:.87rem;font-weight:700;color:var(--ink-soft)}
+.bigpay{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;margin-top:22px;
+  font-family:'Poppins',sans-serif;font-weight:800;font-size:1.08rem;color:#fff;padding:19px 26px;border-radius:999px;
+  text-decoration:none;border:none;cursor:pointer;background:linear-gradient(120deg,#2E4A73,#6E96C8,#D98BB0);
+  background-size:220% 100%;box-shadow:0 18px 40px -16px rgba(110,150,200,.9);
+  transition:background-position .55s,transform .22s}
+.bigpay:hover{background-position:100% 0;transform:translateY(-2px)}
+.bigpay svg{width:21px;height:21px}
+.trust{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px;justify-content:center}
+.trust span{font-size:.74rem;font-weight:700;color:var(--ink-soft);padding:6px 12px;border-radius:999px;background:rgba(191,215,242,.34)}
+.steps{margin-top:26px;padding-top:22px;border-top:1.5px solid rgba(30,51,80,.09);display:flex;flex-direction:column;gap:13px}
+html.dark .steps{border-top-color:rgba(255,255,255,.1)}
+.step{display:flex;gap:12px;align-items:flex-start;font-size:.93rem;font-weight:600;line-height:1.5;color:var(--ink-soft)}
+.step b{color:var(--ink)}
+.step i{flex:none;width:25px;height:25px;border-radius:9px;display:flex;align-items:center;justify-content:center;
+  font-style:normal;font-weight:800;font-size:.8rem;background:linear-gradient(135deg,#BFD7F2,#F4CFDF);color:#2E4A73}
+.alt{margin-top:24px;padding-top:20px;border-top:1.5px solid rgba(30,51,80,.09)}
+html.dark .alt{border-top-color:rgba(255,255,255,.1)}
+.altbtn{width:100%;background:none;border:none;cursor:pointer;font-family:'Poppins',sans-serif;font-size:.9rem;
+  font-weight:700;color:var(--ink-soft);display:flex;align-items:center;justify-content:space-between;padding:4px 2px}
+.altbtn:hover{color:var(--ink)}
+.altwrap{max-height:0;overflow:hidden;transition:max-height .45s cubic-bezier(.2,.8,.2,1)}
+.altwrap.open{max-height:640px}
+.coinrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.coinbtn{flex:1;min-width:98px;cursor:pointer;font-family:'Poppins',sans-serif;padding:15px 12px;border-radius:16px;
+  background:rgba(255,255,255,.9);border:2px solid rgba(30,51,80,.1);transition:transform .18s,box-shadow .18s,border-color .18s;text-align:center}
+html.dark .coinbtn{background:rgba(255,255,255,.06)}
 .coinbtn:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(46,74,115,.14);border-color:#6E96C8}
-.coinbtn .cn{font-weight:800;font-size:1.25rem;color:var(--ink);font-family:'Space Grotesk',sans-serif}
-.coinbtn .ch{font-size:.78rem;font-weight:600;color:var(--ink-soft);margin-top:3px}
+.coinbtn .cn{font-weight:800;font-size:1.05rem;color:var(--ink);font-family:'Space Grotesk',sans-serif;display:block}
+.coinbtn .ch{font-size:.7rem;font-weight:600;color:var(--ink-soft);margin-top:2px;display:block}
 .coinbtn.copied{border-color:#7FBF9E;background:rgba(191,232,212,.45)}
 .coinbtn.copied .ch{color:#3D7A5C}
-.othercoin{font-size:.88rem;color:var(--ink-soft);margin-top:12px}
-.btn.pay{background:linear-gradient(120deg,#6E96C8,#D98BB0);color:#fff;font-size:1.08rem;padding:18px 36px}
-label{font-size:.8rem}
+.smalllink{display:block;text-align:center;margin-top:16px;font-size:.83rem;font-weight:700;color:var(--ink-soft)}
+label{font-size:.78rem}
 </style>
 </head>
 <body>
@@ -37,96 +82,132 @@ label{font-size:.8rem}
 <div class="wrap">
   <nav class="top">
     <span id="logo"></span>
-    <div class="navlinks"><a class="nav-cta" href="app.html">marketplace</a></div>
+    <div class="navlinks"><a class="nav-cta" href="app.html">back to marketplace</a></div>
   </nav>
 
   <div class="pane wide">
-    <div class="card reveal on" id="payCard">
-      <h1 class="page">almost <span class="grad">there.</span></h1>
-      <p class="sub" id="itemLine">complete the payment and your perk goes live.</p>
-      <div class="perkstrip" id="perkList"></div>
-
-      <div class="psec">
-        <div class="ph"><span class="n">1</span><span class="pt">pay</span></div>
-        <p>tap a coin to copy the address, then send the amount.</p>
-        <div class="coinrow" id="coinRow"></div>
-        <p class="othercoin">want to pay with another coin? email <a href="mailto:yougcmarket@gmail.com" style="font-weight:700">yougcmarket@gmail.com</a> and it gets sorted.</p>
-      </div>
-
-      <div class="psec">
-        <div class="ph"><span class="n">2</span><span class="pt">send one email</span></div>
-        <p>hit the button below. it opens an email to support, just fill in your <b>@username</b> and the <b>transaction link</b>. once it arrives, your payment gets verified and your perk goes live. that's it.</p>
-      </div>
-
-      <label class="mt3">promo or referral code <span style="text-transform:none;font-weight:400">(optional, 10% off)</span></label>
-      <input type="text" id="promo" placeholder="YOUGC10-..." maxlength="40">
-      <a class="btn pay full mt2" id="mailBtn" href="mailto:yougcmarket@gmail.com">i paid, verify it →</a>
+    <div class="checkout">
+      <div class="pk reveal on" id="pkBox"></div>
+      <div class="paycard reveal on" id="payBox"></div>
     </div>
   </div>
 </div>
 
 <script type="module">
-import { blobsHTML, initMotion, logoHTML } from './app.js';
-import { CRYPTO_ADDR, PAY_LINKS } from './config.js';
+import { blobsHTML, initMotion, logoHTML, track } from './app.js';
+import { CRYPTO_ADDR, PAY_LINKS, VERIFIED_PRICE, PIN_PRICE, AGENT_PRICE } from './config.js';
 document.getElementById('bg').outerHTML = blobsHTML();
 document.getElementById('logo').outerHTML = logoHTML();
 initMotion();
 
 const q = new URLSearchParams(location.search);
-const item = q.get('item'), price = q.get('price');
 const clean = v => String(v||'').replace(/[<>&"']/g,'');
 
+const IC_VERIFIED = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.4l2.4 2.1 3.2-.3.9 3.1 2.6 1.9-1.4 2.9 1.4 2.9-2.6 1.9-.9 3.1-3.2-.3L12 21.6l-2.4-2.1-3.2.3-.9-3.1L2.9 15l1.4-2.9L2.9 9.2l2.6-1.9.9-3.1 3.2.3z"/><path d="M8.6 12.2l2.3 2.3 4.5-4.6"/></svg>';
+const IC_PIN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 4h15"/><path d="M12 21V9.2"/><path d="M7.2 14L12 9.2 16.8 14"/></svg>';
+const IC_AGENT = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M11 2.2l1.85 5.35L18.2 9.4l-5.35 1.85L11 16.6l-1.85-5.35L3.8 9.4l5.35-1.85z"/><path d="M18.3 13.6l.85 2.45 2.45.85-2.45.85-.85 2.45-.85-2.45-2.45-.85 2.45-.85z" opacity=".6"/></svg>';
+const IC_CARD = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><rect x="2.5" y="5" width="19" height="14" rx="3"/><path d="M2.5 10h19"/></svg>';
+
 const PERKS = {
-  verified: ['✓ badge on your name, everywhere','highlighted profile picture','3 posts a day','first featured post free','runs for 30 days, renew any time'],
-  featured: ['your post in the featured row, 24 hours','max 5 slots at a time','clicks and follows go to the top'],
-  spotlight: ['your profile card on top of the marketplace','2 full days','limited slots'],
-  agent: ['your personal agent, trained on your profile','sharper bio, better posts, cleaner deal setups','remembers your goals, works only for you','monthly, cancel anytime']
+  verified: {
+    ic: IC_VERIFIED, name: 'verified', price: VERIFIED_PRICE, per: '/ month',
+    hook: 'the badge <b>brands look for</b> before they message anyone.',
+    list: ['the ✓ next to your name, everywhere on YOUgc','your photo gets the highlight ring','3 posts a day instead of 2','your first pin, free'],
+    why: 'a brand opening the marketplace has thirty tabs open. <b>the badge is the fastest proof</b> that you are real, active and worth a message.',
+    note: 'renews every 30 days · cancel any time'
+  },
+  pin: {
+    ic: IC_PIN, name: 'pin', price: PIN_PRICE, per: 'once · 24 hours',
+    hook: '<b>24 hours on top.</b> everyone who opens the marketplace lands on you first.',
+    list: ['you pick: one of your posts, or your profile card','only a few pin slots run at a time','starts the moment it goes live','works on every device, every filter'],
+    why: 'position beats everything else on a marketplace. <b>the top row gets most of the clicks</b> and a pin puts you there for a full day.',
+    note: 'one payment · no subscription'
+  },
+  agent: {
+    ic: IC_AGENT, name: 'agent', price: AGENT_PRICE, per: '/ month',
+    hook: 'hooks, scripts and edit notes <b>on demand.</b>',
+    list: ['ideas built around your niche, not generic ones','rewrites your posts so they actually land','tells you what to charge for a deal','remembers your goals between chats'],
+    why: 'the creators who win are not the ones filming more. <b>they are the ones with better hooks.</b> this is that, on tap.',
+    note: 'renews every 30 days · cancel any time'
+  }
 };
-const key = Object.keys(PERKS).find(k => (item||'').toLowerCase().includes(k));
-document.getElementById('perkList').innerHTML = (key ? PERKS[key] : ['pick a perk on the marketplace or your profile']).map(p=>`<span>✦ ${p}</span>`).join('');
-if(key && PAY_LINKS[key]){
-  const cb = document.createElement('a');
-  cb.href = PAY_LINKS[key]; cb.target = '_blank'; cb.rel = 'noopener';
-  cb.className = 'btn full mt2';
-  cb.style.cssText = 'background:linear-gradient(120deg,#2E4A73,#6E96C8,#D98BB0);color:#fff;font-size:1.05rem;padding:18px 30px';
-  cb.textContent = '💳 pay with card, instant';
-  const pl = document.getElementById('perkList');
-  pl.parentNode.insertBefore(cb, pl.nextSibling);
-}
 
-if(item && price){
-  document.getElementById('itemLine').innerHTML = `you're getting: <b>${clean(item)}</b> for <b>$${clean(price)}</b>.`;
-}
+const item = q.get('item') || '';
+let key = (q.get('perk')||'').toLowerCase();
+if(!PERKS[key]) key = Object.keys(PERKS).find(k => item.toLowerCase().includes(k)) || '';
+if(!key && /featured|spotlight/i.test(item)) key = 'pin';
+const P = PERKS[key];
 
-// coin buttons: tap to copy, address never shown
-const coinRow = document.getElementById('coinRow');
-coinRow.innerHTML = Object.keys(CRYPTO_ADDR).map(k=>
-  `<button class="coinbtn" data-c="${clean(k)}"><span class="cn">${clean(k)}</span><span class="ch" style="display:block">tap to copy address</span></button>`).join('');
-coinRow.addEventListener('click', e=>{
-  const b = e.target.closest('.coinbtn'); if(!b) return;
-  const addr = CRYPTO_ADDR[b.dataset.c]; if(!addr) return;
-  // synchronous copy inside the click gesture, works everywhere
-  let ok = false;
-  try{
-    const t=document.createElement('textarea'); t.value=addr; t.style.position='fixed'; t.style.opacity='0';
-    document.body.appendChild(t); t.focus(); t.select();
-    ok = document.execCommand('copy'); t.remove();
-  }catch(err){}
-  if(!ok && navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(addr).catch(()=>{}); }
-  coinRow.querySelectorAll('.coinbtn').forEach(x=>{ x.classList.remove('copied'); x.querySelector('.ch').textContent='tap to copy address'; });
-  b.classList.add('copied');
-  b.querySelector('.ch').textContent='address copied ✓';
-  setTimeout(()=>{ b.classList.remove('copied'); b.querySelector('.ch').textContent='tap to copy address'; }, 2600);
-});
+if(!P){
+  document.getElementById('pkBox').innerHTML = `<div class="pkname">pick a perk.</div>
+    <div class="pkhook">open your profile or the marketplace and choose <b>verified</b>, <b>pin</b> or <b>agent</b>.</div>`;
+  document.getElementById('payBox').innerHTML = `<a class="bigpay" href="app.html">go to the marketplace →</a>`;
+} else {
+  document.getElementById('pkBox').innerHTML = `
+    <div class="pkic">${P.ic}</div>
+    <div class="pkname">${P.name}<span class="grad">.</span></div>
+    <div class="pkhook">${P.hook}</div>
+    <ul class="pkl">${P.list.map((l,i)=>`<li style="animation-delay:${.08*i+.1}s"><i>✓</i><span>${l}</span></li>`).join('')}</ul>
+    <div class="pkwhy">${P.why}</div>`;
 
-function buildMail(){
-  const code = document.getElementById('promo').value.trim();
-  let subj = 'payment: ' + (item || 'YOUgc perk') + (price ? ' ($' + price + ')' : '');
-  let body = 'i paid for: ' + (item || '') + '\nmy @username: \ntransaction link: ' + (code ? '\npromo code: ' + code : '');
-  document.getElementById('mailBtn').href = 'mailto:yougcmarket@gmail.com?subject=' + encodeURIComponent(subj) + '&body=' + encodeURIComponent(body);
+  const link = PAY_LINKS[key] || '';
+  document.getElementById('payBox').innerHTML = `
+    <div class="pricerow"><span class="price">$${P.price}</span><span class="per">${P.per}</span></div>
+    <div class="pricenote">${item ? 'for <b>'+clean(item)+'</b>' : 'billed in USD, secured by Stripe'}</div>
+    ${link ? `<a class="bigpay" id="cardBtn" href="${link}" target="_blank" rel="noopener">${IC_CARD} pay with card</a>` : ''}
+    <div class="trust"><span>🔒 stripe checkout</span><span>apple pay</span><span>no card details touch us</span></div>
+    <div class="steps">
+      <div class="step"><i>1</i><span>put your <b>@username</b> in at checkout, that is how we find you</span></div>
+      <div class="step"><i>2</i><span>your perk switches on, usually <b>within minutes</b></span></div>
+      <div class="step"><i>3</i><span>${key==='pin' ? 'you get a message asking <b>what to pin</b>' : 'nothing else to do, it is live on your profile'}</span></div>
+    </div>
+    <div class="alt">
+      <button class="altbtn" id="altBtn"><span>or pay with crypto</span><span id="altChev">＋</span></button>
+      <div class="altwrap" id="altWrap">
+        <div class="coinrow" id="coinRow"></div>
+        <label class="mt2">promo or referral code <span style="text-transform:none;font-weight:400">(optional)</span></label>
+        <input type="text" id="promo" placeholder="YOUGC10-..." maxlength="40">
+        <a class="btn ghost full mt2" id="mailBtn" href="mailto:yougcmarket@gmail.com">i sent it, verify me →</a>
+      </div>
+      <a class="smalllink" href="mailto:yougcmarket@gmail.com">something wrong? write to us</a>
+    </div>`;
+
+  try{ track('pay·view·'+key); }catch(e){}
+  const cb = document.getElementById('cardBtn');
+  if(cb) cb.addEventListener('click', ()=>{ try{ track('pay·card·'+key); }catch(e){} });
+
+  const altBtn = document.getElementById('altBtn'), altWrap = document.getElementById('altWrap');
+  altBtn.addEventListener('click', ()=>{
+    altWrap.classList.toggle('open');
+    document.getElementById('altChev').textContent = altWrap.classList.contains('open') ? '−' : '＋';
+  });
+
+  const coinRow = document.getElementById('coinRow');
+  coinRow.innerHTML = Object.keys(CRYPTO_ADDR).map(k=>
+    `<button class="coinbtn" data-c="${clean(k)}"><span class="cn">${clean(k)}</span><span class="ch">tap to copy</span></button>`).join('');
+  coinRow.addEventListener('click', e=>{
+    const b = e.target.closest('.coinbtn'); if(!b) return;
+    const addr = CRYPTO_ADDR[b.dataset.c]; if(!addr) return;
+    let ok = false;
+    try{
+      const t=document.createElement('textarea'); t.value=addr; t.style.position='fixed'; t.style.opacity='0';
+      document.body.appendChild(t); t.focus(); t.select(); ok = document.execCommand('copy'); t.remove();
+    }catch(err){}
+    if(!ok && navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(addr).catch(()=>{}); }
+    coinRow.querySelectorAll('.coinbtn').forEach(x=>{ x.classList.remove('copied'); x.querySelector('.ch').textContent='tap to copy'; });
+    b.classList.add('copied'); b.querySelector('.ch').textContent='copied ✓';
+    setTimeout(()=>{ b.classList.remove('copied'); b.querySelector('.ch').textContent='tap to copy'; }, 2600);
+  });
+
+  function buildMail(){
+    const code = document.getElementById('promo').value.trim();
+    const subj = 'payment: ' + (item || P.name) + ' ($' + P.price + ')';
+    const body = 'perk: ' + P.name + '\nmy @username: \ntransaction link: ' + (code ? '\npromo code: ' + code : '');
+    document.getElementById('mailBtn').href = 'mailto:yougcmarket@gmail.com?subject=' + encodeURIComponent(subj) + '&body=' + encodeURIComponent(body);
+  }
+  buildMail();
+  document.getElementById('promo').addEventListener('input', buildMail);
 }
-buildMail();
-document.getElementById('promo').addEventListener('input', buildMail);
 </script>
 </body>
 </html>

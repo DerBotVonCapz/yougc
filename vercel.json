@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/u/:username", "destination": "/api/u?username=:username" },
+    { "source": "/@:username", "destination": "/api/u?username=:username" }
+  ]
+}

@@ -30,6 +30,14 @@
 .msgbar{display:flex;gap:9px;padding:13px 16px;border-top:1.5px solid rgba(30,51,80,.08)}
 .msgbar input{flex:1}
 .emptyc{color:var(--ink-soft);font-size:.88rem;text-align:center;margin:auto;line-height:1.7}
+.limitbar{position:fixed;left:50%;bottom:26px;transform:translate(-50%,26px);z-index:90;
+  display:flex;align-items:center;gap:11px;max-width:min(92vw,520px);padding:15px 22px;border-radius:18px;
+  background:linear-gradient(120deg,#2E4A73,#6E96C8);color:#fff;font-size:.94rem;font-weight:700;line-height:1.45;
+  box-shadow:0 24px 54px -20px rgba(46,74,115,.85);opacity:0;pointer-events:none;
+  transition:opacity .3s,transform .35s cubic-bezier(.2,.8,.2,1)}
+.limitbar.on{opacity:1;transform:translate(-50%,0)}
+.limitbar .lbi{flex:none;width:26px;height:26px;border-radius:9px;display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.22);font-weight:800}
 </style>
 </head>
 <body>
@@ -65,7 +73,7 @@
 </div>
 
 <script type="module">
-import { sb, requireAuth, blobsHTML, initMotion, logoHTML, esc, timeAgo, avatarHTML, vbadge, hasSlurs } from './app.js';
+import { sb, requireAuth, blobsHTML, initMotion, logoHTML, esc, timeAgo, avatarHTML, vbadge, hasSlurs, track } from './app.js';
 document.getElementById('bg').outerHTML = blobsHTML();
 document.getElementById('logo').outerHTML = logoHTML();
 initMotion();
@@ -156,7 +164,24 @@ async function send(){
   if(hasSlurs(t)){ inp.value=''; inp.placeholder='that language has no place here.'; return; }
   inp.value=''; inp.placeholder='write a message…';
   const { error } = await sb.from('messages').insert({ sender: me.id, recipient: active.id, text: t });
-  if(!error) await loadAll();
+  if(error){ inp.value = t; showLimit(error.message); return; }
+  await loadAll();
+}
+
+// friendly wall for the anti-spam limits coming back from the database
+function showLimit(raw){
+  let m = String(raw||'').replace(/^.*?(?:violates|error:)\s*/i,'').trim();
+  if(!m || /duplicate key|permission denied|jwt|row-level/i.test(m)) m = 'that did not send. give it a second and try again.';
+  try{ track('chat·blocked·' + m.slice(0,40)); }catch(e){}
+  let el = document.getElementById('limitBar');
+  if(!el){
+    el = document.createElement('div'); el.id = 'limitBar'; el.className = 'limitbar';
+    document.body.appendChild(el);
+  }
+  el.innerHTML = '<span class="lbi">!</span><span>' + esc(m) + '</span>';
+  el.classList.add('on');
+  clearTimeout(window.__lt);
+  window.__lt = setTimeout(()=>el.classList.remove('on'), 6500);
 }
 document.getElementById('sendBtn').addEventListener('click', send);
 document.getElementById('msgText').addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); send(); } });
@@ -186,7 +211,7 @@ attFile.addEventListener('change', async ()=>{
     });
     if(error) throw error;
     await loadAll();
-  }catch(err){ if((err.message||'')!=='slur'){ inp.placeholder='upload failed. try again.'; } }
+  }catch(err){ if((err.message||'')!=='slur'){ showLimit(err.message || 'upload failed. try again.'); } }
   attBtn.disabled = false; attBtn.textContent = '📎';
 });
 

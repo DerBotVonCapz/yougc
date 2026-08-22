@@ -58,6 +58,38 @@ html.dark .panel{background:rgba(23,31,52,.94);border-color:rgba(255,255,255,.07
 .grid2b{display:grid;grid-template-columns:1fr 1fr;gap:22px}
 @media(max-width:1000px){.grid2b{grid-template-columns:1fr}}
 .refresh{font-size:.8rem;font-weight:700;color:var(--ink-soft);cursor:pointer;text-decoration:underline}
+.ctrl{margin-top:26px;padding:30px 32px;border-radius:26px;position:relative;overflow:hidden;
+  background:linear-gradient(150deg,rgba(46,74,115,.97),rgba(110,150,200,.93));color:#fff;
+  box-shadow:0 26px 60px -28px rgba(46,74,115,.8)}
+.ctrl h3{color:#fff;margin-bottom:6px}
+.ctrl .csub{font-size:.88rem;opacity:.8;margin-bottom:18px}
+.cform{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.cform select,.cform input{font-family:'Poppins',sans-serif;font-weight:600;font-size:.9rem;padding:12px 15px;border-radius:14px;
+  border:1.5px solid rgba(255,255,255,.28);background:rgba(255,255,255,.13);color:#fff;outline:none;margin:0}
+.cform select option{color:#1E3350}
+.cform input::placeholder{color:rgba(255,255,255,.55)}
+.cform input{min-width:170px}
+.cgo{cursor:pointer;font-family:'Poppins',sans-serif;font-weight:800;font-size:.9rem;padding:12px 26px;border-radius:999px;
+  border:none;background:#fff;color:#1E3350}
+.cgo:hover{background:#BFE8D4}
+.cout{margin-top:14px;font-size:.88rem;font-weight:700;min-height:1.2em}
+.cout.ok{color:#BFE8D4}.cout.bad{color:#F7C9C9}
+.feed{max-height:400px;overflow-y:auto;display:flex;flex-direction:column;gap:2px}
+.fev{display:flex;gap:11px;align-items:baseline;padding:9px 4px;border-bottom:1px solid rgba(30,51,80,.06);font-size:.87rem;font-weight:600}
+.fev .k{flex:none;font-size:.62rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;padding:3px 8px;border-radius:999px}
+.k.signup{background:#DCE9F9;color:#2E4A73}.k.post{background:#FBE3EE;color:#8A4B6E}
+.k.chat{background:#D6EFE1;color:#245C42}.k.gig{background:rgba(232,146,107,.24);color:#8A4B1E}
+.fev .w{color:var(--ink-soft);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fev .t{flex:none;font-size:.72rem;color:var(--ink-soft)}
+.rls{display:flex;flex-wrap:wrap;gap:8px}
+.rls span{font-size:.74rem;font-weight:700;padding:7px 13px;border-radius:999px;background:#D6EFE1;color:#245C42}
+.rls span.bad{background:#FBD5D5;color:#8A2E2E}
+.act{display:flex;gap:5px;flex-wrap:wrap}
+.act button{cursor:pointer;font-family:'Poppins',sans-serif;font-weight:700;font-size:.68rem;padding:5px 10px;border-radius:999px;
+  border:1.5px solid rgba(30,51,80,.16);background:rgba(255,255,255,.7);color:var(--ink)}
+.act button:hover{background:var(--ink);color:#fff}
+.act button.danger{border-color:rgba(180,60,60,.4);color:#A63A3A}
+.act button.danger:hover{background:#A63A3A;color:#fff}
 </style>
 </head>
 <body>
@@ -86,6 +118,8 @@ if(error){
   throw new Error('not admin');
 }
 const s = data;
+const { data: sec } = await sb.rpc('admin_security');
+const SEC = sec || {};
 const stat = (n,l)=>`<div class="stat"><div class="n">${n ?? 0}</div><div class="l">${l}</div></div>`;
 
 // 14 day visits chart
@@ -97,6 +131,14 @@ const bars = days.map(d=>`<div class="bar"><span class="v">${map[d]||0}</span><d
 
 const pct = (a,b)=> b ? Math.round(a/b*100)+'%' : '0%';
 const esc2 = t => String(t==null?'':t).replace(/[<>&"]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]));
+function when(ts){
+  if(!ts) return '';
+  const d = (Date.now() - new Date(ts).getTime())/1000;
+  if(d < 60) return 'now';
+  if(d < 3600) return Math.floor(d/60)+'m';
+  if(d < 86400) return Math.floor(d/3600)+'h';
+  return Math.floor(d/86400)+'d';
+}
 
 const users = s.users||[];
 const wl = s.waitlist_emails||[];
@@ -117,6 +159,72 @@ box.innerHTML = `
     ${stat(s.waitlist,'waitlist emails')}
     ${stat(s.visits_total,'visits all time')}
   </div>
+
+  <div class="ctrl">
+    <h3>control</h3>
+    <div class="csub">everything here happens instantly and only you can run it.</div>
+    <div class="cform">
+      <select id="cAction">
+        <option value="verify">verify (days)</option>
+        <option value="unverify">remove verified</option>
+        <option value="pin_profile">pin profile (hours)</option>
+        <option value="unpin_profile">unpin profile</option>
+        <option value="pin_post">pin post (post id, hours)</option>
+        <option value="unpin_post">unpin post (post id)</option>
+        <option value="agent">give agent (days)</option>
+        <option value="ban">ban user</option>
+        <option value="unban">unban user</option>
+        <option value="delete_post">delete post (post id)</option>
+        <option value="delete_user">delete account</option>
+      </select>
+      <input id="cTarget" placeholder="@username or post id">
+      <input id="cArg" placeholder="30" style="min-width:90px">
+      <button class="cgo" id="cGo">run</button>
+    </div>
+    <div class="cout" id="cOut"></div>
+  </div>
+
+  <div class="statgrid" style="margin-top:22px">
+    ${stat(SEC.dm_24h,'dms · 24h')}
+    ${stat(SEC.new_chats_24h,'new chats · 24h')}
+    ${stat(SEC.emails_24h,'emails sent · 24h')}
+    ${stat((SEC.banned||[]).length,'banned accounts')}
+  </div>
+
+  <div class="grid2" style="margin-top:26px">
+    <div class="panel" style="margin-top:0">
+      <h3>what is happening right now 🛰️</h3>
+      <div class="feed">
+        ${(SEC.live||[]).map(e=>`<div class="fev"><span class="k ${esc2(e.kind)}">${esc2(e.kind)}</span><b>@${esc2(e.who)}</b><span class="w">${esc2(e.what)}</span><span class="t">${when(e.created_at)}</span></div>`).join('') || '<p class="muted">quiet so far</p>'}
+      </div>
+    </div>
+    <div class="panel" style="margin-top:0">
+      <h3>who is messaging the most, 24h 📣</h3>
+      ${(SEC.top_senders||[]).map(t=>`<div class="tp"><span><b>@${esc2(t.username)}</b></span><span class="c">${t.msgs} msgs · ${t.new_chats} new</span></div>`).join('') || '<p class="muted">nobody yet</p>'}
+      <h3 style="margin-top:26px">database locks 🔐</h3>
+      <div class="rls">${(SEC.tables||[]).map(t=>`<span class="${t.rls&&t.pol>0?'':'bad'}">${esc2(t.t)} ${t.rls?'🔒':'⚠ open'}${t.pol?' · '+t.pol:''}</span>`).join('')}</div>
+      <p class="muted" style="margin-top:10px;font-size:.8rem">every table should show 🔒. anything marked open means the public API can read it.</p>
+    </div>
+  </div>
+
+  ${(SEC.banned||[]).length ? `<div class="panel">
+    <h3>banned (${(SEC.banned||[]).length}) 🚫</h3>
+    <table class="tbl"><thead><tr><th>user</th><th>reason</th><th>when</th><th></th></tr></thead><tbody>
+    ${SEC.banned.map(b=>`<tr><td><b>@${esc2(b.username)}</b> ${esc2(b.name||'')}</td><td>${esc2(b.reason||'')}</td><td class="muted">${when(b.at)}</td>
+      <td><div class="act"><button data-a="unban" data-t="${esc2(b.username)}">unban</button></div></td></tr>`).join('')}
+    </tbody></table>
+  </div>` : ''}
+
+  ${(SEC.paid||[]).length ? `<div class="panel">
+    <h3>paid perks running (${(SEC.paid||[]).length}) 💳</h3>
+    <table class="tbl"><thead><tr><th>user</th><th>verified until</th><th>pinned until</th><th>agent until</th><th></th></tr></thead><tbody>
+    ${SEC.paid.map(x=>`<tr><td><b>@${esc2(x.username)}</b></td>
+      <td>${x.verified_until?esc2(String(x.verified_until).slice(0,10)):(x.verified?'no end date':'—')}</td>
+      <td>${x.spotlight_until?when(x.spotlight_until):'—'}</td>
+      <td>${x.agent_until?esc2(String(x.agent_until).slice(0,10)):'—'}</td>
+      <td><div class="act"><button data-a="verify" data-t="${esc2(x.username)}" data-g="30">+30d verified</button><button data-a="pin_profile" data-t="${esc2(x.username)}" data-g="24">pin 24h</button></div></td></tr>`).join('')}
+    </tbody></table>
+  </div>` : ''}
 
   <div class="panel">
     <h3>the funnel, last 7 days 🧭</h3>
@@ -155,7 +263,7 @@ box.innerHTML = `
     </div>
     <div class="scroll">
       <table class="tbl">
-        <thead><tr><th>email</th><th>name</th><th>type</th><th>profile</th><th>joined</th></tr></thead>
+        <thead><tr><th>email</th><th>name</th><th>type</th><th>profile</th><th>joined</th><th>actions</th></tr></thead>
         <tbody>
         ${users.map(u=>`<tr>
           <td>${esc2(u.email)}</td>
@@ -163,6 +271,7 @@ box.innerHTML = `
           <td>${u.role?`<span class="pill ${u.role}">${u.role}</span>`:'<span class="pill none">no profile</span>'}</td>
           <td>${u.username?`${u.has_pic?'📷':'<span title="no picture">·</span>'} ${u.clips?u.clips+' clips':''}`:'<span class="pill warn">never finished</span>'}</td>
           <td class="muted">${esc2(u.joined)}</td>
+          <td>${u.username?`<div class="act"><button data-a="verify" data-t="${esc2(u.username)}" data-g="30">verify 30d</button><button data-a="pin_profile" data-t="${esc2(u.username)}" data-g="24">pin 24h</button><button class="danger" data-a="ban" data-t="${esc2(u.username)}">ban</button></div>`:''}</td>
         </tr>`).join('')}
         </tbody>
       </table>
@@ -191,6 +300,26 @@ function copyList(arr, btn){
 document.getElementById('copyUsers')?.addEventListener('click', e=> copyList(users.map(u=>u.email).filter(Boolean), e.target));
 document.getElementById('copyStuck')?.addEventListener('click', e=> copyList(users.filter(u=>!u.username).map(u=>u.email).filter(Boolean), e.target));
 document.getElementById('copyWl')?.addEventListener('click', e=> copyList(wl.map(w=>w.email).filter(Boolean), e.target));
+
+// ---- control: run an admin action ----
+async function run(action, target, arg){
+  const out = document.getElementById('cOut');
+  if(!action || !target){ out.className='cout bad'; out.textContent='needs an action and a target'; return; }
+  target = String(target).trim().replace(/^@/,'');
+  if(/^(ban|delete_user|delete_post|delete_gig)$/.test(action) && !confirm(action.replace('_',' ')+' "'+target+'" — sure?')) return;
+  out.className='cout'; out.textContent='working…';
+  const { data: r, error: e } = await sb.rpc('admin_do', { p_action: action, p_target: target, p_arg: arg ? String(arg) : null });
+  if(e){ out.className='cout bad'; out.textContent = e.message; return; }
+  out.className='cout ok'; out.textContent = action.replace('_',' ') + ' → @' + target + ' done ✓  (refreshing)';
+  setTimeout(()=>location.reload(), 1100);
+}
+document.getElementById('cGo')?.addEventListener('click', ()=>
+  run(document.getElementById('cAction').value, document.getElementById('cTarget').value, document.getElementById('cArg').value));
+document.getElementById('cTarget')?.addEventListener('keydown', e=>{ if(e.key==='Enter') document.getElementById('cGo').click(); });
+box.addEventListener('click', e=>{
+  const b = e.target.closest('button[data-a]'); if(!b) return;
+  run(b.dataset.a, b.dataset.t, b.dataset.g || null);
+});
 
 // auto refresh every 60s so the tab is always current
 setTimeout(()=>location.reload(), 60000);

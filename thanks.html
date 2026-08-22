@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="your YOUgc perk is on the way."><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>you're in · YOUgc</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="stylesheet" href="style.css">
+<style>
+.pane{max-width:720px}
+.tcard{position:relative;overflow:hidden;padding:56px 48px 46px;border-radius:36px;text-align:center;
+  border:2px solid rgba(255,255,255,.9);
+  background:linear-gradient(150deg,rgba(191,232,212,.55),rgba(191,215,242,.42) 55%,rgba(244,207,223,.4))}
+.tcard::before{content:'';position:absolute;width:360px;height:360px;border-radius:50%;background:rgba(255,255,255,.6);
+  filter:blur(74px);top:-150px;right:-110px;animation:tfl 9s ease-in-out infinite alternate}
+@keyframes tfl{from{transform:translate(0,0)}to{transform:translate(-46px,46px)}}
+.tcard>*{position:relative}
+.tick{width:98px;height:98px;margin:0 auto;border-radius:34px;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#7FBF9E,#BFE8D4);box-shadow:0 24px 48px -20px rgba(63,140,105,.75);
+  animation:pop .7s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes pop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+.tick svg{width:50px;height:50px;stroke:#fff;stroke-width:2.6;fill:none;stroke-linecap:round;stroke-linejoin:round;
+  stroke-dasharray:40;stroke-dashoffset:40;animation:draw .55s .35s cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+h1.page{margin-top:26px}
+.tsub{font-size:1.12rem;font-weight:600;line-height:1.6;color:var(--ink);max-width:26em;margin:14px auto 0}
+.tsub b{font-weight:800;background:linear-gradient(90deg,#2E4A73,#6E96C8,#D98BB0);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tsteps{margin-top:30px;display:flex;flex-direction:column;gap:12px;text-align:left;max-width:30em;margin-left:auto;margin-right:auto}
+.tstep{display:flex;gap:13px;align-items:flex-start;padding:16px 18px;border-radius:18px;background:rgba(255,255,255,.7);
+  font-size:.97rem;font-weight:600;line-height:1.5;color:var(--ink-soft);
+  opacity:0;transform:translateY(10px);animation:tin .5s cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes tin{to{opacity:1;transform:none}}
+.tstep b{color:var(--ink)}
+.tstep i{flex:none;width:26px;height:26px;border-radius:9px;display:flex;align-items:center;justify-content:center;
+  font-style:normal;font-weight:800;font-size:.82rem;background:linear-gradient(135deg,#BFD7F2,#F4CFDF);color:#2E4A73}
+.trow{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:32px}
+html.dark .tstep{background:rgba(255,255,255,.07)}
+html.dark .tcard{background:linear-gradient(150deg,rgba(44,92,70,.4),rgba(46,74,115,.36) 55%,rgba(138,75,110,.3));border-color:rgba(255,255,255,.12)}
+</style>
+</head>
+<body>
+<div id="bg"></div>
+<div class="wrap">
+  <nav class="top"><span id="logo"></span><div class="navlinks"><a class="nav-cta" href="app.html">marketplace</a></div></nav>
+  <div class="pane">
+    <div class="tcard reveal on">
+      <div class="tick"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></div>
+      <h1 class="page">you're <span class="grad">in.</span></h1>
+      <div class="tsub" id="tsub"></div>
+      <div class="tsteps" id="tsteps"></div>
+      <div class="trow" id="trow"></div>
+    </div>
+  </div>
+  <footer style="padding:40px 6vw;text-align:center;color:var(--ink-soft);font-size:.85rem;font-weight:500">© 2026 YOUgc · <a href="terms.html">terms</a> · <a href="privacy.html">privacy</a></footer>
+</div>
+<script type="module">
+import { blobsHTML, initMotion, logoHTML, track, myProfile } from './app.js';
+document.getElementById('bg').outerHTML = blobsHTML();
+document.getElementById('logo').outerHTML = logoHTML();
+initMotion();
+
+const perk = (new URLSearchParams(location.search).get('perk')||'').toLowerCase();
+try{ track('thanks·'+(perk||'unknown')); }catch(e){}
+
+const COPY = {
+  verified: {
+    sub: 'payment went through. your <b>verified badge</b> is being switched on right now.',
+    steps: [
+      ['1','we match the <b>@username</b> you gave at checkout to your profile'],
+      ['2','the ✓ appears next to your name everywhere, <b>usually within minutes</b>'],
+      ['3','your posting limit goes to <b>3 a day</b> and your first pin is free']
+    ]
+  },
+  pin: {
+    sub: 'payment went through. your <b>24 hours on top</b> are ready to start.',
+    steps: [
+      ['1','tell us <b>what to pin</b>: one of your posts, or your profile card'],
+      ['2','we put it on top of the marketplace and <b>the clock starts then</b>, not now'],
+      ['3','you keep every follow and message it brings in']
+    ]
+  },
+  agent: {
+    sub: 'payment went through. your <b>agent</b> is waking up.',
+    steps: [
+      ['1','we link it to the <b>@username</b> you gave at checkout'],
+      ['2','open the agent tab and ask it for hooks, scripts or a price'],
+      ['3','it learns your niche as you use it, so it gets sharper']
+    ]
+  }
+};
+const c = COPY[perk] || {
+  sub: 'payment went through. we are setting things up on your side.',
+  steps: [['1','we match your <b>@username</b> to your profile'],['2','the perk goes live, <b>usually within minutes</b>']]
+};
+
+document.getElementById('tsub').innerHTML = c.sub;
+document.getElementById('tsteps').innerHTML = c.steps.map((s,i)=>
+  `<div class="tstep" style="animation-delay:${.12*i+.35}s"><i>${s[0]}</i><span>${s[1]}</span></div>`).join('');
+
+const p = await myProfile().catch(()=>null);
+const mine = p ? 'profile.html?u=' + encodeURIComponent(p.username) : 'app.html';
+document.getElementById('trow').innerHTML = perk === 'pin'
+  ? `<a class="btn" href="chat.html">tell us what to pin →</a><a class="btn ghost" href="${mine}">my profile</a>`
+  : (perk === 'agent'
+    ? `<a class="btn" href="agent.html">open my agent →</a><a class="btn ghost" href="${mine}">my profile</a>`
+    : `<a class="btn" href="${mine}">see my profile →</a><a class="btn ghost" href="app.html">marketplace</a>`);
+</script>
+</body>
+</html>

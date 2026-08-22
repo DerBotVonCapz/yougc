@@ -35,10 +35,13 @@ label{font-size:.86rem}
 .rolecard[data-role=creator] .ric{background:linear-gradient(135deg,#BFD7F2,#DCE9F9)}
 .rolecard[data-role=brand] .ric{background:linear-gradient(135deg,#F4CFDF,#FBE3EE)}
 .rolecard .rsub{display:block;font-weight:500;font-size:.84rem;color:var(--ink-soft);margin-top:2px}
-.authfoot{display:flex;align-items:center;gap:14px;margin-top:34px;padding-top:26px;border-top:1.5px solid rgba(30,51,80,.09)}
-.authfoot img{height:34px}
-.authfoot span{font-size:.95rem;font-weight:600;color:var(--ink-soft)}
+.authfoot{display:flex;align-items:center;gap:20px;margin-top:38px;padding-top:30px;border-top:1.5px solid rgba(30,51,80,.09);animation:aff 6s ease-in-out infinite alternate}
+@keyframes aff{from{transform:translateY(-3px)}to{transform:translateY(3px)}}
+.authfoot img{height:54px}
+.afbig{display:block;font-size:1.45rem;font-weight:800;letter-spacing:-.02em;line-height:1.2;color:var(--ink)}
+.afsub{display:block;font-size:.88rem;font-weight:600;color:var(--ink-soft);margin-top:6px}
 html.dark .authfoot{border-top-color:rgba(255,255,255,.1)}
+html.dark .afbig{color:#EAF0FA}
 </style>
 </head>
 <body>
@@ -74,7 +77,13 @@ html.dark .authfoot{border-top-color:rgba(255,255,255,.1)}
             continue with Google
           </button>
           <div class="msg" id="msg"></div>
-          <div class="authfoot"><img src="logo.png" alt="YOUgc"><span>where creators get found.</span></div>
+          <div class="authfoot">
+            <img src="logo.png" alt="YOUgc">
+            <div>
+              <span class="afbig">where creators <span class="grad">get found.</span></span>
+              <span class="afsub">free to join · deals in your DMs · your agent on your side</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>

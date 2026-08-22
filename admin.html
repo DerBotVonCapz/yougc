@@ -191,6 +191,12 @@ box.innerHTML = `
     ${stat((SEC.banned||[]).length,'banned accounts')}
   </div>
 
+  <div class="panel">
+    <h3>your data 💾</h3>
+    <p class="muted" style="margin-bottom:14px;font-size:.92rem;line-height:1.6">supabase does not keep automatic backups on this plan. one click pulls <b>everything</b> down as a json file: profiles, emails, posts, gigs, messages, follows, referrals, waitlist and 30 days of analytics. do it once a week and you can never lose the marketplace.</p>
+    <div class="copybar"><button id="dlBackup">download a full backup</button><span class="muted" style="font-size:.8rem;align-self:center">${SEC.blocked_24h||0} spam attempts blocked in 24h</span></div>
+  </div>
+
   <div class="grid2" style="margin-top:26px">
     <div class="panel" style="margin-top:0">
       <h3>what is happening right now 🛰️</h3>
@@ -300,6 +306,22 @@ function copyList(arr, btn){
 document.getElementById('copyUsers')?.addEventListener('click', e=> copyList(users.map(u=>u.email).filter(Boolean), e.target));
 document.getElementById('copyStuck')?.addEventListener('click', e=> copyList(users.filter(u=>!u.username).map(u=>u.email).filter(Boolean), e.target));
 document.getElementById('copyWl')?.addEventListener('click', e=> copyList(wl.map(w=>w.email).filter(Boolean), e.target));
+
+// ---- one click, everything on your disk ----
+document.getElementById('dlBackup')?.addEventListener('click', async e=>{
+  const b = e.target, old = b.textContent;
+  b.textContent = 'pulling…';
+  const { data: dump, error: de } = await sb.rpc('admin_export');
+  if(de){ b.textContent = 'failed: ' + de.message.slice(0,40); return; }
+  const blob = new Blob([JSON.stringify(dump, null, 2)], { type:'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'yougc-backup-' + new Date().toISOString().slice(0,10) + '.json';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 4000);
+  b.textContent = 'saved ✓  (' + Math.round(blob.size/1024) + ' KB)';
+  setTimeout(()=>b.textContent = old, 4000);
+});
 
 // ---- control: run an admin action ----
 async function run(action, target, arg){

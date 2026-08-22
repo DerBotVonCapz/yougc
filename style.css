@@ -31,7 +31,7 @@ body{font-family:'Poppins',-apple-system,'Segoe UI',sans-serif;background:var(--
 .grad{background:linear-gradient(90deg,#2E4A73 0%,#6E96C8 45%,#D98BB0 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
 
 nav.top{display:flex;justify-content:space-between;align-items:center;padding:18px 22px;position:relative;z-index:5}
-.navlinks{display:flex;gap:12px;align-items:center}
+.navlinks{display:flex;gap:12px;align-items:center;flex-wrap:wrap;justify-content:flex-end;min-width:0}
 .nav-cta{font-size:.85rem;font-weight:600;color:var(--ink);text-decoration:none;border:1.5px solid rgba(30,51,80,.25);padding:9px 20px;border-radius:999px;transition:all .25s;background:rgba(255,255,255,.5)}
 .nav-cta:hover{background:var(--ink);color:#fff;transform:translateY(-2px)}
 .nav-cta.solid{background:var(--ink);color:#fff;border-color:var(--ink)}
@@ -249,7 +249,8 @@ html.dark .mfbar{border-top-color:rgba(255,255,255,.1)}
 @media(max-width:640px){
   nav.top{padding:14px 14px;gap:8px}
   nav.top .logo img{height:32px}
-  .navlinks{gap:7px}
+  .navlinks{gap:6px}
+  .navlinks .nav-cta{padding:8px 12px;font-size:.78rem}
   .nav-cta{padding:8px 13px;font-size:.78rem;white-space:nowrap}
   .card{padding:26px 20px}
   h1.page{font-size:2.1rem}

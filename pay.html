@@ -39,6 +39,7 @@
   transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s}
 @keyframes bin{to{opacity:1;transform:none}}
 .bub:hover{transform:translateY(-5px);box-shadow:0 28px 54px -26px rgba(110,150,200,.7)}
+.hero{}
 html.dark .bub{background:rgba(20,28,46,.94);border-color:rgba(255,255,255,.08)}
 .bub i{flex:none;width:46px;height:46px;border-radius:15px;display:flex;align-items:center;justify-content:center;
   background:linear-gradient(135deg,#BFD7F2,#F4CFDF);color:#2E4A73}
@@ -49,13 +50,31 @@ html.dark .bub{background:rgba(20,28,46,.94);border-color:rgba(255,255,255,.08)}
 .bub .bt{font-weight:800;font-size:1.06rem;letter-spacing:-.02em;line-height:1.25}
 .bub .bd{font-size:.89rem;line-height:1.5;color:var(--ink-soft);font-weight:600;margin-top:4px}
 
-.why{margin-top:16px;padding:26px 30px;border-radius:26px;text-align:center;
-  background:linear-gradient(135deg,rgba(46,74,115,.96),rgba(110,150,200,.93));color:#fff;
-  font-size:1.06rem;line-height:1.6;font-weight:600;box-shadow:0 24px 54px -28px rgba(46,74,115,.8)}
-.why b{font-weight:800}
+@keyframes flow{0%{background-position:0% 50%}100%{background-position:300% 50%}}
+.why{margin:26px auto 4px;max-width:24em;text-align:center;font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(1.3rem,3vw,1.75rem);font-weight:700;letter-spacing:-.035em;line-height:1.25;
+  background:linear-gradient(90deg,#2E4A73,#6E96C8,#D98BB0,#E8926B,#5FB78B,#2E4A73);
+  background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:flow 11s linear infinite}
 
-.paybox{margin-top:16px;padding:34px 32px 30px;border-radius:30px;text-align:center;
+/* shared: animated pastel rim that lights up on hover */
+.rimmed{position:relative}
+.rimmed::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:2px;pointer-events:none;
+  background:linear-gradient(90deg,#BFD7F2,#F4CFDF,#BFE8D4,#F7D9C4,#DCD4F2,#BFD7F2);background-size:300% 100%;
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  opacity:0;transition:opacity .35s;animation:flow 7s linear infinite}
+.rimmed:hover::before{opacity:1}
+@media(prefers-reduced-motion:reduce){.why,.rimmed::before{animation:none}}
+
+.paybox{position:relative;overflow:hidden;margin-top:16px;padding:34px 32px 30px;border-radius:30px;text-align:center;
   background:rgba(255,255,255,.96);border:2px solid rgba(255,255,255,.9);box-shadow:0 26px 62px -32px rgba(46,74,115,.55)}
+.paybox::after{content:'';position:absolute;width:300px;height:300px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,rgba(191,215,242,.55),rgba(244,207,223,.35) 55%,transparent 72%);
+  filter:blur(24px);top:-120px;left:-90px;animation:orb 16s ease-in-out infinite alternate}
+@keyframes orb{0%{transform:translate(0,0) scale(1)}50%{transform:translate(340px,60px) scale(1.15)}100%{transform:translate(120px,220px) scale(.95)}}
+.paybox>*{position:relative;z-index:1}
+@media(prefers-reduced-motion:reduce){.paybox::after{animation:none}}
 html.dark .paybox{background:rgba(20,28,46,.96);border-color:rgba(255,255,255,.08)}
 .pricerow{display:flex;align-items:baseline;gap:9px;justify-content:center}
 .price{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:3rem;letter-spacing:-.05em;line-height:1}
@@ -64,15 +83,26 @@ html.dark .paybox{background:rgba(20,28,46,.96);border-color:rgba(255,255,255,.0
 .choose{font-size:.7rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin-top:26px}
 .ways{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
 @media(max-width:620px){.ways{grid-template-columns:1fr}}
-.way{display:flex;flex-direction:column;align-items:center;gap:7px;padding:22px 20px;border-radius:22px;cursor:pointer;
-  text-decoration:none;color:inherit;font-family:'Poppins',sans-serif;border:2px solid rgba(30,51,80,.12);
-  background:rgba(255,255,255,.7);transition:transform .24s cubic-bezier(.2,.8,.2,1),box-shadow .24s,border-color .24s}
-html.dark .way{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.12)}
-.way:hover{transform:translateY(-4px);border-color:#6E96C8;box-shadow:0 22px 46px -24px rgba(110,150,200,.8)}
-.way.primary{color:#fff;border-color:transparent;background:linear-gradient(120deg,#2E4A73,#6E96C8,#D98BB0);background-size:220% 100%;transition:background-position .55s,transform .24s}
-.way.primary:hover{background-position:100% 0}
+.way{display:flex;flex-direction:column;align-items:center;gap:7px;padding:24px 20px;border-radius:24px;cursor:pointer;
+  text-decoration:none;color:var(--ink);font-family:'Poppins',sans-serif;border:2px solid rgba(30,51,80,.1);
+  background:rgba(255,255,255,.72);overflow:hidden;
+  transition:transform .26s cubic-bezier(.2,.8,.2,1),box-shadow .26s}
+html.dark .way{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.12);color:var(--ink)}
+.way:not(.primary){border-color:transparent;
+  background:linear-gradient(rgba(255,255,255,.9),rgba(255,255,255,.9)) padding-box,
+             linear-gradient(115deg,#BFD7F2,#DCD4F2,#C8E6D4,#BFD7F2) border-box}
+html.dark .way:not(.primary){background:linear-gradient(rgba(23,31,52,.94),rgba(23,31,52,.94)) padding-box,
+  linear-gradient(115deg,#2E4A73,#453B7A,#2C5C46,#2E4A73) border-box}
+.way:hover{transform:translateY(-5px);box-shadow:0 26px 52px -24px rgba(110,150,200,.75)}
+.way.primary{border-color:transparent;color:#1E3350;
+  background:linear-gradient(100deg,#BFD7F2,#F4CFDF,#C8E6D4,#F7D9C4,#DCD4F2,#BFD7F2);
+  background-size:300% 100%;animation:flow 13s linear infinite;
+  box-shadow:0 20px 44px -20px rgba(110,150,200,.75)}
+.way.primary .wd{opacity:.8}
+.way.primary .wt{color:#1E3350}
+@media(prefers-reduced-motion:reduce){.way.primary{animation:none}}
 .way svg{width:26px;height:26px}
-.way .wt{font-weight:800;font-size:1.06rem}
+.way .wt{font-weight:800;font-size:1.1rem;letter-spacing:-.02em}
 .way .wd{font-size:.79rem;font-weight:600;opacity:.78}
 .trust{display:flex;flex-wrap:wrap;gap:7px;margin-top:18px;justify-content:center}
 .trust span{font-size:.73rem;font-weight:700;color:var(--ink-soft);padding:6px 12px;border-radius:999px;background:rgba(191,215,242,.32)}
@@ -145,7 +175,7 @@ const PERKS = {
       [I.stack, '3 posts a day', 'instead of 2, so you stay near the top'],
       [I.gift,  'your first pin, free', 'that is $' + PIN_PRICE + ' back on day one']
     ],
-    why: 'a brand opening the marketplace has thirty tabs open and ten minutes. <b>the badge is the fastest proof</b> that you are real, active and worth a message.'
+    why: 'unverified profiles get scrolled past.'
   },
   pin: {
     ic: I.pin, name: 'pin', price: PIN_PRICE, per: 'once · 24 hours', note: 'one payment · no subscription',
@@ -156,7 +186,7 @@ const PERKS = {
       [I.clock, 'you start the clock', 'run it when your audience is awake'],
       [I.rare,  'only a few slots', 'the top row stays rare on purpose']
     ],
-    why: 'on a marketplace, <b>position beats everything else.</b> the top row takes most of the clicks, and a pin puts you there for a full day.'
+    why: 'the top row takes most of the clicks.'
   },
   agent: {
     ic: I.spark, name: 'agent', price: AGENT_PRICE, per: '/ month', note: 'renews every 30 days · cancel any time',
@@ -167,7 +197,7 @@ const PERKS = {
       [I.tag,   'tells you what to charge', 'per deal, based on what you show'],
       [I.brain, 'remembers your goals', 'pick up where you left off']
     ],
-    why: 'the creators who win are not filming more. <b>they have better hooks.</b> this is that, any time you open it.'
+    why: 'the winners are not filming more. they have better hooks.'
   }
 };
 
@@ -192,7 +222,7 @@ if(!P){
     </div>
 
     <div class="bubbles">
-      ${P.bubbles.map((b,i)=>`<div class="bub" style="animation-delay:${.07*i+.12}s"><i>${b[0]}</i>
+      ${P.bubbles.map((b,i)=>`<div class="bub rimmed" style="animation-delay:${.07*i+.12}s"><i>${b[0]}</i>
         <div><div class="bt">${b[1]}</div><div class="bd">${b[2]}</div></div></div>`).join('')}
     </div>
 
@@ -203,9 +233,9 @@ if(!P){
       <div class="pricenote">${P.note}</div>
       <div class="choose">how do you want to pay</div>
       <div class="ways">
-        ${link ? `<a class="way primary" id="wCard" href="${link}" target="_blank" rel="noopener">${I.card}
+        ${link ? `<a class="way primary rimmed" id="wCard" href="${link}" target="_blank" rel="noopener">${I.card}
           <span class="wt">card</span><span class="wd">visa, mastercard, apple pay</span></a>` : ''}
-        <button class="way" id="wCrypto">${I.coin}<span class="wt">crypto</span><span class="wd">SOL · ETH · BTC</span></button>
+        <button class="way rimmed" id="wCrypto">${I.coin}<span class="wt">crypto</span><span class="wd">SOL · ETH · BTC</span></button>
       </div>
       <div class="trust"><span>🔒 card payments run on stripe</span><span>we never see your card</span><span>put your @username in at checkout</span></div>
     </div>`;

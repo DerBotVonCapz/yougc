@@ -30,10 +30,10 @@ html.dark .key{background:rgba(23,31,52,.94);color:#EAF0FA}
 @keyframes krise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 @keyframes kfloat{from{transform:translateY(-3px)}to{transform:translateY(3px)}}
 @media(max-width:820px){.karr{display:none}}
-.stgrid{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:52px}
-@media(max-width:1000px){.stgrid{grid-template-columns:1fr 1fr}}
-@media(max-width:700px){.stgrid{grid-template-columns:1fr}}
-.stcard{display:flex;align-items:center;gap:26px;text-align:left;padding:38px 42px;border-radius:36px;border:3px solid transparent;
+.stgrid{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:52px;min-width:0}
+.stgrid>*{min-width:0}
+@media(max-width:900px){.stgrid{grid-template-columns:1fr}}
+.stcard{display:flex;align-items:center;gap:26px;text-align:left;padding:38px 42px;border-radius:36px;border:3px solid transparent;min-width:0;
   background:linear-gradient(rgba(255,255,255,.92),rgba(255,255,255,.92)) padding-box,
              linear-gradient(120deg,#BFD7F2,#F4CFDF,#BFE8D4,#BFD7F2) border-box;
   box-shadow:0 22px 52px -24px rgba(46,74,115,.32);transition:transform .3s,box-shadow .3s;will-change:transform}
@@ -80,7 +80,7 @@ html.dark .dealband .big{color:#EAF0FA}
 <body>
 <div id="bg"></div>
 <div class="wrap">
-  <nav class="top"><span id="logo"></span><span style="display:flex;gap:10px;align-items:center"><a class="nav-cta" href="app.html">marketplace</a><a class="nav-cta" href="chat.html">chats</a><a class="nav-cta" id="navProf" href="auth.html">my profile</a></span></nav>
+  <nav class="top"><span id="logo"></span><span class="navlinks"><a class="nav-cta" href="app.html">marketplace</a><a class="nav-cta" href="chat.html">chats</a><a class="nav-cta" id="navProf" href="auth.html">my profile</a></span></nav>
   <div class="pane">
 
     <div class="hero reveal on">

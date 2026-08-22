@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YOUgc studio · we make your videos hit</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="stylesheet" href="style.css">
+<style>
+.pane{max-width:1220px}
+.hero{padding:8vh 0 5vh;text-align:center}
+.hero h1{font-size:clamp(2.8rem,5.6vw,4.4rem);font-weight:800;letter-spacing:-.03em;line-height:1.04;animation:stfloat 7s ease-in-out infinite alternate}
+@keyframes stfloat{from{transform:translateY(-4px)}to{transform:translateY(4px)}}
+.hero .sub{font-size:clamp(1.05rem,1.8vw,1.3rem);margin-top:18px;color:var(--ink-soft);font-weight:500}
+.stgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:44px}
+@media(max-width:1000px){.stgrid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.stgrid{grid-template-columns:1fr}}
+.stcard{padding:34px 28px;border-radius:26px;border:3px solid transparent;
+  background:linear-gradient(rgba(255,255,255,.92),rgba(255,255,255,.92)) padding-box,
+             linear-gradient(120deg,#BFD7F2,#F4CFDF,#BFE8D4,#BFD7F2) border-box;
+  box-shadow:0 22px 52px -24px rgba(46,74,115,.32);transition:transform .3s,box-shadow .3s;will-change:transform}
+.stcard:hover{transform:translateY(-7px);box-shadow:0 34px 68px -26px rgba(46,74,115,.45)}
+html.dark .stcard{background:linear-gradient(rgba(23,31,52,.96),rgba(23,31,52,.96)) padding-box,
+  linear-gradient(120deg,#2E4A73,#8A4B6E,#2C5C46,#2E4A73) border-box}
+.stcard .ic{font-size:2rem;width:62px;height:62px;display:flex;align-items:center;justify-content:center;border-radius:20px;margin-bottom:18px;transition:transform .3s}
+.stcard:hover .ic{transform:rotate(-8deg) scale(1.12)}
+.stcard:nth-child(1) .ic{background:linear-gradient(135deg,#BFD7F2,#DCE9F9)}
+.stcard:nth-child(2) .ic{background:linear-gradient(135deg,#F4CFDF,#FBE3EE)}
+.stcard:nth-child(3) .ic{background:linear-gradient(135deg,#BFE8D4,#DFF5EA)}
+.stcard:nth-child(4) .ic{background:linear-gradient(135deg,#F8D8C4,#FDEBDD)}
+.stcard h3{font-size:1.35rem;font-weight:800;letter-spacing:-.02em;margin-bottom:8px}
+.stcard p{font-size:1rem;color:var(--ink-soft);line-height:1.65;font-weight:500}
+.hiw{margin-top:9vh}
+.hiw h2{font-size:clamp(2rem,4vw,3.1rem);font-weight:800;letter-spacing:-.03em}
+.hsteps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:38px}
+@media(max-width:900px){.hsteps{grid-template-columns:1fr}}
+.hstep{padding:36px 30px;border-radius:26px;background:rgba(255,255,255,.85);border:1.5px solid rgba(255,255,255,.95);box-shadow:0 18px 46px -22px rgba(46,74,115,.24);transition:transform .3s,border-color .3s}
+.hstep:hover{transform:translateY(-6px);border-color:var(--ink)}
+html.dark .hstep{background:rgba(23,31,52,.94);border-color:rgba(255,255,255,.07)}
+html.dark .hstep:hover{border-color:#6E96C8}
+.hstep .n{font-size:.85rem;font-weight:800;letter-spacing:.1em;display:inline-block;padding:8px 17px;border-radius:999px;margin-bottom:16px}
+.hstep:nth-child(1) .n{background:#BFD7F2;color:#20395C}
+.hstep:nth-child(2) .n{background:#F4CFDF;color:#7E3D5A}
+.hstep:nth-child(3) .n{background:#BFE8D4;color:#2C5C46}
+.hstep h4{font-size:1.4rem;font-weight:800;margin-bottom:10px;letter-spacing:-.02em}
+.hstep p{font-size:1rem;color:var(--ink-soft);line-height:1.65;font-weight:500}
+.dealband{margin-top:9vh;padding:56px 6vw;border-radius:30px;text-align:center;border:3px solid transparent;
+  background:linear-gradient(rgba(255,255,255,.9),rgba(255,255,255,.9)) padding-box,
+             linear-gradient(120deg,#BFD7F2,#F4CFDF,#BFE8D4,#BFD7F2) border-box;
+  box-shadow:0 30px 70px -30px rgba(46,74,115,.4);animation:stfloat 8s ease-in-out infinite alternate}
+html.dark .dealband{background:linear-gradient(rgba(23,31,52,.96),rgba(23,31,52,.96)) padding-box,
+  linear-gradient(120deg,#2E4A73,#8A4B6E,#2C5C46,#2E4A73) border-box}
+.dealband h2{font-size:clamp(1.9rem,3.6vw,2.9rem);font-weight:800;letter-spacing:-.03em}
+.dealband p{color:var(--ink-soft);font-size:1.1rem;margin:16px auto 0;max-width:640px;line-height:1.7;font-weight:500}
+.dealband .big{font-size:1.25rem;font-weight:700;color:var(--ink);margin-top:22px}
+html.dark .dealband .big{color:#EAF0FA}
+.cta{display:inline-block;margin-top:30px;padding:20px 46px;border-radius:999px;font-weight:800;font-size:1.12rem;text-decoration:none;color:#fff;
+  background:linear-gradient(120deg,#2E4A73,#6E96C8,#D98BB0);background-size:220% 100%;transition:background-position .5s,transform .25s,box-shadow .25s;
+  box-shadow:0 18px 40px -16px rgba(46,74,115,.6)}
+.cta:hover{background-position:100% 0;transform:translateY(-3px) scale(1.03)}
+.smallnote{margin-top:16px;font-size:.85rem;color:var(--ink-soft);font-weight:500}
+</style>
+</head>
+<body>
+<div id="bg"></div>
+<div class="wrap">
+  <nav class="top"><span id="logo"></span><a class="nav-cta" href="app.html">marketplace</a></nav>
+  <div class="pane">
+
+    <div class="hero reveal on">
+      <h1>YOUgc <span class="grad">studio.</span></h1>
+      <p class="sub">you close the deal. we make the content hit.</p>
+    </div>
+
+    <div class="stgrid">
+      <div class="stcard reveal on"><span class="ic">🪝</span><h3>hooks &amp; scripts</h3><p>the first 2 seconds decide everything. we write hooks and full scripts that stop the scroll, matched to the brand and the product.</p></div>
+      <div class="stcard reveal on"><span class="ic">💡</span><h3>video ideas</h3><p>stuck on what to shoot? we build the concept with you: format, angle, setting, what to say and what to show.</p></div>
+      <div class="stcard reveal on"><span class="ic">✂️</span><h3>editing &amp; captions</h3><p>send us the raw clips, we cut them tight: pacing, captions, sound, transitions. ready to post.</p></div>
+      <div class="stcard reveal on"><span class="ic">🚀</span><h3>full polish</h3><p>the whole package from idea to final export. you shoot, we handle everything around it until the video is ready to perform.</p></div>
+    </div>
+
+    <div class="hiw reveal">
+      <h2>how it <span class="grad">works.</span></h2>
+      <div class="hsteps">
+        <div class="hstep"><span class="n">01</span><h4>you set up the deal</h4><p>creator and brand find each other on the marketplace and agree the deal in the DMs, like always.</p></div>
+        <div class="hstep"><span class="n">02</span><h4>you bring us in</h4><p>either side loops in the studio with one email. tell us the product, the platform and the deadline.</p></div>
+        <div class="hstep"><span class="n">03</span><h4>we make it hit</h4><p>hooks, script, edit, captions, whatever the video needs. you post, the brand gets content that actually performs.</p></div>
+      </div>
+    </div>
+
+    <div class="dealband reveal">
+      <h2>no deal, <span class="grad">no cost.</span></h2>
+      <p>the studio takes a small share of the deal it helps produce, usually <b>10 to 15 percent</b>, agreed upfront before we touch anything. if the deal does not happen, you pay nothing.</p>
+      <div class="big">your video earns, then we earn. that simple.</div>
+      <a class="cta" href="mailto:yougcmarket@gmail.com?subject=YOUgc%20studio%20request&body=hey%2C%20we%20want%20the%20studio%20in%20on%20our%20deal.%0A%0Acreator%3A%20%40...%0Abrand%3A%20%40...%0Aproduct%3A%20...%0Aplatform%3A%20tiktok%20%2F%20reels%20%2F%20shorts%0Adeadline%3A%20...%0Awhat%20we%20need%3A%20hooks%20%2F%20script%20%2F%20ideas%20%2F%20editing">bring the studio into your deal →</a>
+      <div class="smallnote">answer within a day · yougcmarket@gmail.com</div>
+    </div>
+
+  </div>
+  <footer style="padding:52px 6vw 40px;text-align:center;color:var(--ink-soft);font-size:.85rem;font-weight:500">© 2026 YOUgc</footer>
+</div>
+<script type="module">
+import { blobsHTML, initMotion, logoHTML } from './app.js';
+document.getElementById('bg').outerHTML = blobsHTML();
+document.getElementById('logo').outerHTML = logoHTML();
+initMotion();
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target);}}),{threshold:.15});
+document.querySelectorAll('.reveal:not(.on)').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

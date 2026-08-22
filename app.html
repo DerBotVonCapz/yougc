@@ -118,9 +118,14 @@
           <input type="file" id="postImg" accept="image/*" style="display:none">
           <button class="btn ghost small full mt1" id="postImgBtn">📷 add a picture</button>
           <button class="btn small full mt1" id="postBtn">post</button>
-          <a class="btn ghost small full mt1" id="featLink" href="#" style="border-color:rgba(30,51,80,.3)">✦ feature your post · 24h on top · $<span id="featPrice">25</span></a>
+          <a class="btn ghost small full mt1" id="featLink" href="#" style="border-color:rgba(30,51,80,.3)">🔥 feature your post · 24h on top · $<span id="featPrice">25</span></a>
           <div class="msg" id="postMsg"></div>
         </div>
+        <a class="card" href="studio.html" style="display:block;text-decoration:none;color:inherit;margin-top:18px">
+          <div style="font-weight:800;font-size:1.08rem">🎬 YOUgc studio</div>
+          <p class="muted" style="margin-top:8px;font-size:.88rem;line-height:1.6">got a deal running? we jump in with hooks, scripts and edits so the video actually hits. no deal, no cost.</p>
+          <span style="display:inline-block;margin-top:10px;font-weight:700;font-size:.88rem;background:linear-gradient(90deg,#2E4A73,#6E96C8,#D98BB0);-webkit-background-clip:text;background-clip:text;color:transparent">see how it works →</span>
+        </a>
       </aside>
     </div>
   </div>
@@ -262,7 +267,7 @@ if(!LIVE){
       const mk = p => `<a class="spotcard" href="profile.html?u=${encodeURIComponent(p.username)}">${avatarHTML(p)}<div style="min-width:0"><div class="sname">${esc(p.name)}${vbadge(p)}</div><span class="rolebadge ${p.role}">${p.role}</span>${p.bio?`<div class="sbio">${esc(p.bio.length>70?p.bio.slice(0,70)+'…':p.bio)}</div>`:''}</div></a>`;
       const cards = [...cs.map(mk), ...bs.map(mk)];
       document.getElementById('spotrow').innerHTML = cards.length
-        ? `<div class="spotrow"><div class="spotlabel">✦ spotlight</div>${cards.join('')}</div>` : '';
+        ? `<div class="spotrow"><div class="spotlabel">🔥 spotlight</div>${cards.join('')}</div>` : '';
     })();
     const postImgInp = document.getElementById('postImg');
     document.getElementById('postImgBtn').addEventListener('click', ()=> postImgInp.click());
@@ -517,7 +522,7 @@ if(!LIVE){
     }
     feed.innerHTML = rows.map(p=>`
       <div class="card post${isFeat(p)?' featured':''}">
-        ${isFeat(p)?'<span class="featbadge">★ featured</span>':''}
+        ${isFeat(p)?'<span class="featbadge">🔥 featured</span>':''}
         <div class="phead">
           ${avatarHTML(p.profiles)}
           <div>

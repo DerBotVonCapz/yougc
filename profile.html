@@ -7,12 +7,12 @@
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="stylesheet" href="style.css">
 <style>
-.pane.wide{max-width:1360px}
-.profGrid{display:grid;grid-template-columns:1fr 380px;gap:32px;align-items:start;margin-top:6px}
+.pane.wide{max-width:1460px}
+.profGrid{display:grid;grid-template-columns:1fr 400px;gap:38px;align-items:start;margin-top:6px}
 @media(max-width:980px){.profGrid{grid-template-columns:1fr}}
 .avatar.big{width:160px;height:160px}
 #profileCard h1.page{font-size:clamp(2.4rem,4.8vw,3.7rem)}
-#profileCard{padding:48px 52px}
+#profileCard{padding:52px 58px}
 .pmeta{font-size:1rem}
 #profileCard .ptags span{font-size:.98rem;padding:11px 24px}
 .socialrow{gap:14px}
@@ -39,6 +39,38 @@ h2.page{font-size:1.7rem !important;margin-top:4px}
 .clip iframe{display:block;height:100%;border:0}
 .clip.tall iframe{width:191px}
 .clip.wide iframe{width:604px}
+
+/* ---- owner actions + paid perks ---- */
+.ownerrow{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:40px;padding-top:32px;border-top:1.5px solid rgba(30,51,80,.09)}
+.upsell{margin-top:38px;padding:34px 34px 32px;border-radius:30px;position:relative;overflow:hidden;
+  background:linear-gradient(150deg,rgba(191,215,242,.42),rgba(244,207,223,.34) 52%,rgba(191,232,212,.4));
+  border:2px solid rgba(255,255,255,.85)}
+.upsell::before{content:'';position:absolute;width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,.55);filter:blur(64px);top:-120px;right:-90px;animation:upfl 9s ease-in-out infinite alternate}
+@keyframes upfl{from{transform:translate(0,0)}to{transform:translate(-40px,40px)}}
+.uphead{position:relative;text-align:center;margin-bottom:22px}
+.upkick{font-size:.72rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#5A6A85}
+.uphead h3{font-size:clamp(1.5rem,2.6vw,2rem);font-weight:800;letter-spacing:-.03em;margin-top:6px;
+  background:linear-gradient(90deg,#2E4A73,#6E96C8,#D98BB0);-webkit-background-clip:text;background-clip:text;color:transparent}
+.upgrid{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:880px){.upgrid{grid-template-columns:1fr}}
+.upcard{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;padding:26px 20px 22px;border-radius:22px;
+  background:rgba(255,255,255,.92);text-decoration:none;color:inherit;box-shadow:0 18px 40px -22px rgba(46,74,115,.45);
+  transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s}
+.upcard:hover{transform:translateY(-7px);box-shadow:0 30px 58px -22px rgba(110,150,200,.7)}
+.upic{width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;
+  background:linear-gradient(135deg,#BFD7F2,#F4CFDF);color:#2E4A73;animation:upic 5s ease-in-out infinite alternate}
+@keyframes upic{from{transform:translateY(-3px) rotate(-3deg)}to{transform:translateY(3px) rotate(3deg)}}
+.upt{font-weight:800;font-size:1.15rem;letter-spacing:-.02em}
+.upd{font-size:.88rem;line-height:1.55;color:var(--ink-soft);min-height:3.1em}
+.upbtn{margin-top:6px;font-weight:800;font-size:.92rem;color:#fff;padding:11px 26px;border-radius:999px;
+  background:linear-gradient(120deg,#2E4A73,#6E96C8,#D98BB0);background-size:200% 100%;box-shadow:0 12px 26px -12px rgba(110,150,200,.8);transition:background-position .5s}
+.upcard:hover .upbtn{background-position:100% 0}
+.upcard.owned{cursor:default}
+.upcard.owned:hover{transform:none;box-shadow:0 18px 40px -22px rgba(46,74,115,.45)}
+.upbtn.done{background:linear-gradient(120deg,#5FB78B,#BFE8D4);color:#14361F}
+html.dark .upcard{background:rgba(20,28,46,.94)}
+html.dark .upsell{background:linear-gradient(150deg,rgba(46,74,115,.42),rgba(138,75,110,.32) 52%,rgba(44,92,70,.36));border-color:rgba(255,255,255,.12)}
+html.dark .ownerrow{border-top-color:rgba(255,255,255,.1)}
 </style>
 </head>
 <body>
@@ -66,7 +98,7 @@ h2.page{font-size:1.7rem !important;margin-top:4px}
 <script type="module">
 import { sb, currentUser, blobsHTML, initMotion, logoHTML, esc, timeAgo, avatarHTML, vbadge, isVerified, SOCIAL_FIELDS, clipEmbed, isDark } from './app.js';
 import { VERIFIED_PRICE, SPOTLIGHT_PRICE, AGENT_PRICE, PAY_URL } from './config.js';
-const ACCENTS = { blue:['#BFD7F2','#DCE9F9'], pink:['#F4CFDF','#FBE3EE'], mint:['#BFE8D4','#DFF2E7'], lavender:['#D8CCF2','#EAE3F9'], peach:['#F8D8C4','#FBEBDD'], sand:['#EFE3C6','#F7F0DE'] };
+const ACCENTS = { blue:['#BFD7F2','#DCE9F9'], pink:['#F4CFDF','#FBE3EE'], mint:['#BFE8D4','#DFF2E7'], lavender:['#D8CCF2','#EAE3F9'], peach:['#F8D8C4','#FBEBDD'], sand:['#EFE3C6','#F7F0DE'], coral:['#FBC9C2','#FDE2DE'], sky:['#BEE6F5','#DCF2FA'], lime:['#DCEFB8','#EDF7DB'], grape:['#CFC3EE','#E4DDF7'], rose:['#F6C6D8','#FBE0EA'], sunset:['#FBD3A8','#FDE9CE'], ocean:['#B6DCE0','#D9EFF1'], berry:['#E7C2E4','#F3DEF2'], slate:['#CBD5E6','#E3E9F3'] };
 const payHref = (item, price) => PAY_URL || ('pay.html?item=' + encodeURIComponent(item) + '&price=' + encodeURIComponent(price));
 document.getElementById('bg').outerHTML = blobsHTML();
 document.getElementById('logo').outerHTML = logoHTML();
@@ -113,8 +145,15 @@ if(!p){
     <div class="ptags mt2">${(p.niches||[]).map(n=>`<span>${esc(n)}</span>`).join('')}</div>
     ${socials ? `<div class="socialrow">${socials}</div>` : ''}
     ${!isOwner ? (u ? `<div class="mt3" style="display:flex;gap:12px;flex-wrap:wrap"><a class="btn" id="contact" href="chat.html?u=${encodeURIComponent(p.username)}">message ${esc(p.name.split(' ')[0])} →</a><button class="btn ghost" id="followBtn">${iFollow?'following ✓':'+ follow'}</button></div>` : `<a class="btn mt3" id="contact" href="auth.html">log in to message ${esc(p.name.split(' ')[0])} →</a>`) : ''}
-    ${isOwner ? `<div class="mt3" style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:38px"><a class="btn" href="onboard.html">edit profile →</a><a class="btn ghost" href="settings.html">settings</a>${(p.agent_until && new Date(p.agent_until)>new Date()) ? `<a class="btn" style="background:linear-gradient(120deg,#6E96C8,#D98BB0);color:#fff" href="agent.html">my agent ✨</a>` : ``}</div>
-    <div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:18px">${isVerified(p)?'':`<a class="btn ghost" href="${payHref('verified pack @'+p.username, VERIFIED_PRICE)}" title="✓ badge, pro look, 3 posts a day · 30 days">get verified ✓ · $${VERIFIED_PRICE}/mo</a>`}${(p.spotlight_until && new Date(p.spotlight_until)>new Date())?'':`<a class="btn ghost" href="${payHref('spotlight @'+p.username, SPOTLIGHT_PRICE)}" title="your profile pinned on top of the marketplace for 2 days">get spotlighted ✦ · $${SPOTLIGHT_PRICE} for 2 days</a>`}${(p.agent_until && new Date(p.agent_until)>new Date())?'':`<a class="btn ghost" href="${payHref((p.role==='brand'?'brand':'creator')+' agent @'+p.username, AGENT_PRICE)}" title="your personal AI agent for profile, posts and deals">get your agent ✨ · $${AGENT_PRICE}/mo</a>`}</div>
+    ${isOwner ? `<div class="ownerrow"><a class="btn" href="onboard.html">edit profile →</a><a class="btn ghost" href="settings.html">settings</a>${(p.agent_until && new Date(p.agent_until)>new Date()) ? `<a class="btn" style="background:linear-gradient(120deg,#6E96C8,#D98BB0);color:#fff" href="agent.html">my agent ✨</a>` : ``}</div>
+    <div class="upsell">
+      <div class="uphead"><span class="upkick">grow faster</span><h3>get seen by more brands.</h3></div>
+      <div class="upgrid">
+        ${isVerified(p)?`<div class="upcard owned"><span class="upic">✓</span><div class="upt">verified</div><div class="upd">active on your profile right now</div><span class="upbtn done">active ✓</span></div>`:`<a class="upcard" href="${payHref('verified pack @'+p.username, VERIFIED_PRICE)}"><span class="upic">✓</span><div class="upt">verified</div><div class="upd">the ✓ badge, a highlighted picture and 3 posts a day</div><span class="upbtn">$${VERIFIED_PRICE}/mo</span></a>`}
+        ${(p.spotlight_until && new Date(p.spotlight_until)>new Date())?`<div class="upcard owned"><span class="upic">✦</span><div class="upt">spotlight</div><div class="upd">you are pinned on top of the marketplace</div><span class="upbtn done">running ✓</span></div>`:`<a class="upcard" href="${payHref('spotlight @'+p.username, SPOTLIGHT_PRICE)}"><span class="upic">✦</span><div class="upt">spotlight</div><div class="upd">pinned on top of the marketplace for 2 full days</div><span class="upbtn">$${SPOTLIGHT_PRICE}</span></a>`}
+        ${(p.agent_until && new Date(p.agent_until)>new Date())?`<div class="upcard owned"><span class="upic">✨</span><div class="upt">your agent</div><div class="upd">your AI agent is active</div><span class="upbtn done">active ✓</span></div>`:`<a class="upcard" href="${payHref((p.role==='brand'?'brand':'creator')+' agent @'+p.username, AGENT_PRICE)}"><span class="upic">✨</span><div class="upt">your agent</div><div class="upd">an AI that prices your deals, fixes your profile and writes your posts</div><span class="upbtn">$${AGENT_PRICE}/mo</span></a>`}
+      </div>
+    </div>
     <div class="refbox">
       <div class="rtitle">your YOUgc referral link</div>
       <div class="rsub">friend joins through your link: <b>they get 10% off</b> their next purchase, <b>you get 10% off</b> yours. your code: <b>YOUGC10-${esc(p.username.toUpperCase())}</b></div>

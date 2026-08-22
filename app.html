@@ -273,14 +273,15 @@ if(!LIVE){
   document.body.appendChild(fl);
   const rect = () => fl.getBoundingClientRect();
   let x = innerWidth*0.14, y = innerHeight*0.68;
-  let vx = 0.3, vy = -0.22;
+  let vx = 1.15, vy = -0.85;
+  const MINSP = 0.85, MAXSP = 9;
   function loop(){
     const w = rect().width || 140, h = rect().height || 50;
     x += vx; y += vy;
-    vx *= 0.994; vy *= 0.994;
+    vx *= 0.9988; vy *= 0.9988;           // barely any drag, so it keeps travelling
     const sp = Math.hypot(vx,vy);
-    if(sp < 0.22){ vx *= 0.3/Math.max(sp,.01); vy *= 0.3/Math.max(sp,.01); }
-    if(sp > 3){ vx *= 3/sp; vy *= 3/sp; }
+    if(sp < MINSP){ const k = MINSP/Math.max(sp,.01); vx *= k; vy *= k; }
+    if(sp > MAXSP){ const k = MAXSP/sp; vx *= k; vy *= k; }
     if(x < 0){ x = 0; vx = Math.abs(vx); }
     if(y < 0){ y = 0; vy = Math.abs(vy); }
     if(x + w > innerWidth){ x = innerWidth - w; vx = -Math.abs(vx); }
@@ -289,16 +290,23 @@ if(!LIVE){
     requestAnimationFrame(loop);
   }
   loop();
+  // cursor hit test on the real logo box, so it reacts the moment you actually touch it
   window.addEventListener('mousemove', e=>{
     const w = rect().width || 140, h = rect().height || 50;
+    const pad = 4;
+    const l = x - pad, t = y - pad, r = x + w + pad, b = y + h + pad;
+    const nx = Math.max(l, Math.min(e.clientX, r));
+    const ny = Math.max(t, Math.min(e.clientY, b));
+    const d = Math.hypot(e.clientX - nx, e.clientY - ny);
+    if(d > 0.5) return;                    // not touching it yet
     const cx = x + w/2, cy = y + h/2;
-    const dx = cx - e.clientX, dy = cy - e.clientY;
-    const dist = Math.hypot(dx,dy);
-    if(dist < 120 && dist > 1){
-      const f = (120-dist)/120 * 0.9;
-      vx += (dx/dist)*f; vy += (dy/dist)*f;
-    }
-  });
+    let dx = cx - e.clientX, dy = cy - e.clientY;
+    let m = Math.hypot(dx,dy) || 1;
+    dx /= m; dy /= m;
+    const kick = 5.2;
+    vx = dx*kick + vx*0.25;
+    vy = dy*kick + vy*0.25;
+  }, {passive:true});
   }
 
 } else {

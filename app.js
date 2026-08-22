@@ -143,9 +143,35 @@ export function clipEmbed(u){
 }
 
 // page hit beacon (anonymous analytics)
+const _page = () => location.pathname.replace(/^\//,'').replace(/\.html$/,'') || 'index';
+function track(ev){
+  try{
+    fetch(SUPABASE_URL + '/rest/v1/hits', { method:'POST', keepalive:true,
+      headers:{ apikey: SUPABASE_KEY, 'Content-Type':'application/json', Prefer:'return=minimal' },
+      body: JSON.stringify({ path: _page(), ev: ev || null, ref: document.referrer ? new URL(document.referrer).hostname : null })
+    }).catch(()=>{});
+  }catch(e){}
+}
+export { track };
+track(null);
+
+// click tracking: what people actually press, and what they ignore
 try{
-  fetch(SUPABASE_URL + '/rest/v1/hits', { method:'POST',
-    headers:{ apikey: SUPABASE_KEY, 'Content-Type':'application/json', Prefer:'return=minimal' },
-    body: JSON.stringify({ path: location.pathname.replace(/^\//,'') || 'index', ref: document.referrer ? new URL(document.referrer).hostname : null })
-  }).catch(()=>{});
+  document.addEventListener('click', e=>{
+    const t = e.target.closest('[data-ev],a,button,.chip,.tab,.swatch,.pcard,.spotcard');
+    if(!t) return;
+    let label = t.getAttribute('data-ev');
+    if(!label){
+      const txt = (t.textContent||'').trim().replace(/\s+/g,' ').slice(0,38).toLowerCase();
+      if(t.tagName === 'A'){
+        const href = (t.getAttribute('href')||'').split('?')[0].replace(/^\//,'');
+        label = 'link:' + (txt || href || 'link');
+      } else if(t.tagName === 'BUTTON'){
+        label = 'btn:' + (txt || t.id || 'button');
+      } else {
+        label = t.className.split(' ')[0] + ':' + (txt || t.dataset.n || t.dataset.a || '');
+      }
+    }
+    track(_page() + ' · ' + label.slice(0,60));
+  }, {passive:true, capture:true});
 }catch(e){}

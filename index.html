@@ -651,6 +651,25 @@ if(_ref) try{ localStorage.setItem('yougc_ref', _ref); }catch(e){}
     }).catch(()=>{});
   }catch(e){}
 
+  // click tracking on the landing page
+  function trk(ev){
+    try{
+      fetch('https://oemezcziuqefzhtsnotm.supabase.co/rest/v1/hits',{method:'POST',keepalive:true,
+        headers:{apikey:'sb_publishable_sXia33UR_g43dCp59RsAKA_1FBKOlL_','Content-Type':'application/json',Prefer:'return=minimal'},
+        body:JSON.stringify({path:'index',ev:ev.slice(0,60)})}).catch(()=>{});
+    }catch(e){}
+  }
+  document.addEventListener('click', e=>{
+    const t=e.target.closest('[data-ev],a,button,.chip');
+    if(!t) return;
+    let l=t.getAttribute('data-ev');
+    if(!l){
+      const txt=(t.textContent||'').trim().replace(/\s+/g,' ').slice(0,34).toLowerCase();
+      l=(t.tagName==='A'?'link:':t.tagName==='BUTTON'?'btn:':'el:')+(txt||t.getAttribute('href')||'x');
+    }
+    trk('index · '+l);
+  },{passive:true,capture:true});
+
   // dark toggle
   const dkt=document.getElementById('dkt');
   function paintDk(){ dkt.textContent=document.documentElement.classList.contains('dark')?'☀️':'🌙'; }

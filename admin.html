@@ -7,7 +7,7 @@
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="stylesheet" href="style.css">
 <style>
-.pane{max-width:1220px}
+.pane{max-width:1420px}
 h1.page{font-size:clamp(2.2rem,4.4vw,3.2rem)}
 .statgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:34px}
 @media(max-width:1000px){.statgrid{grid-template-columns:repeat(2,1fr)}}
@@ -35,6 +35,29 @@ html.dark .panel{background:rgba(23,31,52,.94);border-color:rgba(255,255,255,.07
 .tp .c{color:var(--ink-soft)}
 .grid2{display:grid;grid-template-columns:1.4fr 1fr;gap:22px}
 @media(max-width:900px){.grid2{grid-template-columns:1fr}}
+
+.funnel{display:flex;gap:0;align-items:stretch;flex-wrap:wrap;margin-top:6px}
+.fstep{flex:1;min-width:150px;padding:20px 18px;text-align:center;position:relative}
+.fstep .fn{font-family:'Space Grotesk',sans-serif;font-size:1.9rem;font-weight:700;letter-spacing:-.03em;
+  background:linear-gradient(90deg,#2E4A73,#6E96C8,#D98BB0);-webkit-background-clip:text;background-clip:text;color:transparent}
+.fstep .fl{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-soft);margin-top:6px}
+.fstep .fr{font-size:.76rem;font-weight:700;color:#5FB78B;margin-top:5px}
+.fstep+.fstep::before{content:'→';position:absolute;left:-10px;top:50%;transform:translateY(-50%);color:var(--ink-soft);opacity:.5;font-size:1.1rem}
+.tbl{width:100%;border-collapse:collapse;font-size:.88rem}
+.tbl th{text-align:left;font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);padding:8px 10px;border-bottom:1.5px solid rgba(30,51,80,.12)}
+.tbl td{padding:9px 10px;border-bottom:1px solid rgba(30,51,80,.06);font-weight:600}
+.tbl tr:hover td{background:rgba(191,215,242,.16)}
+.scroll{max-height:420px;overflow-y:auto}
+.pill{display:inline-block;font-size:.68rem;font-weight:800;padding:3px 9px;border-radius:999px;text-transform:uppercase;letter-spacing:.05em}
+.pill.creator{background:#DCE9F9;color:#2E4A73}.pill.brand{background:#FBE3EE;color:#8A4B6E}
+.pill.none{background:rgba(30,51,80,.09);color:var(--ink-soft)}
+.warn{background:rgba(232,146,107,.18);color:#8A4B1E}
+.copybar{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.copybar button{cursor:pointer;font-family:'Poppins',sans-serif;font-weight:700;font-size:.8rem;padding:9px 18px;border-radius:999px;border:1.5px solid rgba(30,51,80,.16);background:rgba(255,255,255,.7);color:var(--ink)}
+.copybar button:hover{background:var(--ink);color:#fff}
+.grid2b{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+@media(max-width:1000px){.grid2b{grid-template-columns:1fr}}
+.refresh{font-size:.8rem;font-weight:700;color:var(--ink-soft);cursor:pointer;text-decoration:underline}
 </style>
 </head>
 <body>
@@ -72,25 +95,106 @@ const map = Object.fromEntries((s.daily||[]).map(r=>[r.d, r.c]));
 const max = Math.max(1, ...days.map(d=>map[d]||0));
 const bars = days.map(d=>`<div class="bar"><span class="v">${map[d]||0}</span><div class="fill" style="height:${Math.round((map[d]||0)/max*120)+4}px"></div><span class="d">${d.slice(5)}</span></div>`).join('');
 
+const pct = (a,b)=> b ? Math.round(a/b*100)+'%' : '0%';
+const esc2 = t => String(t==null?'':t).replace(/[<>&"]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]));
+
+const users = s.users||[];
+const wl = s.waitlist_emails||[];
+const clicks = s.clicks||[];
+
 box.innerHTML = `
   <div class="statgrid">
     ${stat(s.visits_24h,'visits · 24h')}
     ${stat(s.visits_7d,'visits · 7 days')}
-    ${stat(s.profiles,'profiles')}
-    ${stat(s.new_profiles_7d,'new profiles · 7d')}
+    ${stat(s.signups_total,'accounts total')}
+    ${stat(s.signups_7d,'new accounts · 7d')}
+    ${stat(s.profiles,'finished profiles')}
     ${stat(s.creators,'creators')}
     ${stat(s.brands,'brands')}
+    ${stat(s.verified_now,'verified now')}
     ${stat(s.posts,'posts')}
-    ${stat(s.messages_24h,'messages · 24h')}
-    ${stat(s.messages,'messages total')}
+    ${stat(s.messages,'messages')}
     ${stat(s.waitlist,'waitlist emails')}
     ${stat(s.visits_total,'visits all time')}
-    ${stat(s.posts_24h,'posts · 24h')}
   </div>
-  <div class="grid2 mt2" style="margin-top:26px">
-    <div class="panel"><h3>visits, last 14 days 📈</h3><div class="bars">${bars}</div></div>
-    <div class="panel"><h3>top pages, 7 days 🔥</h3>${(s.top_pages||[]).map(p=>`<div class="tp"><span>${p.path||'index'}</span><span class="c">${p.c}</span></div>`).join('') || '<p class="muted">no data yet</p>'}</div>
-  </div>`;
+
+  <div class="panel">
+    <h3>the funnel, last 7 days 🧭</h3>
+    <div class="funnel">
+      <div class="fstep"><div class="fn">${s.visits_7d||0}</div><div class="fl">visited</div></div>
+      <div class="fstep"><div class="fn">${s.signups_7d||0}</div><div class="fl">signed up</div><div class="fr">${pct(s.signups_7d, s.visits_7d)} of visits</div></div>
+      <div class="fstep"><div class="fn">${s.new_profiles_7d||0}</div><div class="fl">finished profile</div><div class="fr">${pct(s.new_profiles_7d, s.signups_7d)} of signups</div></div>
+      <div class="fstep"><div class="fn">${s.posts_24h||0}</div><div class="fl">posted · 24h</div></div>
+      <div class="fstep"><div class="fn">${s.messages_24h||0}</div><div class="fl">messaged · 24h</div></div>
+    </div>
+    ${s.incomplete ? `<p class="muted" style="margin-top:14px"><b class="pill warn">${s.incomplete} stuck</b> &nbsp;accounts signed up but never finished the profile. that is your biggest leak.</p>` : ''}
+  </div>
+
+  <div class="grid2" style="margin-top:26px">
+    <div class="panel" style="margin-top:0"><h3>visits, last 14 days 📈</h3><div class="bars">${bars}</div></div>
+    <div class="panel" style="margin-top:0"><h3>top pages, 7 days 🔥</h3>${(s.top_pages||[]).map(p=>`<div class="tp"><span>${esc2(p.path)||'index'}</span><span class="c">${p.c}</span></div>`).join('') || '<p class="muted">no data yet</p>'}</div>
+  </div>
+
+  <div class="grid2b" style="margin-top:26px">
+    <div class="panel" style="margin-top:0">
+      <h3>most clicked, 7 days 👆</h3>
+      ${clicks.length ? clicks.map(c=>`<div class="tp"><span>${esc2(c.ev)}</span><span class="c">${c.c}</span></div>`).join('')
+        : '<p class="muted">no clicks tracked yet. this fills up as people use the site — it shows exactly which buttons get pressed and which get ignored.</p>'}
+    </div>
+    <div class="panel" style="margin-top:0">
+      <h3>where they come from, 7 days 🌍</h3>
+      ${(s.refs||[]).map(r=>`<div class="tp"><span>${esc2(r.ref)}</span><span class="c">${r.c}</span></div>`).join('') || '<p class="muted">no data yet</p>'}
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>everyone who signed up (${users.length}) 👤</h3>
+    <div class="copybar">
+      <button id="copyUsers">copy all emails</button>
+      <button id="copyStuck">copy emails of stuck accounts</button>
+    </div>
+    <div class="scroll">
+      <table class="tbl">
+        <thead><tr><th>email</th><th>name</th><th>type</th><th>profile</th><th>joined</th></tr></thead>
+        <tbody>
+        ${users.map(u=>`<tr>
+          <td>${esc2(u.email)}</td>
+          <td>${u.username?`<a href="profile.html?u=${encodeURIComponent(u.username)}" style="color:var(--cblue);font-weight:700">${esc2(u.name||u.username)}</a>`:'<span class="muted">—</span>'}</td>
+          <td>${u.role?`<span class="pill ${u.role}">${u.role}</span>`:'<span class="pill none">no profile</span>'}</td>
+          <td>${u.username?`${u.has_pic?'📷':'<span title="no picture">·</span>'} ${u.clips?u.clips+' clips':''}`:'<span class="pill warn">never finished</span>'}</td>
+          <td class="muted">${esc2(u.joined)}</td>
+        </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>waitlist emails (${wl.length}) 🔔</h3>
+    <div class="copybar"><button id="copyWl">copy all waitlist emails</button></div>
+    <div class="scroll">
+      <table class="tbl">
+        <thead><tr><th>email</th><th>signed up</th></tr></thead>
+        <tbody>${wl.map(w=>`<tr><td>${esc2(w.email)}</td><td class="muted">${esc2(w.at)}</td></tr>`).join('') || '<tr><td colspan="2" class="muted">nobody yet</td></tr>'}</tbody>
+      </table>
+    </div>
+  </div>
+`;
+
+function copyList(arr, btn){
+  const t=document.createElement('textarea'); t.value=arr.join(', '); document.body.appendChild(t); t.select();
+  try{ document.execCommand('copy'); }catch(e){}
+  t.remove();
+  const old=btn.textContent; btn.textContent='copied '+arr.length+' ✓';
+  setTimeout(()=>btn.textContent=old,1800);
+}
+document.getElementById('copyUsers')?.addEventListener('click', e=> copyList(users.map(u=>u.email).filter(Boolean), e.target));
+document.getElementById('copyStuck')?.addEventListener('click', e=> copyList(users.filter(u=>!u.username).map(u=>u.email).filter(Boolean), e.target));
+document.getElementById('copyWl')?.addEventListener('click', e=> copyList(wl.map(w=>w.email).filter(Boolean), e.target));
+
+// auto refresh every 60s so the tab is always current
+setTimeout(()=>location.reload(), 60000);
+document.getElementById('subline').innerHTML = 'live numbers from the marketplace · refreshes itself every minute · <span class="refresh" onclick="location.reload()">refresh now</span>';
 </script>
 </body>
 </html>

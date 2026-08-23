@@ -24,25 +24,18 @@
     animation:meshdrift 16s ease-in-out infinite alternate, bigfloat 8s ease-in-out infinite alternate;
     filter:drop-shadow(0 22px 40px rgba(46,74,115,.26));
     will-change:background-position,transform}
-  .prep .big::before{content:attr(data-text);position:absolute;left:0;top:0;z-index:-1;
-    -webkit-text-stroke:1.5px rgba(110,150,200,.3);color:transparent;
-    animation:echodrift 12s ease-in-out infinite alternate}
   .prep .big::after{content:attr(data-text);position:absolute;left:0;top:0;pointer-events:none;
     background:linear-gradient(104deg,transparent 43%,rgba(255,255,255,.72) 50%,transparent 57%);
     background-size:260% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
     animation:shinepass 7.5s linear infinite}
-  html.dark .prep .big::before{-webkit-text-stroke-color:rgba(190,215,245,.24)}
   @keyframes meshdrift{
     0%{background-position:0% 40%,100% 60%,0% 0}
     50%{background-position:80% 70%,20% 30%,150% 0}
     100%{background-position:100% 30%,0% 70%,300% 0}}
-  @keyframes echodrift{from{transform:translate(6px,7px)}to{transform:translate(-7px,-6px)}}
   @keyframes shinepass{0%{background-position:170% 0}55%,100%{background-position:-70% 0}}
   @keyframes bigsweep{from{background-position:0% 0}to{background-position:300% 0}}
   @keyframes bigfloat{from{transform:translateY(-5px)}to{transform:translateY(5px)}}
-  @media(prefers-reduced-motion:reduce){
-    .prep .big{animation:meshdrift 16s ease-in-out infinite alternate}
-    .prep .big::before{animation:none}}
+  @media(prefers-reduced-motion:reduce){.prep .big{animation:meshdrift 16s ease-in-out infinite alternate}}
 
   /* typed line */
   .typed{margin-top:22px;font-family:ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace;

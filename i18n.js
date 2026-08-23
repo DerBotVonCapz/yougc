@@ -408,18 +408,28 @@ function button(){
 function boot(){
   paint(document.body);
   button();
+  // queue every batch. debouncing without a queue silently drops
+  // whole renders, which is why some blocks stayed english.
   let t = null;
+  const queue = new Set();
+  const flush = () => {
+    t = null;
+    const nodes = [...queue]; queue.clear();
+    for(const n of nodes){
+      if(!n.isConnected) continue;
+      if(n.nodeType === 1) paint(n);
+      else if(n.nodeType === 3){ const g = tr(n.textContent); if(g) n.textContent = g; }
+    }
+    button();
+  };
   new MutationObserver(muts=>{
     if(LANG !== 'de') return;
-    clearTimeout(t);
-    t = setTimeout(()=>{
-      for(const m of muts) for(const n of m.addedNodes){
-        if(n.nodeType === 1) paint(n);
-        else if(n.nodeType === 3){ const g = tr(n.textContent); if(g) n.textContent = g; }
-      }
-      button();
-    }, 40);
-  }).observe(document.body, { childList:true, subtree:true });
+    for(const m of muts){
+      for(const n of m.addedNodes) queue.add(n);
+      if(m.type === 'characterData') queue.add(m.target);
+    }
+    if(!t) t = setTimeout(flush, 50);
+  }).observe(document.body, { childList:true, subtree:true, characterData:true });
 }
 
 if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);

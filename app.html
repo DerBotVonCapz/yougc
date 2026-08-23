@@ -52,30 +52,41 @@
   .pbtn .ic.xx{color:var(--ink)}
   .softbtn{background:linear-gradient(120deg,#BFD7F2,#F4CFDF)!important;color:var(--ink)!important;
     border:2px solid rgba(255,255,255,.9)!important;box-shadow:0 12px 28px -14px rgba(110,150,200,.7)!important}
-  .prepcards{display:grid;grid-template-columns:1fr 1fr;gap:22px;max-width:1060px;margin:30px auto 0;text-align:left;align-items:stretch}
-  @media(max-width:860px){.prepcards{grid-template-columns:1fr}}
-  .prepcards .card{border-radius:32px;padding:26px 32px;background:rgba(255,255,255,.78);box-shadow:0 24px 60px -30px rgba(46,74,115,.28);margin:0}
-  .prepcards .card .ptitle{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.35rem;letter-spacing:-.02em;margin-bottom:6px}
-  .prepcards .card .psub{font-size:.98rem;color:var(--ink-soft);line-height:1.7;margin-bottom:16px}
-  .prepcards input[type=email],.prepcards input[type=text]{font-size:1rem;padding:15px 18px}
-  .prepcards .refbox{margin:0;padding:0;background:none;box-shadow:none;border:none;border-radius:0}
-  .refhead{display:flex;align-items:center;gap:13px;margin-bottom:12px}
+  .prepcards{display:grid;grid-template-columns:1fr 1fr;gap:22px;max-width:1000px;margin:34px auto 0;text-align:left;align-items:stretch}
+  @media(max-width:860px){.prepcards{grid-template-columns:1fr;gap:16px}}
+  .prepcards .card{border-radius:30px;padding:30px 32px;background:rgba(255,255,255,.78);
+    box-shadow:0 24px 60px -30px rgba(46,74,115,.28);margin:0;
+    display:flex;flex-direction:column;justify-content:center;gap:18px}
+  .prepcards input[type=email],.prepcards input[type=text]{font-size:.98rem;padding:15px 18px}
+  .prepcards .refbox{margin:0;padding:0;background:none;box-shadow:none;border:none;border-radius:0;
+    display:flex;flex-direction:column;gap:18px}
+  .refhead{display:flex;align-items:center;gap:13px}
   .ricon{width:44px;height:44px;border-radius:15px;display:grid;place-items:center;color:#fff;flex:none;
     background:linear-gradient(120deg,#6E96C8,#8A6FC0,#D98BB0,#E8926B,#6E96C8);background-size:300% 100%;
     animation:bigsweep 8s linear infinite;box-shadow:0 14px 28px -12px rgba(138,111,192,.9)}
+  .ricon.soft{background:linear-gradient(120deg,#BFD7F2,#C8E6D4,#F4CFDF);background-size:200% 100%;
+    animation:bigsweep 12s linear infinite;color:#2E4A73;box-shadow:0 12px 26px -14px rgba(110,150,200,.8)}
   .ricon svg{width:24px;height:24px}
-  .reyebrow{font-size:.71rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
-  .prepcards .refbox .rtitle{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.4rem;letter-spacing:-.02em;text-transform:none;color:var(--ink);line-height:1.25;margin:3px 0 0;text-wrap:balance}
+  .reyebrow{font-size:.7rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+  .prepcards .rtitle{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.32rem;letter-spacing:-.02em;
+    text-transform:none;color:var(--ink);line-height:1.28;margin:3px 0 0;text-wrap:balance}
   .rfree{font-weight:800;background:linear-gradient(90deg,#2E4A73,#6E96C8,#D98BB0,#E8926B,#7FBF9E,#2E4A73);
     background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:bigsweep 9s linear infinite}
-  .prepcards .refbox .rsub{font-size:.97rem;line-height:1.68;color:var(--ink-soft);margin:0 0 16px}
-  .prepcards .refbox .rsub b{color:var(--ink);font-weight:800}
-  .rlearn{display:inline-flex;align-items:center;gap:7px;margin-top:15px;font-size:.9rem;font-weight:800;
+  .actrow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .actrow input{flex:1;min-width:172px}
+  .actrow .btn{padding:15px 26px;font-size:.93rem;white-space:nowrap}
+  .prepcards .msg:empty,.prepcards .refcount:empty{display:none}
+  .cfoot{font-size:.86rem;font-weight:600;color:var(--ink-soft);margin:-6px 0 0}
+  @media(max-width:520px){.prepcards .card{padding:26px 24px}
+    .prepcards .rtitle{font-size:1.2rem}
+    .actrow{flex-direction:column;align-items:stretch}
+    .actrow input,.actrow .btn{width:100%;min-width:0}}
+  .rlearn{align-self:flex-start;display:inline-flex;align-items:center;gap:7px;font-size:.88rem;font-weight:800;
     color:var(--ink);text-decoration:none;border-bottom:2px solid rgba(110,150,200,.45);padding-bottom:2px;
     transition:gap .2s,border-color .2s}
   .rlearn:hover{gap:11px;border-color:rgba(217,139,176,.95)}
   @media(prefers-reduced-motion:reduce){.ricon,.rfree{animation:none}}
-  .refprog{margin-top:16px}
+  .refprog{margin:0}
   .pips{display:flex;gap:8px;align-items:center}
   .pip{flex:1;height:9px;border-radius:99px;background:rgba(30,51,80,.12);overflow:hidden;position:relative}
   html.dark .pip{background:rgba(255,255,255,.14)}
@@ -283,12 +294,18 @@ if(!LIVE){
       </div>
       <div class="prepcards">
         <div class="card">
-          <div class="ptitle">be first through the doors 🔔</div>
-          <div class="psub">get an email the moment the marketplace opens.</div>
-          <div style="display:flex;gap:12px;flex-wrap:wrap">
-            <input type="email" id="wlEmail" style="flex:1;min-width:180px">
-            <button class="btn small softbtn" id="wlBtn" style="padding:15px 30px;font-size:.95rem">notify me</button>
+          <div class="refhead">
+            <span class="ricon soft"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8.6a6 6 0 10-12 0c0 5-2.2 6.4-2.2 6.4h16.4S18 13.6 18 8.6z"/><path d="M13.7 19.4a2 2 0 01-3.4 0"/></svg></span>
+            <div>
+              <div class="reyebrow">launch alert</div>
+              <div class="rtitle">be first through the doors</div>
+            </div>
           </div>
+          <div class="actrow">
+            <input type="email" id="wlEmail" placeholder="your email">
+            <button class="btn small softbtn" id="wlBtn">notify me</button>
+          </div>
+          <div class="cfoot">one email, the day we open.</div>
           <div class="msg" id="wlMsg"></div>
         </div>
         <div class="card"><div class="refbox">
@@ -299,8 +316,7 @@ if(!LIVE){
               <div class="rtitle">3 referrals = 1 month <span class="rfree">verified, free</span></div>
             </div>
           </div>
-          <div class="rsub">send your link. when <b>3 people</b> join through it, verified is <b>yours for 30 days</b>. no payment, nothing to cancel.</div>
-          <div class="refrow">
+          <div class="actrow">
             <input type="text" id="refLink" readonly>
             <button class="btn small softbtn" id="refCopy">copy link</button>
           </div>
@@ -329,9 +345,9 @@ if(!LIVE){
       const n = Math.min(r.count||0, 3);
       const pips = [0,1,2].map(k=>`<span class="pip ${k<n?'on':''}"></span>`).join('');
       let note;
-      if(r.claimed) note = `<b>free month claimed ✓</b> <span>· thanks for bringing people in</span>`;
-      else if(r.can_claim) note = `<b>3 of 3 joined.</b> <span>· your free month is ready</span>`;
-      else note = `<b>${r.count||0} of 3 joined</b> <span>· ${3-(r.count||0)} more and verified is free for a month</span>`;
+      if(r.claimed) note = `<b>free month claimed ✓</b>`;
+      else if(r.can_claim) note = `<b>3 of 3 joined</b> <span>· your free month is ready</span>`;
+      else note = `<b>${r.count||0} of 3 joined</b> <span>· ${3-(r.count||0)} to go</span>`;
       prog.innerHTML = `<div class="pips">${pips}</div><div class="pipnote">${note}</div>` +
         (r.can_claim ? `<button class="claimbtn" id="claimBtn">claim my free month →</button>` : '');
       const cb = document.getElementById('claimBtn');

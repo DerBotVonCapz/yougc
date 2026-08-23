@@ -205,6 +205,7 @@ if(!p){
     : `radial-gradient(circle at 18% 12%, ${ac[0]}B3, transparent 58%), radial-gradient(circle at 88% 85%, ${ac[1]}A6, transparent 55%), radial-gradient(circle at 60% 40%, ${ac[0]}40, transparent 60%), rgba(255,255,255,.8)`;
   const joined = new Date(p.created_at).toLocaleDateString('en-US',{month:'short',year:'numeric'}).toLowerCase();
   const { count: followers } = await sb.from('follows').select('*',{count:'exact',head:true}).eq('followed', p.id);
+  const folTotal = (followers||0) + (p.follower_boost||0);
   let iFollow = false;
   if(u && !isOwner){
     const { data: f } = await sb.from('follows').select('follower').eq('follower', u.id).eq('followed', p.id).maybeSingle();
@@ -222,7 +223,7 @@ if(!p){
           <h1 class="page" style="margin:0">${esc(p.name)}</h1>${vbadge(p)}
           <span class="rolebadge ${p.role}">${p.role==='creator'?'creator':'brand'}</span>
         </div>
-        <div class="pmeta">@${esc(p.username)} · <span id="folCount">${followers||0}</span> followers · joined ${joined}</div>
+        <div class="pmeta">@${esc(p.username)} · <span id="folCount">${folTotal}</span> followers · joined ${joined}</div>
       </div>
     </div>
     ${p.bio ? `<p class="mt2" style="line-height:1.75;font-size:1.18rem;font-weight:500">${esc(p.bio)}</p>` : ''}

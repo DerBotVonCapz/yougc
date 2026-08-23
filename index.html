@@ -414,6 +414,27 @@
   html.dark .sfab a:hover{color:#fff}
   .sfab svg{width:19px;height:19px}
   @media(max-width:640px){.sfab{left:14px;bottom:14px;gap:3px;padding:6px}.sfab a{width:34px;height:34px}}
+
+  /* creators section: bigger, colorful, moving background */
+  #creators{position:relative;overflow:hidden}
+  #creators .crewrap,#creators .steps{position:relative;z-index:2}
+  #creators .cblob{position:absolute;border-radius:50%;filter:blur(64px);z-index:0;pointer-events:none;opacity:.55;will-change:transform}
+  #creators .cb1{width:360px;height:360px;left:-90px;top:-60px;background:radial-gradient(circle,#BFD7F2,transparent 70%);animation:cbf1 15s ease-in-out infinite alternate}
+  #creators .cb2{width:320px;height:320px;left:30%;bottom:-110px;background:radial-gradient(circle,#F4CFDF,transparent 70%);animation:cbf2 18s ease-in-out infinite alternate}
+  #creators .cb3{width:300px;height:300px;left:20%;top:24%;background:radial-gradient(circle,#C8E6D4,transparent 70%);animation:cbf3 16s ease-in-out infinite alternate}
+  html.dark #creators .cblob{opacity:.3}
+  @keyframes cbf1{to{transform:translate(46px,34px) scale(1.12)}}
+  @keyframes cbf2{to{transform:translate(-40px,-32px) scale(1.14)}}
+  @keyframes cbf3{to{transform:translate(34px,-28px) scale(1.1)}}
+  @media(prefers-reduced-motion:reduce){#creators .cblob{animation:none}}
+  #creators .crewrap{align-items:center}
+  #creators h2{font-size:clamp(2.9rem,6vw,5rem);line-height:1.02;letter-spacing:-.035em}
+  #creators .crewrap .kicker{font-size:.86rem;letter-spacing:.28em}
+  #creators .lead{font-size:clamp(1.22rem,2vw,1.6rem);font-weight:600;color:#4A6486;margin-top:22px}
+  html.dark #creators .lead{color:#AFC0DA}
+  #creators h2 .grad{background-size:220% 100%;animation:gradsheen 7s linear infinite}
+  @keyframes gradsheen{to{background-position:220% 0}}
+  @media(prefers-reduced-motion:reduce){#creators h2 .grad{animation:none}}
 </style>
 </head>
 <body>
@@ -471,6 +492,7 @@
 </div>
 
 <section id="creators">
+  <span class="cblob cb1"></span><span class="cblob cb2"></span><span class="cblob cb3"></span>
   <div class="crewrap">
     <div class="reveal">
       <div class="kicker">creators</div>

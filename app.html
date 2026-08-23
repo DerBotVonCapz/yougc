@@ -61,6 +61,19 @@
   .prepcards .refbox{margin:0;padding:0;background:none;box-shadow:none;border:none;border-radius:0}
   .prepcards .refbox .rtitle{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.35rem;letter-spacing:-.02em;text-transform:none;color:var(--ink);margin-bottom:6px}
   .prepcards .refbox .rsub{font-size:.98rem;line-height:1.7;margin-bottom:16px}
+  .refprog{margin-top:16px}
+  .pips{display:flex;gap:8px;align-items:center}
+  .pip{flex:1;height:9px;border-radius:99px;background:rgba(30,51,80,.12);overflow:hidden;position:relative}
+  html.dark .pip{background:rgba(255,255,255,.14)}
+  .pip.on{background:linear-gradient(90deg,#6E96C8,#D98BB0,#7FBF9E);background-size:200% 100%;
+    animation:bigsweep 5s linear infinite}
+  .pipnote{margin-top:9px;font-size:.88rem;font-weight:700;color:var(--ink)}
+  .pipnote span{color:var(--ink-soft);font-weight:600}
+  .claimbtn{margin-top:12px;width:100%;cursor:pointer;font-family:'Poppins',sans-serif;font-weight:800;
+    font-size:.98rem;color:#1E3350;padding:14px 22px;border-radius:999px;border:none;
+    background:linear-gradient(100deg,#BFD7F2,#F4CFDF,#C8E6D4,#F7D9C4,#BFD7F2);background-size:300% 100%;
+    animation:bigsweep 9s linear infinite;box-shadow:0 14px 32px -14px rgba(110,150,200,.9)}
+  .claimbtn:disabled{opacity:.6;cursor:default;animation:none}
   .prepmarq{margin:calc(1vh + 18px) 0 0;overflow:hidden;white-space:nowrap;padding:10px 0}
   .prepmarq .ptrack{display:inline-block;animation:pscroll 36s linear infinite;font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:-.02em;font-size:1.7rem;color:rgba(30,51,80,.16)}
   .prepmarq .ptrack b{color:rgba(110,150,200,.45);font-weight:700}
@@ -265,12 +278,13 @@ if(!LIVE){
           <div class="msg" id="wlMsg"></div>
         </div>
         <div class="card"><div class="refbox">
-          <div class="rtitle">your referral link 🔗</div>
-          <div class="rsub">share it, they land on your profile. they use code <b>YOUGC10</b> for <b>10% off</b> anything, and <b>you get 10% off</b> your next perk.</div>
+          <div class="rtitle">3 friends = a free month ✦</div>
+          <div class="rsub">share your link. when <b>3 people sign up</b> through it, you get <b>a month of verified free</b> — boosted posts, the ✓ on your name, 3 posts a day.</div>
           <div class="refrow">
             <input type="text" id="refLink" readonly>
             <button class="btn small softbtn" id="refCopy">copy</button>
           </div>
+          <div class="refprog" id="refProg"></div>
           <div class="refcount" id="refCount"></div>
         </div></div>
       </div>
@@ -288,10 +302,34 @@ if(!LIVE){
     document.getElementById('refCopy').textContent='copied ✓';
     setTimeout(()=>document.getElementById('refCopy').textContent='copy',1800);
   });
-  sb.from('referrals').select('id',{count:'exact',head:true}).eq('referrer_username', me.username)
-    .then(({count})=>{ if(count) document.getElementById('refCount').textContent = count + (count===1?' friend joined':' friends joined') + '. your code: YOUGC10-' + me.username.toUpperCase(); });
+  (async ()=>{
+    const prog = document.getElementById('refProg');
+    const draw = (r) => {
+      const n = Math.min(r.count||0, 3);
+      const pips = [0,1,2].map(k=>`<span class="pip ${k<n?'on':''}"></span>`).join('');
+      let note;
+      if(r.claimed) note = `<b>free month claimed ✓</b> <span>thanks for bringing people in</span>`;
+      else if(r.can_claim) note = `<b>3 friends joined.</b> <span>your free month is ready</span>`;
+      else note = `<b>${r.count||0} of 3 joined</b> <span>· ${3-(r.count||0)} more for a free month</span>`;
+      prog.innerHTML = `<div class="pips">${pips}</div><div class="pipnote">${note}</div>` +
+        (r.can_claim ? `<button class="claimbtn" id="claimBtn">claim my free month →</button>` : '');
+      const cb = document.getElementById('claimBtn');
+      if(cb) cb.addEventListener('click', async ()=>{
+        cb.disabled = true; cb.textContent = 'claiming…';
+        const { error } = await sb.rpc('claim_ref_reward');
+        if(error){ cb.textContent = error.message.slice(0,48); return; }
+        cb.textContent = 'verified for 30 days ✓';
+        setTimeout(()=>location.reload(), 1400);
+      });
+    };
+    try{
+      const { data, error } = await sb.rpc('my_referrals');
+      draw(error ? {count:0} : (data||{count:0}));
+    }catch(e){ draw({count:0}); }
+  })();
   sb.from('referrals').select('referrer_username').eq('referred', me.id).maybeSingle()
-    .then(({data})=>{ if(data) document.getElementById('refCount').textContent += (document.getElementById('refCount').textContent?' · ':'') + 'you joined via @' + data.referrer_username + '. code YOUGC10-' + me.username.toUpperCase() + ' = 10% off your next purchase'; });
+    .then(({data})=>{ if(data) document.getElementById('refCount').textContent =
+      'you joined through @' + data.referrer_username + ' · use code YOUGC10 for 10% off anything'; });
 
   // launch notification
   const wlInp=document.getElementById('wlEmail'), wlBtn=document.getElementById('wlBtn'), wlMsg=document.getElementById('wlMsg');

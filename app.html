@@ -77,6 +77,12 @@
   .postgrid .phead{gap:12px}
   .postgrid .avatar{width:46px;height:46px}
   .postgrid .pname{font-size:.98rem !important}
+  .pmsg{display:block;margin-top:14px;text-align:center;text-decoration:none;font-family:'Poppins',sans-serif;
+    font-weight:800;font-size:.9rem;color:var(--ink);padding:12px 20px;border-radius:999px;
+    background:linear-gradient(120deg,rgba(191,215,242,.75),rgba(244,207,223,.7));
+    border:1.5px solid rgba(255,255,255,.9);transition:transform .22s,box-shadow .22s}
+  .pmsg:hover{transform:translateY(-2px);box-shadow:0 14px 30px -16px rgba(110,150,200,.85)}
+  html.dark .pmsg{background:linear-gradient(120deg,rgba(46,74,115,.6),rgba(138,75,110,.5));border-color:rgba(255,255,255,.12);color:var(--ink)}
   .postgrid .pmeta{font-size:.74rem}
   .postgrid .ptext{font-size:.98rem !important}
   /* toolbar */
@@ -209,7 +215,7 @@
 </div>
 
 <script type="module">
-import { sb, requireAuth, NICHES, blobsHTML, initMotion, logoHTML, esc, timeAgo, avatarHTML, vbadge, isVerified, hasSlurs, hasBadLinks, showMsg } from './app.js';
+import { sb, requireAuth, NICHES, blobsHTML, initMotion, logoHTML, esc, safeUrl, timeAgo, avatarHTML, vbadge, isVerified, hasSlurs, hasBadLinks, showMsg } from './app.js';
 import { LAUNCHED, PIN_PRICE, VERIFIED_PRICE } from './config.js';
 const IC_PIN_S = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="width:1em;height:1em;vertical-align:-.13em"><path d="M4.5 4h15"/><path d="M12 21V9.2"/><path d="M7.2 14L12 9.2 16.8 14"/></svg>';
 const payHref = (perk, item, price) => 'pay.html?perk=' + perk + '&item=' + encodeURIComponent(item) + '&price=' + encodeURIComponent(price);
@@ -664,8 +670,9 @@ if(!LIVE){
           </div>
         </div>
         <div class="ptext">${esc(p.text)}</div>
-        ${p.img?`<a href="${esc(p.img)}" target="_blank" rel="noopener"><img class="postimg" src="${esc(p.img)}" loading="lazy"></a>`:''}
+        ${safeUrl(p.img)?`<a href="${esc(safeUrl(p.img))}" target="_blank" rel="noopener"><img class="postimg" src="${esc(safeUrl(p.img))}" loading="lazy"></a>`:''}
         <div class="ptags">${(p.profiles.niches||[]).slice(0,6).map(n=>`<span>${esc(n)}</span>`).join('')}</div>
+        ${p.profiles.id === me.id ? '' : `<a class="pmsg" href="chat.html?u=${encodeURIComponent(p.profiles.username)}">message ${esc(p.profiles.name.split(' ')[0])} →</a>`}
       </div>`).join('') + '</div>';
   }
   render();

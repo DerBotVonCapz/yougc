@@ -82,7 +82,7 @@
 </div>
 
 <script type="module">
-import { sb, requireAuth, blobsHTML, initMotion, logoHTML, esc, timeAgo, avatarHTML, vbadge, hasSlurs, track } from './app.js';
+import { sb, requireAuth, blobsHTML, initMotion, logoHTML, esc, safeUrl, timeAgo, avatarHTML, vbadge, hasSlurs, track } from './app.js';
 document.getElementById('bg').outerHTML = blobsHTML();
 document.getElementById('logo').outerHTML = logoHTML();
 initMotion();
@@ -158,8 +158,8 @@ function renderThread(msgs){
   const maxId = sorted.length ? sorted[sorted.length-1].id : 0;
   el.innerHTML = sorted.map(m=>{
     let att='';
-    if(m.att && m.att.url){
-      const u=esc(m.att.url), ty=String(m.att.type||'');
+    if(m.att && safeUrl(m.att.url)){
+      const u=esc(safeUrl(m.att.url)), ty=String(m.att.type||'');
       if(ty.startsWith('image/')) att=`<a href="${u}" target="_blank" rel="noopener"><img src="${u}" style="max-width:100%;max-height:340px;border-radius:12px;display:block;margin-bottom:6px" loading="lazy"></a>`;
       else if(ty.startsWith('video/')) att=`<video src="${u}" controls style="max-width:100%;max-height:340px;border-radius:12px;display:block;margin-bottom:6px"></video>`;
       else att=`<a href="${u}" target="_blank" rel="noopener" style="display:block;font-weight:700;margin-bottom:4px;color:inherit">📎 ${esc(m.att.name||'file')}</a>`;

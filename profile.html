@@ -166,7 +166,7 @@ html.dark .vbars i{background:rgba(255,255,255,.3)}
 </div>
 
 <script type="module">
-import { sb, currentUser, blobsHTML, initMotion, logoHTML, esc, timeAgo, avatarHTML, vbadge, isVerified, SOCIAL_FIELDS, clipEmbed, isDark, track } from './app.js';
+import { sb, currentUser, blobsHTML, initMotion, logoHTML, esc, safeUrl, timeAgo, avatarHTML, vbadge, isVerified, SOCIAL_FIELDS, clipEmbed, isDark, track } from './app.js';
 import { VERIFIED_PRICE, PIN_PRICE, AGENT_PRICE } from './config.js';
 
 const IC_VERIFIED = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.4l2.4 2.1 3.2-.3.9 3.1 2.6 1.9-1.4 2.9 1.4 2.9-2.6 1.9-.9 3.1-3.2-.3L12 21.6l-2.4-2.1-3.2.3-.9-3.1L2.9 15l1.4-2.9L2.9 9.2l2.6-1.9.9-3.1 3.2.3z"/><path d="M8.6 12.2l2.3 2.3 4.5-4.6"/></svg>';
@@ -178,7 +178,13 @@ document.getElementById('bg').outerHTML = blobsHTML();
 document.getElementById('logo').outerHTML = logoHTML();
 initMotion();
 
-const username = new URLSearchParams(location.search).get('u');
+const _q = new URLSearchParams(location.search);
+const username = _q.get('u');
+// someone landed here through a referral link: remember who sent them
+try{
+  const _r = (_q.get('ref')||'').replace(/^@/,'').replace(/[^a-zA-Z0-9_.-]/g,'').slice(0,40);
+  if(_r) localStorage.setItem('yougc_ref', _r);
+}catch(e){}
 const card = document.getElementById('profileCard');
 const { data: p } = await sb.from('profiles').select('*').eq('username', username).maybeSingle();
 
@@ -188,10 +194,10 @@ if(!p){
   document.title = p.name + ' · ' + (p.role === 'brand' ? 'brand' : 'ugc creator') + ' on YOUgc';
   const md = document.querySelector('meta[name=description]');
   if(md) md.content = (p.bio || (p.name + ' on YOUgc')).slice(0,155);
-  // count this as a profile view (not the owner looking at their own page)
-  try{ if(!isOwner) track('view:@' + p.username); }catch(e){}
   const u = await currentUser();
   const isOwner = !!(u && u.id === p.id);
+  // count this as a profile view (not the owner looking at their own page)
+  try{ if(!isOwner) track('view:@' + p.username); }catch(e){}
   const ac = ACCENTS[p.accent] || ACCENTS.blue;
   card.style.background = isDark()
     ? `radial-gradient(circle at 18% 12%, ${ac[0]}30, transparent 58%), radial-gradient(circle at 88% 85%, ${ac[1]}28, transparent 55%), rgba(18,26,44,.88)`
@@ -204,8 +210,8 @@ if(!p){
     iFollow = !!f;
   }
   const socials = SOCIAL_FIELDS
-    .filter(f => p.socials && p.socials[f.key])
-    .map(f => `<a href="${esc(p.socials[f.key])}" target="_blank" rel="noopener">${f.label}</a>`)
+    .filter(f => p.socials && safeUrl(p.socials[f.key]))
+    .map(f => `<a href="${esc(safeUrl(p.socials[f.key]))}" target="_blank" rel="noopener">${f.label}</a>`)
     .join('');
   card.innerHTML = `
     <div style="display:flex;gap:20px;align-items:center;flex-wrap:wrap">

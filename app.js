@@ -36,6 +36,13 @@ export async function requireAuth(){
   return { user:u, profile:p };
 }
 
+// only ever let http(s) links out of the database and into an href.
+// blocks javascript: and data: urls someone could write straight to the API.
+export function safeUrl(u){
+  const v = String(u ?? '').trim();
+  return /^https?:\/\//i.test(v) ? v : '';
+}
+
 export function esc(s){
   return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }

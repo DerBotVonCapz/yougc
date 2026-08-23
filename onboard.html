@@ -312,7 +312,7 @@ function paint(){
   const uname = (existing?.username) || name.toLowerCase().replace(/[^a-z0-9_]/g,'').slice(0,24);
   document.getElementById('pvuser').textContent = '@' + (uname || 'yourname');
   document.getElementById('pvbio').textContent = bio || (isBrand ? 'what your brand sells shows up here' : 'your bio shows up here');
-  document.getElementById('pvav').innerHTML = avatarDataUrl ? `<img src="${avatarDataUrl}">` : esc((name||'?').charAt(0).toUpperCase());
+  document.getElementById('pvav').innerHTML = avatarDataUrl ? `<img src="${esc(avatarDataUrl)}">` : esc((name||'?').charAt(0).toUpperCase());
   document.getElementById('pvchips').innerHTML = [...selected].slice(0,6).map(n=>`<span>${esc(n)}</span>`).join('');
   const socs = SOCIAL_FIELDS.filter(f=>document.getElementById('soc_'+f.key).value.trim());
   document.getElementById('pvsoc').innerHTML = socs.map(f=>`<span>${esc(f.label)}</span>`).join('');

@@ -117,16 +117,29 @@ html.dark .way:not(.primary){color:#12233c}
 .backlink:hover{color:var(--ink)}
 .coinrow{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
 @media(max-width:560px){.coinrow{grid-template-columns:1fr}}
-.coinbtn{cursor:pointer;font-family:'Poppins',sans-serif;padding:20px 14px;border-radius:20px;
-  background:rgba(255,255,255,.9);border:2px solid rgba(30,51,80,.12);transition:transform .2s,box-shadow .2s,border-color .2s;text-align:center}
-html.dark .coinbtn{background:rgba(255,255,255,.05)}
-.coinbtn:hover{transform:translateY(-4px);box-shadow:0 16px 34px -18px rgba(46,74,115,.5);border-color:#6E96C8}
+.coinbtn{cursor:pointer;font-family:'Poppins',sans-serif;padding:20px 14px;border-radius:20px;text-align:center;
+  border:2px solid transparent;
+  background:linear-gradient(rgba(255,255,255,.94),rgba(255,255,255,.94)) padding-box,
+             linear-gradient(120deg,#BFD7F2,#F4CFDF,#C8E6D4,#BFD7F2) border-box;
+  transition:transform .2s,box-shadow .2s}
+html.dark .coinbtn{background:linear-gradient(rgba(23,31,52,.95),rgba(23,31,52,.95)) padding-box,
+  linear-gradient(120deg,#2E4A73,#8A4B6E,#2C5C46,#2E4A73) border-box}
+.coinbtn:hover{transform:translateY(-4px);box-shadow:0 18px 38px -18px rgba(46,74,115,.55)}
 .coinbtn .cn{font-weight:800;font-size:1.25rem;color:var(--ink);font-family:'Space Grotesk',sans-serif;display:block}
 .coinbtn .ch{font-size:.74rem;font-weight:600;color:var(--ink-soft);margin-top:3px;display:block}
-.coinbtn.copied{border-color:#7FBF9E;background:rgba(191,232,212,.45)}
+.coinbtn.copied{background:linear-gradient(rgba(191,232,212,.75),rgba(191,232,212,.75)) padding-box,linear-gradient(120deg,#7FBF9E,#BFE8D4) border-box}
 .coinbtn.copied .ch{color:#3D7A5C}
 label{font-size:.78rem}
 .smalllink{display:block;text-align:center;margin-top:18px;font-size:.83rem;font-weight:700;color:var(--ink-soft)}
+.bigpay{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;
+  font-family:'Poppins',sans-serif;font-weight:800;font-size:1.04rem;color:#1E3350;
+  padding:18px 26px;border-radius:999px;border:none;cursor:pointer;text-decoration:none;
+  background:linear-gradient(100deg,#BFD7F2,#F4CFDF,#C8E6D4,#F7D9C4,#DCD4F2,#BFD7F2);
+  background-size:300% 100%;animation:flow 13s linear infinite;
+  box-shadow:0 18px 40px -18px rgba(110,150,200,.9);transition:transform .22s}
+.bigpay:hover{transform:translateY(-2px)}
+.bigpay:disabled{opacity:.55;cursor:default;transform:none}
+@media(prefers-reduced-motion:reduce){.bigpay{animation:none}}
 .ckick{font-size:.68rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft)}
 .cname{margin-top:8px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(1.9rem,4vw,2.6rem);
   letter-spacing:-.045em;line-height:1}

@@ -191,6 +191,7 @@ const { data: p } = await sb.from('profiles').select('*').eq('username', usernam
 if(!p){
   card.innerHTML = '<p class="muted center">profile not found.</p>';
 } else {
+  p.name = p.name || p.username || 'creator';
   document.title = p.name + ' · ' + (p.role === 'brand' ? 'brand' : 'ugc creator') + ' on YOUgc';
   const md = document.querySelector('meta[name=description]');
   if(md) md.content = (p.bio || (p.name + ' on YOUgc')).slice(0,155);

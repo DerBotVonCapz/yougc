@@ -120,6 +120,8 @@ if(error){
 const s = data;
 const { data: sec } = await sb.rpc('admin_security');
 const SEC = sec || {};
+const { data: pays } = await sb.rpc('admin_payments');
+const PAYS = pays || [];
 const stat = (n,l)=>`<div class="stat"><div class="n">${n ?? 0}</div><div class="l">${l}</div></div>`;
 
 // 14 day visits chart
@@ -190,6 +192,28 @@ box.innerHTML = `
     ${stat(SEC.emails_24h,'emails sent · 24h')}
     ${stat((SEC.banned||[]).length,'banned accounts')}
   </div>
+
+  ${PAYS.length ? `<div class="panel">
+    <h3>crypto payments (${PAYS.filter(x=>x.status==='new').length} waiting) 🪙</h3>
+    <p class="muted" style="margin-bottom:14px;font-size:.9rem">people who paid in crypto and pasted their transaction. check the link, then switch the perk on and mark it done.</p>
+    <div class="scroll"><table class="tbl">
+      <thead><tr><th>when</th><th>user</th><th>perk</th><th>coin</th><th>transaction</th><th>status</th><th>actions</th></tr></thead>
+      <tbody>${PAYS.map(x=>`<tr${x.status==='new'?' style="background:rgba(232,146,107,.1)"':''}>
+        <td class="muted">${when(x.created_at)}</td>
+        <td><b>@${esc2(x.username||'')}</b></td>
+        <td>${esc2(x.perk)}</td>
+        <td>${esc2(x.coin||'—')}</td>
+        <td>${x.tx && /^https?:\/\//.test(x.tx) ? `<a href="${esc2(x.tx)}" target="_blank" rel="noopener" style="color:var(--cblue);font-weight:700">open ↗</a>` : esc2((x.tx||'').slice(0,26))}</td>
+        <td><span class="pill ${x.status==='new'?'warn':'none'}">${esc2(x.status)}</span></td>
+        <td><div class="act">
+          ${x.perk==='verified' ? `<button data-a="verify" data-t="${esc2(x.username||'')}" data-g="30">verify 30d</button>` : ''}
+          ${x.perk==='pin_profile' ? `<button data-a="pin_profile" data-t="${esc2(x.username||'')}" data-g="24">pin 24h</button>` : ''}
+          ${x.perk==='agent' ? `<button data-a="agent" data-t="${esc2(x.username||'')}" data-g="30">agent 30d</button>` : ''}
+          <button data-p="${x.id}" data-s="done">mark done</button>
+          <button class="danger" data-p="${x.id}" data-s="rejected">reject</button>
+        </div></td></tr>`).join('')}</tbody>
+    </table></div>
+  </div>` : ''}
 
   <div class="panel">
     <h3>your data 💾</h3>
@@ -338,9 +362,15 @@ async function run(action, target, arg){
 document.getElementById('cGo')?.addEventListener('click', ()=>
   run(document.getElementById('cAction').value, document.getElementById('cTarget').value, document.getElementById('cArg').value));
 document.getElementById('cTarget')?.addEventListener('keydown', e=>{ if(e.key==='Enter') document.getElementById('cGo').click(); });
-box.addEventListener('click', e=>{
-  const b = e.target.closest('button[data-a]'); if(!b) return;
-  run(b.dataset.a, b.dataset.t, b.dataset.g || null);
+box.addEventListener('click', async e=>{
+  const b = e.target.closest('button[data-a],button[data-p]'); if(!b) return;
+  if(b.dataset.a){ run(b.dataset.a, b.dataset.t, b.dataset.g || null); return; }
+  const out = document.getElementById('cOut');
+  b.disabled = true; b.textContent = '…';
+  const { error: pe } = await sb.rpc('admin_payment_status', { p_id: Number(b.dataset.p), p_status: b.dataset.s });
+  if(pe){ out.className='cout bad'; out.textContent = pe.message; b.disabled=false; return; }
+  out.className='cout ok'; out.textContent = 'payment marked ' + b.dataset.s + ' ✓  (refreshing)';
+  setTimeout(()=>location.reload(), 900);
 });
 
 // auto refresh every 60s so the tab is always current

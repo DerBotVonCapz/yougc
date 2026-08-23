@@ -42,6 +42,8 @@ const DE = {
   "got a deal running? we jump in with hooks, scripts and edits so the video actually hits. studio pass plus a small share per video.":"deal am laufen? wir springen ein mit hooks, skripten und schnitt, damit das video wirklich einschlägt. studio pass plus ein kleiner anteil pro video.",
   "see how it works →":"so funktioniert es →",
   "✨ find creators":"✨ creator finden",
+  "✨ find brands":"✨ marken finden",
+  "find brands":"marken finden",
   "find creators":"creator finden",
   "say what you need, i scan every creator for your best fit.":"sag was du brauchst, ich scanne jeden creator nach dem besten match.",
   "find":"finden",
@@ -335,6 +337,9 @@ const RX = [
   [/^joined (\w+) (\d{4})$/i, (m,a,b)=>`dabei seit ${a} ${b}`],
   [/^(\d+)([hdm]) ago$/i, (m,a,b)=>`vor ${a}${b==='h'?' std':b==='d'?' t':' min'}`],
   [/^just now$/i, ()=>'gerade eben'],
+  [/^message (.+?) ?→$/i, (m,a)=>`${a} anschreiben →`],
+  [/^message (.+)$/i, (m,a)=>`${a} anschreiben`],
+  [/^looking for (\d+) creators? this month,? dm me$/i, (m,a)=>`suche diesen monat ${a} creator, schreib mir`],
 ];
 
 const KEY = 'yougc_lang';

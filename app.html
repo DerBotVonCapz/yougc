@@ -59,8 +59,22 @@
   .prepcards .card .psub{font-size:.98rem;color:var(--ink-soft);line-height:1.7;margin-bottom:16px}
   .prepcards input[type=email],.prepcards input[type=text]{font-size:1rem;padding:15px 18px}
   .prepcards .refbox{margin:0;padding:0;background:none;box-shadow:none;border:none;border-radius:0}
-  .prepcards .refbox .rtitle{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.35rem;letter-spacing:-.02em;text-transform:none;color:var(--ink);margin-bottom:6px}
-  .prepcards .refbox .rsub{font-size:.98rem;line-height:1.7;margin-bottom:16px}
+  .refhead{display:flex;align-items:center;gap:13px;margin-bottom:12px}
+  .ricon{width:44px;height:44px;border-radius:15px;display:grid;place-items:center;color:#fff;flex:none;
+    background:linear-gradient(120deg,#6E96C8,#8A6FC0,#D98BB0,#E8926B,#6E96C8);background-size:300% 100%;
+    animation:bigsweep 8s linear infinite;box-shadow:0 14px 28px -12px rgba(138,111,192,.9)}
+  .ricon svg{width:24px;height:24px}
+  .reyebrow{font-size:.71rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+  .prepcards .refbox .rtitle{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.4rem;letter-spacing:-.02em;text-transform:none;color:var(--ink);line-height:1.25;margin:3px 0 0;text-wrap:balance}
+  .rfree{font-weight:800;background:linear-gradient(90deg,#2E4A73,#6E96C8,#D98BB0,#E8926B,#7FBF9E,#2E4A73);
+    background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:bigsweep 9s linear infinite}
+  .prepcards .refbox .rsub{font-size:.97rem;line-height:1.68;color:var(--ink-soft);margin:0 0 16px}
+  .prepcards .refbox .rsub b{color:var(--ink);font-weight:800}
+  .rlearn{display:inline-flex;align-items:center;gap:7px;margin-top:15px;font-size:.9rem;font-weight:800;
+    color:var(--ink);text-decoration:none;border-bottom:2px solid rgba(110,150,200,.45);padding-bottom:2px;
+    transition:gap .2s,border-color .2s}
+  .rlearn:hover{gap:11px;border-color:rgba(217,139,176,.95)}
+  @media(prefers-reduced-motion:reduce){.ricon,.rfree{animation:none}}
   .refprog{margin-top:16px}
   .pips{display:flex;gap:8px;align-items:center}
   .pip{flex:1;height:9px;border-radius:99px;background:rgba(30,51,80,.12);overflow:hidden;position:relative}
@@ -278,13 +292,20 @@ if(!LIVE){
           <div class="msg" id="wlMsg"></div>
         </div>
         <div class="card"><div class="refbox">
-          <div class="rtitle">3 friends = a free month ✦</div>
-          <div class="rsub">share your link. when <b>3 people sign up</b> through it, you get <b>a month of verified free</b> — boosted posts, the ✓ on your name, 3 posts a day.</div>
+          <div class="refhead">
+            <span class="ricon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.4l2.4 2.1 3.2-.3.9 3.1 2.6 1.9-1.4 2.9 1.4 2.9-2.6 1.9-.9 3.1-3.2-.3L12 21.6l-2.4-2.1-3.2.3-.9-3.1L2.9 15l1.4-2.9L2.9 9.2l2.6-1.9.9-3.1 3.2.3z"/><path d="M8.6 12.2l2.3 2.3 4.5-4.6"/></svg></span>
+            <div>
+              <div class="reyebrow">invite reward</div>
+              <div class="rtitle">3 referrals = 1 month <span class="rfree">verified, free</span></div>
+            </div>
+          </div>
+          <div class="rsub">send your link. when <b>3 people</b> join through it, verified is <b>yours for 30 days</b>. no payment, nothing to cancel.</div>
           <div class="refrow">
             <input type="text" id="refLink" readonly>
-            <button class="btn small softbtn" id="refCopy">copy</button>
+            <button class="btn small softbtn" id="refCopy">copy link</button>
           </div>
           <div class="refprog" id="refProg"></div>
+          <a class="rlearn" href="pay.html?perk=verified">see what verified gets you &rarr;</a>
           <div class="refcount" id="refCount"></div>
         </div></div>
       </div>
@@ -300,7 +321,7 @@ if(!LIVE){
   document.getElementById('refCopy').addEventListener('click', async ()=>{
     try{ await navigator.clipboard.writeText(refUrl); }catch(e){ document.getElementById('refLink').select(); document.execCommand('copy'); }
     document.getElementById('refCopy').textContent='copied ✓';
-    setTimeout(()=>document.getElementById('refCopy').textContent='copy',1800);
+    setTimeout(()=>document.getElementById('refCopy').textContent='copy link',1800);
   });
   (async ()=>{
     const prog = document.getElementById('refProg');
@@ -308,9 +329,9 @@ if(!LIVE){
       const n = Math.min(r.count||0, 3);
       const pips = [0,1,2].map(k=>`<span class="pip ${k<n?'on':''}"></span>`).join('');
       let note;
-      if(r.claimed) note = `<b>free month claimed ✓</b> <span>thanks for bringing people in</span>`;
-      else if(r.can_claim) note = `<b>3 friends joined.</b> <span>your free month is ready</span>`;
-      else note = `<b>${r.count||0} of 3 joined</b> <span>· ${3-(r.count||0)} more for a free month</span>`;
+      if(r.claimed) note = `<b>free month claimed ✓</b> <span>· thanks for bringing people in</span>`;
+      else if(r.can_claim) note = `<b>3 of 3 joined.</b> <span>· your free month is ready</span>`;
+      else note = `<b>${r.count||0} of 3 joined</b> <span>· ${3-(r.count||0)} more and verified is free for a month</span>`;
       prog.innerHTML = `<div class="pips">${pips}</div><div class="pipnote">${note}</div>` +
         (r.can_claim ? `<button class="claimbtn" id="claimBtn">claim my free month →</button>` : '');
       const cb = document.getElementById('claimBtn');
@@ -322,10 +343,21 @@ if(!LIVE){
         setTimeout(()=>location.reload(), 1400);
       });
     };
-    try{
-      const { data, error } = await sb.rpc('my_referrals');
-      draw(error ? {count:0} : (data||{count:0}));
-    }catch(e){ draw({count:0}); }
+    const load = async () => {
+      try{
+        const { data, error } = await sb.rpc('my_referrals');
+        draw(error ? {count:0} : (data||{count:0}));
+      }catch(e){ draw({count:0}); }
+    };
+    await load();
+    // keep the counter honest without a refresh: recheck when the tab comes back
+    let last = 0;
+    document.addEventListener('visibilitychange', ()=>{
+      if(document.visibilityState !== 'visible') return;
+      const t = new Date().getTime();
+      if(t - last < 15000) return;
+      last = t; load();
+    });
   })();
   sb.from('referrals').select('referrer_username').eq('referred', me.id).maybeSingle()
     .then(({data})=>{ if(data) document.getElementById('refCount').textContent =

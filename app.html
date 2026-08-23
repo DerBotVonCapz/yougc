@@ -51,27 +51,6 @@
     background:linear-gradient(120deg,#6E96C8,#D98BB0);animation:curblink 1.05s steps(1) infinite;transform:translateY(.1em)}
   @keyframes curblink{0%,49%{opacity:1}50%,100%{opacity:0}}
 
-  /* floating product ghosts */
-  .ghosts{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-  @media(max-width:1280px){.ghosts{display:none}}
-  .gcard{position:absolute;width:154px;border-radius:20px;padding:13px;opacity:.42;
-    background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.8);
-    -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
-    box-shadow:0 22px 46px -28px rgba(46,74,115,.55);will-change:transform}
-  html.dark .gcard{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.12)}
-  .gcard .gav{width:34px;height:34px;border-radius:12px;background:linear-gradient(120deg,#BFD7F2,#F4CFDF);margin-bottom:10px}
-  .gcard .gb{height:7px;border-radius:99px;background:rgba(30,51,80,.13);margin-bottom:7px}
-  html.dark .gcard .gb{background:rgba(255,255,255,.14)}
-  .gcard .gb.s{width:58%}
-  .gcard .gb.t{width:40%;background:linear-gradient(90deg,#BFD7F2,#C8E6D4)}
-  .g1{left:2.5%;top:19%;animation:gfloat1 15s ease-in-out infinite alternate}
-  .g2{right:3%;top:11%;transform:rotate(4deg);animation:gfloat2 18s ease-in-out infinite alternate}
-  .g3{left:5%;bottom:14%;transform:rotate(-5deg);animation:gfloat3 21s ease-in-out infinite alternate}
-  .g4{right:5.5%;bottom:22%;animation:gfloat1 17s ease-in-out infinite alternate}
-  @keyframes gfloat1{from{transform:translate3d(0,0,0) rotate(-3deg)}to{transform:translate3d(14px,-22px,0) rotate(2deg)}}
-  @keyframes gfloat2{from{transform:translate3d(0,0,0) rotate(4deg)}to{transform:translate3d(-16px,20px,0) rotate(-2deg)}}
-  @keyframes gfloat3{from{transform:translate3d(0,0,0) rotate(-5deg)}to{transform:translate3d(18px,16px,0) rotate(1deg)}}
-  @media(prefers-reduced-motion:reduce){.gcard{animation:none}}
   .prep .rule{width:52px;height:3px;border-radius:99px;margin:26px auto 0;
     background:linear-gradient(90deg,#BFD7F2,#F4CFDF,#BFE8D4);background-size:200% 100%;animation:bigsweep 6s linear infinite}
   .prepbtns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:34px;align-items:center}
@@ -94,7 +73,6 @@
   /* ---------- prep: atmosphere ---------- */
   .prep{position:relative}
   .prep > *{position:relative;z-index:2}
-  .prep > .ghosts{position:absolute;inset:0;z-index:0}
   .prep > .prepatm{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
   .prepatm .aur{position:absolute;border-radius:50%;filter:blur(90px);opacity:.5;will-change:transform}
   .prepatm .a1{width:46vw;height:46vw;left:-9vw;top:-12vw;background:radial-gradient(circle,#BFD7F2,transparent 68%);animation:drift1 26s ease-in-out infinite alternate}
@@ -374,12 +352,6 @@ if(!LIVE){
   document.getElementById('appwrap').innerHTML = `
     <div class="prep">
       <div class="prepatm" aria-hidden="true"><span class="aur a1"></span><span class="aur a2"></span><span class="aur a3"></span><span class="mesh"></span></div>
-      <div class="ghosts" aria-hidden="true">
-        <div class="gcard g1"><div class="gav"></div><div class="gb"></div><div class="gb s"></div><div class="gb t"></div></div>
-        <div class="gcard g2"><div class="gav"></div><div class="gb"></div><div class="gb s"></div><div class="gb t"></div></div>
-        <div class="gcard g3"><div class="gav"></div><div class="gb"></div><div class="gb s"></div><div class="gb t"></div></div>
-        <div class="gcard g4"><div class="gav"></div><div class="gb"></div><div class="gb s"></div><div class="gb t"></div></div>
-      </div>
       <div class="bigwrap"><div class="big" data-text="MARKETPLACE">MARKETPLACE</div></div>
       <div class="typed"><b id="typeOut"></b><span class="cur"></span></div>
       <div class="rule"></div>
@@ -392,7 +364,6 @@ if(!LIVE){
         <div class="rstep done">
           <span class="rnode"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.6l4.7 4.7L19.5 7"/></svg></span>
           <div class="rlab">profile live</div>
-          <div class="rsm">day one creator</div>
         </div>
         <div class="rline"><i style="width:100%"></i></div>
         <div class="rstep now">
@@ -404,7 +375,6 @@ if(!LIVE){
         <div class="rstep soon">
           <span class="rnode"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3h4.4A1.6 1.6 0 0120 4.6v14.8a1.6 1.6 0 01-1.6 1.6H14"/><path d="M10.2 16.6L14.8 12l-4.6-4.6"/><path d="M14.4 12H4"/></svg></span>
           <div class="rlab">doors open</div>
-          <div class="rsm">you are already inside</div>
         </div>
       </div>
       <div class="panel">
@@ -439,15 +409,14 @@ if(!LIVE){
     const el = document.getElementById('typeOut');
     if(!el) return;
     if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){ el.textContent = 'in preparation...'; return; }
-    const lines = ['in preparation...','onboarding creators...','brands are watching...','opening soon...'];
-    let li = 0, ci = 0, del = false;
+    const full = 'in preparation...';
+    let ci = 0, del = false;
     const tick = () => {
-      const full = lines[li];
       ci = del ? ci - 1 : ci + 1;
       el.textContent = full.slice(0, ci);
-      let wait = del ? 34 : (full[ci-1] === '.' ? 170 : 62 + Math.round(30 * Math.sin(ci)));
-      if(!del && ci === full.length){ del = true; wait = 2100; }
-      else if(del && ci === 0){ del = false; li = (li + 1) % lines.length; wait = 420; }
+      let wait = del ? 30 : (full[ci-1] === '.' ? 260 : 105);
+      if(!del && ci === full.length){ del = true; wait = 1900; }
+      else if(del && ci === 0){ del = false; wait = 520; }
       setTimeout(tick, wait);
     };
     setTimeout(tick, 500);

@@ -403,6 +403,14 @@ function validate(n){
       const el = document.getElementById('soc_'+f.key);
       let v = el.value.trim();
       if(!v) continue;
+      // people type @name. turn that into the real link instead of rejecting it.
+      const HANDLE = { x:'https://x.com/', instagram:'https://instagram.com/', tiktok:'https://tiktok.com/@',
+                       youtube:'https://youtube.com/@', telegram:'https://t.me/' };
+      const bare = v.replace(/^@/,'');
+      const looksHandle = v.startsWith('@') || (!bare.includes('/') && !bare.includes('.'));
+      if(HANDLE[f.key] && !/^https?:\/\//i.test(v) && looksHandle && /^[A-Za-z0-9_.]{2,30}$/.test(bare)){
+        v = HANDLE[f.key] + bare; el.value = v;
+      }
       if(!/^https?:\/\//i.test(v)){ v = 'https://' + v.replace(/^\/+/,''); el.value = v; }
       let host='';
       try{ host = new URL(v).hostname.replace(/^www\./,''); }catch(e){}

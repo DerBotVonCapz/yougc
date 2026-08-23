@@ -40,7 +40,9 @@
   @keyframes shinepass{0%{background-position:170% 0}55%,100%{background-position:-70% 0}}
   @keyframes bigsweep{from{background-position:0% 0}to{background-position:300% 0}}
   @keyframes bigfloat{from{transform:translateY(-5px)}to{transform:translateY(5px)}}
-  @media(prefers-reduced-motion:reduce){.prep .big,.prep .big::before,.prep .big::after{animation:none}}
+  @media(prefers-reduced-motion:reduce){
+    .prep .big{animation:meshdrift 16s ease-in-out infinite alternate}
+    .prep .big::before{animation:none}}
 
   /* typed line */
   .typed{margin-top:22px;font-family:ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace;
@@ -64,7 +66,6 @@
     background-size:300% 100%;animation:bigsweep 10s linear infinite;
     box-shadow:0 20px 44px -16px rgba(110,150,200,.95);transition:transform .24s,box-shadow .24s}
   .pbtn.main:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 26px 54px -18px rgba(160,120,190,.95)}
-  @media(prefers-reduced-motion:reduce){.pbtn.main{animation:none}}
   .pbtn .ic{display:inline-flex;width:19px;height:19px}
   .pbtn .ic.dc{color:#5865F2}
   .pbtn .ic.xx{color:var(--ink)}
@@ -156,7 +157,6 @@
     color:var(--ink);text-decoration:none;border-bottom:2px solid rgba(110,150,200,.45);padding-bottom:2px;
     transition:gap .2s,border-color .2s}
   .rlearn:hover{gap:11px;border-color:rgba(217,139,176,.95)}
-  @media(prefers-reduced-motion:reduce){.rfree{animation:none}}
   .refprog{margin:0}
   .pips{display:flex;gap:7px;align-items:center}
   .pip{flex:1;height:8px;border-radius:99px;background:rgba(30,51,80,.13)}
@@ -408,7 +408,6 @@ if(!LIVE){
   (function(){
     const el = document.getElementById('typeOut');
     if(!el) return;
-    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){ el.textContent = 'in preparation...'; return; }
     const full = 'in preparation...';
     let ci = 0, del = false;
     const tick = () => {

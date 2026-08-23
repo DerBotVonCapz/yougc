@@ -21,6 +21,104 @@ const DE = {
   "rating bangkok street food 🍜":"bangkok street food bewerten 🍜",
   "best pad thai i found so far #ugc #food":"bestes pad thai bisher #ugc #food",
 
+  // ---------- marketplace ----------
+  "market":"markt",
+  "place":"platz",
+  "pinned right now":"gerade gepinnt",
+  "🎬 creators":"🎬 creator",
+  "🛍️ brands":"🛍️ marken",
+  "📣 posts":"📣 posts",
+  "✨ my categories":"✨ meine kategorien",
+  "brand":"marke",
+  "view profile →":"profil ansehen →",
+  "your post":"dein post",
+  "📷 add a picture":"📷 bild hinzufügen",
+  "post":"posten",
+  "🎬 YOUgc studio":"🎬 YOUgc studio",
+  "got a deal running? we jump in with hooks, scripts and edits so the video actually hits. studio pass plus a small share per video.":"deal am laufen? wir springen ein mit hooks, skripten und schnitt, damit das video wirklich einschlägt. studio pass plus ein kleiner anteil pro video.",
+  "see how it works →":"so funktioniert es →",
+  "✨ find creators":"✨ creator finden",
+  "find creators":"creator finden",
+  "say what you need, i scan every creator for your best fit.":"sag was du brauchst, ich scanne jeden creator nach dem besten match.",
+  "find":"finden",
+  "🔎 search creators and brands…":"🔎 creator und marken suchen…",
+  "what are you looking for?":"was suchst du?",
+  "no posts yet.":"noch keine posts.",
+  "loading…":"lädt…",
+
+  // ---------- profile ----------
+  "latest posts":"neueste posts",
+  "edit profile":"profil bearbeiten",
+  "edit profile →":"profil bearbeiten →",
+  "my agent ✨":"mein agent ✨",
+  "open my agent →":"agent öffnen →",
+  "grow faster":"schneller wachsen",
+  "brands scroll fast. these decide whether they stop on you.":"marken scrollen schnell. das hier entscheidet, ob sie bei dir stoppen.",
+  "most picked":"am häufigsten gewählt",
+  "get verified →":"verifiziert werden →",
+  "brands look for":"marken suchen",
+  "joined":"dabei seit",
+  "copy my link":"meinen link kopieren",
+  "bring people in":"leute mitbringen",
+  "once they join, your next perk is 10% off too.":"wenn sie dabei sind, gibt es auf dein nächstes perk auch 10% rabatt.",
+  "it opens straight on your profile, with your photo and clips.":"es öffnet direkt dein profil, mit foto und clips.",
+  "views today":"aufrufe heute",
+  "views this week":"aufrufe diese woche",
+  "views all time":"aufrufe insgesamt",
+  "your profile":"dein profil",
+
+  // ---------- chat ----------
+  "no chats yet.":"noch keine chats.",
+  "no chat open.":"kein chat offen.",
+  "find creators and brands on the marketplace and message them.":"finde creator und marken im marktplatz und schreib sie an.",
+  "message someone from their profile.":"schreib jemanden über sein profil an.",
+  "notifications":"benachrichtigungen",
+  "you:":"du:",
+
+  // ---------- settings ----------
+  "your account":"dein account",
+  "change email":"e-mail ändern",
+  "update email":"e-mail aktualisieren",
+  "current password":"aktuelles passwort",
+  "new password":"neues passwort",
+  "update password":"passwort aktualisieren",
+  "set a password":"passwort festlegen",
+  "delete my account":"account löschen",
+  "yes, delete everything":"ja, alles löschen",
+  "your current password":"dein aktuelles passwort",
+  "min 6 characters":"min 6 zeichen",
+  "you signed up with Google. set a password here and you can log in either way.":"du hast dich mit Google angemeldet. leg hier ein passwort fest und du kannst dich auf beide arten einloggen.",
+
+  // ---------- pay ----------
+  "how do you want to pay":"wie willst du zahlen",
+  "got a code? add it at checkout":"code? gib ihn beim checkout ein",
+  "confirm my payment →":"zahlung bestätigen →",
+  "another coin, or something not working? write to us":"andere coin oder klappt etwas nicht? schreib uns",
+  "active within a few hours after payment. cancel anytime.":"aktiv wenige stunden nach der zahlung. jederzeit kündbar.",
+  "cancel any time":"jederzeit kündbar",
+  "active ✓":"aktiv ✓",
+  "only a few slots run at once":"es laufen nur wenige slots gleichzeitig",
+  "on top":"ganz oben",
+  "open it →":"öffnen →",
+  "go to the marketplace →":"zum marktplatz →",
+  "pick a perk":"perk wählen",
+  "your posts get boosted":"deine posts werden geboostet",
+  "the ✓ on your name":"das ✓ an deinem namen",
+  "higher in the marketplace":"höher im marktplatz",
+  "3 posts a day":"3 posts am tag",
+  "your first pin, free":"dein erster pin, gratis",
+
+  // ---------- studio + agent ----------
+  "bring the studio into your deal →":"das studio in deinen deal holen →",
+  "hooks & scripts":"hooks & skripte",
+  "editing & captions":"schnitt & untertitel",
+  "full polish":"voller feinschliff",
+  "fixes your bio and photo":"verbessert deine bio und dein foto",
+  "finds who to message":"findet, wen du anschreiben solltest",
+  "make my bio better":"meine bio verbessern",
+  "fixed as you go.":"wird direkt mitgefixt.",
+  "brands see the badge.":"marken sehen das häkchen.",
+
   // ---------- nav + global ----------
   "log in":"einloggen",
   "sign up free":"kostenlos starten",
@@ -194,6 +292,7 @@ const DE = {
   "type your own niche and press enter":"eigene nische eingeben und enter drücken",
 
   // ---------- prep page ----------
+  "MARKETPLACE":"MARKTPLATZ",
   "in preparation...":"in vorbereitung...",
   "onboarding creators...":"creator kommen dazu...",
   "brands are watching...":"marken schauen zu...",
@@ -222,6 +321,18 @@ const DE = {
   "doors opening soon":"türen öffnen bald",
 };
 
+
+// counts change, so these are matched by shape instead of exact text
+const RX = [
+  [/^(\d+) clips? · (\d+) socials? linked$/i, (m,a,b)=>`${a} clips · ${b} socials verlinkt`],
+  [/^(\d+) socials? linked$/i, (m,a)=>`${a} social verlinkt`],
+  [/^(\d+) clips? linked$/i, (m,a)=>`${a} clips verlinkt`],
+  [/^(\d+) followers?$/i, (m,a)=>`${a} follower`],
+  [/^joined (\w+) (\d{4})$/i, (m,a,b)=>`dabei seit ${a} ${b}`],
+  [/^(\d+)([hdm]) ago$/i, (m,a,b)=>`vor ${a}${b==='h'?' std':b==='d'?' t':' min'}`],
+  [/^just now$/i, ()=>'gerade eben'],
+];
+
 const KEY = 'yougc_lang';
 function pick(){
   try{
@@ -237,8 +348,12 @@ function tr(s){
   const k = s.trim();
   if(!k) return null;
   const g = DE[k];
-  if(!g) return null;
-  return s.replace(k, g);
+  if(g) return s.replace(k, g);
+  for(const [rx, fn] of RX){
+    const m = k.match(rx);
+    if(m) return s.replace(k, fn(...m));
+  }
+  return null;
 }
 // exposed so scripts can translate a string they build themselves
 window.T = (s) => (LANG === 'de' && DE[s]) ? DE[s] : s;
@@ -256,10 +371,20 @@ function paint(root){
     const g = tr(n.textContent);
     if(g && g !== n.textContent){ if(!orig.has(n)) orig.set(n, n.textContent); n.textContent = g; }
   }
-  root.querySelectorAll && root.querySelectorAll('[placeholder]').forEach(el=>{
-    const g = DE[el.placeholder.trim()];
-    if(g) el.placeholder = g;
-  });
+  if(root.querySelectorAll){
+    root.querySelectorAll('[placeholder]').forEach(el=>{
+      const g = DE[el.placeholder.trim()];
+      if(g) el.placeholder = g;
+    });
+    root.querySelectorAll('[data-text]').forEach(el=>{
+      const g = DE[el.dataset.text.trim()];
+      if(g) el.dataset.text = g;
+    });
+    root.querySelectorAll('[title]').forEach(el=>{
+      const g = DE[el.title.trim()];
+      if(g) el.title = g;
+    });
+  }
 }
 
 function button(){

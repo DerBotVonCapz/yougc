@@ -119,17 +119,42 @@ document.getElementById('emailBtn').addEventListener('click', async ()=>{
   else showMsg(msgA,'email update started. if a confirmation email arrives, click it to finish.', true);
 });
 
+// accounts made with google have no password yet. let them set a first one
+// without asking for a current password they never had.
+let HAS_PW = true;
+(async ()=>{
+  try{
+    const { data } = await sb.auth.getUserIdentities();
+    const ids = (data && data.identities) || [];
+    HAS_PW = ids.some(i => i.provider === 'email');
+  }catch(e){}
+  if(!HAS_PW){
+    const row = document.getElementById('oldPass').closest('div') || document.getElementById('oldPass').parentElement;
+    if(row) row.style.display = 'none';
+    const lbl = document.querySelector('#passCard .kicker, #passCard h3');
+    const btn = document.getElementById('passBtn');
+    if(btn) btn.textContent = 'set a password';
+    const hint = document.createElement('p');
+    hint.className = 'muted';
+    hint.style.cssText = 'font-size:.86rem;margin:10px 0 0';
+    hint.textContent = 'you signed up with Google. set a password here and you can log in either way.';
+    if(btn && btn.parentElement) btn.parentElement.appendChild(hint);
+  }
+})();
+
 document.getElementById('passBtn').addEventListener('click', async ()=>{
   const oldP = document.getElementById('oldPass').value;
   const newP = document.getElementById('newPass').value;
   msgB.className='msg';
-  if(!oldP){ showMsg(msgB,'enter your current password first.'); return; }
   if(newP.length < 6){ showMsg(msgB,'new password needs at least 6 characters.'); return; }
-  const { error: authErr } = await sb.auth.signInWithPassword({ email: ctx.user.email, password: oldP });
-  if(authErr){ showMsg(msgB,'current password is wrong.'); return; }
+  if(HAS_PW){
+    if(!oldP){ showMsg(msgB,'enter your current password first.'); return; }
+    const { error: authErr } = await sb.auth.signInWithPassword({ email: ctx.user.email, password: oldP });
+    if(authErr){ showMsg(msgB,'current password is wrong.'); return; }
+  }
   const { error } = await sb.auth.updateUser({ password: newP });
   if(error) showMsg(msgB, error.message);
-  else { document.getElementById('oldPass').value=''; document.getElementById('newPass').value=''; showMsg(msgB,'password updated.', true); }
+  else { document.getElementById('oldPass').value=''; document.getElementById('newPass').value=''; HAS_PW = true; showMsg(msgB, 'password saved. you can now log in with your email too.', true); }
 });
 
 document.getElementById('logout').addEventListener('click', async ()=>{

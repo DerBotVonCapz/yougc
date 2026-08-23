@@ -194,7 +194,11 @@ go.addEventListener('click', async () => {
       location.href = p ? 'app.html' : 'onboard.html';
     }
   }catch(err){
-    showMsg(msg, err.message || 'something went wrong. try again.');
+    const m = (err.message||'').toLowerCase();
+    const friendly = m.includes('invalid login')
+      ? 'that email and password did not match. if you signed up with Google, use the Google button below.'
+      : (err.message || 'something went wrong. try again.');
+    showMsg(msg, friendly);
     go.textContent = mode==='login' ? 'log in' : 'create account';
   }
 });

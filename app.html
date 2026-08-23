@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="description" content="the YOUgc marketplace: browse ugc creators and brands by niche, message them directly."><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>marketplace · YOUgc</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="stylesheet" href="style.css">
 <style>
@@ -12,24 +12,44 @@
   @media(max-width:760px){.floatlogo{display:none}}
   .floatlogo img{height:56px;display:block}
   .prep{text-align:center;padding:1.2vh 0 3vh;max-width:100% !important}
-  .prep .big{position:relative;display:inline-block;font-family:'Space Grotesk','Poppins',sans-serif;font-weight:700;letter-spacing:-.045em;line-height:.98;
-    font-size:clamp(3rem,9.2vw,8.4rem);white-space:nowrap;
-    background:linear-gradient(95deg,#2E4A73 0%,#6E96C8 22%,#D98BB0 46%,#E8926B 64%,#6E96C8 84%,#2E4A73 100%);
-    background-size:220% 100%;
+  .prep .big{position:relative;display:inline-block;font-family:'Fredoka','Poppins',sans-serif;font-weight:600;
+    letter-spacing:-.015em;line-height:1;font-size:clamp(2.9rem,9vw,8rem);white-space:nowrap;
+    background:linear-gradient(95deg,#2E4A73 0%,#6E96C8 16%,#8FB6DE 30%,#D98BB0 46%,#E8926B 60%,#7FBF9E 74%,#6E96C8 88%,#2E4A73 100%);
+    background-size:300% 100%;
     -webkit-background-clip:text;background-clip:text;color:transparent;
-    animation:bigsweep 8s linear infinite, bigfloat 6s ease-in-out infinite alternate;
-    filter:drop-shadow(0 22px 30px rgba(46,74,115,.32));
+    animation:bigsweep 14s linear infinite, bigfloat 7s ease-in-out infinite alternate;
+    filter:drop-shadow(0 20px 34px rgba(46,74,115,.22));
     will-change:background-position,transform}
-  @keyframes bigsweep{from{background-position:0% 0}to{background-position:220% 0}}
-  @keyframes bigfloat{from{transform:translateY(-6px)}to{transform:translateY(6px)}}
-  .prep .big2{font-family:'Space Grotesk','Poppins',sans-serif;font-weight:700;letter-spacing:-.04em;line-height:1;
-    font-size:clamp(1.6rem,4.6vw,3.9rem);color:var(--ink);margin-top:16px}
+  @keyframes bigsweep{from{background-position:0% 0}to{background-position:300% 0}}
+  @keyframes bigfloat{from{transform:translateY(-5px)}to{transform:translateY(5px)}}
+  .prep .big2{font-family:'Fredoka','Poppins',sans-serif;font-weight:500;letter-spacing:-.01em;line-height:1;
+    font-size:clamp(1.5rem,4.2vw,3.4rem);color:var(--ink-soft);margin-top:20px}
   .prep .dots span{display:inline-block;animation:blink 1.4s infinite}
   .prep .dots span:nth-child(2){animation-delay:.2s}
   .prep .dots span:nth-child(3){animation-delay:.4s}
   @keyframes blink{0%,60%,100%{opacity:.2}30%{opacity:1}}
-  .prep .sub{margin:26px auto 0;max-width:780px;font-size:clamp(1.15rem,2.1vw,1.55rem);font-weight:700;line-height:1.7;color:var(--ink)}
-  .prep .sub .grad2{background:linear-gradient(90deg,#2E4A73,#6E96C8,#D98BB0);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .prep .sub{margin:38px auto 0;max-width:700px;font-size:clamp(1.08rem,1.9vw,1.4rem);font-weight:600;line-height:1.95;color:var(--ink-soft)}
+  .prep .sub b{font-weight:700;color:var(--ink)}
+  .prep .sub .grad2{font-weight:800;
+    background:linear-gradient(90deg,#2E4A73,#6E96C8,#D98BB0,#E8926B,#7FBF9E,#2E4A73);background-size:300% 100%;
+    -webkit-background-clip:text;background-clip:text;color:transparent;animation:bigsweep 9s linear infinite}
+  .prep .rule{width:52px;height:3px;border-radius:99px;margin:30px auto 0;
+    background:linear-gradient(90deg,#BFD7F2,#F4CFDF,#BFE8D4);background-size:200% 100%;animation:bigsweep 6s linear infinite}
+  .prepbtns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:40px;align-items:center}
+  .pbtn{font-family:'Poppins',sans-serif;font-weight:800;font-size:1.05rem;padding:17px 34px;border-radius:999px;
+    text-decoration:none;display:inline-flex;align-items:center;gap:10px;transition:transform .24s,box-shadow .24s;
+    background:rgba(255,255,255,.8);color:var(--ink);border:1.5px solid rgba(30,51,80,.12)}
+  .pbtn:hover{transform:translateY(-3px);box-shadow:0 18px 38px -20px rgba(46,74,115,.5)}
+  html.dark .pbtn{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.14);color:var(--ink)}
+  .pbtn.main{color:#fff;border-color:transparent;font-size:1.12rem;padding:19px 44px;
+    background:linear-gradient(120deg,#2E4A73,#6E96C8,#D98BB0);background-size:220% 100%;
+    box-shadow:0 18px 40px -18px rgba(110,150,200,.85);transition:background-position .55s,transform .24s}
+  .pbtn.main:hover{background-position:100% 0;transform:translateY(-3px)}
+  .pbtn .ic{display:inline-flex;width:19px;height:19px}
+  .pbtn .ic.dc{color:#5865F2}
+  .pbtn .ic.xx{color:var(--ink)}
+  .softbtn{background:linear-gradient(120deg,#BFD7F2,#F4CFDF)!important;color:var(--ink)!important;
+    border:2px solid rgba(255,255,255,.9)!important;box-shadow:0 12px 28px -14px rgba(110,150,200,.7)!important}
   .prepcards{display:grid;grid-template-columns:1fr 1fr;gap:22px;max-width:1060px;margin:30px auto 0;text-align:left;align-items:stretch}
   @media(max-width:860px){.prepcards{grid-template-columns:1fr}}
   .prepcards .card{border-radius:32px;padding:26px 32px;background:rgba(255,255,255,.78);box-shadow:0 24px 60px -30px rgba(46,74,115,.28);margin:0}
@@ -218,12 +238,13 @@ if(!LIVE){
       <div class="big2">in preparation<span class="dots"><span>.</span><span>.</span><span>.</span></span></div>
       <p class="sub">
         creators and brands are joining <span class="grad2">right now</span>.<br>
-        your profile is locked in. you'll be here from <span class="grad2">day one</span> when the doors open.
+        your profile is locked in, so you are here from <b>day one</b> when the doors open.
       </p>
-      <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:38px">
-        <a class="btn" id="prepProfile" href="#" style="font-size:1.2rem;padding:21px 50px;background:linear-gradient(120deg,#2E4A73,#6E96C8,#D98BB0);background-size:220% 100%;color:#fff;transition:background-position .5s,transform .25s">my profile →</a>
-        <a class="btn" href="https://discord.gg/2aSz77e9WV" target="_blank" rel="noopener" style="font-size:1.2rem;padding:21px 50px;background:linear-gradient(120deg,#5865F2,#7983F5);color:#fff">join the discord 💬</a>
-        <a class="btn" href="https://x.com/yougcmarket" target="_blank" rel="noopener" style="font-size:1.2rem;padding:21px 46px;background:#0F1419;color:#fff;display:inline-flex;align-items:center;gap:10px"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>follow on X</a>
+      <div class="rule"></div>
+      <div class="prepbtns">
+        <a class="pbtn main" id="prepProfile" href="#">my profile →</a>
+        <a class="pbtn" href="https://discord.gg/2aSz77e9WV" target="_blank" rel="noopener"><span class="ic dc"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.3 5.3A16.9 16.9 0 0 0 15.1 4l-.2.4a15.7 15.7 0 0 1 3.7 1.2 12.6 12.6 0 0 0-11.2 0A15.7 15.7 0 0 1 11.1 4.4L10.9 4a16.9 16.9 0 0 0-4.2 1.3C4 9.3 3.3 13.1 3.6 16.9a17 17 0 0 0 5.2 2.6l.4-.6a11 11 0 0 1-1.7-.8l.4-.3a12.1 12.1 0 0 0 10.2 0l.4.3a11 11 0 0 1-1.7.8l.4.6a17 17 0 0 0 5.2-2.6c.4-4.4-.6-8.2-2.6-11.6zM9.6 14.7c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2zm4.8 0c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2z"/></svg></span>discord</a>
+        <a class="pbtn" href="https://x.com/yougcmarket" target="_blank" rel="noopener"><span class="ic xx"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></span>follow on X</a>
       </div>
       <div class="prepcards">
         <div class="card">
@@ -231,7 +252,7 @@ if(!LIVE){
           <div class="psub">get an email the moment the marketplace opens.</div>
           <div style="display:flex;gap:12px;flex-wrap:wrap">
             <input type="email" id="wlEmail" style="flex:1;min-width:180px">
-            <button class="btn small" id="wlBtn" style="padding:15px 30px;background:linear-gradient(120deg,#6E96C8,#D98BB0);font-size:.95rem">notify me 🔔</button>
+            <button class="btn small softbtn" id="wlBtn" style="padding:15px 30px;font-size:.95rem">notify me</button>
           </div>
           <div class="msg" id="wlMsg"></div>
         </div>
@@ -240,7 +261,7 @@ if(!LIVE){
           <div class="rsub">share it, they land on your profile. they use code <b>YOUGC10</b> for <b>10% off</b> anything, and <b>you get 10% off</b> your next perk.</div>
           <div class="refrow">
             <input type="text" id="refLink" readonly>
-            <button class="btn small" id="refCopy">copy</button>
+            <button class="btn small softbtn" id="refCopy">copy</button>
           </div>
           <div class="refcount" id="refCount"></div>
         </div></div>

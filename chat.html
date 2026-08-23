@@ -15,9 +15,9 @@
 .conv:hover{background:rgba(191,215,242,.35)}
 .conv.on{background:rgba(191,215,242,.55)}
 .conv .avatar{width:42px;height:42px}
-.conv .cname{font-weight:700;font-size:.87rem;display:flex;align-items:center}
-.conv .clast{font-size:.75rem;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:160px}
-.conv .cdot{margin-left:auto;width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,#4E9CF5,#F06FB2);flex-shrink:0}
+.conv .cname{font-weight:700;font-size:.87rem;display:inline-flex;align-items:center;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.conv .clast{font-size:.75rem;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+
 .thread{display:flex;flex-direction:column;height:100%;padding:0;overflow:hidden}
 .thead{display:flex;align-items:center;gap:11px;padding:15px 20px;border-bottom:1.5px solid rgba(30,51,80,.08);font-weight:700}
 .thead .avatar{width:38px;height:38px}
@@ -38,6 +38,15 @@
 .limitbar.on{opacity:1;transform:translate(-50%,0)}
 .limitbar .lbi{flex:none;width:26px;height:26px;border-radius:9px;display:flex;align-items:center;justify-content:center;
   background:rgba(255,255,255,.22);font-weight:800}
+.conv{align-items:center}
+.ctop{display:flex;align-items:baseline;gap:8px;justify-content:space-between}
+.cwhen{flex:none;font-size:.7rem;font-weight:600;color:var(--ink-soft);white-space:nowrap}
+.conv.unread .cname{font-weight:800}
+.conv.unread .clast{color:var(--ink);font-weight:600}
+.cyou{color:var(--ink-soft);font-weight:600}
+.cdot{flex:none;min-width:19px;height:19px;padding:0 5px;border-radius:999px;display:flex;align-items:center;
+  justify-content:center;font-size:.66rem;font-weight:800;color:#fff;
+  background:linear-gradient(120deg,#6E96C8,#D98BB0)}
 </style>
 </head>
 <body>
@@ -111,13 +120,19 @@ async function loadAll(){
 
 function renderConvs(byPartner){
   const el = document.getElementById('convList');
-  const rows = [...byPartner.entries()].map(([pid, e])=>{
+  const rows = [...byPartner.entries()]
+    .sort((a,b)=> new Date(b[1].last.created_at) - new Date(a[1].last.created_at))
+    .map(([pid, e])=>{
     const p = partners.get(pid); if(!p) return '';
-    return `<div class="conv ${active&&active.id===pid?'on':''}" data-id="${pid}">
+    const mine = e.last.sender === me.id;
+    const preview = (e.last.att && !e.last.text ? '📎 attachment' : e.last.text) || '';
+    return `<div class="conv ${active&&active.id===pid?'on':''}${e.unread?' unread':''}" data-id="${pid}">
       ${avatarHTML(p)}
-      <div style="min-width:0"><div class="cname">${esc(p.name)}${vbadge(p)}</div>
-      <div class="clast">${esc(e.last.text)}</div></div>
-      ${e.unread?'<span class="cdot"></span>':''}
+      <div style="min-width:0;flex:1">
+        <div class="ctop"><span class="cname">${esc(p.name)}${vbadge(p)}</span><span class="cwhen">${timeAgo(e.last.created_at)}</span></div>
+        <div class="clast">${mine?'<span class="cyou">you:</span> ':''}${esc(preview.length>52?preview.slice(0,52)+'…':preview)}</div>
+      </div>
+      ${e.unread?`<span class="cdot">${e.unread>9?'9+':e.unread}</span>`:''}
     </div>`;
   }).join('');
   el.innerHTML = rows || '<p class="muted center mt2">no chats yet.<br>message someone from their profile.</p>';

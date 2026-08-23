@@ -42,9 +42,11 @@
   .pbtn:hover{transform:translateY(-3px);box-shadow:0 18px 38px -20px rgba(46,74,115,.5)}
   html.dark .pbtn{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.14);color:var(--ink)}
   .pbtn.main{color:#fff;border-color:transparent;font-size:1.12rem;padding:19px 44px;
-    background:linear-gradient(120deg,#2E4A73,#6E96C8,#D98BB0);background-size:220% 100%;
-    box-shadow:0 18px 40px -18px rgba(110,150,200,.85);transition:background-position .55s,transform .24s}
-  .pbtn.main:hover{background-position:100% 0;transform:translateY(-3px)}
+    background:linear-gradient(100deg,#2E4A73,#6E96C8,#8A6FC0,#D98BB0,#E8926B,#5FB78B,#6E96C8,#2E4A73);
+    background-size:300% 100%;animation:bigsweep 10s linear infinite;
+    box-shadow:0 20px 44px -16px rgba(110,150,200,.95);transition:transform .24s,box-shadow .24s}
+  .pbtn.main:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 26px 54px -18px rgba(160,120,190,.95)}
+  @media(prefers-reduced-motion:reduce){.pbtn.main{animation:none}}
   .pbtn .ic{display:inline-flex;width:19px;height:19px}
   .pbtn .ic.dc{color:#5865F2}
   .pbtn .ic.xx{color:var(--ink)}
@@ -68,11 +70,11 @@
   .mainGrid.wide{grid-template-columns:1fr !important}
   .mainGrid.wide .sideCol{display:none}
   /* people marketplace grid */
-    .pplgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:22px;margin-top:4px}
+    .pplgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:22px;margin-top:4px;align-items:stretch}
+  .pplgrid .pcard{display:flex;flex-direction:column;height:100%}
+  .pplgrid .pcard .pcbtm{margin-top:auto;padding-top:14px}
   /* posts as a wide multi column grid */
-  .postgrid{column-count:2;column-gap:20px;margin-top:4px}
-  @media(min-width:1750px){.postgrid{column-count:3}}
-  @media(max-width:860px){.postgrid{column-count:1}}
+  .postgrid{column-width:330px;column-gap:20px;margin-top:4px}
   .postgrid .post{break-inside:avoid;margin:0 0 20px;padding:24px 22px;display:inline-block;width:100%}
   .postgrid .phead{gap:12px}
   .postgrid .avatar{width:46px;height:46px}
@@ -244,13 +246,13 @@ if(!LIVE){
       <div class="big2">in preparation<span class="dots"><span>.</span><span>.</span><span>.</span></span></div>
       <p class="sub">
         creators and brands are joining <span class="grad2">right now</span>.<br>
-        your profile is locked in, so you are here from <b>day one</b> when the doors open.
+        your profile is locked in, so you are here from <span class="grad2">day one</span> when <span class="grad2">the doors open</span>.
       </p>
       <div class="rule"></div>
       <div class="prepbtns">
         <a class="pbtn main" id="prepProfile" href="#">my profile →</a>
         <a class="pbtn" href="https://discord.gg/2aSz77e9WV" target="_blank" rel="noopener"><span class="ic dc"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.3 5.3A16.9 16.9 0 0 0 15.1 4l-.2.4a15.7 15.7 0 0 1 3.7 1.2 12.6 12.6 0 0 0-11.2 0A15.7 15.7 0 0 1 11.1 4.4L10.9 4a16.9 16.9 0 0 0-4.2 1.3C4 9.3 3.3 13.1 3.6 16.9a17 17 0 0 0 5.2 2.6l.4-.6a11 11 0 0 1-1.7-.8l.4-.3a12.1 12.1 0 0 0 10.2 0l.4.3a11 11 0 0 1-1.7.8l.4.6a17 17 0 0 0 5.2-2.6c.4-4.4-.6-8.2-2.6-11.6zM9.6 14.7c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2zm4.8 0c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2z"/></svg></span>discord</a>
-        <a class="pbtn" href="https://x.com/yougcmarket" target="_blank" rel="noopener"><span class="ic xx"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></span>follow on X</a>
+        <a class="pbtn" href="https://x.com/yougcmarket" target="_blank" rel="noopener">follow on <span class="ic xx"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></span></a>
       </div>
       <div class="prepcards">
         <div class="card">
@@ -614,7 +616,7 @@ if(!LIVE){
     const score=p=>((p.spotlight_until&&new Date(p.spotlight_until).getTime()>Date.now())?10:0)+(isVerified(p)?3:0)+((p.clips||[]).length?2:0)+(p.avatar_url?1:0)+(p.bio?1:0)+Math.min(Object.keys(p.socials||{}).length,3)*.5;
     rows.sort((a,b)=>score(b)-score(a));
     if(!rows.length){
-      feed.innerHTML = `<div class="card center"><p class="muted">no ${role==='creator'?'creators':'brands'} for these filters yet. new people join daily.</p></div>`;
+      feed.innerHTML = `<div class="card center"><p class="muted">nothing here for those filters yet. clear them and have a look at everyone.</p></div>`;
       return;
     }
     feed.innerHTML = `<div class="pplgrid">` + rows.map(p=>{
@@ -627,8 +629,8 @@ if(!LIVE){
         <div class="pcuser">@${esc(p.username)}</div>
         <div class="pcbio">${esc(p.bio||'')}</div>
         <div class="pcchips">${(p.niches||[]).slice(0,3).map(n=>`<span>${esc(n)}</span>`).join('')}</div>
-        ${stat?`<div class="pcstat">${stat}</div>`:''}
-        <span class="pcbtn">view profile →</span>
+        <div class="pcbtm">${stat?`<div class="pcstat">${stat}</div>`:''}
+        <span class="pcbtn">view profile →</span></div>
       </a>`;}).join('')+`</div>`;
   }
 

@@ -170,8 +170,23 @@
   .post .ptags span{font-size:.74rem;font-weight:700;padding:6px 14px;border-radius:999px;background:var(--bg);color:var(--ink-soft)}
   .post .pbtn{margin-top:18px;display:inline-block;background:var(--ink);color:#fff;font-size:.85rem;font-weight:700;padding:12px 24px;border-radius:999px}
 
-  .band{background:rgba(255,255,255,.72);backdrop-filter:blur(10px);color:var(--ink);border:1.5px solid rgba(30,51,80,.14);border-radius:var(--radius);padding:56px 6vw;display:flex;flex-wrap:wrap;gap:30px;justify-content:space-between;align-items:center;transition:border-color .3s, transform .3s}
-  .band:hover{border-color:var(--ink);transform:translateY(-4px)}
+  @keyframes bandflow{0%{background-position:0% 50%}100%{background-position:300% 50%}}
+  .band{position:relative;overflow:hidden;backdrop-filter:blur(10px);color:var(--ink);border:3px solid transparent;
+    border-radius:var(--radius);padding:56px 6vw;display:flex;flex-wrap:wrap;gap:30px;
+    justify-content:space-between;align-items:center;transition:transform .3s,box-shadow .3s;
+    background:linear-gradient(rgba(255,255,255,.82),rgba(255,255,255,.82)) padding-box,
+               linear-gradient(90deg,#BFD7F2,#F4CFDF,#BFE8D4,#F7D9C4,#DCD4F2,#BFD7F2) border-box;
+    background-size:auto, 300% 100%;
+    animation:bandflow 12s linear infinite;
+    box-shadow:0 26px 60px -34px rgba(46,74,115,.45)}
+  .band::before{content:'';position:absolute;width:340px;height:340px;border-radius:50%;pointer-events:none;
+    background:radial-gradient(circle,rgba(191,215,242,.5),rgba(244,207,223,.3) 55%,transparent 72%);
+    filter:blur(28px);top:-150px;right:-110px}
+  .band > *{position:relative}
+  .band:hover{transform:translateY(-4px);box-shadow:0 34px 74px -34px rgba(110,150,200,.7)}
+  html.dark .band{background:linear-gradient(rgba(23,31,52,.9),rgba(23,31,52,.9)) padding-box,
+    linear-gradient(90deg,#2E4A73,#8A4B6E,#2C5C46,#8A4B1E,#453B7A,#2E4A73) border-box}
+  @media(prefers-reduced-motion:reduce){.band{animation:none}}
   .band h3{font-size:clamp(1.6rem,3vw,2.4rem);font-weight:800;letter-spacing:-.02em;max-width:560px;line-height:1.25}
   .band p{color:var(--ink-soft);font-size:1rem;margin-top:12px;max-width:480px;line-height:1.65;font-weight:500}
   .band .bcta{background:linear-gradient(120deg,#BFD7F2,#F4CFDF);color:var(--ink);border:2.5px solid rgba(255,255,255,.98);box-shadow:0 16px 34px -14px rgba(110,150,200,.6);font-weight:800;font-size:1.05rem;padding:18px 42px;border-radius:999px;text-decoration:none;transition:transform .25s,box-shadow .25s}
@@ -599,7 +614,7 @@
     <div class="step reveal"><span class="n">💬</span><h4>direct chats</h4><p>message anyone here. hard limits keep the spam out.</p></div>
     <div class="step reveal"><span class="n">✓</span><h4>verified</h4><p>boosted posts and the badge brands look for.</p></div>
     <div class="step reveal"><span class="n"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="width:1em;height:1em;vertical-align:-.13em"><path d="M4.5 4h15"/><path d="M12 21V9.2"/><path d="M7.2 14L12 9.2 16.8 14"/></svg></span><h4>pin</h4><p>24 hours on top of the marketplace.</p></div>
-    <div class="step reveal"><span class="n">✨</span><h4>your own agent</h4><p>hooks, scripts and what to charge, on tap.</p></div>
+    <div class="step reveal"><span class="n">✨</span><h4>your own agent</h4><p>fixes your profile, sharpens your posts, helps you land deals.</p></div>
     <div class="step reveal"><span class="n">💯</span><h4>real content, no AI</h4><p>every creator here films it themselves.</p></div>
   </div>
 </section>
@@ -608,7 +623,7 @@
   <div class="band reveal">
     <div>
       <h3>everyone starts <span class="grad">free.</span></h3>
-      <p>set your profile up now and you are in from <b>day one</b>. the first profiles are the ones brands scroll first. bring a friend and <b>you both get 10% off</b>.</p>
+      <p>set your profile up now and you are in from <b>day one</b>. bring a friend and <b>you both get 10% off</b>.</p>
     </div>
     <span style="display:inline-flex;align-items:center;gap:18px">
       <span class="jarrow" aria-hidden="true">→</span>

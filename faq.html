@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="answers to the most common questions about the YOUgc creator and brand marketplace.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>faq · YOUgc</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="stylesheet" href="style.css">
+<style>
+  #faq{position:relative;overflow:hidden;padding:2vh 0 6vh}
+  #faq .inner{position:relative;z-index:2;max-width:860px;margin:0 auto;padding:0 22px}
+  /* moving background */
+  .fblob{position:absolute;border-radius:50%;filter:blur(70px);z-index:0;pointer-events:none;opacity:.55;will-change:transform}
+  .fb1{width:380px;height:380px;left:-100px;top:-40px;background:radial-gradient(circle,#BFD7F2,transparent 70%);animation:fbf1 15s ease-in-out infinite alternate}
+  .fb2{width:340px;height:340px;right:-90px;top:22%;background:radial-gradient(circle,#F4CFDF,transparent 70%);animation:fbf2 18s ease-in-out infinite alternate}
+  .fb3{width:320px;height:320px;left:30%;bottom:-100px;background:radial-gradient(circle,#C8E6D4,transparent 70%);animation:fbf3 16s ease-in-out infinite alternate}
+  html.dark .fblob{opacity:.3}
+  @keyframes fbf1{to{transform:translate(46px,34px) scale(1.12)}}
+  @keyframes fbf2{to{transform:translate(-40px,30px) scale(1.14)}}
+  @keyframes fbf3{to{transform:translate(34px,-30px) scale(1.1)}}
+  @media(prefers-reduced-motion:reduce){.fblob{animation:none}}
+
+  .fhead{text-align:center;margin:1vh 0 40px}
+  .fhead .kick{font-size:.82rem;font-weight:800;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:14px}
+  .fhead h1{font-family:'Poppins',sans-serif;font-weight:700;font-size:clamp(2.6rem,6vw,4.4rem);line-height:1.02;letter-spacing:-.035em;margin:0}
+  .fhead h1 .grad{background-size:220% 100%;animation:fsheen 7s linear infinite}
+  @keyframes fsheen{to{background-position:220% 0}}
+  @media(prefers-reduced-motion:reduce){.fhead h1 .grad{animation:none}}
+  .fhead p{margin-top:16px;font-size:clamp(1.05rem,1.6vw,1.25rem);font-weight:500;color:var(--ink-soft)}
+
+  .thread{display:flex;flex-direction:column;gap:30px}
+  .qa{opacity:0;transform:translateY(16px);transition:opacity .6s,transform .6s}
+  .qa.on{opacity:1;transform:none}
+  /* question = speech bubble */
+  .qrow{display:flex;align-items:flex-start;gap:14px}
+  .qav{width:44px;height:44px;border-radius:50%;flex:none;display:grid;place-items:center;color:#fff;font-weight:800;font-size:1.2rem;
+    background:linear-gradient(135deg,#6E96C8,#8A6FC0);box-shadow:0 10px 22px -10px rgba(110,150,200,.9)}
+  .qbub{position:relative;background:rgba(255,255,255,.9);border:1.5px solid rgba(255,255,255,.95);
+    border-radius:20px;border-top-left-radius:6px;padding:16px 22px;
+    box-shadow:0 20px 44px -26px rgba(46,74,115,.5)}
+  html.dark .qbub{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.12)}
+  .qbub h2{font-family:'Poppins',sans-serif;font-size:clamp(1.15rem,2vw,1.5rem);font-weight:700;letter-spacing:-.015em;line-height:1.3;margin:0;color:var(--ink)}
+  /* answer = reply bubble */
+  .arow{display:flex;align-items:flex-start;gap:14px;margin-top:14px;padding-left:58px}
+  @media(max-width:560px){.arow{padding-left:22px}}
+  .aav{width:40px;height:40px;border-radius:50%;flex:none;overflow:hidden;display:grid;place-items:center;
+    background:linear-gradient(135deg,#EAF0FA,#F6E9F0);box-shadow:0 8px 18px -9px rgba(46,74,115,.6)}
+  .aav img{width:30px;height:30px;object-fit:contain}
+  .abub{background:linear-gradient(120deg,rgba(191,215,242,.28),rgba(244,207,223,.24));
+    border:1.5px solid rgba(255,255,255,.7);border-radius:20px;border-top-left-radius:6px;padding:15px 22px}
+  html.dark .abub{background:linear-gradient(120deg,rgba(46,74,115,.35),rgba(138,75,110,.25));border-color:rgba(255,255,255,.1)}
+  .abub .who{font-size:.74rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--cblue);margin-bottom:5px}
+  html.dark .abub .who{color:#8FB0DE}
+  .abub p{margin:0;font-size:1.02rem;font-weight:500;line-height:1.62;color:var(--ink)}
+  .abub p b{font-weight:700}
+
+  .fcta{text-align:center;margin-top:46px}
+  .fcta p{font-size:1.05rem;color:var(--ink-soft);font-weight:500;margin-bottom:16px}
+  .fcta a{display:inline-block;font-weight:700;color:#fff;text-decoration:none;padding:15px 34px;border-radius:999px;
+    background:linear-gradient(100deg,#2E4A73,#6E96C8,#8A6FC0,#2E4A73);background-size:300% 100%;animation:fsheen 9s linear infinite;
+    box-shadow:0 18px 38px -16px rgba(110,150,200,.9)}
+</style>
+</head>
+<body>
+<div id="bg"></div>
+<div class="wrap">
+  <nav class="top">
+    <span id="logo"></span>
+    <div class="navlinks">
+      <a class="nav-cta" href="index.html">home</a>
+      <a class="nav-cta" href="auth.html">join free</a>
+    </div>
+  </nav>
+
+  <section id="faq">
+    <span class="fblob fb1"></span><span class="fblob fb2"></span><span class="fblob fb3"></span>
+    <div class="inner">
+      <div class="fhead">
+        <div class="kick">everything you might ask</div>
+        <h1>questions, <span class="grad">answered.</span></h1>
+        <p>the short version of how YOUgc works.</p>
+      </div>
+
+      <div class="thread" id="thread">
+
+        <div class="qa"><div class="qrow"><span class="qav">?</span><div class="qbub"><h2>what is YOUgc?</h2></div></div>
+          <div class="arow"><span class="aav"><img src="logo.png" alt=""></span><div class="abub"><div class="who">YOUgc</div><p>a social marketplace where brands find UGC creators by niche and message them directly. <b>no agency, no middleman</b> between you and the deal.</p></div></div></div>
+
+        <div class="qa"><div class="qrow"><span class="qav">?</span><div class="qbub"><h2>is it free to join?</h2></div></div>
+          <div class="arow"><span class="aav"><img src="logo.png" alt=""></span><div class="abub"><div class="who">YOUgc</div><p>yes. building a profile, posting and messaging are all free. <b>verified and pins are optional</b> if you want more reach.</p></div></div></div>
+
+        <div class="qa"><div class="qrow"><span class="qav">?</span><div class="qbub"><h2>who is it for?</h2></div></div>
+          <div class="arow"><span class="aav"><img src="logo.png" alt=""></span><div class="abub"><div class="who">YOUgc</div><p>UGC creators who want brand deals, and brands who want real content from real people. <b>both sides, one marketplace.</b></p></div></div></div>
+
+        <div class="qa"><div class="qrow"><span class="qav">?</span><div class="qbub"><h2>does YOUgc take a cut of my deals?</h2></div></div>
+          <div class="arow"><span class="aav"><img src="logo.png" alt=""></span><div class="abub"><div class="who">YOUgc</div><p>no fee on your deals today. if that ever changes we will show the exact number here first, and it would only apply to <b>new deals</b>, never ones already running.</p></div></div></div>
+
+        <div class="qa"><div class="qrow"><span class="qav">?</span><div class="qbub"><h2>how do brands actually find me?</h2></div></div>
+          <div class="arow"><span class="aav"><img src="logo.png" alt=""></span><div class="abub"><div class="who">YOUgc</div><p>they filter by niche, watch your clips, and message you. a profile with a <b>photo, clips and links</b> gets messaged the most.</p></div></div></div>
+
+        <div class="qa"><div class="qrow"><span class="qav">?</span><div class="qbub"><h2>what goes on my profile?</h2></div></div>
+          <div class="arow"><span class="aav"><img src="logo.png" alt=""></span><div class="abub"><div class="who">YOUgc</div><p>a photo, a short bio, your niches, your social links, and up to 3 clips of your best work. <b>setup takes about a minute.</b></p></div></div></div>
+
+        <div class="qa"><div class="qrow"><span class="qav">?</span><div class="qbub"><h2>when does the marketplace open?</h2></div></div>
+          <div class="arow"><span class="aav"><img src="logo.png" alt=""></span><div class="abub"><div class="who">YOUgc</div><p>soon. we are onboarding the first creators now, and the <b>early profiles are the ones brands see first</b> when the doors open.</p></div></div></div>
+
+        <div class="qa"><div class="qrow"><span class="qav">?</span><div class="qbub"><h2>how and when do i get paid?</h2></div></div>
+          <div class="arow"><span class="aav"><img src="logo.png" alt=""></span><div class="abub"><div class="who">YOUgc</div><p>you agree the deal directly with the brand in the DMs, scope and price included. payment happens <b>between you and them, on your terms.</b></p></div></div></div>
+
+        <div class="qa"><div class="qrow"><span class="qav">?</span><div class="qbub"><h2>what does verified do?</h2></div></div>
+          <div class="arow"><span class="aav"><img src="logo.png" alt=""></span><div class="abub"><div class="who">YOUgc</div><p>it puts the <b>badge brands look for</b> on your name and boosts your posts so more people see them. optional.</p></div></div></div>
+
+        <div class="qa"><div class="qrow"><span class="qav">?</span><div class="qbub"><h2>is my data safe?</h2></div></div>
+          <div class="arow"><span class="aav"><img src="logo.png" alt=""></span><div class="abub"><div class="who">YOUgc</div><p>yes. your login and private details stay private, and <b>hard limits stop spam</b> and mass-messaging, so nobody can blast the whole marketplace.</p></div></div></div>
+
+      </div>
+
+      <div class="fcta">
+        <p>still wondering something?</p>
+        <a href="auth.html">get your profile up &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <a class="logo" href="index.html"><img src="logo.png" alt="YOUgc" style="height:44px"></a><br>
+    where brands and creators actually meet.<br>&copy; 2026 YOUgc<br>
+    <span style="font-size:.78rem"><a href="terms.html" style="color:var(--ink-soft)">terms</a> &middot; <a href="privacy.html" style="color:var(--ink-soft)">privacy</a> &middot; <a href="faq.html" style="color:var(--ink-soft)">faq</a> &middot; <a href="impressum.html" style="color:var(--ink-soft)">legal notice</a></span>
+  </footer>
+</div>
+
+<script type="module">
+import { blobsHTML, initMotion, logoHTML } from './app.js';
+document.getElementById('bg').outerHTML = blobsHTML();
+document.getElementById('logo').outerHTML = logoHTML();
+initMotion();
+// reveal each Q&A on scroll
+const io = new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target);}})},{threshold:.15});
+document.querySelectorAll('.qa').forEach(q=>io.observe(q));
+</script>
+<script type="module" src="i18n.js"></script>
+</body>
+</html>

@@ -401,7 +401,7 @@ if(!LIVE){
   (function(){
     const el = document.getElementById('typeOut');
     if(!el) return;
-    const full = 'in preparation...';
+    const full = (window.T ? window.T('in preparation...') : 'in preparation...');
     let ci = 0, del = false;
     const tick = () => {
       ci = del ? ci - 1 : ci + 1;
@@ -428,9 +428,10 @@ if(!LIVE){
       const n = Math.min(r.count||0, 3);
       const pips = [0,1,2].map(k=>`<span class="pip ${k<n?'on':''}"></span>`).join('');
       let note;
-      if(r.claimed) note = `<b>free month claimed ✓</b>`;
-      else if(r.can_claim) note = `<b>3 of 3 joined</b> <span>· your free month is ready</span>`;
-      else note = `<b>${r.count||0} of 3 joined</b> <span>· ${3-(r.count||0)} to go</span>`;
+      const fmt = (k, v) => (window.T ? window.T(k) : k).replace('{n}', v);
+      if(r.claimed) note = `<b>${fmt('free month claimed ✓')}</b>`;
+      else if(r.can_claim) note = `<b>${fmt('{n} of 3 joined', 3)}</b> <span>· ${fmt('your free month is ready')}</span>`;
+      else note = `<b>${fmt('{n} of 3 joined', r.count||0)}</b> <span>· ${fmt('{n} to go', 3-(r.count||0))}</span>`;
       prog.innerHTML = `<div class="pips">${pips}</div><div class="pipnote">${note}</div>` +
         (r.can_claim ? `<button class="claimbtn" id="claimBtn">claim my free month →</button>` : '');
       const cb = document.getElementById('claimBtn');
@@ -849,5 +850,6 @@ if(!LIVE){
   render();
 }
 </script>
+<script type="module" src="i18n.js"></script>
 </body>
 </html>

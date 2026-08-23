@@ -8,14 +8,16 @@ const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g,
   c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
 module.exports = async (req, res) => {
-  let u = '';
+  let u = '', ref = '';
   try {
     const url = new URL(req.url, SITE);
     u = url.searchParams.get('username') || url.pathname.split('/').filter(Boolean).pop() || '';
+    ref = url.searchParams.get('ref') || '';
   } catch (e) {}
   u = u.replace(/^@/, '').replace(/[^a-zA-Z0-9_.-]/g, '').slice(0, 40).toLowerCase();
+  ref = ref.replace(/^@/, '').replace(/[^a-zA-Z0-9_.-]/g, '').slice(0, 40).toLowerCase();
 
-  const target = SITE + '/profile.html?u=' + encodeURIComponent(u);
+  const target = SITE + '/profile.html?u=' + encodeURIComponent(u) + (ref ? '&ref=' + encodeURIComponent(ref) : '');
   let p = null;
   if (u) {
     try {

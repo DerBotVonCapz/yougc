@@ -342,7 +342,11 @@
   @keyframes stubshine{0%,55%{transform:translateX(-130%)}75%,100%{transform:translateX(130%)}}
   .stublead{color:var(--ink-soft);font-size:1.15rem;font-weight:500;line-height:1.7;max-width:680px;margin:18px auto 0}
   .stubchips{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:28px}
-  .stubchips span{padding:13px 26px;border-radius:999px;font-weight:700;font-size:1rem;background:rgba(255,255,255,.8);border:1.5px solid rgba(30,51,80,.12);transition:transform .25s}
+  .stubchips span{display:flex;flex-direction:column;align-items:center;gap:3px;padding:15px 24px;border-radius:22px;font-weight:800;font-size:1rem;
+    background:rgba(255,255,255,.8);border:1.5px solid rgba(30,51,80,.12);transition:transform .25s,box-shadow .25s}
+  .stubchips span b{font-weight:600;font-size:.84rem;color:var(--ink-soft);letter-spacing:0}
+  .stubchips span:hover{box-shadow:0 18px 36px -22px rgba(46,74,115,.7)}
+  html.dark .stubchips span b{color:#93A5C4}
   .stubchips span:hover{transform:translateY(-4px) scale(1.05)}
   .stubcta{display:inline-block;position:relative;z-index:2;margin-top:32px;padding:20px 46px;border-radius:999px;font-weight:800;font-size:1.12rem;text-decoration:none;color:#fff;
     background:linear-gradient(120deg,#2E4A73,#6E96C8,#D98BB0);background-size:220% 100%;transition:background-position .5s,transform .25s,box-shadow .25s;
@@ -500,10 +504,10 @@
 
 <section id="screens">
   <div class="reveal" style="text-align:center">
-    <div class="kicker">the content</div>
+    <div class="kicker">the studio</div>
     <div class="realpill">💯 100% human · no AI</div>
-    <h2 style="margin:0 auto">we help make videos <span class="grad">like these.</span></h2>
-    <p class="lead" style="margin:18px auto 0">close the deal in the DMs. if you want it, the <a href="studio.html" style="color:var(--gradB);font-weight:700">YOUgc studio</a> jumps in with hooks, scripts and edits that make the video hit.</p>
+    <h2 style="margin:0 auto">deal closed? <span class="grad">we make it hit.</span></h2>
+    <p class="lead" style="margin:18px auto 0">you agree the deal in the DMs. we jump in until the video performs.</p>
   </div>
   <div class="phonewrap"><div class="phones reveal">
 
@@ -577,15 +581,16 @@
     </div>
 
   </div></div>
-</section>
 
-<section id="studio">
-  <div class="stub reveal">
+  <div class="stub reveal" style="margin-top:40px;padding:52px 6vw">
     <span class="stubfloat sf1">🪝</span><span class="stubfloat sf2">✂️</span><span class="stubfloat sf3">💡</span><span class="stubfloat sf4">🎬</span>
-    <div class="kicker" style="color:var(--ink-soft);text-shadow:none">the studio</div>
-    <h2 style="margin:0 auto">deal closed? <span class="grad">we make it hit.</span></h2>
-    <p class="stublead">the first of its kind inside a ugc marketplace. you set up the deal, we jump in with hooks, scripts, ideas and edits until the video performs. one monthly pass, plus a small share of what we help produce.</p>
-    <div class="stubchips"><span>🪝 hooks</span><span>✍️ scripts</span><span>💡 ideas</span><span>✂️ edits</span></div>
+    <div class="stubchips">
+      <span>🪝 hooks<b>the first two seconds</b></span>
+      <span>✍️ scripts<b>written for the brand</b></span>
+      <span>💡 ideas<b>you can film today</b></span>
+      <span>✂️ edits<b>cut to keep them watching</b></span>
+    </div>
+    <p class="stublead">the first of its kind inside a ugc marketplace. one monthly pass, plus a small share of what we help produce.</p>
     <a class="stubcta" href="studio.html">see the YOUgc studio →</a>
   </div>
 </section>

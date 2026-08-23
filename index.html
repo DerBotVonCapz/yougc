@@ -400,6 +400,20 @@
   html.dark .stublead{color:#93A5C4}
   html.dark .stubchips span{background:rgba(14,21,38,.85);border-color:rgba(255,255,255,.1);color:#EAF0FA}
   html.dark ::selection{background:#2E4A73;color:#EAF0FA}
+
+  /* floating social buttons, bottom-left corner */
+  .sfab{position:fixed;left:20px;bottom:20px;z-index:80;display:flex;gap:6px;padding:7px 9px;
+    border-radius:999px;background:rgba(255,255,255,.72);border:1px solid rgba(255,255,255,.9);
+    -webkit-backdrop-filter:blur(14px) saturate(1.1);backdrop-filter:blur(14px) saturate(1.1);
+    box-shadow:0 14px 34px -18px rgba(46,74,115,.6)}
+  html.dark .sfab{background:rgba(20,28,46,.7);border-color:rgba(255,255,255,.12)}
+  .sfab a{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;
+    color:#4A6486;transition:transform .2s,color .2s,background .2s}
+  html.dark .sfab a{color:#AFC0DA}
+  .sfab a:hover{transform:translateY(-3px);color:#1E3350;background:rgba(110,150,200,.16)}
+  html.dark .sfab a:hover{color:#fff}
+  .sfab svg{width:19px;height:19px}
+  @media(max-width:640px){.sfab{left:14px;bottom:14px;gap:3px;padding:6px}.sfab a{width:34px;height:34px}}
 </style>
 </head>
 <body>
@@ -647,6 +661,12 @@
     <a class="sico" href="https://discord.gg/2aSz77e9WV" target="_blank" rel="noopener" aria-label="YOUgc discord"><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="currentColor" d="M20.317 4.369A19.79 19.79 0 0 0 15.432 3c-.21.375-.455.88-.624 1.28a18.27 18.27 0 0 0-5.487 0A12.6 12.6 0 0 0 8.69 3 19.74 19.74 0 0 0 3.8 4.37C.72 8.94-.116 13.394.302 17.786a19.9 19.9 0 0 0 6.03 3.03c.487-.662.92-1.365 1.294-2.104a12.9 12.9 0 0 1-2.038-.978c.171-.125.338-.256.5-.39a14.2 14.2 0 0 0 12.028 0c.163.135.33.266.5.39-.65.383-1.334.71-2.04.98.374.738.807 1.441 1.293 2.103a19.85 19.85 0 0 0 6.032-3.03c.49-5.09-.838-9.51-3.584-13.418ZM8.02 15.114c-1.183 0-2.157-1.086-2.157-2.42 0-1.332.952-2.42 2.157-2.42 1.204 0 2.177 1.088 2.157 2.42 0 1.334-.953 2.42-2.157 2.42Zm7.96 0c-1.184 0-2.157-1.086-2.157-2.42 0-1.332.952-2.42 2.157-2.42 1.204 0 2.177 1.088 2.157 2.42 0 1.334-.952 2.42-2.157 2.42Z"/></svg></a>
   </span><br>
   <span style="font-size:.78rem"><a href="terms.html" style="color:var(--ink-soft)">terms</a> · <a href="privacy.html" style="color:var(--ink-soft)">privacy</a> · <a href="impressum.html" style="color:var(--ink-soft)">legal notice</a></span>
+
+<div class="sfab" aria-label="YOUgc socials">
+  <a href="https://x.com/yougcmarket" target="_blank" rel="noopener" aria-label="YOUgc on X" title="X"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+  <a href="https://www.instagram.com/yougcmarket" target="_blank" rel="noopener" aria-label="YOUgc on Instagram" title="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.43.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.43.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.43-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.43-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16M12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63c-.79.31-1.46.72-2.13 1.38C1.35 2.68.94 3.35.63 4.14.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.31.79.72 1.46 1.38 2.13.67.66 1.34 1.07 2.13 1.38.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56.79-.31 1.46-.72 2.13-1.38.66-.67 1.07-1.34 1.38-2.13.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91-.31-.79-.72-1.46-1.38-2.13-.67-.66-1.34-1.07-2.13-1.38-.76-.3-1.64-.5-2.91-.56C15.67.01 15.26 0 12 0zm0 5.84A6.16 6.16 0 1 0 18.16 12 6.16 6.16 0 0 0 12 5.84zm0 10.16A4 4 0 1 1 16 12a4 4 0 0 1-4 4zm6.41-10.4a1.44 1.44 0 1 0 1.44 1.44 1.44 1.44 0 0 0-1.44-1.44z"/></svg></a>
+  <a href="https://www.tiktok.com/@yougcmarket" target="_blank" rel="noopener" aria-label="YOUgc on TikTok" title="TikTok"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.6 5.82a4.28 4.28 0 0 1-1.05-2.82h-3.2v12.86a2.59 2.59 0 0 1-2.59 2.53 2.59 2.59 0 0 1-2.59-2.59 2.59 2.59 0 0 1 3.4-2.46V9.9a5.78 5.78 0 0 0-.81-.06A5.78 5.78 0 0 0 4 15.62a5.78 5.78 0 0 0 9.86 4.09 5.78 5.78 0 0 0 1.7-4.1V8.9a7.44 7.44 0 0 0 4.34 1.39V7.1a4.28 4.28 0 0 1-3.3-1.28z"/></svg></a>
+</div>
 </footer>
 
 </div>

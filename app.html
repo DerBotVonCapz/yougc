@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="description" content="the YOUgc marketplace: browse ugc creators and brands by niche, message them directly."><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>marketplace · YOUgc</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=Fredoka:wght@500;600;700&family=Unbounded:wght@600;700;800;900&display=swap" rel="stylesheet">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="stylesheet" href="style.css">
 <style>
@@ -169,6 +169,7 @@
   @keyframes logosheen{from{background-position:-160% 0,0 0}to{background-position:260% 0,0 0}}
   .mainGrid, .mainGrid > *{min-width:0}
   #feed, .pplgrid, .postgrid, .spotrow{min-width:0;max-width:100%}
+  .mktmain, .mktmain > *{min-width:0}
   .mainGrid{grid-template-columns:1fr 380px !important;gap:34px !important}
   @media(max-width:920px){.mainGrid{grid-template-columns:1fr !important;gap:20px !important}.sideCol{position:static}}
   .mainGrid.wide{grid-template-columns:1fr !important}
@@ -286,6 +287,79 @@
   .mfbar input{flex:1}
   @keyframes pscroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
+  /* ===== unified marketplace: hero, filter, compose, studio ===== */
+  .mkthero{position:relative;padding:16px 0 6px;margin-bottom:6px}
+  .heroglow{position:absolute;left:-8%;top:-46px;width:66%;height:230px;pointer-events:none;z-index:0;
+    background:radial-gradient(58% 100% at 28% 42%,rgba(138,111,192,.30),transparent 70%),
+               radial-gradient(58% 100% at 72% 58%,rgba(217,139,176,.26),transparent 70%),
+               radial-gradient(50% 90% at 52% 30%,rgba(110,150,200,.24),transparent 72%);
+    filter:blur(26px);animation:heropulse 9s ease-in-out infinite}
+  @keyframes heropulse{0%,100%{opacity:.7;transform:translateX(0) scale(1)}50%{opacity:1;transform:translateX(5%) scale(1.05)}}
+  .mkteyebrow{position:relative;z-index:1;display:inline-block;font-family:'Space Grotesk',sans-serif;
+    font-weight:700;font-size:.8rem;letter-spacing:.26em;text-transform:uppercase;color:#6E7EA8;margin-bottom:12px}
+  .mkttitle{position:relative;z-index:1;font-family:'Unbounded','Space Grotesk',sans-serif;font-weight:800;
+    font-size:clamp(3rem,8.4vw,6.6rem) !important;line-height:.9;letter-spacing:-.03em !important;margin:0;
+    background:linear-gradient(100deg,#2E4A73,#6E96C8,#8A6FC0,#D98BB0,#E8926B,#7FBF9E,#2E4A73);
+    background-size:280% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
+    animation:mkttflow 8s linear infinite;filter:drop-shadow(0 22px 42px rgba(110,150,200,.24))}
+  @keyframes mkttflow{to{background-position:280% 0}}
+  .mktsub{position:relative;z-index:1;margin-top:16px;font-size:clamp(1rem,2.1vw,1.26rem);font-weight:500;
+    color:var(--ink-soft);max-width:640px;line-height:1.5}
+  .mktsub b{color:var(--ink);font-weight:700}
+  @media(prefers-reduced-motion:reduce){.mkttitle{animation:none}.heroglow{animation:none}}
+
+  .mktmain{margin-top:22px}
+
+  /* segmented type filter */
+  .seg{align-self:flex-start;max-width:100%;display:inline-flex;gap:6px;padding:6px;border-radius:999px;background:rgba(255,255,255,.55);
+    border:1.5px solid rgba(255,255,255,.85);box-shadow:0 12px 30px -18px rgba(46,74,115,.45)}
+  .segpill{cursor:pointer;font-weight:700;font-size:.95rem;padding:11px 24px;border-radius:999px;color:var(--ink-soft);
+    transition:color .2s,transform .2s;white-space:nowrap}
+  .segpill:hover{transform:translateY(-1px);color:var(--ink)}
+  .segpill.on{color:#fff;background:linear-gradient(120deg,#2E4A73,#6E96C8,#8A6FC0);background-size:180% 100%;
+    animation:segflow 6s linear infinite;box-shadow:0 10px 24px -10px rgba(46,74,115,.6)}
+  @keyframes segflow{to{background-position:180% 0}}
+  html.dark .seg{background:rgba(23,31,52,.6);border-color:rgba(255,255,255,.1)}
+
+  /* compose bar */
+  .composebar{flex-direction:column;padding:20px 22px;border-radius:22px;border:2px solid transparent;
+    background:linear-gradient(rgba(255,255,255,.9),rgba(255,255,255,.9)) padding-box,
+               linear-gradient(120deg,#BFD7F2,#F4CFDF,#BFE8D4,#BFD7F2) border-box;
+    background-size:auto,220% 220%;animation:cardflow 16s ease infinite;
+    box-shadow:0 18px 44px -26px rgba(46,74,115,.4);margin-bottom:22px}
+  @media(prefers-reduced-motion:reduce){.composebar{animation:none}}
+  html.dark .composebar{background:linear-gradient(rgba(23,31,52,.92),rgba(23,31,52,.92)) padding-box,linear-gradient(120deg,#2E4A73,#8A4B6E,#2C5C46,#2E4A73) border-box}
+  .cbhead{display:flex;align-items:center;gap:9px;font-weight:800;font-size:.95rem;color:var(--ink);margin-bottom:12px}
+  .cbdot{width:9px;height:9px;border-radius:50%;flex:none;background:linear-gradient(135deg,#8A6FC0,#DE8CAE);box-shadow:0 0 0 4px rgba(138,111,192,.16)}
+  .composebar textarea{min-height:76px !important;font-size:1rem;width:100%;resize:vertical}
+  .cbrow{display:flex;align-items:center;gap:10px;margin-top:12px;flex-wrap:wrap}
+  .cbpic{cursor:pointer;font-family:inherit;font-weight:700;font-size:.86rem;color:var(--ink-soft);
+    padding:10px 16px;border-radius:999px;border:1.5px solid rgba(30,51,80,.14);background:rgba(255,255,255,.5)}
+  .cbpic:hover{color:var(--ink)}
+  .cbpin{margin-left:auto;text-decoration:none;font-weight:700;font-size:.82rem;color:var(--ink-soft);
+    padding:10px 15px;border-radius:999px;border:1.5px dashed rgba(110,150,200,.5);white-space:nowrap}
+  .cbpin:hover{color:var(--ink);border-color:rgba(110,150,200,.9)}
+  .cbpost{cursor:pointer;font-family:inherit;font-weight:800;font-size:.92rem;color:#fff;padding:11px 30px;border:none;border-radius:999px;
+    background:linear-gradient(120deg,#6E96C8,#8A6FC0,#D98BB0);background-size:200% 100%;box-shadow:0 12px 26px -12px rgba(110,150,200,.75);transition:background-position .5s,transform .2s}
+  .cbpost:hover{background-position:100% 0;transform:translateY(-1px)}
+  @media(max-width:560px){.cbpin{margin-left:0;order:3}.cbpost{flex:1}}
+
+  /* studio slim strip */
+  .studiostrip{display:flex;align-items:center;gap:16px;margin-top:28px;padding:18px 22px;border-radius:20px;text-decoration:none;color:inherit;
+    background:linear-gradient(120deg,rgba(191,215,242,.35),rgba(244,207,223,.32),rgba(191,232,212,.32));
+    border:1.5px solid rgba(255,255,255,.7);transition:transform .25s,box-shadow .25s}
+  .studiostrip:hover{transform:translateY(-3px);box-shadow:0 22px 44px -24px rgba(110,150,200,.5)}
+  .studiostrip .ssic{font-size:1.6rem;flex:none}
+  .studiostrip .sstxt{font-size:.9rem;line-height:1.5;color:var(--ink-soft)}
+  .studiostrip .sstxt b{color:var(--ink);font-weight:800}
+  .studiostrip .ssgo{margin-left:auto;flex:none;font-weight:800;font-size:.88rem;white-space:nowrap;
+    background:linear-gradient(90deg,#2E4A73,#6E96C8,#D98BB0);-webkit-background-clip:text;background-clip:text;color:transparent}
+  @media(max-width:640px){.studiostrip{flex-wrap:wrap}.studiostrip .ssgo{margin-left:0}}
+
+  /* controls spacing + mobile */
+  .mtools{gap:16px !important;margin:0 0 26px !important}
+  @media(max-width:600px){.seg{display:flex;width:100%}.segpill{flex:1;text-align:center;padding:11px 6px;font-size:.9rem}}
+
   .joblabel{display:inline-block;margin-left:7px;font-size:.68rem;font-weight:800;letter-spacing:.05em;
     padding:4px 10px;border-radius:999px;color:#14361F;background:linear-gradient(120deg,#BFE8D4,#DFF2E7);
     vertical-align:2px;white-space:nowrap}
@@ -305,49 +379,51 @@
   </nav>
 
   <div class="appwrap" id="appwrap">
-    <h1 class="page big">market<span class="grad">place</span></h1>
+    <header class="mkthero">
+      <span class="heroglow" aria-hidden="true"></span>
+      <span class="mkteyebrow">creators &times; brands</span>
+      <h1 class="page big mkttitle">Marketplace</h1>
+      <p class="mktsub">find each other, message direct, and close the deal.</p>
+    </header>
+
     <a class="getverified" href="pay.html?perk=verified" aria-label="get verified">
       <span class="gvic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.4l2.4 2.1 3.2-.3.9 3.1 2.6 1.9-1.4 2.9 1.4 2.9-2.6 1.9-.9 3.1-3.2-.3L12 21.6l-2.4-2.1-3.2.3-.9-3.1L2.9 15l1.4-2.9L2.9 9.2l2.6-1.9.9-3.1 3.2.3z"/><path d="M8.6 12.2l2.3 2.3 4.5-4.6"/></svg></span>
       <span class="gvt">get verified</span>
     </a>
 
-    <div class="mainGrid" id="mainGrid">
-      <div>
-        <div id="spotrow"></div>
+    <div class="mktmain">
+      <div id="spotrow"></div>
 
-        <div class="mtools">
-          <div class="mtoprow">
-            <input type="text" id="searchInp" placeholder="🔎 search creators and brands…" autocomplete="off">
-            <div class="tabs main">
-              <span class="tab on" data-tab="all">✨ all</span>
-              <span class="tab" data-tab="creators">🎬 creators</span>
-              <span class="tab" data-tab="brands">🛍️ brands</span>
-              <span class="tab" data-tab="posts">📣 posts</span>
-            </div>
-          </div>
-          <div class="chips" id="filterChips"></div>
+      <div class="composebar" id="composer" style="display:none">
+        <div class="cbhead"><span class="cbdot"></span><span id="cbLabel">share what you are working on</span></div>
+        <textarea id="postText" maxlength="500" placeholder="drop an update, a clip, what you are looking for..."></textarea>
+        <input type="file" id="postImg" accept="image/*" style="display:none">
+        <div class="cbrow">
+          <button class="cbpic" id="postImgBtn">📷 add a picture</button>
+          <a class="cbpin" id="featLink" href="#"><span>📌 pin 24h · $<span id="featPrice">10</span></span><span id="featIcon" style="display:none"></span></a>
+          <button class="cbpost" id="postBtn">post</button>
         </div>
-        <div id="searchRes"></div>
-
-        <div id="feed"><p class="muted center mt3">loading…</p></div>
+        <div class="msg" id="postMsg"></div>
       </div>
 
-      <aside class="sideCol">
-        <div class="card" id="composer" style="display:none">
-          <label style="margin-top:0">your post</label>
-          <textarea id="postText" maxlength="500" placeholder=""></textarea>
-          <input type="file" id="postImg" accept="image/*" style="display:none">
-          <button class="btn ghost small full mt1" id="postImgBtn">📷 add a picture</button>
-          <button class="btn small full mt1" id="postBtn">post</button>
-          <a class="btn ghost small full mt1" id="featLink" href="#" style="border-color:rgba(30,51,80,.3);white-space:nowrap;font-size:.8rem;padding-left:8px;padding-right:8px;display:flex;align-items:center;justify-content:center;gap:7px"><span>pin your post · 24h on top · $<span id="featPrice">10</span></span><span id="featIcon" style="display:flex"></span></a>
-          <div class="msg" id="postMsg"></div>
+      <div class="mtools">
+        <input type="text" id="searchInp" placeholder="🔎 search creators and brands…" autocomplete="off">
+        <div class="seg" id="typeSeg">
+          <span class="segpill on" data-type="all">✨ everyone</span>
+          <span class="segpill" data-type="creator">🎬 creators</span>
+          <span class="segpill" data-type="brand">🛍️ brands</span>
         </div>
-        <a class="card" href="studio.html" style="display:block;text-decoration:none;color:inherit;margin-top:18px">
-          <div style="font-weight:800;font-size:1.08rem">🎬 YOUgc studio</div>
-          <p class="muted" style="margin-top:8px;font-size:.88rem;line-height:1.6">got a deal running? we jump in with hooks, scripts and edits so the video actually hits. studio pass plus a small share per video.</p>
-          <span style="display:inline-block;margin-top:10px;font-weight:700;font-size:.88rem;background:linear-gradient(90deg,#2E4A73,#6E96C8,#D98BB0);-webkit-background-clip:text;background-clip:text;color:transparent">see how it works →</span>
-        </a>
-      </aside>
+        <div class="chips" id="filterChips"></div>
+      </div>
+      <div id="searchRes"></div>
+
+      <div id="feed"><p class="muted center mt3">loading…</p></div>
+
+      <a class="studiostrip" href="studio.html">
+        <span class="ssic">🎬</span>
+        <span class="sstxt"><b>YOUgc studio</b> got a deal running? we jump in with hooks, scripts and edits so the video actually hits.</span>
+        <span class="ssgo">see how it works →</span>
+      </a>
     </div>
   </div>
 </div>
@@ -560,7 +636,7 @@ if(!LIVE){
 } else {
   // ---------- LIVE MARKETPLACE ----------
   {
-    document.getElementById('composer').style.display='block';
+    document.getElementById('composer').style.display='flex';
     document.getElementById('featPrice').textContent = PIN_PRICE;
     document.getElementById('featLink').href = payHref('pin_post', 'post pin @' + me.username, PIN_PRICE);
     document.getElementById('featIcon').innerHTML = IC_PIN_S;
@@ -616,7 +692,7 @@ if(!LIVE){
         btn.textContent = me.role==='brand' ? 'posted ✓' : 'locked for 12h';
         btn.disabled = me.role !== 'brand';
         btn.style.opacity = me.role === 'brand' ? '1' : '.55';
-        load();
+        render();
       }
     });
   }
@@ -785,7 +861,7 @@ if(!LIVE){
     }, 280);
   });
 
-  let tab='all', activeNiches=new Set(), mineOnly=false;
+  let typeFilter='all', activeNiches=new Set(), mineOnly=false;
   const HIDE=new Set(['hugo','rick']); // internal/empty test accounts, hidden from the marketplace
   const shown=p=>!HIDE.has((p.username||'').toLowerCase());
   const filterEl=document.getElementById('filterChips');
@@ -800,18 +876,14 @@ if(!LIVE){
     c.classList.toggle('on');
     render();
   });
-  document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
-    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
-    t.classList.add('on'); tab=t.dataset.tab; render();
+  document.querySelectorAll('.segpill').forEach(t=>t.addEventListener('click',()=>{
+    document.querySelectorAll('.segpill').forEach(x=>x.classList.remove('on'));
+    t.classList.add('on'); typeFilter=t.dataset.type; render();
   }));
 
   function render(){
-    document.getElementById('mainGrid').classList.toggle('wide', tab!=='posts');
     document.getElementById('searchRes').innerHTML='';
-    if(tab==='all') loadAll();
-    else if(tab==='creators') loadPeople('creator');
-    else if(tab==='brands') loadPeople('brand');
-    else load();
+    loadAll();
   }
 
   async function loadAll(){
@@ -825,6 +897,7 @@ if(!LIVE){
     const latest={};
     for(const po2 of (po.data||[])) if(!latest[po2.user_id]) latest[po2.user_id]=po2;
     let rows=(pr.data||[]).filter(shown);
+    if(typeFilter!=='all') rows=rows.filter(p=>p.role===typeFilter);
     const mine=new Set(me.niches||[]);
     if(mineOnly && mine.size) rows=rows.filter(p=>(p.niches||[]).some(n=>mine.has(n)));
     if(activeNiches.size) rows=rows.filter(p=>(p.niches||[]).some(n=>activeNiches.has(n)));

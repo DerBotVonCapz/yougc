@@ -23,7 +23,7 @@ export const SPOTLIGHT_PRICE = PIN_PRICE;
 
 // stripe payment links: paste the link per perk once created, card button appears automatically on the pay page
 export const PAY_LINKS = {
-  verified:    'https://buy.stripe.com/fZu9ALdxr4OXbl4b2p77O00',
+  verified:    'https://buy.stripe.com/8x26ozctn0yH1Ku8Uh77O04',
   pin_profile: 'https://buy.stripe.com/00w5kv64Z2GP1Ku7Qd77O01',
   pin_post:    'https://buy.stripe.com/00weV5bpj95d60K8Uh77O03',
   agent:       'https://buy.stripe.com/3cIfZ92SNchp3SCdax77O02',

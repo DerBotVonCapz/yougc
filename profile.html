@@ -23,7 +23,37 @@ nav.top{padding-top:12px;padding-bottom:8px}
 .socialrow a{font-size:.98rem;padding:13px 24px}
 #profileCard .vbadge{width:29px;height:29px;font-size:1rem}
 #profileCard .btn{font-size:1rem;padding:15px 30px}
-#profileCard .btn.small, .refbox .btn{font-size:.9rem;padding:13px 26px}
+#profileCard .btn.small{font-size:.9rem;padding:13px 26px}
+.sharebox{position:relative;overflow:hidden;margin-top:22px;padding:34px 32px 30px;border-radius:30px;
+  border:2px solid rgba(255,255,255,.9);
+  background:linear-gradient(150deg,rgba(191,232,212,.44),rgba(191,215,242,.4) 55%,rgba(244,207,223,.4))}
+html.dark .sharebox{background:linear-gradient(150deg,rgba(44,92,70,.4),rgba(46,74,115,.36) 55%,rgba(138,75,110,.3));border-color:rgba(255,255,255,.12)}
+.sharebox::before{content:'';position:absolute;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,.55);
+  filter:blur(66px);top:-120px;right:-90px;animation:upfl 9s ease-in-out infinite alternate}
+.sharebox>*{position:relative}
+.shead{text-align:center;margin-bottom:22px}
+.skick{font-size:.66rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft)}
+.shead h3{margin-top:7px;font-family:'Space Grotesk',sans-serif;font-weight:700;
+  font-size:clamp(1.5rem,3vw,2rem);letter-spacing:-.04em;
+  background:linear-gradient(90deg,#2E4A73,#6E96C8,#D98BB0);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:860px){.sgrid{grid-template-columns:1fr}.sharebox{padding:26px 20px 24px}}
+.scard{padding:20px 20px 18px;border-radius:22px;background:rgba(255,255,255,.93);
+  box-shadow:0 16px 38px -24px rgba(46,74,115,.5);transition:transform .26s cubic-bezier(.2,.8,.2,1)}
+html.dark .scard{background:rgba(20,28,46,.94)}
+.scard:hover{transform:translateY(-5px)}
+.sn{width:28px;height:28px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:.82rem;background:linear-gradient(135deg,#BFD7F2,#F4CFDF);color:#2E4A73;margin-bottom:11px}
+.scard:nth-child(2) .sn{background:linear-gradient(135deg,#F7D9C4,#F4CFDF);color:#8A4B2E}
+.scard:nth-child(3) .sn{background:linear-gradient(135deg,#C8E6D4,#BFD7F2);color:#245C42}
+.st{font-weight:800;font-size:1.02rem;letter-spacing:-.02em}
+.st b{background:linear-gradient(90deg,#2E4A73,#6E96C8,#D98BB0);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sd{margin-top:5px;font-size:.86rem;line-height:1.5;color:var(--ink-soft);font-weight:600}
+.sd b{color:var(--ink);font-weight:800}
+.srow{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.srow input{flex:1;min-width:180px;margin:0;font-size:.88rem;font-weight:600}
+.srow .btn{white-space:nowrap}
+.refcount{margin-top:12px;font-size:.85rem;font-weight:700;color:var(--ink)}
 h2.page{font-size:1.7rem !important;margin-top:4px}
 .post .ptext{font-size:1rem}
 .clipgrid{display:flex;gap:16px;margin-top:20px;overflow-x:auto;padding:6px 4px 12px;scroll-snap-type:x proximity}
@@ -193,7 +223,7 @@ if(!p){
     <div class="ptags mt2">${(p.niches||[]).map(n=>`<span>${esc(n)}</span>`).join('')}</div>
     ${socials ? `<div class="socialrow">${socials}</div>` : ''}
     ${!isOwner ? (u ? `<div class="mt3" style="display:flex;gap:12px;flex-wrap:wrap"><a class="btn" id="contact" href="chat.html?u=${encodeURIComponent(p.username)}">message ${esc(p.name.split(' ')[0])} →</a><button class="btn ghost" id="followBtn">${iFollow?'following ✓':'+ follow'}</button></div>` : `<a class="btn mt3" id="contact" href="auth.html">log in to message ${esc(p.name.split(' ')[0])} →</a>`) : ''}
-    ${isOwner ? `<div class="ownerrow"><a class="btn" href="onboard.html">edit profile →</a><button class="btn ghost" id="shareBtn">share my link</button><a class="btn ghost" href="settings.html">settings</a>${(p.agent_until && new Date(p.agent_until)>new Date()) ? `<a class="btn" style="background:linear-gradient(120deg,#6E96C8,#D98BB0);color:#fff" href="agent.html">my agent ✨</a>` : ``}</div>
+    ${isOwner ? `<div class="ownerrow"><a class="btn" href="onboard.html">edit profile →</a><a class="btn ghost" href="settings.html">settings</a>${(p.agent_until && new Date(p.agent_until)>new Date()) ? `<a class="btn" style="background:linear-gradient(120deg,#6E96C8,#D98BB0);color:#fff" href="agent.html">my agent ✨</a>` : ``}</div>
     <div id="viewsBox"></div>
     <div class="upsell">
       <div class="uphead"><span class="upkick">grow faster</span><h3>three ways to get picked first.</h3>
@@ -204,7 +234,7 @@ if(!p){
           <div class="uprow"><span class="upbtn done">active ✓</span><span class="upnote">until ${p.verified_until?new Date(p.verified_until).toLocaleDateString():'you cancel'}</span></div></div>`
         :`<a class="upcard" data-ev="perk:verified" href="${payHref('verified','verified pack @'+p.username, VERIFIED_PRICE)}"><span class="uptag">most picked</span><span class="upic">${IC_VERIFIED}</span><div class="upt">verified</div>
           <div class="uphook">the badge <b>brands look for</b> before they message anyone.</div>
-          <ul class="upl"><li>✓ next to your name, everywhere</li><li>3 posts a day instead of 2</li><li>your photo gets the ring</li><li>your first pin is free</li></ul>
+          <ul class="upl"><li><b>your posts get boosted</b>, seen by more people</li><li>✓ next to your name, everywhere</li><li>you sit higher in the marketplace</li><li>3 posts a day instead of 2</li><li>your photo gets the ring</li><li>your first pin is free</li></ul>
           <div class="uprow"><span class="upbtn">$${VERIFIED_PRICE} / month</span><span class="upnote">cancel any time</span></div></a>`}
 
         ${(p.spotlight_until && new Date(p.spotlight_until)>new Date())?`<div class="upcard c2 owned"><span class="upic">${IC_PIN}</span><div class="upt">profile pin</div>
@@ -224,13 +254,31 @@ if(!p){
           <div class="uprow"><span class="upbtn">$${AGENT_PRICE} / month</span><span class="upnote">cancel any time</span></div></a>`}
       </div>
     </div>
-    <div class="refbox">
-      <div class="rtitle">your YOUgc referral link</div>
-      <div class="rsub">friend joins through your link: <b>they get 10% off</b> their next purchase, <b>you get 10% off</b> yours. your code: <b>YOUGC10-${esc(p.username.toUpperCase())}</b></div>
-      <div class="refrow"><input type="text" id="refLink" readonly><button class="btn small" id="refCopy">copy</button></div>
+    <div class="sharebox">
+      <div class="shead"><span class="skick">bring people in</span><h3>your link, your discount.</h3></div>
+      <div class="sgrid">
+        <div class="scard">
+          <div class="sn">1</div>
+          <div class="st">share your link</div>
+          <div class="sd">it opens straight on your profile, with your photo and clips.</div>
+        </div>
+        <div class="scard">
+          <div class="sn">2</div>
+          <div class="st">they get <b>10% off</b></div>
+          <div class="sd">code <b>YOUGC10</b> at checkout, on anything they buy.</div>
+        </div>
+        <div class="scard">
+          <div class="sn">3</div>
+          <div class="st">you get <b>10% off</b></div>
+          <div class="sd">once they join, your next perk is 10% off too.</div>
+        </div>
+      </div>
+      <div class="srow">
+        <input type="text" id="refLink" readonly>
+        <button class="btn" id="refCopy">copy my link</button>
+      </div>
       <div class="refcount" id="refCount"></div>
-    </div>` : ''}
-  `;
+    </div>`  : ''}  `;
 
   // best clips (creators)
   const embeds = (p.clips||[]).map(clipEmbed).filter(Boolean);
@@ -259,7 +307,7 @@ if(!p){
   }
 
   if(isOwner){
-    const refUrl = location.origin + '/?ref=' + encodeURIComponent(p.username);
+    const refUrl = location.origin + '/u/' + encodeURIComponent(p.username) + '?ref=' + encodeURIComponent(p.username);
   
   // ---- profile views (owner only) ----
   if(isOwner){
@@ -283,22 +331,15 @@ if(!p){
         </div>`;
     });
   }
-  const shareBtn = document.getElementById('shareBtn');
-  if(shareBtn){
-    const myLink = 'https://yougcmarket.com/u/' + p.username;
-    shareBtn.addEventListener('click', async ()=>{
-      try{ track('profile·share'); }catch(e){}
-      if(navigator.share){ try{ await navigator.share({ title: p.name + ' on YOUgc', url: myLink }); return; }catch(e){} }
-      try{ await navigator.clipboard.writeText(myLink); }catch(e){}
-      shareBtn.textContent = 'link copied ✓';
-      setTimeout(()=>shareBtn.textContent = 'share my link', 1800);
-    });
-  }
   document.getElementById('refLink').value = refUrl;
     document.getElementById('refCopy').addEventListener('click', async ()=>{
-      try{ await navigator.clipboard.writeText(refUrl); }catch(e){ document.getElementById('refLink').select(); document.execCommand('copy'); }
-      document.getElementById('refCopy').textContent='copied ✓';
-      setTimeout(()=>document.getElementById('refCopy').textContent='copy',1600);
+      const b = document.getElementById('refCopy');
+      try{ track('profile·share'); }catch(e){}
+      if(navigator.share){ try{ await navigator.share({ title: p.name + ' on YOUgc', url: refUrl }); }catch(e){} }
+      try{ await navigator.clipboard.writeText(refUrl); }
+      catch(e){ const i=document.getElementById('refLink'); i.select(); document.execCommand('copy'); }
+      b.textContent='copied ✓';
+      setTimeout(()=>b.textContent='copy my link',1800);
     });
     sb.from('referrals').select('id',{count:'exact',head:true}).eq('referrer_username', p.username)
       .then(({count})=>{ if(count) document.getElementById('refCount').textContent = count + (count===1?' friend joined':' friends joined') + ' through your link'; });

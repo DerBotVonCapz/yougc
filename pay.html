@@ -30,8 +30,9 @@
 .hhook{margin:16px auto 0;max-width:22em;font-size:1.22rem;line-height:1.5;font-weight:600;color:var(--ink)}
 .hhook b{font-weight:800;background:linear-gradient(90deg,#2E4A73,#6E96C8,#D98BB0);-webkit-background-clip:text;background-clip:text;color:transparent}
 
-.bubbles{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:22px}
-@media(max-width:720px){.bubbles{grid-template-columns:1fr}.hero{padding:40px 24px 36px}}
+.bubbles{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px}
+@media(max-width:1000px){.bubbles{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:660px){.bubbles{grid-template-columns:1fr}.hero{padding:40px 24px 36px}}
 .bub{display:flex;gap:15px;align-items:flex-start;padding:24px 24px;border-radius:26px;
   background:rgba(255,255,255,.94);border:2px solid rgba(255,255,255,.9);
   box-shadow:0 18px 42px -26px rgba(46,74,115,.5);
@@ -43,9 +44,13 @@
 html.dark .bub{background:rgba(20,28,46,.94);border-color:rgba(255,255,255,.08)}
 .bub i{flex:none;width:46px;height:46px;border-radius:15px;display:flex;align-items:center;justify-content:center;
   background:linear-gradient(135deg,#BFD7F2,#F4CFDF);color:#2E4A73}
-.bub:nth-child(2) i{background:linear-gradient(135deg,#F7D9C4,#F4CFDF);color:#8A4B2E}
-.bub:nth-child(3) i{background:linear-gradient(135deg,#C8E6D4,#BFD7F2);color:#245C42}
-.bub:nth-child(4) i{background:linear-gradient(135deg,#DCD4F2,#BFD7F2);color:#453B7A}
+.bub:nth-child(6n+2) i{background:linear-gradient(135deg,#F7D9C4,#F4CFDF);color:#8A4B2E}
+.bub:nth-child(6n+3) i{background:linear-gradient(135deg,#C8E6D4,#BFD7F2);color:#245C42}
+.bub:nth-child(6n+4) i{background:linear-gradient(135deg,#DCD4F2,#BFD7F2);color:#453B7A}
+.bub:nth-child(6n+5) i{background:linear-gradient(135deg,#F4CFDF,#DCD4F2);color:#8A4B6E}
+.bub:nth-child(6n) i{background:linear-gradient(135deg,#BFE8D4,#F7D9C4);color:#2F6B4E}
+.bub.star{background:linear-gradient(135deg,rgba(191,215,242,.55),rgba(244,207,223,.45))}
+html.dark .bub.star{background:linear-gradient(135deg,rgba(46,74,115,.6),rgba(138,75,110,.4))}
 .bub i svg{width:23px;height:23px}
 .bub .bt{font-weight:800;font-size:1.06rem;letter-spacing:-.02em;line-height:1.25}
 .bub .bd{font-size:.89rem;line-height:1.5;color:var(--ink-soft);font-weight:600;margin-top:4px}
@@ -88,11 +93,12 @@ html.dark .paybox{background:rgba(20,28,46,.96);border-color:rgba(255,255,255,.0
   background:rgba(255,255,255,.72);overflow:hidden;
   transition:transform .26s cubic-bezier(.2,.8,.2,1),box-shadow .26s}
 html.dark .way{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.12);color:var(--ink)}
-.way:not(.primary){border-color:transparent;
-  background:linear-gradient(rgba(255,255,255,.9),rgba(255,255,255,.9)) padding-box,
-             linear-gradient(115deg,#BFD7F2,#DCD4F2,#C8E6D4,#BFD7F2) border-box}
-html.dark .way:not(.primary){background:linear-gradient(rgba(23,31,52,.94),rgba(23,31,52,.94)) padding-box,
-  linear-gradient(115deg,#2E4A73,#453B7A,#2C5C46,#2E4A73) border-box}
+.way:not(.primary){border-color:transparent;color:#1E3350;
+  background:linear-gradient(100deg,#C8E6D4,#BFD7F2,#DCD4F2,#C8E6D4);
+  background-size:300% 100%;animation:flow 16s linear infinite;
+  box-shadow:0 18px 40px -22px rgba(70,140,110,.7)}
+html.dark .way:not(.primary){color:#12233c}
+@media(prefers-reduced-motion:reduce){.way:not(.primary){animation:none}}
 .way:hover{transform:translateY(-5px);box-shadow:0 26px 52px -24px rgba(110,150,200,.75)}
 .way.primary{border-color:transparent;color:#1E3350;
   background:linear-gradient(100deg,#BFD7F2,#F4CFDF,#C8E6D4,#F7D9C4,#DCD4F2,#BFD7F2);
@@ -121,6 +127,15 @@ html.dark .coinbtn{background:rgba(255,255,255,.05)}
 .coinbtn.copied .ch{color:#3D7A5C}
 label{font-size:.78rem}
 .smalllink{display:block;text-align:center;margin-top:18px;font-size:.83rem;font-weight:700;color:var(--ink-soft)}
+.ckick{font-size:.68rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft)}
+.cname{margin-top:8px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(1.9rem,4vw,2.6rem);
+  letter-spacing:-.045em;line-height:1}
+.camt{background:linear-gradient(90deg,#2E4A73,#6E96C8,#D98BB0);-webkit-background-clip:text;background-clip:text;color:transparent}
+.cform{max-width:440px;margin:18px auto 0;text-align:left}
+.cmsg{margin-top:14px;font-size:.9rem;font-weight:700;line-height:1.5;padding:14px 16px;border-radius:16px;display:none}
+.cmsg.ok{display:block;background:rgba(191,232,212,.5);color:#245C42}
+.cmsg.bad{display:block;background:rgba(244,207,223,.55);color:#8A3A4B}
+.cmsg b{font-weight:800}
 </style>
 </head>
 <body>
@@ -128,7 +143,11 @@ label{font-size:.78rem}
 <div class="wrap">
   <nav class="top">
     <span id="logo"></span>
-    <div class="navlinks"><a class="nav-cta" href="app.html">back to marketplace</a></div>
+    <div class="navlinks">
+      <a class="nav-cta" href="app.html">marketplace</a>
+      <a class="nav-cta" href="chat.html">chats</a>
+      <a class="nav-cta" id="navProf" href="auth.html">my profile</a>
+    </div>
   </nav>
   <div class="pane wide">
     <div class="view on" id="vMain"></div>
@@ -137,13 +156,26 @@ label{font-size:.78rem}
 </div>
 
 <script type="module">
-import { blobsHTML, initMotion, logoHTML, track } from './app.js';
+import { sb, currentUser, myProfile, blobsHTML, initMotion, logoHTML, track } from './app.js';
 import { CRYPTO_ADDR, PAY_LINKS, VERIFIED_PRICE, PIN_PRICE, AGENT_PRICE } from './config.js';
 document.getElementById('bg').outerHTML = blobsHTML();
 document.getElementById('logo').outerHTML = logoHTML();
 initMotion();
 
 const q = new URLSearchParams(location.search);
+let ME = null;
+(async ()=>{
+  try{
+    ME = await myProfile();
+    if(ME){
+      const np = document.getElementById('navProf');
+      np.href = 'profile.html?u=' + encodeURIComponent(ME.username);
+      np.textContent = 'my profile';
+      const cu = document.getElementById('cUser');
+      if(cu && !cu.value) cu.value = '@' + ME.username;
+    }
+  }catch(e){}
+})();
 const clean = v => String(v||'').replace(/[<>&"']/g,'');
 const sv = (d,f) => `<svg viewBox="0 0 24 24" fill="${f?'currentColor':'none'}" stroke="${f?'none':'currentColor'}" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
 
@@ -161,6 +193,7 @@ const I = {
   cycle:  sv('<path d="M20.5 12a8.5 8.5 0 0 1-14.6 6"/><path d="M3.5 12a8.5 8.5 0 0 1 14.6-6"/><path d="M18.1 2.6V6H14.7"/><path d="M5.9 21.4V18h3.4"/>'),
   tag:    sv('<path d="M20.5 12.6l-8 8a2 2 0 0 1-2.8 0l-6.3-6.3a2 2 0 0 1-.6-1.4V4.5a2 2 0 0 1 2-2h8.4a2 2 0 0 1 1.4.6l5.9 5.9a2 2 0 0 1 0 2.8z"/><circle cx="8" cy="8" r="1.4"/>'),
   brain:  sv('<path d="M6 4.5h12a2.5 2.5 0 0 1 2.5 2.5v13l-4.2-3H6A2.5 2.5 0 0 1 3.5 14.5V7A2.5 2.5 0 0 1 6 4.5z"/><path d="M8 9.5h8M8 13h5"/>'),
+  trend:  sv('<path d="M3 16.5l5.5-5.5 3.5 3.5L20.5 6"/><path d="M14.5 6h6v6"/>'),
   card:   sv('<rect x="2.5" y="5" width="19" height="14" rx="3"/><path d="M2.5 10h19"/>'),
   coin:   sv('<circle cx="12" cy="12" r="9"/><path d="M12 7v10"/><path d="M14.8 9.4c-.5-.9-1.5-1.4-2.8-1.4-1.7 0-2.9.8-2.9 2s1.1 1.7 2.9 2 2.9.8 2.9 2-1.2 2-2.9 2c-1.3 0-2.3-.5-2.8-1.4"/>')
 };
@@ -170,23 +203,27 @@ const PERKS = {
     ic: I.badge, name: 'verified', price: VERIFIED_PRICE, per: '/ month', note: 'renews every 30 days · cancel any time',
     hook: 'the badge <b>brands look for</b> before they message anyone.',
     bubbles: [
-      [I.badge, 'the ✓ on your name', 'everywhere you show up on YOUgc'],
+      [I.trend, 'your posts get boosted', 'pushed higher, in front of more people'],
+      [I.badge, 'the ✓ on your name', 'on every post, every card, every chat'],
+      [I.rare,  'higher in the marketplace', 'you sit above the profiles without it'],
       [I.ring,  'your photo gets the ring', 'in a grid of faces, yours reads first'],
-      [I.stack, '3 posts a day', 'instead of 2, so you stay near the top'],
+      [I.stack, '3 posts a day', 'instead of 2, so you stay in the feed'],
       [I.gift,  'your first pin, free', 'that is $' + PIN_PRICE + ' back on day one']
     ],
-    why: 'unverified profiles get scrolled past.'
+    why: 'be the profile they message first.'
   },
   pin_profile: {
     ic: I.pin, name: 'profile pin', price: PIN_PRICE, per: 'once · 24 hours', note: 'one payment · no subscription',
     hook: '<b>24 hours on top.</b> everyone who opens the marketplace lands on your profile first.',
     bubbles: [
       [I.pin,   'your card, top row', 'above every other creator and brand'],
-      [I.ring,  'your whole profile', 'photo, bio, niches, all of it visible'],
-      [I.clock, 'you start the clock', 'run it when your audience is awake'],
-      [I.rare,  'only a few slots', 'the top row stays rare on purpose']
+      [I.ring,  'your whole profile', 'photo, bio, niches, clips, all of it'],
+      [I.clock, 'you start the clock', 'run it when your people are awake'],
+      [I.rare,  'only a few slots', 'the top row stays rare on purpose'],
+      [I.stack, 'every filter, every device', 'top on mobile too, not just desktop'],
+      [I.gift,  'you keep what it brings', 'the follows and messages stay yours']
     ],
-    why: 'the top row takes most of the clicks.'
+    why: 'be the first thing they see today.'
   },
   pin_post: {
     ic: I.pin, name: 'post pin', price: PIN_PRICE, per: 'once · 24 hours', note: 'one payment · no subscription',
@@ -195,7 +232,9 @@ const PERKS = {
       [I.pin,   'first post everyone reads', 'the top of the feed for a full day'],
       [I.split, 'you pick which post', 'the one that actually pitches you'],
       [I.clock, 'you start the clock', 'run it when brands are scrolling'],
-      [I.rare,  'only a few slots', 'the top row stays rare on purpose']
+      [I.rare,  'only a few slots', 'the top row stays rare on purpose'],
+      [I.stack, 'sits above every filter', 'whichever niche they picked'],
+      [I.gift,  'you keep what it brings', 'the follows and messages stay yours']
     ],
     why: 'one post at the top beats ten buried.'
   },
@@ -203,12 +242,14 @@ const PERKS = {
     ic: I.spark, name: 'agent', price: AGENT_PRICE, per: '/ month', note: 'renews every 30 days · cancel any time',
     hook: 'hooks, scripts and edit notes <b>on demand.</b>',
     bubbles: [
-      [I.pen,   'hooks that fit your niche', 'not generic AI filler, yours'],
+      [I.pen,   'hooks for your niche', 'not generic AI filler, yours'],
+      [I.spark, 'video ideas on tap', 'when the blank page wins, ask it'],
       [I.cycle, 'rewrites your posts', 'same idea, the version that lands'],
       [I.tag,   'tells you what to charge', 'per deal, based on what you show'],
-      [I.brain, 'remembers your goals', 'pick up where you left off']
+      [I.brain, 'remembers your goals', 'pick up where you left off'],
+      [I.clock, 'answers in seconds', 'no waiting, no back and forth']
     ],
-    why: 'the winners are not filming more. they have better hooks.'
+    why: 'better hooks, not more filming.'
   }
 };
 
@@ -252,24 +293,29 @@ if(!P){
           <span class="wt">card</span><span class="wd">visa, mastercard, apple pay</span></a>` : ''}
         <button class="way rimmed" id="wCrypto">${I.coin}<span class="wt">crypto</span><span class="wd">SOL · ETH · BTC</span></button>
       </div>
-      <div class="trust"><span>🔒 card payments run on stripe</span><span>we never see your card</span><span>put your @username in at checkout</span></div>
+      <div class="trust"><span>🔒 card payments run on stripe</span><span>put your @username in at checkout</span><span>got a code? add it at checkout</span></div>
     </div>`;
 
   vCrypto.innerHTML = `
-    <button class="backlink" id="cBack">← back</button>
+    <button class="backlink" id="cBack">← back to how you pay</button>
     <div class="paybox" style="margin-top:0">
-      <div class="pricerow"><span class="price">$${P.price}</span><span class="per">in ${P.name}</span></div>
-      <div class="pricenote">send the amount, then tell us and it goes live</div>
-      <div class="choose">tap a coin to copy the address</div>
+      <div class="ckick">paying with crypto</div>
+      <div class="cname">${P.name} <span class="camt">$${P.price}</span></div>
+      <div class="choose" style="margin-top:24px">1 · tap a coin to copy the address</div>
       <div class="coinrow" id="coinRow"></div>
-      <div style="max-width:420px;margin:26px auto 0;text-align:left">
+      <div class="choose" style="margin-top:30px">2 · send the amount, then paste the link</div>
+      <div class="cform">
         <label>your @username on YOUgc</label>
         <input type="text" id="cUser" placeholder="@yourname" maxlength="40">
-        <label class="mt2">promo or referral code <span style="text-transform:none;font-weight:400">(optional)</span></label>
-        <input type="text" id="promo" placeholder="YOUGC10-..." maxlength="40">
-        <a class="btn full mt2" id="mailBtn" href="mailto:yougcmarket@gmail.com">i sent it, turn it on →</a>
+        <label class="mt2">transaction link or hash</label>
+        <input type="text" id="cTx" placeholder="https://solscan.io/tx/..." maxlength="200">
+        <label class="mt2">promo code <span style="text-transform:none;font-weight:400">(optional)</span></label>
+        <input type="text" id="promo" placeholder="YOUGC10" maxlength="40">
+        <button class="bigpay" id="cSend" style="margin-top:18px">confirm my payment →</button>
+        <a class="btn ghost full mt1" id="mailBtn" href="mailto:yougcmarket@gmail.com" style="display:none">send it by email instead</a>
+        <div class="cmsg" id="cMsg"></div>
       </div>
-      <a class="smalllink" href="mailto:yougcmarket@gmail.com">another coin, or something wrong? write to us</a>
+      <a class="smalllink" href="mailto:yougcmarket@gmail.com">another coin, or something not working? write to us</a>
     </div>`;
 
   try{ track('pay·view·'+key); }catch(e){}
@@ -296,20 +342,58 @@ if(!P){
     }catch(err){}
     if(!ok && navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(addr).catch(()=>{}); }
     coinRow.querySelectorAll('.coinbtn').forEach(x=>{ x.classList.remove('copied'); x.querySelector('.ch').textContent='tap to copy'; });
-    b.classList.add('copied'); b.querySelector('.ch').textContent='copied ✓';
+    b.classList.add('copied'); b.querySelector('.ch').textContent='copied ✓'; chosenCoin = b.dataset.c;
     setTimeout(()=>{ b.classList.remove('copied'); b.querySelector('.ch').textContent='tap to copy'; }, 2600);
   });
 
+  let chosenCoin = '';
+  const msgEl = () => document.getElementById('cMsg');
+
   function buildMail(){
-    const user = document.getElementById('cUser').value.trim();
-    const code = document.getElementById('promo').value.trim();
+    const user = (document.getElementById('cUser').value || '').trim();
+    const tx = (document.getElementById('cTx').value || '').trim();
+    const code = (document.getElementById('promo').value || '').trim();
     const subj = 'crypto payment: ' + P.name + ' ($' + P.price + ')' + (user ? ' — ' + user : '');
-    const body = 'perk: ' + P.name + '\nmy @username: ' + user + '\ntransaction link: ' + (code ? '\npromo code: ' + code : '');
-    document.getElementById('mailBtn').href = 'mailto:yougcmarket@gmail.com?subject=' + encodeURIComponent(subj) + '&body=' + encodeURIComponent(body);
+    const body = 'perk: ' + P.name + '\nmy @username: ' + user + '\ncoin: ' + (chosenCoin || '') +
+                 '\ntransaction: ' + tx + (code ? '\npromo code: ' + code : '');
+    document.getElementById('mailBtn').href = 'mailto:yougcmarket@gmail.com?subject=' +
+      encodeURIComponent(subj) + '&body=' + encodeURIComponent(body);
   }
-  buildMail();
+
   document.getElementById('cUser').addEventListener('input', buildMail);
+  document.getElementById('cTx').addEventListener('input', buildMail);
   document.getElementById('promo').addEventListener('input', buildMail);
+  buildMail();
+
+  document.getElementById('cSend').addEventListener('click', async ()=>{
+    const btn = document.getElementById('cSend');
+    const user = (document.getElementById('cUser').value || '').trim().replace(/^@/,'');
+    const tx = (document.getElementById('cTx').value || '').trim();
+    const code = (document.getElementById('promo').value || '').trim();
+    const m = msgEl();
+    if(!user){ m.className = 'cmsg bad'; m.textContent = 'we need your @username to find your profile'; return; }
+    if(tx.length < 8){ m.className = 'cmsg bad'; m.textContent = 'paste the transaction link or hash so we can check it'; return; }
+    btn.disabled = true; btn.textContent = 'checking…';
+    try{
+      const u = await currentUser();
+      if(!u) throw new Error('not logged in');
+      const { error } = await sb.from('payments').insert({
+        user_id: u.id, username: user, perk: key, coin: chosenCoin || null, tx: tx,
+        note: code ? ('promo ' + code) : null
+      });
+      if(error) throw error;
+      try{ track('pay·crypto·sent·'+key); }catch(e){}
+      m.className = 'cmsg ok';
+      m.innerHTML = 'got it. we check the transaction and switch <b>' + P.name + '</b> on, usually within the hour. you can close this page.';
+      btn.textContent = 'sent ✓';
+    }catch(err){
+      buildMail();
+      m.className = 'cmsg bad';
+      m.textContent = 'could not send it from here. use the email button below and it gets sorted the same way.';
+      document.getElementById('mailBtn').style.display = '';
+      btn.disabled = false; btn.textContent = 'confirm my payment →';
+    }
+  });
 }
 </script>
 </body>

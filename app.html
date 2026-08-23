@@ -11,7 +11,7 @@
   .floatlogo{position:fixed;z-index:60;opacity:.9;user-select:none;pointer-events:none;will-change:transform;left:0;top:0}
   @media(max-width:760px){.floatlogo{display:none}}
   .floatlogo img{height:56px;display:block}
-  .prep{text-align:center;padding:3.4vh 0 4vh;max-width:100% !important}
+  .prep{text-align:center;padding:1.2vh 0 3vh;max-width:100% !important}
   .prep .big{position:relative;display:inline-block;font-family:'Space Grotesk','Poppins',sans-serif;font-weight:700;letter-spacing:-.045em;line-height:.98;
     font-size:clamp(3rem,9.2vw,8.4rem);white-space:nowrap;
     background:linear-gradient(95deg,#2E4A73 0%,#6E96C8 22%,#D98BB0 46%,#E8926B 64%,#6E96C8 84%,#2E4A73 100%);
@@ -28,9 +28,9 @@
   .prep .dots span:nth-child(2){animation-delay:.2s}
   .prep .dots span:nth-child(3){animation-delay:.4s}
   @keyframes blink{0%,60%,100%{opacity:.2}30%{opacity:1}}
-  .prep .sub{margin:40px auto 0;max-width:780px;font-size:clamp(1.15rem,2.1vw,1.55rem);font-weight:700;line-height:1.7;color:var(--ink)}
+  .prep .sub{margin:26px auto 0;max-width:780px;font-size:clamp(1.15rem,2.1vw,1.55rem);font-weight:700;line-height:1.7;color:var(--ink)}
   .prep .sub .grad2{background:linear-gradient(90deg,#2E4A73,#6E96C8,#D98BB0);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .prepcards{display:grid;grid-template-columns:1fr 1fr;gap:26px;max-width:1060px;margin:46px auto 0;text-align:left;align-items:stretch}
+  .prepcards{display:grid;grid-template-columns:1fr 1fr;gap:22px;max-width:1060px;margin:30px auto 0;text-align:left;align-items:stretch}
   @media(max-width:860px){.prepcards{grid-template-columns:1fr}}
   .prepcards .card{border-radius:32px;padding:26px 32px;background:rgba(255,255,255,.78);box-shadow:0 24px 60px -30px rgba(46,74,115,.28);margin:0}
   .prepcards .card .ptitle{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.35rem;letter-spacing:-.02em;margin-bottom:6px}
@@ -39,7 +39,7 @@
   .prepcards .refbox{margin:0;padding:0;background:none;box-shadow:none;border:none;border-radius:0}
   .prepcards .refbox .rtitle{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.35rem;letter-spacing:-.02em;text-transform:none;color:var(--ink);margin-bottom:6px}
   .prepcards .refbox .rsub{font-size:.98rem;line-height:1.7;margin-bottom:16px}
-  .prepmarq{margin:calc(2vh + 40px) 0 0;overflow:hidden;white-space:nowrap;padding:12px 0}
+  .prepmarq{margin:calc(1vh + 18px) 0 0;overflow:hidden;white-space:nowrap;padding:10px 0}
   .prepmarq .ptrack{display:inline-block;animation:pscroll 36s linear infinite;font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:-.02em;font-size:1.7rem;color:rgba(30,51,80,.16)}
   .prepmarq .ptrack b{color:rgba(110,150,200,.45);font-weight:700}
   @keyframes logosheen{from{background-position:-160% 0,0 0}to{background-position:260% 0,0 0}}
@@ -237,7 +237,7 @@ if(!LIVE){
         </div>
         <div class="card"><div class="refbox">
           <div class="rtitle">your referral link 🔗</div>
-          <div class="rsub">friend joins through your link: <b>they get 10% off</b> their next purchase, <b>you get 10% off</b> yours.</div>
+          <div class="rsub">share it, they land on your profile. they use code <b>YOUGC10</b> for <b>10% off</b> anything, and <b>you get 10% off</b> your next perk.</div>
           <div class="refrow">
             <input type="text" id="refLink" readonly>
             <button class="btn small" id="refCopy">copy</button>
@@ -252,12 +252,12 @@ if(!LIVE){
   document.getElementById('prepProfile').href = 'profile.html?u=' + encodeURIComponent(me.username);
 
   // referral bubble
-  const refUrl = location.origin + '/?ref=' + encodeURIComponent(me.username);
+  const refUrl = location.origin + '/u/' + encodeURIComponent(me.username) + '?ref=' + encodeURIComponent(me.username);
   document.getElementById('refLink').value = refUrl;
   document.getElementById('refCopy').addEventListener('click', async ()=>{
     try{ await navigator.clipboard.writeText(refUrl); }catch(e){ document.getElementById('refLink').select(); document.execCommand('copy'); }
     document.getElementById('refCopy').textContent='copied ✓';
-    setTimeout(()=>document.getElementById('refCopy').textContent='copy',1600);
+    setTimeout(()=>document.getElementById('refCopy').textContent='copy',1800);
   });
   sb.from('referrals').select('id',{count:'exact',head:true}).eq('referrer_username', me.username)
     .then(({count})=>{ if(count) document.getElementById('refCount').textContent = count + (count===1?' friend joined':' friends joined') + '. your code: YOUGC10-' + me.username.toUpperCase(); });
@@ -289,7 +289,7 @@ if(!LIVE){
   const rect = () => fl.getBoundingClientRect();
   let x = innerWidth*0.14, y = innerHeight*0.68;
   let vx = 1.15, vy = -0.85;
-  const MINSP = 0.85, MAXSP = 9;
+  const MINSP = 0.85, MAXSP = 7;
   function loop(){
     const w = rect().width || 140, h = rect().height || 50;
     x += vx; y += vy;
@@ -318,7 +318,7 @@ if(!LIVE){
     let dx = cx - e.clientX, dy = cy - e.clientY;
     let m = Math.hypot(dx,dy) || 1;
     dx /= m; dy /= m;
-    const kick = 5.2;
+    const kick = 3.8;
     vx = dx*kick + vx*0.25;
     vy = dy*kick + vy*0.25;
   }, {passive:true});
@@ -609,14 +609,18 @@ if(!LIVE){
     const feed=document.getElementById('feed');
     feed.innerHTML='<p class="muted center mt3">loading…</p>';
     const { data, error } = await sb.from('posts')
-      .select('id,text,img,created_at,featured_until,profiles(id,username,name,avatar_url,niches,role,verified)')
+      .select('id,text,img,created_at,featured_until,profiles(id,username,name,avatar_url,niches,role,verified,verified_until)')
       .order('created_at',{ascending:false}).limit(100);
     if(error){ feed.innerHTML=`<p class="muted center mt3">${esc(error.message)}</p>`; return; }
     let rows = (data||[]).filter(p=>p.profiles);
     const isFeatRaw = p => p.featured_until && new Date(p.featured_until).getTime() > Date.now();
     const featTop = rows.filter(isFeatRaw).slice(0,5);
     const isFeat = p => featTop.includes(p);
-    rows = [...featTop, ...rows.filter(p=>!featTop.includes(p))];
+    // verified posts get boosted: they rank as if they were posted 12 hours later
+    const BOOST = 12 * 3600 * 1000;
+    const rank = p => new Date(p.created_at).getTime() + (isVerified(p.profiles) ? BOOST : 0);
+    const rest = rows.filter(p=>!featTop.includes(p)).sort((a,b)=> rank(b) - rank(a));
+    rows = [...featTop, ...rest];
     if(mineOnly && me.niches?.length){
       const mine=new Set(me.niches);
       rows = rows.filter(p=>(p.profiles.niches||[]).some(n=>mine.has(n)));

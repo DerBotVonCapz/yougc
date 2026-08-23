@@ -212,7 +212,7 @@ const DE = {
   "brands":"marken",
   "scroll. click.":"scrollen. klicken.",
   "deal.":"deal.",
-  "see the person, see their real content, talk to them directly.":"sieh den menschen, sieh echten content, schreib direkt.",
+  "see the person, see their real content, talk to them directly.":"seh den menschen, seh echten content, schreib direkt.",
   "make your profile":"profil erstellen",
   "logo, site, niches. one minute.":"logo, website, nischen. eine minute.",
   "scroll your niche":"deine nische scrollen",

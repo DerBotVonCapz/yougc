@@ -143,7 +143,11 @@ html.dark .obright{background:linear-gradient(160deg,rgba(46,74,115,.35),rgba(13
 
             <label class="mt2">your name</label>
             <input type="text" id="name" placeholder="your creator or brand name" maxlength="50" autocomplete="off">
-            <div class="hint" id="handleHint" style="font-size:.84rem;margin-top:6px"></div>
+            <div class="hint" style="font-size:.8rem;margin-top:6px">the big name on your profile. change it any time.</div>
+
+            <label class="mt2">your @username</label>
+            <input type="text" id="handle" placeholder="yourname" maxlength="24" autocomplete="off">
+            <div class="hint" id="handleHint" style="font-size:.84rem;margin-top:6px">pick your @username</div>
 
             <label>bio</label>
             <textarea id="bio" placeholder="what you make, who you make it for, why you are good at it" maxlength="240"></textarea>
@@ -289,6 +293,7 @@ socialWrap.innerHTML = SOCIAL_FIELDS.map(f=>`
 let avatarDataUrl = existing?.avatar_url || '';
 if(existing){
   document.getElementById('name').value = existing.name||'';
+  document.getElementById('handle').value = existing.username||'';
   document.getElementById('bio').value = existing.bio||'';
   if(existing.avatar_url) document.getElementById('avPreview').innerHTML = `<img class="avatar big" src="${esc(existing.avatar_url)}">`;
   (existing.clips||[]).slice(0,3).forEach((c,i)=>{ document.getElementById('clip'+(i+1)).value = c; });
@@ -309,7 +314,7 @@ function paint(){
     ? `radial-gradient(circle at 18% 10%, ${c[0]}30, transparent 60%), radial-gradient(circle at 85% 88%, ${c[1]}26, transparent 58%), rgba(20,28,46,.94)`
     : `radial-gradient(circle at 18% 10%, ${c[0]}bb, transparent 62%), radial-gradient(circle at 85% 88%, ${c[1]}aa, transparent 58%), rgba(255,255,255,.92)`;
   document.getElementById('pvname').textContent = name || (isBrand ? 'your brand' : 'your name');
-  const uname = (existing?.username) || name.toLowerCase().replace(/[^a-z0-9_]/g,'').slice(0,24);
+  const uname = baseHandle() || existing?.username || '';
   document.getElementById('pvuser').textContent = '@' + (uname || 'yourname');
   document.getElementById('pvbio').textContent = bio || (isBrand ? 'what your brand sells shows up here' : 'your bio shows up here');
   document.getElementById('pvav').innerHTML = avatarDataUrl ? `<img src="${esc(avatarDataUrl)}">` : esc((name||'?').charAt(0).toUpperCase());
@@ -329,38 +334,42 @@ function paint(){
 let handleOk = true, handleT = null;
 const hintEl = document.getElementById('handleHint');
 function baseHandle(){
-  const n = document.getElementById('name').value.trim().toLowerCase();
-  return n.replace(/[^a-z0-9_]/g,'').slice(0,24);
+  return document.getElementById('handle').value.trim().toLowerCase().replace(/[^a-z0-9_]/g,'').slice(0,24);
 }
 async function checkHandle(){
-  if(existing?.username){ handleOk = true; hintEl.textContent=''; return; }
   const h = baseHandle();
-  if(h.length < 3){ handleOk = false; hintEl.innerHTML = h ? 'needs at least 3 letters or numbers' : ''; return; }
+  if(existing?.username && h === existing.username){
+    handleOk = true; window.__handle = h;
+    hintEl.innerHTML = '<span style="color:var(--ink-soft)">your @, change once every 7 days</span>';
+    document.getElementById('pvuser').textContent = '@' + h; return;
+  }
+  if(h.length < 3){ handleOk = false; window.__handle = null; hintEl.innerHTML = h ? 'needs at least 3 letters, numbers or _' : 'pick your @username'; return; }
   hintEl.textContent = 'checking @' + h + '…';
   const { data } = await sb.from('profiles').select('username').eq('username', h).maybeSingle();
   if(!data){
     handleOk = true; window.__handle = h;
     hintEl.innerHTML = '<b style="color:#3E9068">@' + h + ' is free ✓</b>';
-    return;
+    document.getElementById('pvuser').textContent = '@' + h; return;
   }
-  // taken: find the first free variant
-  for(let i=2;i<12;i++){
-    const alt = (h + i).slice(0,24);
-    const { data: t } = await sb.from('profiles').select('username').eq('username', alt).maybeSingle();
-    if(!t){
-      handleOk = true; window.__handle = alt;
-      hintEl.innerHTML = '@' + h + ' is taken, you will be <b style="color:#3E9068">@' + alt + ' ✓</b>';
-      document.getElementById('pvuser').textContent = '@' + alt;
-      return;
-    }
-  }
-  handleOk = false;
-  hintEl.innerHTML = '<b style="color:#B4453A">@' + h + ' is taken.</b> try a different name.';
+  handleOk = false; window.__handle = null;
+  hintEl.innerHTML = '<b style="color:#B4453A">@' + h + ' is taken.</b> try another.';
 }
-document.getElementById('name').addEventListener('input', ()=>{
+let handleTouched = !!existing;
+document.getElementById('handle').addEventListener('input', ()=>{
+  handleTouched = true;
   window.__handle = null;
-  clearTimeout(handleT); handleT = setTimeout(checkHandle, 450);
+  clearTimeout(handleT); handleT = setTimeout(checkHandle, 400);
 });
+document.getElementById('name').addEventListener('input', ()=>{
+  // for a new user who has not chosen a @ yet, suggest one from the name
+  if(!handleTouched){
+    const suggest = document.getElementById('name').value.trim().toLowerCase().replace(/[^a-z0-9_]/g,'').slice(0,24);
+    document.getElementById('handle').value = suggest;
+    window.__handle = null;
+    clearTimeout(handleT); handleT = setTimeout(checkHandle, 400);
+  }
+});
+if(existing?.username){ setTimeout(checkHandle, 200); }
 SOCIAL_FIELDS.forEach(f=>document.getElementById('soc_'+f.key).addEventListener('input', paint));
 
 /* ---------- step machine ---------- */
@@ -390,11 +399,9 @@ function validate(n){
     const name = document.getElementById('name').value.trim();
     if(!name){ showMsg(msg,'add your name first.'); return false; }
     if(hasSlurs(name) || hasSlurs(document.getElementById('bio').value)){ showMsg(msg,'that language has no place here. change it.'); return false; }
-    if(!existing){
-      const u = name.toLowerCase().replace(/[^a-z0-9_]/g,'');
-      if(u.length < 3){ showMsg(msg,'your name needs at least 3 letters or numbers.'); return false; }
-      if(handleOk === false){ showMsg(msg,'that name is taken. pick a slightly different one.'); return false; }
-    }
+    const h = baseHandle();
+    if(h.length < 3){ showMsg(msg,'pick a @username with at least 3 letters, numbers or _.'); return false; }
+    if(handleOk === false){ showMsg(msg,'that @username is taken. pick another.'); return false; }
     return true;
   }
   if(n === 1){
@@ -448,8 +455,8 @@ document.getElementById('save').addEventListener('click', async ()=>{
   for(let i=0;i<=2;i++){ if(!validate(i)){ goto(i); return; } }
   const name = document.getElementById('name').value.trim();
   const bio = document.getElementById('bio').value.trim();
-  let username = existing?.username;
-  if(!username) username = window.__handle || name.toLowerCase().replace(/[^a-z0-9_]/g,'').slice(0,24);
+  let username = window.__handle || baseHandle();
+  if(!username || username.length < 3) username = existing?.username || '';
   const socials = {};
   for(const f of SOCIAL_FIELDS){
     const v = document.getElementById('soc_'+f.key).value.trim();
@@ -481,8 +488,15 @@ document.getElementById('save').addEventListener('click', async ()=>{
     const row = { id:user.id, role, username, name, bio, avatar_url, socials, niches:[...selected], accent, clips };
     const { error } = await sb.from('profiles').upsert(row);
     if(error){
-      if((error.message||'').includes('duplicate') || (error.message||'').includes('unique')) throw new Error('that username is taken. try another.');
-      throw error;
+      const m = (error.message||'').toLowerCase();
+      console.error('profile save failed:', error);
+      if(m.includes('duplicate') || m.includes('unique')) throw new Error('that username is taken. try another.');
+      if(m.includes('no_slurs') || m.includes('no place here') || m.includes('slur')) throw new Error('that language has no place here. tweak your name or bio.');
+      if(m.includes('row-level') || m.includes('policy') || m.includes('jwt') || m.includes('permission')) throw new Error('your session timed out. log in again and retry.');
+      if(m.includes('username_locked')) throw new Error('you can change your @username only once every 7 days. your name you can change any time.');
+      if(m.includes('accent')) throw new Error('that colour is not available yet. pick another one.');
+      if(m.includes('violates') || m.includes('constraint') || m.includes('invalid')) throw new Error('something in your profile did not go through. check your details and try again.');
+      throw new Error('could not save your profile. give it another go in a moment.');
     }
     try{
       const ref = localStorage.getItem('yougc_ref');

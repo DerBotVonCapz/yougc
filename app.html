@@ -548,7 +548,7 @@ if(!LIVE){
       if(cb) cb.addEventListener('click', async ()=>{
         cb.disabled = true; cb.textContent = 'claiming…';
         const { error } = await sb.rpc('claim_ref_reward');
-        if(error){ cb.textContent = error.message.slice(0,48); return; }
+        if(error){ console.error('claim failed:', error); cb.textContent = 'could not claim, try again'; cb.disabled = false; return; }
         cb.textContent = 'verified for 30 days ✓';
         setTimeout(()=>location.reload(), 1400);
       });
@@ -683,11 +683,13 @@ if(!LIVE){
       }
       const { error } = await sb.from('posts').insert({ user_id: me.id, text: t, img });
       if(error){
-        const m = error.message||'';
+        const m = (error.message||'').toLowerCase();
+        if(m.includes('violates')||m.includes('constraint')) console.error('post failed:', error);
         showMsg(msg, m.includes('no_slurs') ? 'that language has no place here. rewrite it.'
           : m.includes('duplicate post') ? 'you already posted this. say something new.'
           : m.includes('no place here') ? 'links like that have no place here.'
-          : m.includes('row-level') ? 'you posted recently. the 12 hour lock is still running.' : m);
+          : m.includes('row-level') ? 'you posted recently. the 12 hour lock is still running.'
+          : 'could not post that right now. try again in a moment.');
         btn.textContent='post';
       } else {
         postImgInp.value=''; document.getElementById('postImgBtn').textContent='📷 add a picture';

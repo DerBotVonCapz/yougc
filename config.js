@@ -14,7 +14,7 @@ export const CRYPTO_ADDR = {
   'ETH': '0x741587BbA8F5C50118b0D40D04cE4Bb72cBacB24',
   'BTC': 'bc1q4ksum7x504umv8jdcpypeayvrs0rcuz9z9q7uq'
 };
-export const VERIFIED_PRICE = 4.99;  // badge + highlighted photo + 3 posts a day, per month
+export const VERIFIED_PRICE = 6.99;  // badge + highlighted photo + 3 posts a day, per month
 export const PIN_PRICE = 10;         // 24h on top of the marketplace. profile pin and post pin are sold separately
 export const AGENT_PRICE = 4.99;     // personal creator/brand agent, per month
 // kept as aliases so nothing breaks anywhere that still imports the old names

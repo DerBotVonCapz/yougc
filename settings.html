@@ -58,7 +58,19 @@ html.dark .dzbtn:hover,html.dark .dzbtn.armed{color:#F0A199}
         <input type="email" id="newEmail" placeholder="new@email.com">
         <button class="btn small mt1" id="emailBtn">update email</button>
         <div class="msg" id="msgA"></div>
-        <p class="muted mt2">name, picture, links, niches and profile color live in <a href="onboard.html" style="color:var(--cblue);font-weight:600">edit profile</a>.</p>
+
+        <label class="mt2">display name</label>
+        <input type="text" id="newName" placeholder="your name" maxlength="50">
+        <button class="btn small mt1" id="nameBtn">save name</button>
+        <div class="msg" id="msgName"></div>
+
+        <label class="mt2">@username</label>
+        <input type="text" id="newHandle" placeholder="yourname" maxlength="24">
+        <div class="hint" id="handleHint2" style="font-size:.82rem;margin-top:6px">you can change your @username once every 7 days</div>
+        <button class="btn small mt1" id="handleBtn">save @username</button>
+        <div class="msg" id="msgHandle"></div>
+
+        <p class="muted mt2">picture, links, niches and profile color live in <a href="onboard.html" style="color:var(--cblue);font-weight:600">edit profile</a>.</p>
 
         <div id="verBox" class="mt3" style="display:none;padding:22px 24px;border-radius:18px;background:linear-gradient(120deg,rgba(191,215,242,.5),rgba(244,207,223,.5))">
           <div style="font-weight:700;margin-bottom:4px;font-size:1.05rem">verified pack <span class="vbadge">✓</span></div>
@@ -109,6 +121,60 @@ if(!isVerified(ctx.profile)){
 }
 
 const msgA = document.getElementById('msgA'), msgB = document.getElementById('msgB');
+
+// ---- display name (change any time) + @username (once every 7 days) ----
+document.getElementById('newName').value = ctx.profile.name || '';
+document.getElementById('newHandle').value = ctx.profile.username || '';
+
+document.getElementById('nameBtn').addEventListener('click', async ()=>{
+  const mN = document.getElementById('msgName'); mN.className='msg';
+  const v = document.getElementById('newName').value.trim();
+  if(!v){ showMsg(mN,'enter a name first.'); return; }
+  const btn = document.getElementById('nameBtn'); btn.innerHTML='<span class="spin"></span>';
+  const { error } = await sb.from('profiles').update({ name: v }).eq('id', ctx.user.id);
+  if(error){ console.error(error); showMsg(mN, (error.message||'').toLowerCase().includes('slur') ? 'that language has no place here.' : 'could not save your name. try again.'); }
+  else { ctx.profile.name = v; document.getElementById('infoName').textContent = v + ' \u00b7 @' + ctx.profile.username; showMsg(mN,'name saved \u2713', true); }
+  btn.textContent='save name';
+});
+
+let hT=null, hOk=true;
+const hH2 = document.getElementById('handleHint2');
+document.getElementById('newHandle').addEventListener('input', ()=>{
+  hOk=false; clearTimeout(hT);
+  hT=setTimeout(async ()=>{
+    const el=document.getElementById('newHandle');
+    const h = el.value.trim().toLowerCase().replace(/[^a-z0-9_]/g,'').slice(0,24);
+    if(el.value!==h) el.value=h;
+    if(h === ctx.profile.username){ hOk=true; hH2.textContent='your current @'; return; }
+    if(h.length < 3){ hOk=false; hH2.textContent='at least 3 letters, numbers or _'; return; }
+    hH2.textContent='checking @'+h+'\u2026';
+    const { data } = await sb.from('profiles').select('username').eq('username',h).maybeSingle();
+    if(!data){ hOk=true; hH2.innerHTML='<b style="color:#3E9068">@'+h+' is free \u2713</b>'; }
+    else { hOk=false; hH2.innerHTML='<b style="color:#B4453A">@'+h+' is taken.</b>'; }
+  }, 400);
+});
+
+document.getElementById('handleBtn').addEventListener('click', async ()=>{
+  const mH = document.getElementById('msgHandle'); mH.className='msg';
+  const h = document.getElementById('newHandle').value.trim().toLowerCase().replace(/[^a-z0-9_]/g,'').slice(0,24);
+  if(h === ctx.profile.username){ showMsg(mH,'that is already your @username.'); return; }
+  if(h.length < 3){ showMsg(mH,'pick a @username with at least 3 letters, numbers or _.'); return; }
+  if(hOk === false){ showMsg(mH,'that @username is taken. pick another.'); return; }
+  const btn = document.getElementById('handleBtn'); btn.innerHTML='<span class="spin"></span>';
+  const { error } = await sb.from('profiles').update({ username: h }).eq('id', ctx.user.id);
+  if(error){
+    const m = (error.message||'').toLowerCase(); console.error(error);
+    showMsg(mH, m.includes('username_locked') ? 'you can change your @username only once every 7 days.'
+      : (m.includes('duplicate')||m.includes('unique')) ? 'that @username is taken. pick another.'
+      : 'could not change your @username. try again.');
+  } else {
+    ctx.profile.username = h;
+    document.getElementById('infoName').textContent = ctx.profile.name + ' \u00b7 @' + h;
+    document.getElementById('mypage').href = 'profile.html?u=' + encodeURIComponent(h);
+    showMsg(mH,'@username saved \u2713 next change in 7 days.', true);
+  }
+  btn.textContent='save @username';
+});
 
 document.getElementById('emailBtn').addEventListener('click', async ()=>{
   const v = document.getElementById('newEmail').value.trim();

@@ -8,8 +8,8 @@
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="stylesheet" href="style.css">
 <style>
-.pane.setwide{max-width:1160px}
-.setgrid{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:start;margin-top:26px}
+.pane.setwide{max-width:1160px;display:flex;flex-direction:column}
+.setgrid{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:start;margin-top:26px;order:2}
 @media(max-width:820px){.setgrid{grid-template-columns:1fr}}
 
 .setcard,.memcard{padding:34px 38px;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,border-color .35s}
@@ -29,7 +29,7 @@ input[type=email],input[type=password],input[type=text]{font-size:1rem;padding:1
 .setcard .btn.small{font-size:.95rem;padding:14px 28px}
 
 /* ---- membership ---- */
-.memcard{position:relative;overflow:hidden;margin-top:8px}
+.memcard{position:relative;overflow:hidden;order:3;margin-top:30px;padding:26px 30px}
 .memcard::before{content:'';position:absolute;width:52%;height:200%;right:-14%;top:-60%;pointer-events:none;
   background:radial-gradient(circle,rgba(191,215,242,.5),transparent 66%);filter:blur(10px);animation:memdrift 14s ease-in-out infinite alternate;z-index:0}
 @keyframes memdrift{0%{transform:translate(0,0)}100%{transform:translate(-30px,26px)}}
@@ -37,21 +37,21 @@ html.dark .memcard::before{background:radial-gradient(circle,rgba(78,121,174,.32
 @media(prefers-reduced-motion:reduce){.memcard::before{animation:none}}
 .memcard>*{position:relative;z-index:1}
 .memhead{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;flex-wrap:wrap}
-.memhead h3{font-size:1.75rem;margin:4px 0}
+.memhead h3{font-size:1.4rem;margin:4px 0}
 .memhead .muted{font-size:.94rem;max-width:52ch;margin:0}
 .kicker{font-size:.74rem;font-weight:800;letter-spacing:.24em;text-transform:uppercase;color:var(--cblue)}
 #manageBtn{white-space:nowrap}
 
 .subgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:24px}
 @media(max-width:720px){.subgrid{grid-template-columns:1fr}}
-.subtile{border:1.5px solid rgba(30,51,80,.1);border-radius:22px;padding:22px 24px;background:rgba(255,255,255,.55);
+.subtile{border:1.5px solid rgba(30,51,80,.1);border-radius:22px;padding:17px 20px;background:rgba(255,255,255,.55);
   transition:transform .3s cubic-bezier(.2,.8,.2,1),border-color .3s,box-shadow .3s;position:relative;overflow:hidden}
 .subtile:hover{transform:translateY(-4px);box-shadow:0 20px 44px -22px rgba(46,74,115,.42)}
 .subtile.active{border-color:rgba(95,168,138,.55);background:linear-gradient(125deg,rgba(191,232,212,.4),rgba(191,215,242,.3))}
 html.dark .subtile{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.12)}
 html.dark .subtile.active{background:linear-gradient(125deg,rgba(95,168,138,.16),rgba(78,121,174,.15));border-color:rgba(95,168,138,.5)}
 .subtop{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:9px}
-.subname{font-weight:800;font-size:1.18rem;display:inline-flex;align-items:center;gap:7px;font-family:'Space Grotesk',sans-serif}
+.subname{font-weight:800;font-size:1.04rem;display:inline-flex;align-items:center;gap:7px;font-family:'Space Grotesk',sans-serif}
 .pill{font-size:.7rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:5px 11px;border-radius:999px;background:rgba(30,51,80,.09);color:var(--ink-soft)}
 html.dark .pill{background:rgba(255,255,255,.09);color:#AEBED6}
 .pill.on{background:rgba(95,168,138,.2);color:#3E7D63;display:inline-flex;align-items:center;gap:7px}
@@ -85,14 +85,14 @@ html.dark .dzbtn:hover,html.dark .dzbtn.armed{color:#F0A199}
   <nav class="top">
     <span id="logo"></span>
     <div class="navlinks">
-      <a class="nav-cta" href="app.html">marketplace</a>
-      <a class="nav-cta" href="chat.html">chats</a>
-      <a class="nav-cta" id="mypage" href="#">my profile</a>
+      <a class="nav-cta" href="app.html">Marketplace</a>
+      <a class="nav-cta" href="chat.html">Chats</a>
+      <a class="nav-cta" id="mypage" href="#">My profile</a>
     </div>
   </nav>
 
   <div class="pane wide setwide">
-    <h1 class="page big">sett<span class="grad">ings</span></h1>
+    <h1 class="page big">Sett<span class="grad">ings</span></h1>
 
     <!-- ===== membership ===== -->
     <div class="card memcard reveal on">

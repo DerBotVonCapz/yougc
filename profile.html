@@ -19,8 +19,11 @@ nav.top{padding-top:12px;padding-bottom:8px}
 #profileCard{padding:34px 46px 38px}
 .pmeta{font-size:1rem}
 #profileCard .ptags span{font-size:.92rem;padding:9px 20px}
-.socialrow{gap:14px}
-.socialrow a{font-size:.98rem;padding:13px 24px}
+.socialrow{gap:11px}
+.socialrow a{width:46px;height:46px;padding:0;display:inline-flex;align-items:center;justify-content:center;border-radius:14px}
+.socialrow a svg{width:22px;height:22px}
+#viewsBox .viewbox{margin-top:0;margin-bottom:22px}
+aside h2.page{font-size:1.5rem !important}
 #profileCard .vbadge{width:29px;height:29px;font-size:1rem}
 #profileCard .btn{font-size:1rem;padding:15px 30px}
 #profileCard .btn.small{font-size:.9rem;padding:13px 26px}
@@ -150,8 +153,8 @@ html.dark .vbars i{background:rgba(255,255,255,.3)}
   <nav class="top">
     <span id="logo"></span>
     <div class="navlinks">
-      <a class="nav-cta" href="app.html">marketplace</a>
-      <a class="nav-cta" href="chat.html">chats</a>
+      <a class="nav-cta" href="app.html">Marketplace</a>
+      <a class="nav-cta" href="chat.html">Chats</a>
     </div>
   </nav>
 
@@ -159,7 +162,8 @@ html.dark .vbars i{background:rgba(255,255,255,.3)}
     <div class="profGrid">
       <div class="card reveal on" id="profileCard"><p class="muted center">loading…</p></div>
       <aside>
-        <h2 class="page">latest posts</h2>
+        <div id="viewsBox"></div>
+        <h2 class="page">Latest posts</h2>
         <div id="posts" class="mt1"></div>
       </aside>
     </div>
@@ -173,6 +177,14 @@ import { VERIFIED_PRICE, PIN_PRICE, AGENT_PRICE } from './config.js';
 const IC_VERIFIED = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.4l2.4 2.1 3.2-.3.9 3.1 2.6 1.9-1.4 2.9 1.4 2.9-2.6 1.9-.9 3.1-3.2-.3L12 21.6l-2.4-2.1-3.2.3-.9-3.1L2.9 15l1.4-2.9L2.9 9.2l2.6-1.9.9-3.1 3.2.3z"/><path d="M8.6 12.2l2.3 2.3 4.5-4.6"/></svg>';
 const IC_PIN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 4h15"/><path d="M12 21V9.2"/><path d="M7.2 14L12 9.2 16.8 14"/></svg>';
 const IC_AGENT = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M11 2.2l1.85 5.35L18.2 9.4l-5.35 1.85L11 16.6l-1.85-5.35L3.8 9.4l5.35-1.85z"/><path d="M18.3 13.6l.85 2.45 2.45.85-2.45.85-.85 2.45-.85-2.45-2.45-.85 2.45-.85z" opacity=".6"/></svg>';
+const SOC_ICONS = {
+  x:'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>',
+  instagram:'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.43.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.43.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.43-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.43-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16M12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63c-.79.31-1.46.72-2.13 1.38C1.35 2.68.94 3.35.63 4.14.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.31.79.72 1.46 1.38 2.13.67.66 1.34 1.07 2.13 1.38.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56.79-.31 1.46-.72 2.13-1.38.66-.67 1.07-1.34 1.38-2.13.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91-.31-.79-.72-1.46-1.38-2.13-.67-.66-1.34-1.07-2.13-1.38-.76-.3-1.64-.5-2.91-.56C15.67.01 15.26 0 12 0zm0 5.84A6.16 6.16 0 1 0 18.16 12 6.16 6.16 0 0 0 12 5.84zm0 10.16A4 4 0 1 1 16 12a4 4 0 0 1-4 4zm6.41-10.4a1.44 1.44 0 1 0 1.44 1.44 1.44 1.44 0 0 0-1.44-1.44z"/></svg>',
+  tiktok:'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.6 5.82a4.28 4.28 0 0 1-1.05-2.82h-3.2v12.86a2.59 2.59 0 0 1-2.59 2.53 2.59 2.59 0 0 1-2.59-2.59 2.59 2.59 0 0 1 3.4-2.46V9.9a5.78 5.78 0 0 0-.81-.06A5.78 5.78 0 0 0 4 15.62a5.78 5.78 0 0 0 9.86 4.09 5.78 5.78 0 0 0 1.7-4.1V8.9a7.44 7.44 0 0 0 4.34 1.39V7.1a4.28 4.28 0 0 1-3.3-1.28z"/></svg>',
+  youtube:'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M23 12s0-3.8-.48-5.6a2.9 2.9 0 0 0-2.05-2.05C18.67 3.87 12 3.87 12 3.87s-6.67 0-8.47.48A2.9 2.9 0 0 0 1.48 6.4C1 8.2 1 12 1 12s0 3.8.48 5.6a2.9 2.9 0 0 0 2.05 2.05c1.8.48 8.47.48 8.47.48s6.67 0 8.47-.48a2.9 2.9 0 0 0 2.05-2.05C23 15.8 23 12 23 12zM9.75 15.5v-7l6.05 3.5z"/></svg>',
+  telegram:'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.94 4.3 18.6 20c-.24 1.09-.9 1.35-1.82.84l-5.03-3.7-2.43 2.34c-.27.27-.5.5-1.01.5l.36-5.13 9.34-8.44c.4-.36-.09-.56-.63-.2L5.83 13.2 0.86 11.65c-1.08-.34-1.1-1.08.23-1.6L20.5 2.7c.9-.33 1.69.2 1.44 1.6z"/></svg>',
+  website:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9.2"/><path d="M2.8 12h18.4M12 2.8c2.7 2.8 2.7 15.6 0 18.4M12 2.8c-2.7 2.8-2.7 15.6 0 18.4"/></svg>'
+};
 const ACCENTS = { blue:['#BFD7F2','#DCE9F9'], pink:['#F4CFDF','#FBE3EE'], mint:['#BFE8D4','#DFF2E7'], lavender:['#D8CCF2','#EAE3F9'], peach:['#F8D8C4','#FBEBDD'], sand:['#EFE3C6','#F7F0DE'], coral:['#FBC9C2','#FDE2DE'], sky:['#BEE6F5','#DCF2FA'], lime:['#DCEFB8','#EDF7DB'], grape:['#CFC3EE','#E4DDF7'], rose:['#F6C6D8','#FBE0EA'], sunset:['#FBD3A8','#FDE9CE'], ocean:['#B6DCE0','#D9EFF1'], berry:['#E7C2E4','#F3DEF2'], slate:['#CBD5E6','#E3E9F3'] };
 const payHref = (perk, item, price) => 'pay.html?perk=' + perk + '&item=' + encodeURIComponent(item) + '&price=' + encodeURIComponent(price);
 document.getElementById('bg').outerHTML = blobsHTML();
@@ -214,7 +226,7 @@ if(!p){
   }
   const socials = SOCIAL_FIELDS
     .filter(f => p.socials && safeUrl(p.socials[f.key]))
-    .map(f => `<a href="${esc(safeUrl(p.socials[f.key]))}" target="_blank" rel="noopener">${f.label}</a>`)
+    .map(f => `<a href="${esc(safeUrl(p.socials[f.key]))}" target="_blank" rel="noopener" aria-label="${f.label}" title="${f.label}">${SOC_ICONS[f.key]||esc(f.label)}</a>`)
     .join('');
   card.innerHTML = `
     <div style="display:flex;gap:20px;align-items:center;flex-wrap:wrap">
@@ -233,7 +245,6 @@ if(!p){
     ${socials ? `<div class="socialrow">${socials}</div>` : ''}
     ${!isOwner ? (u ? `<div class="mt3" style="display:flex;gap:12px;flex-wrap:wrap"><a class="btn" id="contact" href="chat.html?u=${encodeURIComponent(p.username)}">message ${esc(p.name.split(' ')[0])} →</a><button class="btn ghost" id="followBtn">${iFollow?'following ✓':'+ follow'}</button></div>` : `<a class="btn mt3" id="contact" href="auth.html">log in to message ${esc(p.name.split(' ')[0])} →</a>`) : ''}
     ${isOwner ? `<div class="ownerrow"><a class="btn" href="onboard.html">edit profile →</a><a class="btn ghost" href="settings.html">settings</a>${(p.agent_until && new Date(p.agent_until)>new Date()) ? `<a class="btn" style="background:linear-gradient(120deg,#6E96C8,#D98BB0);color:#fff" href="agent.html">my agent ✨</a>` : ``}</div>
-    <div id="viewsBox"></div>
     <div class="upsell">
       <div class="uphead"><span class="upkick">grow faster</span><h3>three ways to get picked first.</h3>
         <div class="upsub">brands scroll fast. these decide whether they stop on you.</div></div>

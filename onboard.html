@@ -104,6 +104,21 @@ html.dark .pvname{color:#EAF0FA}html.dark .pvbio{color:#93A5C4}
 html.dark .pvchips span{background:rgba(110,150,200,.2);color:#EAF0FA}
 html.dark .pvsoc span{background:#1B2440;color:#EAF0FA}
 html.dark .obright{background:linear-gradient(160deg,rgba(46,74,115,.35),rgba(138,75,110,.25) 55%,rgba(44,92,70,.3))}
+
+/* kill the gradient hover box around step panels */
+.step::before{content:none !important;display:none !important}
+
+/* logged-in edit mode: rail becomes editable section tabs, not a stepper */
+.editing .rline{display:none}
+.editing .rail{gap:10px;flex-wrap:wrap;padding-bottom:6px}
+.editing .rstep{cursor:pointer;background:rgba(30,51,80,.05);border:1.5px solid rgba(30,51,80,.1);border-radius:999px;padding:9px 17px;transition:transform .2s,border-color .2s,background .2s}
+.editing .rstep .rnum{display:none}
+.editing .rstep .rlab{display:inline !important;font-size:.9rem;color:var(--ink-soft)}
+.editing .rstep:hover{border-color:rgba(110,150,200,.6);transform:translateY(-1px)}
+.editing .rstep.on{background:linear-gradient(120deg,#2E4A73,#6E96C8);border-color:transparent;box-shadow:0 10px 22px -12px rgba(46,74,115,.6)}
+.editing .rstep.on .rlab{color:#fff}
+.editing .stepkick{color:#6E96C8}
+html.dark .editing .rstep{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.12)}
 </style>
 </head>
 <body>
@@ -170,8 +185,8 @@ html.dark .obright{background:linear-gradient(160deg,rgba(46,74,115,.35),rgba(13
             <div class="chips" id="nicheChips" style="margin-top:14px"></div>
             <input type="text" id="customNiche" class="mt1" placeholder="type your own niche and press enter">
 
-            <label class="mt2">profile color</label>
-            <p class="hint" style="margin-top:0;font-size:.86rem">this paints your whole profile page, and if you're verified it also becomes your pfp glow ring.</p>
+            <label class="mt2">profile &amp; ring color</label>
+            <p class="hint" style="margin-top:0;font-size:.86rem">this paints your whole profile page, and if you're verified it also becomes your pfp glow ring. pick it here any time.</p>
             <div class="accents" id="accentPick"></div>
           </section>
 
@@ -237,6 +252,9 @@ const existing = await myProfile();
 if(existing) role = existing.role;
 const isBrand = role === 'brand';
 
+// logged-in editing: the top row is editable sections, not a stepper
+if(existing) document.querySelector('.card').classList.add('editing');
+
 document.getElementById('rolesub').textContent = isBrand
   ? 'a logo, your brand name and one line on what you sell. creators judge this first.'
   : 'a photo, a name and one honest line. that is what brands judge first.';
@@ -249,6 +267,15 @@ if(isBrand){
   document.getElementById('brandExtras').style.display='block';
   document.getElementById('pvclips').style.display='none';
   document.getElementById('pvtip').textContent = 'brands with a logo, a clear bio and a link get replies fastest.';
+}
+
+// in edit mode, each panel's kicker shows its section name instead of "step N of 4"
+if(existing){
+  const railLabels = [...document.querySelectorAll('.rstep .rlab')].map(e=>e.textContent);
+  document.querySelectorAll('.step').forEach(s=>{
+    const k = s.querySelector('.stepkick'); const i = +s.dataset.step;
+    if(k && railLabels[i]) k.textContent = railLabels[i];
+  });
 }
 
 /* ---------- accents ---------- */

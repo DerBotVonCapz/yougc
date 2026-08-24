@@ -1,5 +1,5 @@
 /* soft pastel cursor trail — desktop pointers only (skips touch).
-   source-over compositing so it stays visible on light AND dark backgrounds. */
+   gentle, semi-transparent, drifts only across the brand blue->pink range (no rainbow). */
 (function(){
   try{
     if(window.matchMedia && !matchMedia('(pointer:fine)').matches) return;  // skip touch-only devices
@@ -20,35 +20,37 @@
   function mount(){ (document.body || document.documentElement).appendChild(cv); resize(); requestAnimationFrame(frame); }
   addEventListener('resize', resize, {passive:true});
 
-  var pts = [], hue = 205, lastX = null, lastY = null, MAX = 90;
+  var pts = [], hue = 214, dir = 1, lastX = null, lastY = null, MAX = 64;
 
   addEventListener('mousemove', function(e){
     var x = e.clientX * dpr, y = e.clientY * dpr;
     if(lastX !== null){
       var dx = x - lastX, dy = y - lastY, d = Math.hypot(dx, dy);
-      var step = 8 * dpr, n = Math.max(1, Math.min(7, Math.floor(d / step)));
+      var step = 11 * dpr, n = Math.max(1, Math.min(5, Math.floor(d / step)));
       for(var i = 1; i <= n; i++){
         pts.push({ x: lastX + dx * i / n, y: lastY + dy * i / n, life: 1,
-                   r: (26 + Math.random() * 14) * dpr, hue: hue });
+                   r: (15 + Math.random() * 9) * dpr, hue: hue });
       }
     }
     lastX = x; lastY = y;
-    hue = (hue + 3.5) % 360;                                      // drift through pastel hues
+    hue += dir * 1.8;                                   // drift only within brand blue<->pink band
+    if(hue > 332){ hue = 332; dir = -1; }
+    if(hue < 205){ hue = 205; dir = 1; }
     if(pts.length > MAX) pts.splice(0, pts.length - MAX);
   }, {passive:true});
 
   addEventListener('mouseleave', function(){ lastX = lastY = null; }, {passive:true});
 
-  function pastel(h, a){ return 'hsla(' + h + ',70%,66%,' + a + ')'; }
+  function pastel(h, a){ return 'hsla(' + h + ',58%,80%,' + a + ')'; }
 
   function frame(){
     ctx.clearRect(0, 0, W, H);
     for(var i = pts.length - 1; i >= 0; i--){
       var p = pts[i];
-      p.life -= 0.019;
+      p.life -= 0.022;
       if(p.life <= 0){ pts.splice(i, 1); continue; }
-      var rr = p.r * (1.5 - p.life * 0.5);
-      var a = p.life * 0.42;
+      var rr = p.r * (1.45 - p.life * 0.45);
+      var a = p.life * 0.22;                            // soft + semi-transparent
       var g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, rr);
       g.addColorStop(0, pastel(p.hue, a));
       g.addColorStop(1, pastel(p.hue, 0));

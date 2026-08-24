@@ -167,6 +167,7 @@ html.dark .vbars i{background:rgba(255,255,255,.3)}
         <div id="posts" class="mt1"></div>
       </aside>
     </div>
+    <div id="profileExtras" style="margin-top:8px"></div>
   </div>
 </div>
 
@@ -244,7 +245,9 @@ if(!p){
     <div class="ptags mt2">${(p.niches||[]).map(n=>`<span>${esc(n)}</span>`).join('')}</div>
     ${socials ? `<div class="socialrow">${socials}</div>` : ''}
     ${!isOwner ? (u ? `<div class="mt3" style="display:flex;gap:12px;flex-wrap:wrap"><a class="btn" id="contact" href="chat.html?u=${encodeURIComponent(p.username)}">message ${esc(p.name.split(' ')[0])} →</a><button class="btn ghost" id="followBtn">${iFollow?'following ✓':'+ follow'}</button></div>` : `<a class="btn mt3" id="contact" href="auth.html">log in to message ${esc(p.name.split(' ')[0])} →</a>`) : ''}
-    ${isOwner ? `<div class="ownerrow"><a class="btn" href="onboard.html">edit profile →</a><a class="btn ghost" href="settings.html">settings</a>${(p.agent_until && new Date(p.agent_until)>new Date()) ? `<a class="btn" style="background:linear-gradient(120deg,#6E96C8,#D98BB0);color:#fff" href="agent.html">my agent ✨</a>` : ``}</div>
+    ${isOwner ? `<div class="ownerrow"><a class="btn" href="onboard.html">edit profile →</a><a class="btn ghost" href="settings.html">settings</a>${(p.agent_until && new Date(p.agent_until)>new Date()) ? `<a class="btn" style="background:linear-gradient(120deg,#6E96C8,#D98BB0);color:#fff" href="agent.html">my agent ✨</a>` : ``}</div>` : ''}`;
+
+  if(isOwner) document.getElementById('profileExtras').innerHTML = `
     <div class="upsell">
       <div class="uphead"><span class="upkick">grow faster</span><h3>three ways to get picked first.</h3>
         <div class="upsub">brands scroll fast. these decide whether they stop on you.</div></div>
@@ -298,7 +301,7 @@ if(!p){
         <button class="btn" id="refCopy">copy my link</button>
       </div>
       <div class="refcount" id="refCount"></div>
-    </div>`  : ''}  `;
+    </div>`;
 
   // best clips (creators)
   const embeds = (p.clips||[]).map(clipEmbed).filter(Boolean);
@@ -375,6 +378,6 @@ if(!p){
 }
 </script>
 <script type="module" src="i18n.js"></script>
-<script src="cursor.js?v=3" defer></script>
+<script src="cursor.js?v=4" defer></script>
 </body>
 </html>

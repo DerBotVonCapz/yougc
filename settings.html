@@ -12,6 +12,11 @@
 .frow{display:flex;gap:10px;align-items:stretch;margin-top:6px}
 .frow>input{flex:1;margin:0}
 .frow>.btn{flex:none;white-space:nowrap;margin:0}
+.ovstrip{order:1;display:flex;flex-wrap:wrap;gap:16px 46px;padding:22px 34px;margin-top:10px;align-items:center}
+.ov{display:flex;flex-direction:column;gap:3px;min-width:110px}
+.ovl{font-size:.68rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+.ovv{font-size:1.06rem;font-weight:700}
+.ov .vbadge{width:20px;height:20px;font-size:.8rem;vertical-align:-2px}
 .setgrid{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:start;margin-top:26px;order:2}
 @media(max-width:820px){.setgrid{grid-template-columns:1fr}}
 
@@ -97,6 +102,13 @@ html.dark .dzbtn:hover,html.dark .dzbtn.armed{color:#F0A199}
   <div class="pane wide setwide">
     <h1 class="page big">Sett<span class="grad">ings</span></h1>
 
+    <div class="card ovstrip reveal on">
+      <div class="ov"><span class="ovl">email</span><span class="ovv" id="infoEmail"></span></div>
+      <div class="ov"><span class="ovl">name</span><span class="ovv" id="infoName"></span></div>
+      <div class="ov"><span class="ovl">joined</span><span class="ovv" id="infoJoined"></span></div>
+      <div class="ov"><span class="ovl">plan</span><span class="ovv" id="planTag">free</span></div>
+    </div>
+
     <!-- ===== membership ===== -->
     <div class="card memcard reveal on">
       <div class="memhead">
@@ -129,10 +141,7 @@ html.dark .dzbtn:hover,html.dark .dzbtn.armed{color:#F0A199}
 
       <div class="card setcard reveal on">
         <h3>your account</h3>
-        <div class="inforow"><b>email</b><span id="infoEmail"></span></div>
-        <div class="inforow"><b>name</b><span id="infoName"></span></div>
-        <div class="inforow"><b>joined</b><span id="infoJoined"></span></div>
-        <label class="mt2">change email</label>
+        <label class="mt1">change email</label>
         <div class="frow"><input type="email" id="newEmail" placeholder="new@email.com"><button class="btn small" id="emailBtn">update</button></div>
         <div class="msg" id="msgA"></div>
 
@@ -188,6 +197,7 @@ const nowMs = Date.now();
 const fmt = d => new Date(d).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}).toLowerCase();
 const verActive = isVerified(ctx.profile);
 const agActive  = !!(ctx.profile.agent_until && new Date(ctx.profile.agent_until).getTime() > nowMs);
+document.getElementById('planTag').textContent = (verActive||agActive) ? [verActive?'verified':null, agActive?'agent':null].filter(Boolean).join(' + ') : 'free';
 
 document.getElementById('verPrice').textContent = VERIFIED_PRICE;
 document.getElementById('agPrice').textContent  = AGENT_PRICE;
@@ -349,6 +359,6 @@ document.getElementById('delAcc')?.addEventListener('click', async ()=>{
 
 </script>
 <script type="module" src="i18n.js"></script>
-<script src="cursor.js?v=3" defer></script>
+<script src="cursor.js?v=4" defer></script>
 </body>
 </html>

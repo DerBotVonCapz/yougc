@@ -29,7 +29,7 @@
       var step = 11 * dpr, n = Math.max(1, Math.min(5, Math.floor(d / step)));
       for(var i = 1; i <= n; i++){
         pts.push({ x: lastX + dx * i / n, y: lastY + dy * i / n, life: 1,
-                   r: (15 + Math.random() * 9) * dpr, hue: hue });
+                   r: (13 + Math.random() * 7) * dpr, hue: hue });
       }
     }
     lastX = x; lastY = y;
@@ -41,7 +41,7 @@
 
   addEventListener('mouseleave', function(){ lastX = lastY = null; }, {passive:true});
 
-  function pastel(h, a){ return 'hsla(' + h + ',58%,80%,' + a + ')'; }
+  function pastel(h, a){ return 'hsla(' + h + ',56%,82%,' + a + ')'; }
 
   function frame(){
     ctx.clearRect(0, 0, W, H);
@@ -50,7 +50,7 @@
       p.life -= 0.022;
       if(p.life <= 0){ pts.splice(i, 1); continue; }
       var rr = p.r * (1.45 - p.life * 0.45);
-      var a = p.life * 0.22;                            // soft + semi-transparent
+      var a = p.life * 0.13;                            // soft + very transparent
       var g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, rr);
       g.addColorStop(0, pastel(p.hue, a));
       g.addColorStop(1, pastel(p.hue, 0));

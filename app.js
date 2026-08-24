@@ -63,11 +63,21 @@ export function isVerified(p){
   return new Date(p.verified_until).getTime() > Date.now();
 }
 
+// verified pfp glow ring — colored from the member's chosen profile accent
+const RING_HEX = {blue:'#86ABDD',pink:'#E58BB0',mint:'#6FC79E',lavender:'#A98BE0',peach:'#E9A06B',sand:'#CDB77A',coral:'#F0837A',sky:'#6FC3E0',lime:'#A7C86B',grape:'#9B7FD0',rose:'#E58BB0',sunset:'#F0A85E',ocean:'#6FB0B8',berry:'#C77FBE',slate:'#8B9BB8'};
+function _hexA(h,a){ const n=h.replace('#',''); return 'rgba('+parseInt(n.slice(0,2),16)+','+parseInt(n.slice(2,4),16)+','+parseInt(n.slice(4,6),16)+','+a+')'; }
+function ringStyle(p){
+  const c = p && RING_HEX[p.accent];
+  if(!c) return '';
+  return ` style="box-shadow:0 0 0 2px var(--vgap,#fff),0 0 0 4px ${c},0 0 15px 1px ${_hexA(c,.85)},0 0 27px 4px ${_hexA(c,.5)}"`;
+}
 export function avatarHTML(p, big=false){
-  const cls = 'avatar'+(big?' big':'')+(isVerified(p)?' vring':'');
-  if(p && p.avatar_url) return `<img class="${cls}" src="${esc(p.avatar_url)}" alt="">`;
+  const ver = isVerified(p);
+  const cls = 'avatar'+(big?' big':'')+(ver?' vring':'');
+  const st = ver ? ringStyle(p) : '';
+  if(p && p.avatar_url) return `<img class="${cls}"${st} src="${esc(p.avatar_url)}" alt="">`;
   const ini = esc((p && p.name ? p.name : '?').trim().charAt(0).toUpperCase() || '?');
-  return `<div class="${cls} ph">${ini}</div>`;
+  return `<div class="${cls} ph"${st}>${ini}</div>`;
 }
 
 export function vbadge(p){

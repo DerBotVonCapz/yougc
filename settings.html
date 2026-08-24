@@ -37,7 +37,7 @@ input[type=email],input[type=password],input[type=text]{font-size:1rem;padding:1
 .setcard .btn.small{font-size:.95rem;padding:14px 28px}
 
 /* ---- membership ---- */
-.memcard{position:relative;overflow:hidden;order:3;margin-top:30px;padding:26px 30px}
+.memcard{position:relative;overflow:hidden;order:3;margin-top:28px;padding:22px 26px}
 .memcard::before{content:'';position:absolute;width:52%;height:200%;right:-14%;top:-60%;pointer-events:none;
   background:radial-gradient(circle,rgba(191,215,242,.5),transparent 66%);filter:blur(10px);animation:memdrift 14s ease-in-out infinite alternate;z-index:0}
 @keyframes memdrift{0%{transform:translate(0,0)}100%{transform:translate(-30px,26px)}}
@@ -50,9 +50,9 @@ html.dark .memcard::before{background:radial-gradient(circle,rgba(78,121,174,.32
 .kicker{font-size:.74rem;font-weight:800;letter-spacing:.24em;text-transform:uppercase;color:var(--cblue)}
 #manageBtn{white-space:nowrap}
 
-.subgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:24px}
+.subgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
 @media(max-width:720px){.subgrid{grid-template-columns:1fr}}
-.subtile{border:1.5px solid rgba(30,51,80,.1);border-radius:22px;padding:17px 20px;background:rgba(255,255,255,.55);
+.subtile{border:1.5px solid rgba(30,51,80,.1);border-radius:20px;padding:15px 18px;background:rgba(255,255,255,.55);
   transition:transform .3s cubic-bezier(.2,.8,.2,1),border-color .3s,box-shadow .3s;position:relative;overflow:hidden}
 .subtile:hover{transform:translateY(-4px);box-shadow:0 20px 44px -22px rgba(46,74,115,.42)}
 .subtile.active{border-color:rgba(95,168,138,.55);background:linear-gradient(125deg,rgba(191,232,212,.4),rgba(191,215,242,.3))}
@@ -133,7 +133,7 @@ html.dark .dzbtn:hover,html.dark .dzbtn.armed{color:#F0A199}
         </div>
       </div>
 
-      <p class="cancelnote" id="cancelNote" style="display:none">you can cancel any time. your perks keep working until the current paid month ends, then they simply stop. pins are one time buys and are not part of this.</p>
+      <p class="cancelnote" id="cancelNote" style="display:none">to cancel, email <a href="mailto:yougcmarket@gmail.com?subject=cancel%20my%20subscription">yougcmarket@gmail.com</a> and your perks run until the paid month ends.</p>
     </div>
 
     <!-- ===== account + security ===== -->
@@ -220,12 +220,12 @@ if(verActive || agActive){
   if(verActive) names.push('verified');
   if(agActive)  names.push('agent');
   document.getElementById('planName').textContent = names.join(' + ') + ' plan';
-  document.getElementById('planSub').textContent = 'thanks for backing YOUgc early. you can manage or cancel any time below.';
+  document.getElementById('planSub').textContent = 'thanks for backing YOUgc early.';
   const mb = document.getElementById('manageBtn');
   mb.style.display = 'inline-flex';
-  if(BILLING_PORTAL){ mb.href = BILLING_PORTAL; mb.target = '_blank'; mb.rel = 'noopener'; }
-  else { mb.href = 'mailto:yougcmarket@gmail.com?subject=' + encodeURIComponent('cancel my subscription — @' + ctx.profile.username); }
-  document.getElementById('cancelNote').style.display = 'block';
+  const cn = document.getElementById('cancelNote');
+  if(BILLING_PORTAL){ mb.href = BILLING_PORTAL; mb.target = '_blank'; mb.rel = 'noopener'; cn.style.display = 'block'; }
+  else { mb.href = '#'; mb.addEventListener('click', e => { e.preventDefault(); cn.style.display = cn.style.display === 'block' ? 'none' : 'block'; }); }
 }
 
 const msgA = document.getElementById('msgA'), msgB = document.getElementById('msgB');
@@ -359,6 +359,6 @@ document.getElementById('delAcc')?.addEventListener('click', async ()=>{
 
 </script>
 <script type="module" src="i18n.js"></script>
-<script src="cursor.js?v=4" defer></script>
+<script src="cursor.js?v=5" defer></script>
 </body>
 </html>

@@ -219,6 +219,7 @@ html.dark .post.featured{background:linear-gradient(rgba(20,28,46,.92),rgba(20,2
 html.dark .refbox{background:#182138;border-color:rgba(255,255,255,.12);box-shadow:0 22px 48px -20px rgba(0,0,0,.55)}
 html.dark .perkcard{background:#182138}
 html.dark #verBox{background:#182138 !important}
+html.dark{--vgap:#0F1524}
 html.dark .avatar.vring{box-shadow:0 0 0 2px #0F1524,0 0 0 4px #86ABDD,0 0 14px 1px rgba(134,171,221,.9),0 0 26px 5px rgba(134,171,221,.4)}
 html.dark ::selection{background:#6E96C8;color:#0F1524}
 /* page components */

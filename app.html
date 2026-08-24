@@ -184,8 +184,8 @@
   .amuted{color:var(--ink-soft);font-style:normal}
   .pmeta.amt{margin-top:8px;font-size:.8rem;color:var(--ink-soft)}
   /* posts as a wide multi column grid */
-  .postgrid{column-width:330px;column-gap:20px;margin-top:4px}
-  .postgrid .post{break-inside:avoid;margin:0 0 20px;padding:24px 22px;display:inline-block;width:100%}
+  .postgrid{column-width:340px;column-gap:26px;margin-top:6px}
+  .postgrid .post{break-inside:avoid;margin:0 0 26px;padding:26px 24px;display:inline-block;width:100%}
   .postgrid .phead{gap:12px}
   .postgrid .avatar{width:46px;height:46px}
   .postgrid .pname{font-size:.98rem !important}
@@ -308,17 +308,21 @@
   .mktsub b{color:var(--ink);font-weight:700}
   @media(prefers-reduced-motion:reduce){.mkttitle{animation:none}.heroglow{animation:none}}
 
-  .mktmain{margin-top:26px;display:flex;gap:26px;align-items:flex-start}
+  #appwrap{max-width:1400px}
+  .mktmain{margin-top:34px;display:flex;gap:44px;align-items:flex-start}
   .mktcol{flex:1;min-width:0}
-  .mktside{width:290px;flex:none;position:sticky;top:18px}
-  .mktside .spotrow{display:flex;flex-direction:column;gap:10px;margin:0}
-  .mktside .spotlabel{margin-bottom:2px}
-  .mktside .spotcard{background:rgba(255,255,255,.7);backdrop-filter:blur(8px)}
+  .mktside{width:352px;flex:none;position:sticky;top:20px}
+  .mktside .spotrow{display:flex;flex-direction:column;gap:14px;margin:0}
+  .mktside .spotlabel{margin-bottom:6px;font-size:.74rem}
+  .mktside .spotcard{padding:17px 19px;background:rgba(255,255,255,.7);backdrop-filter:blur(8px)}
+  .mktside .spotcard .avatar{width:54px;height:54px}
+  .mktside .spotcard .sname{font-size:.94rem}
+  .mktside .spotcard .sbio{font-size:.8rem}
   html.dark .mktside .spotcard{background:rgba(23,31,52,.72)}
-  @media(max-width:900px){
-    .mktmain{flex-direction:column;gap:18px}
+  @media(max-width:1000px){
+    .mktmain{flex-direction:column;gap:22px}
     .mktside{width:100%;position:static;order:-1}
-    .mktside .spotrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+    .mktside .spotrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
   }
 
   /* segmented type filter */
@@ -369,7 +373,7 @@
   @media(max-width:640px){.studiostrip{flex-wrap:wrap}.studiostrip .ssgo{margin-left:0}}
 
   /* controls spacing + mobile */
-  .mtools{gap:16px !important;margin:0 0 26px !important}
+  .mtools{gap:18px !important;margin:0 0 34px !important}
   @media(max-width:600px){.seg{display:flex;width:100%}.segpill{flex:1;text-align:center;padding:11px 6px;font-size:.9rem}}
 
   .joblabel{display:inline-block;margin-left:7px;font-size:.68rem;font-weight:800;letter-spacing:.05em;
@@ -443,6 +447,7 @@
 import { sb, requireAuth, NICHES, blobsHTML, initMotion, logoHTML, esc, safeUrl, timeAgo, avatarHTML, vbadge, isVerified, hasSlurs, hasBadLinks, showMsg } from './app.js';
 import { LAUNCHED, PIN_PRICE, VERIFIED_PRICE } from './config.js';
 const IC_PIN_S = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="width:1em;height:1em;vertical-align:-.13em"><path d="M4.5 4h15"/><path d="M12 21V9.2"/><path d="M7.2 14L12 9.2 16.8 14"/></svg>';
+const IC_STAR = '<svg viewBox="0 0 24 24" fill="currentColor" style="width:1em;height:1em;vertical-align:-.13em"><path d="M12 2l2.6 6.6L21 9.3l-5 4.3 1.6 6.6L12 16.9 6.4 20.2 8 13.6l-5-4.3 6.4-.7z"/></svg>';
 const payHref = (perk, item, price) => 'pay.html?perk=' + perk + '&item=' + encodeURIComponent(item) + '&price=' + encodeURIComponent(price);
 document.getElementById('bg').outerHTML = blobsHTML();
 document.getElementById('logo').outerHTML = logoHTML();
@@ -667,7 +672,7 @@ if(!LIVE){
       const mk = p => `<a class="spotcard" href="profile.html?u=${encodeURIComponent(p.username)}">${avatarHTML(p)}<div style="min-width:0"><div class="sname">${esc(p.name)}${vbadge(p)}</div><span class="rolebadge ${p.role}">${p.role}</span>${p.bio?`<div class="sbio">${esc(p.bio.length>70?p.bio.slice(0,70)+'…':p.bio)}</div>`:''}</div></a>`;
       const cards = [...cs.map(mk), ...bs.map(mk)];
       document.getElementById('spotrow').innerHTML = cards.length
-        ? `<div class="spotrow"><div class="spotlabel">${IC_PIN_S} pinned right now</div>${cards.join('')}</div>` : '';
+        ? `<div class="spotrow"><div class="spotlabel">${IC_STAR} spotlight</div>${cards.join('')}</div>` : '';
     })();
     const postImgInp = document.getElementById('postImg');
     document.getElementById('postImgBtn').addEventListener('click', ()=> postImgInp.click());
@@ -1007,7 +1012,7 @@ if(!LIVE){
     }
     feed.innerHTML = '<div class="postgrid">' + rows.map(p=>`
       <div class="card post${isFeat(p)?' featured':''}">
-        ${isFeat(p)?`<span class="featbadge">${IC_PIN_S} pinned</span>`:''}
+        ${isFeat(p)?`<span class="featbadge">${IC_STAR} spotlight</span>`:''}
         <div class="phead">
           ${avatarHTML(p.profiles)}
           <div>

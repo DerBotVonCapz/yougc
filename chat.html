@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="style.css">
 <style>
 .chatGrid{display:grid;grid-template-columns:300px 1fr;gap:18px;align-items:start;margin-top:10px;height:calc(100vh - 210px);min-height:440px}
-@media(max-width:820px){.chatGrid{grid-template-columns:1fr;height:auto}.convs{max-height:220px}}
+@media(max-width:820px){.chatGrid{grid-template-columns:1fr;height:auto}.convs{max-height:260px}}
 .convs{overflow-y:auto;height:100%;padding:14px}
 .conv{display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:14px;cursor:pointer;transition:background .2s}
 .conv:hover{background:rgba(191,215,242,.35)}
@@ -26,6 +26,7 @@
 @keyframes bubIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 .bubble.me{align-self:flex-end;background:linear-gradient(120deg,#2E4A73,#48688F);color:#fff;border-bottom-right-radius:6px}
 .bubble.them{align-self:flex-start;background:rgba(255,255,255,.92);border:1.5px solid rgba(30,51,80,.08);border-bottom-left-radius:6px}
+.bsender{font-size:.68rem;font-weight:800;margin-bottom:3px;opacity:.85}
 .btime{font-size:.62rem;opacity:.6;margin-top:3px}
 .msgbar{display:flex;gap:9px;padding:13px 16px;border-top:1.5px solid rgba(30,51,80,.08)}
 .msgbar input{flex:1}
@@ -47,6 +48,55 @@
 .cdot{flex:none;min-width:19px;height:19px;padding:0 5px;border-radius:999px;display:flex;align-items:center;
   justify-content:center;font-size:.66rem;font-weight:800;color:#fff;
   background:linear-gradient(120deg,#6E96C8,#D98BB0)}
+
+/* group avatar glyph */
+.gav{width:42px;height:42px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;
+  color:#fff;background:linear-gradient(135deg,#6E96C8,#C77FBE)}
+.gav.sm{width:38px;height:38px}
+.gav svg{width:55%;height:55%}
+
+/* conv list header + new group button */
+.convhead{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:2px 4px 12px}
+.convhead .chlabel{font-weight:800;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+#newGroupBtn{padding:8px 14px;font-size:.78rem;display:inline-flex;align-items:center;gap:6px}
+#newGroupBtn svg{width:14px;height:14px}
+
+/* modal */
+.gmodal{position:fixed;inset:0;z-index:120;display:none;align-items:center;justify-content:center;padding:18px;
+  background:rgba(18,30,50,.42);backdrop-filter:blur(5px)}
+.gmodal.on{display:flex;animation:fadeIn .2s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+html.dark .gmodal{background:rgba(0,0,0,.55)}
+.gcard{width:min(94vw,440px);max-height:88vh;overflow:hidden;display:flex;flex-direction:column;
+  background:var(--card,#fff);border-radius:22px;padding:24px 24px 20px;
+  box-shadow:0 40px 90px -30px rgba(30,51,80,.6);animation:popIn .28s cubic-bezier(.2,.8,.2,1)}
+@keyframes popIn{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+.gcard h3{font-family:'Space Grotesk',sans-serif;font-size:1.35rem;margin:0 0 3px}
+.gcard .gsub{color:var(--ink-soft);font-size:.84rem;margin-bottom:16px}
+.gcard label.glabel{display:block;font-weight:700;font-size:.76rem;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);margin:10px 2px 6px}
+.gcard input.ginput{width:100%}
+.gchips{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.gchip{display:inline-flex;align-items:center;gap:7px;padding:5px 8px 5px 6px;border-radius:999px;
+  background:rgba(191,215,242,.4);font-size:.8rem;font-weight:700}
+html.dark .gchip{background:rgba(255,255,255,.09)}
+.gchip img,.gchip .ini{width:22px;height:22px;border-radius:50%;object-fit:cover;flex:none}
+.gchip .ini{display:flex;align-items:center;justify-content:center;font-size:.7rem;color:#2E4A73;background:linear-gradient(135deg,var(--mint),var(--blue))}
+.gchip .x{cursor:pointer;font-weight:800;opacity:.6;padding:0 2px}
+.gchip .x:hover{opacity:1}
+.gresults{margin-top:8px;max-height:230px;overflow-y:auto;border-radius:14px}
+.gres{display:flex;align-items:center;gap:11px;padding:9px 10px;border-radius:12px;cursor:pointer}
+.gres:hover{background:rgba(191,215,242,.3)}
+html.dark .gres:hover{background:rgba(255,255,255,.05)}
+.gres img,.gres .ini{width:36px;height:36px;border-radius:50%;object-fit:cover;flex:none}
+.gres .ini{display:flex;align-items:center;justify-content:center;font-weight:800;color:#2E4A73;background:linear-gradient(135deg,var(--mint),var(--blue))}
+.gres .gn{font-weight:700;font-size:.86rem;display:flex;align-items:center;gap:5px}
+.gres .gu{font-size:.74rem;color:var(--ink-soft)}
+.gres .gadd{margin-left:auto;font-weight:800;color:var(--blue-deep,#2E4A73);font-size:.8rem}
+.gactions{display:flex;gap:10px;margin-top:18px}
+.gactions .btn{flex:1;justify-content:center}
+.gmuted{color:var(--ink-soft);font-size:.82rem;text-align:center;padding:14px 0}
+.thbtn{margin-left:auto;padding:7px 13px;font-size:.78rem}
+.memberline{font-size:.72rem;color:var(--ink-soft);font-weight:600;margin-top:1px}
 </style>
 </head>
 <body>
@@ -56,6 +106,7 @@
     <span id="logo"></span>
     <div class="navlinks">
       <a class="nav-cta" href="app.html">Marketplace</a>
+      <a class="nav-cta" href="notifications.html" aria-label="notifications" title="notifications"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></a>
       <a class="nav-cta" id="mypage" href="#">My profile</a>
     </div>
   </nav>
@@ -65,11 +116,17 @@
     <div class="chatGrid">
       <div style="display:flex;flex-direction:column;gap:14px;height:100%;min-height:0">
         <div class="card" id="notifBox" style="display:none;padding:14px 16px"></div>
-        <div class="card convs" id="convList" style="flex:1;min-height:0"><p class="muted center mt2">loading…</p></div>
+        <div class="card convs" id="convList" style="flex:1;min-height:0">
+          <div class="convhead">
+            <span class="chlabel">Chats</span>
+            <button class="btn small" id="newGroupBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>Group</button>
+          </div>
+          <div id="convRows"><p class="muted center mt2">loading…</p></div>
+        </div>
       </div>
       <div class="card thread">
         <div class="thead" id="thead"><span class="muted" style="font-weight:500">pick a chat, or hit "message" on any profile</span></div>
-        <div class="msgs" id="msgs"><div class="emptyc">no chat open.<br>find creators and brands on the marketplace and message them.</div></div>
+        <div class="msgs" id="msgs"><div class="emptyc">no chat open.<br>find creators and brands on the marketplace and message them, or start a group.</div></div>
         <div class="msgbar" style="display:none" id="msgbar">
           <button class="btn small ghost" id="attBtn" title="send a photo, video or file" style="padding:10px 15px;font-size:1rem">📎</button>
           <input type="file" id="attFile" style="display:none">
@@ -77,6 +134,26 @@
           <button class="btn small" id="sendBtn">send</button>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- group create / add-people modal -->
+<div class="gmodal" id="gmodal">
+  <div class="gcard">
+    <h3 id="gmTitle">New group chat</h3>
+    <div class="gsub" id="gmSub">name it and add a few people to start.</div>
+    <div id="gmNameWrap">
+      <label class="glabel">Group name</label>
+      <input type="text" class="ginput" id="gmName" maxlength="40" placeholder="e.g. summer campaign crew">
+    </div>
+    <label class="glabel">Add people</label>
+    <input type="text" class="ginput" id="gmSearch" maxlength="40" placeholder="search creators and brands by name…" autocomplete="off">
+    <div class="gchips" id="gmChips"></div>
+    <div class="gresults" id="gmResults"></div>
+    <div class="gactions">
+      <button class="btn ghost" id="gmCancel">cancel</button>
+      <button class="btn" id="gmCreate">create group</button>
     </div>
   </div>
 </div>
@@ -92,11 +169,23 @@ if(!ctx) throw new Error('redirecting');
 const me = ctx.profile;
 document.getElementById('mypage').href = 'profile.html?u=' + encodeURIComponent(me.username);
 
-let partners = new Map();   // id -> profile
-let active = null;          // partner profile
+const GROUP_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>';
+
+let partners = new Map();   // pid -> profile (DM partners)
+let groups = new Map();     // convId -> {conv, memberIds:[], members:Map, last, msgs:[]}
+let active = null;          // {type:'dm', id, profile} | {type:'group', id}
 let lastMsgId = 0;
 
-async function loadAll(){
+// group unread is tracked client-side by last-seen message id
+function seenKey(){ return 'yougc_gseen_' + me.id; }
+function getSeen(){ try{ return JSON.parse(localStorage.getItem(seenKey()) || '{}'); }catch(e){ return {}; } }
+function markSeen(cid, mid){ try{ const s = getSeen(); if((mid||0) > (s[cid]||0)){ s[cid] = mid; localStorage.setItem(seenKey(), JSON.stringify(s)); } }catch(e){} }
+
+function ago(ts){ return timeAgo(ts); }
+function iniOf(p){ return esc((p && p.name ? p.name : (p&&p.username)||'?').trim().charAt(0).toUpperCase() || '?'); }
+
+// ---------- load DMs (unchanged model) ----------
+async function loadDMs(){
   const { data: msgs } = await sb.from('messages').select('*')
     .or(`sender.eq.${me.id},recipient.eq.${me.id}`)
     .order('created_at',{ascending:false}).limit(400);
@@ -113,86 +202,206 @@ async function loadAll(){
     const { data: profs } = await sb.from('profiles').select('*').in('id', ids);
     (profs||[]).forEach(p => partners.set(p.id, p));
   }
-  renderConvs(byPartner);
-  if(active && byPartner.has(active.id)) renderThread(byPartner.get(active.id).msgs);
   return byPartner;
 }
 
-function renderConvs(byPartner){
-  const el = document.getElementById('convList');
-  const rows = [...byPartner.entries()]
-    .sort((a,b)=> new Date(b[1].last.created_at) - new Date(a[1].last.created_at))
-    .map(([pid, e])=>{
-    const p = partners.get(pid); if(!p) return '';
-    const mine = e.last.sender === me.id;
-    const preview = (e.last.att && !e.last.text ? '📎 attachment' : e.last.text) || '';
-    return `<div class="conv ${active&&active.id===pid?'on':''}${e.unread?' unread':''}" data-id="${pid}">
-      ${avatarHTML(p)}
-      <div style="min-width:0;flex:1">
-        <div class="ctop"><span class="cname">${esc(p.name)}${vbadge(p)}</span><span class="cwhen">${timeAgo(e.last.created_at)}</span></div>
-        <div class="clast">${mine?'<span class="cyou">you:</span> ':''}${esc(preview.length>52?preview.slice(0,52)+'…':preview)}</div>
-      </div>
-      ${e.unread?`<span class="cdot">${e.unread>9?'9+':e.unread}</span>`:''}
-    </div>`;
-  }).join('');
-  el.innerHTML = rows || '<p class="muted center mt2">no chats yet.<br>message someone from their profile.</p>';
-  el.querySelectorAll('.conv').forEach(c => c.addEventListener('click', ()=> openThread(partners.get(c.dataset.id))));
+// ---------- load group chats ----------
+async function loadGroups(){
+  const { data: mine } = await sb.from('conversation_members').select('conversation_id').eq('user_id', me.id);
+  const ids = [...new Set((mine||[]).map(r => r.conversation_id))];
+  groups = new Map();
+  if(!ids.length) return groups;
+  const [{ data: convs }, { data: mems }, { data: gmsgs }] = await Promise.all([
+    sb.from('conversations').select('*').in('id', ids),
+    sb.from('conversation_members').select('conversation_id,user_id').in('conversation_id', ids),
+    sb.from('group_messages').select('*').in('conversation_id', ids).order('created_at',{ascending:true}).limit(1500),
+  ]);
+  const memberIds = new Set();
+  const byConvMembers = new Map();
+  (mems||[]).forEach(r=>{
+    if(!byConvMembers.has(r.conversation_id)) byConvMembers.set(r.conversation_id, []);
+    byConvMembers.get(r.conversation_id).push(r.user_id);
+    memberIds.add(r.user_id);
+  });
+  // fetch any member profiles we don't have
+  const need = [...memberIds].filter(id => !partners.has(id) && id !== me.id);
+  if(need.length){
+    const { data: profs } = await sb.from('profiles').select('*').in('id', need);
+    (profs||[]).forEach(p => partners.set(p.id, p));
+  }
+  const byConvMsgs = new Map();
+  (gmsgs||[]).forEach(m=>{
+    if(!byConvMsgs.has(m.conversation_id)) byConvMsgs.set(m.conversation_id, []);
+    byConvMsgs.get(m.conversation_id).push(m);
+  });
+  (convs||[]).forEach(c=>{
+    const mIds = byConvMembers.get(c.id) || [];
+    const membersMap = new Map();
+    mIds.forEach(id => { const p = id === me.id ? me : partners.get(id); if(p) membersMap.set(id, p); });
+    const cmsgs = byConvMsgs.get(c.id) || [];
+    groups.set(c.id, { conv:c, memberIds:mIds, members:membersMap, msgs:cmsgs, last:cmsgs[cmsgs.length-1] || null });
+  });
+  return groups;
 }
 
-async function openThread(p){
+async function loadAll(){
+  const byPartner = await loadDMs();
+  await loadGroups();
+  renderConvs(byPartner);
+  if(active){
+    if(active.type === 'dm'){ const e = byPartner.get(active.id); renderDMThread(e ? e.msgs : []); }
+    else { const g = groups.get(active.id); if(g) renderGroupThread(g); }
+  }
+  return byPartner;
+}
+
+// ---------- unified conversation list ----------
+function renderConvs(byPartner){
+  const el = document.getElementById('convRows');
+  const seen = getSeen();
+  const rows = [];
+
+  for(const [pid, e] of byPartner.entries()){
+    const p = partners.get(pid); if(!p) continue;
+    const mine = e.last.sender === me.id;
+    const preview = (e.last.att && !e.last.text ? '📎 attachment' : e.last.text) || '';
+    rows.push({ kind:'dm', id:pid, ts:new Date(e.last.created_at).getTime(), unread:e.unread,
+      html:`<div class="conv ${active&&active.type==='dm'&&active.id===pid?'on':''}${e.unread?' unread':''}" data-kind="dm" data-id="${pid}">
+        ${avatarHTML(p)}
+        <div style="min-width:0;flex:1">
+          <div class="ctop"><span class="cname">${esc(p.name)}${vbadge(p)}</span><span class="cwhen">${ago(e.last.created_at)}</span></div>
+          <div class="clast">${mine?'<span class="cyou">you:</span> ':''}${esc(preview.length>52?preview.slice(0,52)+'…':preview)}</div>
+        </div>
+        ${e.unread?`<span class="cdot">${e.unread>9?'9+':e.unread}</span>`:''}
+      </div>` });
+  }
+
+  for(const [cid, g] of groups.entries()){
+    const last = g.last;
+    const ts = last ? new Date(last.created_at).getTime() : new Date(g.conv.created_at).getTime();
+    const unread = last && last.sender !== me.id && last.id > (seen[cid]||0) ? 1 : 0;
+    let preview = 'no messages yet';
+    if(last){
+      const who = last.sender === me.id ? 'you' : ((g.members.get(last.sender)||{}).name || 'member');
+      const body = (last.att && !last.text ? '📎 attachment' : last.text) || '';
+      preview = `${esc(who.split(' ')[0])}: ${esc(body)}`;
+    }
+    rows.push({ kind:'group', id:cid, ts, unread,
+      html:`<div class="conv ${active&&active.type==='group'&&active.id===cid?'on':''}${unread?' unread':''}" data-kind="group" data-id="${cid}">
+        <span class="gav">${GROUP_ICON}</span>
+        <div style="min-width:0;flex:1">
+          <div class="ctop"><span class="cname">${esc(g.conv.title)}</span><span class="cwhen">${ago(ts)}</span></div>
+          <div class="clast">${preview.length>52?preview.slice(0,52)+'…':preview}</div>
+        </div>
+        ${unread?'<span class="cdot">•</span>':''}
+      </div>` });
+  }
+
+  rows.sort((a,b)=> b.ts - a.ts);
+  el.innerHTML = rows.map(r=>r.html).join('') ||
+    '<p class="muted center mt2">no chats yet.<br>message someone from their profile, or start a group.</p>';
+  el.querySelectorAll('.conv').forEach(c => c.addEventListener('click', ()=>{
+    if(c.dataset.kind === 'dm') openDM(partners.get(c.dataset.id));
+    else openGroup(parseInt(c.dataset.id));
+  }));
+}
+
+// ---------- DM thread ----------
+async function openDM(p){
   if(!p) return;
-  active = p;
-  document.getElementById('thead').innerHTML = `${avatarHTML(p)} <a href="profile.html?u=${encodeURIComponent(p.username)}" style="color:var(--ink);text-decoration:none;display:flex;align-items:center">${esc(p.name)}${vbadge(p)}</a> <span class="rolebadge ${p.role}" style="margin-left:4px">${p.role}</span>`;
+  active = { type:'dm', id:p.id, profile:p };
+  document.getElementById('thead').innerHTML =
+    `${avatarHTML(p)} <a href="profile.html?u=${encodeURIComponent(p.username)}" style="color:var(--ink);text-decoration:none;display:flex;align-items:center">${esc(p.name)}${vbadge(p)}</a> <span class="rolebadge ${p.role}" style="margin-left:4px">${p.role}</span>`;
   document.getElementById('msgbar').style.display='flex';
-  const byPartner = await loadAll();
+  const byPartner = await loadDMs();
+  await loadGroups(); renderConvs(byPartner);
   const e = byPartner.get(p.id);
-  renderThread(e ? e.msgs : []);
-  // mark read
+  renderDMThread(e ? e.msgs : []);
   await sb.from('messages').update({ read:true }).eq('recipient', me.id).eq('sender', p.id).eq('read', false);
 }
 
-function renderThread(msgs){
+function renderDMThread(msgs){
   const el = document.getElementById('msgs');
   const sorted = [...msgs].sort((a,b)=> new Date(a.created_at) - new Date(b.created_at));
   const nearBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 80;
   const maxId = sorted.length ? sorted[sorted.length-1].id : 0;
-  el.innerHTML = sorted.map(m=>{
-    let att='';
-    if(m.att && safeUrl(m.att.url)){
-      const u=esc(safeUrl(m.att.url)), ty=String(m.att.type||'');
-      if(ty.startsWith('image/')) att=`<a href="${u}" target="_blank" rel="noopener"><img src="${u}" style="max-width:100%;max-height:340px;border-radius:12px;display:block;margin-bottom:6px" loading="lazy"></a>`;
-      else if(ty.startsWith('video/')) att=`<video src="${u}" controls style="max-width:100%;max-height:340px;border-radius:12px;display:block;margin-bottom:6px"></video>`;
-      else att=`<a href="${u}" target="_blank" rel="noopener" style="display:block;font-weight:700;margin-bottom:4px;color:inherit">📎 ${esc(m.att.name||'file')}</a>`;
-    }
-    const hideText = att && m.text && m.text.startsWith('📎 ');
-    return `<div class="bubble ${m.sender===me.id?'me':'them'}">${att}${hideText?'':esc(m.text)}<div class="btime">${timeAgo(m.created_at)}</div></div>`;
-  }).join('')
+  el.innerHTML = sorted.map(m => bubbleHTML(m, false, null)).join('')
     || '<div class="emptyc">say hi. keep it professional, deals start here.</div>';
   if(nearBottom || maxId > lastMsgId) el.scrollTop = el.scrollHeight;
   lastMsgId = maxId;
 }
 
+// ---------- group thread ----------
+function openGroup(cid){
+  const g = groups.get(cid);
+  if(!g) return;
+  active = { type:'group', id:cid };
+  const names = g.memberIds.map(id => id===me.id ? 'you' : ((partners.get(id)||{}).name || '?').split(' ')[0]);
+  document.getElementById('thead').innerHTML =
+    `<span class="gav sm">${GROUP_ICON}</span>
+     <div style="min-width:0"><div style="display:flex;align-items:center">${esc(g.conv.title)}</div>
+     <div class="memberline">${esc(names.slice(0,4).join(', '))}${names.length>4?' +'+(names.length-4):''} · ${g.memberIds.length} people</div></div>
+     <button class="btn small ghost thbtn" id="addPeopleBtn">+ add</button>`;
+  document.getElementById('addPeopleBtn').addEventListener('click', ()=> openModal('add', cid));
+  document.getElementById('msgbar').style.display='flex';
+  renderGroupThread(g);
+  if(g.last) markSeen(cid, g.last.id);
+}
+
+function renderGroupThread(g){
+  const el = document.getElementById('msgs');
+  const sorted = [...g.msgs].sort((a,b)=> new Date(a.created_at) - new Date(b.created_at));
+  const nearBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 80;
+  const maxId = sorted.length ? sorted[sorted.length-1].id : 0;
+  let prevSender = null;
+  el.innerHTML = sorted.map(m=>{
+    const showName = m.sender !== me.id && m.sender !== prevSender;
+    prevSender = m.sender;
+    const p = g.members.get(m.sender);
+    return bubbleHTML(m, showName, p);
+  }).join('') || '<div class="emptyc">this group is quiet. say something to kick it off.</div>';
+  if(nearBottom || maxId > lastMsgId) el.scrollTop = el.scrollHeight;
+  lastMsgId = maxId;
+  if(g.last) markSeen(g.conv.id, g.last.id);
+}
+
+// shared bubble renderer (works for DM + group)
+function bubbleHTML(m, showName, senderProfile){
+  let att='';
+  if(m.att && safeUrl(m.att.url)){
+    const u=esc(safeUrl(m.att.url)), ty=String(m.att.type||'');
+    if(ty.startsWith('image/')) att=`<a href="${u}" target="_blank" rel="noopener"><img src="${u}" style="max-width:100%;max-height:340px;border-radius:12px;display:block;margin-bottom:6px" loading="lazy"></a>`;
+    else if(ty.startsWith('video/')) att=`<video src="${u}" controls style="max-width:100%;max-height:340px;border-radius:12px;display:block;margin-bottom:6px"></video>`;
+    else att=`<a href="${u}" target="_blank" rel="noopener" style="display:block;font-weight:700;margin-bottom:4px;color:inherit">📎 ${esc(m.att.name||'file')}</a>`;
+  }
+  const hideText = att && m.text && m.text.startsWith('📎 ');
+  const nm = showName && senderProfile ? `<div class="bsender">${esc(senderProfile.name)}</div>` : '';
+  return `<div class="bubble ${m.sender===me.id?'me':'them'}">${nm}${att}${hideText?'':esc(m.text||'')}<div class="btime">${ago(m.created_at)}</div></div>`;
+}
+
+// ---------- sending ----------
 async function send(){
   const inp = document.getElementById('msgText');
   const t = inp.value.trim();
   if(!t || !active) return;
   if(hasSlurs(t)){ inp.value=''; inp.placeholder='that language has no place here.'; return; }
   inp.value=''; inp.placeholder='write a message…';
-  const { error } = await sb.from('messages').insert({ sender: me.id, recipient: active.id, text: t });
+  let error;
+  if(active.type === 'dm'){
+    ({ error } = await sb.from('messages').insert({ sender: me.id, recipient: active.id, text: t }));
+  } else {
+    ({ error } = await sb.from('group_messages').insert({ sender: me.id, conversation_id: active.id, text: t }));
+  }
   if(error){ inp.value = t; showLimit(error.message); return; }
   await loadAll();
 }
 
-// friendly wall for the anti-spam limits coming back from the database
 function showLimit(raw){
   let m = String(raw||'').replace(/^.*?(?:violates|error:)\s*/i,'').trim();
   if(!m || /duplicate key|permission denied|jwt|row-level/i.test(m)) m = 'that did not send. give it a second and try again.';
   try{ track('chat·blocked·' + m.slice(0,40)); }catch(e){}
   let el = document.getElementById('limitBar');
-  if(!el){
-    el = document.createElement('div'); el.id = 'limitBar'; el.className = 'limitbar';
-    document.body.appendChild(el);
-  }
+  if(!el){ el = document.createElement('div'); el.id = 'limitBar'; el.className = 'limitbar'; document.body.appendChild(el); }
   el.innerHTML = '<span class="lbi">!</span><span>' + esc(m) + '</span>';
   el.classList.add('on');
   clearTimeout(window.__lt);
@@ -201,7 +410,7 @@ function showLimit(raw){
 document.getElementById('sendBtn').addEventListener('click', send);
 document.getElementById('msgText').addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); send(); } });
 
-// attachments: photos, videos, files
+// ---------- attachments (DM + group) ----------
 const attBtn = document.getElementById('attBtn'), attFile = document.getElementById('attFile');
 attBtn.addEventListener('click', ()=>{ if(active) attFile.click(); });
 attFile.addEventListener('change', async ()=>{
@@ -219,18 +428,116 @@ attFile.addEventListener('change', async ()=>{
     const t = inp.value.trim();
     if(t && hasSlurs(t)){ inp.value=''; inp.placeholder='that language has no place here.'; throw new Error('slur'); }
     inp.value='';
-    const { error } = await sb.from('messages').insert({
-      sender: me.id, recipient: active.id,
-      text: t || ('📎 ' + f.name.slice(0,80)),
-      att: { url, type: f.type, name: f.name, size: f.size }
-    });
+    const att = { url, type: f.type, name: f.name, size: f.size };
+    const text = t || ('📎 ' + f.name.slice(0,80));
+    let error;
+    if(active.type === 'dm'){
+      ({ error } = await sb.from('messages').insert({ sender: me.id, recipient: active.id, text, att }));
+    } else {
+      ({ error } = await sb.from('group_messages').insert({ sender: me.id, conversation_id: active.id, text, att }));
+    }
     if(error) throw error;
     await loadAll();
   }catch(err){ if((err.message||'')!=='slur'){ showLimit(err.message || 'upload failed. try again.'); } }
   attBtn.disabled = false; attBtn.textContent = '📎';
 });
 
-// notifications: new followers
+// ---------- new group / add people modal ----------
+const modal = document.getElementById('gmodal');
+let picked = new Map();     // id -> profile
+let modalMode = 'create';   // 'create' | 'add'
+let modalConvId = null;
+
+function openModal(mode, convId){
+  modalMode = mode; modalConvId = convId || null;
+  picked = new Map();
+  document.getElementById('gmName').value = '';
+  document.getElementById('gmSearch').value = '';
+  document.getElementById('gmResults').innerHTML = '';
+  renderChips();
+  const isAdd = mode === 'add';
+  document.getElementById('gmTitle').textContent = isAdd ? 'Add people' : 'New group chat';
+  document.getElementById('gmSub').textContent = isAdd ? 'search people to add to this group.' : 'name it and add a few people to start.';
+  document.getElementById('gmNameWrap').style.display = isAdd ? 'none' : 'block';
+  document.getElementById('gmCreate').textContent = isAdd ? 'add to group' : 'create group';
+  modal.classList.add('on');
+  setTimeout(()=> document.getElementById('gmSearch').focus(), 60);
+}
+function closeModal(){ modal.classList.remove('on'); }
+document.getElementById('newGroupBtn').addEventListener('click', ()=> openModal('create'));
+document.getElementById('gmCancel').addEventListener('click', closeModal);
+modal.addEventListener('click', e=>{ if(e.target === modal) closeModal(); });
+
+function renderChips(){
+  const el = document.getElementById('gmChips');
+  el.innerHTML = [...picked.values()].map(p=>{
+    const av = p.avatar_url ? `<img src="${esc(p.avatar_url)}" alt="">` : `<span class="ini">${iniOf(p)}</span>`;
+    return `<span class="gchip">${av}${esc(p.name)}<span class="x" data-id="${p.id}">✕</span></span>`;
+  }).join('');
+  el.querySelectorAll('.x').forEach(x => x.addEventListener('click', ()=>{ picked.delete(x.dataset.id); renderChips(); }));
+}
+
+let searchTimer = null;
+const excludeIds = () => {
+  const ex = new Set([me.id, ...picked.keys()]);
+  if(modalMode === 'add' && modalConvId){ const g = groups.get(modalConvId); (g?.memberIds||[]).forEach(id => ex.add(id)); }
+  return ex;
+};
+document.getElementById('gmSearch').addEventListener('input', e=>{
+  const q = e.target.value.trim();
+  clearTimeout(searchTimer);
+  const res = document.getElementById('gmResults');
+  if(q.length < 2){ res.innerHTML = '<div class="gmuted">type at least 2 letters to search.</div>'; return; }
+  res.innerHTML = '<div class="gmuted">searching…</div>';
+  searchTimer = setTimeout(async ()=>{
+    const like = '%' + q.replace(/[%_]/g,'') + '%';
+    const { data } = await sb.from('profiles').select('id,username,name,avatar_url,verified,verified_until,accent,role')
+      .or(`username.ilike.${like},name.ilike.${like}`).limit(24);
+    const ex = excludeIds();
+    const list = (data||[]).filter(p => !ex.has(p.id)).slice(0, 10);
+    if(!list.length){ res.innerHTML = '<div class="gmuted">no one found. try another name.</div>'; return; }
+    res.innerHTML = list.map(p=>{
+      const av = p.avatar_url ? `<img src="${esc(p.avatar_url)}" alt="">` : `<span class="ini">${iniOf(p)}</span>`;
+      return `<div class="gres" data-id="${p.id}">${av}
+        <div style="min-width:0"><div class="gn">${esc(p.name)}${vbadge(p)}</div><div class="gu">@${esc(p.username)} · ${esc(p.role||'')}</div></div>
+        <span class="gadd">add +</span></div>`;
+    }).join('');
+    res.querySelectorAll('.gres').forEach(r => r.addEventListener('click', ()=>{
+      const p = list.find(x => x.id === r.dataset.id);
+      if(p){ picked.set(p.id, p); renderChips(); document.getElementById('gmSearch').value=''; res.innerHTML=''; document.getElementById('gmSearch').focus(); }
+    }));
+  }, 260);
+});
+
+document.getElementById('gmCreate').addEventListener('click', async ()=>{
+  const btn = document.getElementById('gmCreate');
+  if(!picked.size){ showLimit('add at least one person first.'); return; }
+  btn.disabled = true; const old = btn.textContent; btn.textContent = '…';
+  try{
+    if(modalMode === 'add' && modalConvId){
+      const rows = [...picked.keys()].map(uid => ({ conversation_id: modalConvId, user_id: uid, added_by: me.id }));
+      const { error } = await sb.from('conversation_members').insert(rows);
+      if(error) throw error;
+      closeModal();
+      await loadAll();
+      openGroup(modalConvId);
+    } else {
+      const title = (document.getElementById('gmName').value.trim() || 'group chat').slice(0,40);
+      const { data: conv, error: cErr } = await sb.from('conversations').insert({ title, created_by: me.id }).select().single();
+      if(cErr || !conv) throw (cErr || new Error('could not create the group.'));
+      const rows = [{ conversation_id: conv.id, user_id: me.id, added_by: null },
+        ...[...picked.keys()].map(uid => ({ conversation_id: conv.id, user_id: uid, added_by: me.id }))];
+      const { error: mErr } = await sb.from('conversation_members').insert(rows);
+      if(mErr) throw mErr;
+      closeModal();
+      await loadAll();
+      openGroup(conv.id);
+    }
+  }catch(err){ showLimit(err.message || 'something went wrong. try again.'); }
+  btn.disabled = false; btn.textContent = old;
+});
+
+// ---------- follower notifications (unchanged) ----------
 (async ()=>{
   const { data: fol } = await sb.from('follows').select('follower,seen,created_at').eq('followed', me.id).order('created_at',{ascending:false}).limit(8);
   if(fol && fol.length){
@@ -248,15 +555,18 @@ attFile.addEventListener('change', async ()=>{
   }
 })();
 
-// deep link: chat.html?u=username
-const uq = new URLSearchParams(location.search).get('u');
+// ---------- deep links ----------
+const qs = new URLSearchParams(location.search);
+const uq = qs.get('u');
+const gq = qs.get('g');
 await loadAll();
 if(uq){
   const { data: p } = await sb.from('profiles').select('*').eq('username', uq).maybeSingle();
-  if(p && p.id !== me.id){ partners.set(p.id, p); openThread(p); }
+  if(p && p.id !== me.id){ partners.set(p.id, p); openDM(p); }
+} else if(gq && groups.has(parseInt(gq))){
+  openGroup(parseInt(gq));
 }
 
-// light polling so replies appear
 setInterval(loadAll, 6000);
 </script>
 <script type="module" src="i18n.js"></script>

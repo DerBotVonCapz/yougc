@@ -143,7 +143,7 @@ h1.page.big{font-size:clamp(2.6rem,5.4vw,4.2rem);letter-spacing:-.035em}
   background:linear-gradient(105deg,transparent,rgba(255,255,255,.9),transparent);
   transform:rotate(22deg);animation:vshine 2.8s ease-in-out infinite}
 @keyframes vshine{0%{left:-80%}60%,100%{left:140%}}
-.avatar.vring{box-shadow:0 0 0 2px #fff,0 0 0 4.5px #6E96C8}
+.avatar.vring{box-shadow:0 0 0 2px #fff,0 0 0 4px #86ABDD,0 0 14px 1px rgba(134,171,221,.85),0 0 26px 4px rgba(191,215,242,.55)}
 
 /* spotlight */
 .spotrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin:2px 0 20px}
@@ -219,7 +219,7 @@ html.dark .post.featured{background:linear-gradient(rgba(20,28,46,.92),rgba(20,2
 html.dark .refbox{background:#182138;border-color:rgba(255,255,255,.12);box-shadow:0 22px 48px -20px rgba(0,0,0,.55)}
 html.dark .perkcard{background:#182138}
 html.dark #verBox{background:#182138 !important}
-html.dark .avatar.vring{box-shadow:0 0 0 2px #0F1524,0 0 0 4.5px #6E96C8}
+html.dark .avatar.vring{box-shadow:0 0 0 2px #0F1524,0 0 0 4px #86ABDD,0 0 14px 1px rgba(134,171,221,.9),0 0 26px 5px rgba(134,171,221,.4)}
 html.dark ::selection{background:#6E96C8;color:#0F1524}
 /* page components */
 html.dark .coinbtn{background:#141C30;border-color:rgba(255,255,255,.14)}

@@ -162,7 +162,8 @@
     box-shadow:0 28px 60px -24px rgba(46,74,115,.35);will-change:transform;transition:border-color .3s}
   .post:hover{border-color:var(--ink)}
   .post .phead{display:flex;align-items:center;gap:13px;margin-bottom:14px}
-  .post .av{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--mint),var(--blue))}
+  .post .av{width:48px;height:48px;border-radius:50%;overflow:hidden;background:linear-gradient(135deg,var(--mint),var(--blue));flex-shrink:0}
+  .post .av svg{display:block;width:100%;height:100%}
   .post .pname{font-weight:800;font-size:1rem}
   .post .pmeta{font-size:.78rem;color:var(--ink-soft);font-weight:500}
   .post .ptext{font-size:.96rem;line-height:1.65;color:var(--ink);font-weight:500}
@@ -280,6 +281,7 @@
     .band{padding:34px 22px !important}
     .band > span{flex-direction:column;align-items:stretch !important;width:100%;gap:12px !important}
     .band .bcta{width:100%;text-align:center;padding:16px 20px;font-size:.98rem}
+    .band .bcta.xbtn{display:flex;width:100%;justify-content:center}
     .jarrow{display:none}
     nav{padding:12px 10px;gap:6px}
     nav .logo img{height:26px !important}
@@ -369,7 +371,7 @@
   .sf3{bottom:40px;left:9%;animation-delay:1.4s}
   .sf4{bottom:34px;right:9%;animation-delay:.4s}
   @keyframes sfl{from{transform:translateY(-7px) rotate(-5deg)}to{transform:translateY(7px) rotate(5deg)}}
-  @media(max-width:640px){.stubfloat{font-size:1.5rem;opacity:.55}}
+  @media(max-width:640px){.stubfloat{font-size:1.5rem;opacity:.55}.sf3{bottom:14px}.sf4{bottom:12px}}
 
   /* ---- dark mode ---- */
   html.dark body{background:#182136;color:#EAF0FA}
@@ -536,7 +538,7 @@
       <div class="fchip fc2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="width:1em;height:1em;vertical-align:-.13em"><path d="M4.5 4h15"/><path d="M12 21V9.2"/><path d="M7.2 14L12 9.2 16.8 14"/></svg> <b>pinned</b> · top of the feed</div>
       <div class="post" data-tilt>
         <div class="phead">
-          <div class="av"></div>
+          <div class="av"><svg viewBox="0 0 48 48" width="48" height="48" aria-hidden="true"><defs><linearGradient id="msky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F7C2D6"/><stop offset="42%" stop-color="#FBD3B0"/><stop offset="70%" stop-color="#FCE7C6"/></linearGradient><linearGradient id="msea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#CDE4EE"/><stop offset="100%" stop-color="#9EC4DE"/></linearGradient><radialGradient id="msun" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#FFF7DF"/><stop offset="55%" stop-color="#FFE9B8"/><stop offset="100%" stop-color="#FFE9B8" stop-opacity="0"/></radialGradient></defs><rect width="48" height="31" fill="url(#msky)"/><circle cx="30" cy="24" r="15" fill="url(#msun)"/><circle cx="30" cy="25" r="5.4" fill="#FFF3CE"/><rect y="30" width="48" height="18" fill="url(#msea)"/><rect x="27" y="30" width="6" height="18" fill="#FFF3CE" opacity="0.4"/><rect x="28.5" y="30" width="3" height="18" fill="#FFF7DF" opacity="0.5"/><rect x="6" y="35" width="9" height="1.1" rx="0.55" fill="#fff" opacity="0.45"/><rect x="34" y="38" width="8" height="1.1" rx="0.55" fill="#fff" opacity="0.4"/><rect x="14" y="41" width="7" height="1" rx="0.5" fill="#fff" opacity="0.35"/><g fill="#33463C"><path d="M-2 2c7 0 13 3 16 8-5-3-11-4-16-3z"/><path d="M-1 0c5 2 9 6 11 11-4-4-8-7-13-8z"/><path d="M2 -2c3 4 5 9 5 14-2-5-5-9-9-12z"/><path d="M-2 6c6 1 11 4 14 9-5-3-10-5-15-5z"/></g></svg></div>
           <div>
             <div class="pname">mia • fitness &amp; health</div>
             <div class="pmeta">Thailand 🌴 · posted 2h ago</div>
@@ -682,7 +684,7 @@
       <span class="jarrow" aria-hidden="true">→</span>
       <a class="bcta" href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false">join free</a>
       <a class="bcta" href="https://discord.gg/2aSz77e9WV" target="_blank" rel="noopener" style="background:linear-gradient(120deg,#5865F2,#7983F5);color:#fff;border-color:transparent">join the discord</a>
-      <a class="bcta xbtn" href="https://x.com/yougcmarket" target="_blank" rel="noopener" aria-label="follow YOUgc on X"><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>follow on X</a>
+      <a class="bcta xbtn" href="https://x.com/yougcmarket" target="_blank" rel="noopener" aria-label="follow YOUgc on X"><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>follow on</a>
     </span>
   </div>
 </section>
@@ -700,6 +702,7 @@
   <a href="https://x.com/yougcmarket" target="_blank" rel="noopener" aria-label="YOUgc on X" title="X"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
   <a href="https://www.instagram.com/yougcmarket" target="_blank" rel="noopener" aria-label="YOUgc on Instagram" title="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.43.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.43.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.43-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.43-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16M12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63c-.79.31-1.46.72-2.13 1.38C1.35 2.68.94 3.35.63 4.14.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.31.79.72 1.46 1.38 2.13.67.66 1.34 1.07 2.13 1.38.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56.79-.31 1.46-.72 2.13-1.38.66-.67 1.07-1.34 1.38-2.13.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91-.31-.79-.72-1.46-1.38-2.13-.67-.66-1.34-1.07-2.13-1.38-.76-.3-1.64-.5-2.91-.56C15.67.01 15.26 0 12 0zm0 5.84A6.16 6.16 0 1 0 18.16 12 6.16 6.16 0 0 0 12 5.84zm0 10.16A4 4 0 1 1 16 12a4 4 0 0 1-4 4zm6.41-10.4a1.44 1.44 0 1 0 1.44 1.44 1.44 1.44 0 0 0-1.44-1.44z"/></svg></a>
   <a href="https://www.tiktok.com/@yougcmarket" target="_blank" rel="noopener" aria-label="YOUgc on TikTok" title="TikTok"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.6 5.82a4.28 4.28 0 0 1-1.05-2.82h-3.2v12.86a2.59 2.59 0 0 1-2.59 2.53 2.59 2.59 0 0 1-2.59-2.59 2.59 2.59 0 0 1 3.4-2.46V9.9a5.78 5.78 0 0 0-.81-.06A5.78 5.78 0 0 0 4 15.62a5.78 5.78 0 0 0 9.86 4.09 5.78 5.78 0 0 0 1.7-4.1V8.9a7.44 7.44 0 0 0 4.34 1.39V7.1a4.28 4.28 0 0 1-3.3-1.28z"/></svg></a>
+  <a href="https://discord.gg/2aSz77e9WV" target="_blank" rel="noopener" aria-label="join the YOUgc Discord" title="Discord"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.317 4.369A19.79 19.79 0 0 0 15.432 3c-.21.375-.455.88-.624 1.28a18.27 18.27 0 0 0-5.487 0A12.6 12.6 0 0 0 8.69 3 19.74 19.74 0 0 0 3.8 4.37C.72 8.94-.116 13.394.302 17.786a19.9 19.9 0 0 0 6.03 3.03c.487-.662.92-1.365 1.294-2.104a12.9 12.9 0 0 1-2.038-.978c.171-.125.338-.256.5-.39a14.2 14.2 0 0 0 12.028 0c.163.135.33.266.5.39-.65.383-1.334.71-2.04.98.374.738.807 1.441 1.293 2.103a19.85 19.85 0 0 0 6.032-3.03c.49-5.09-.838-9.51-3.584-13.418ZM8.02 15.114c-1.183 0-2.157-1.086-2.157-2.42 0-1.332.952-2.42 2.157-2.42 1.204 0 2.177 1.088 2.157 2.42 0 1.334-.953 2.42-2.157 2.42Zm7.96 0c-1.184 0-2.157-1.086-2.157-2.42 0-1.332.952-2.42 2.157-2.42 1.204 0 2.177 1.088 2.157 2.42 0 1.334-.952 2.42-2.157 2.42Z"/></svg></a>
 </div>
 </footer>
 
@@ -842,5 +845,6 @@ if(_ref) try{ localStorage.setItem('yougc_ref', _ref); }catch(e){}
 
 
 <script type="module" src="i18n.js"></script>
+<script src="cursor.js" defer></script>
 </body>
 </html>

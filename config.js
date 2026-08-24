@@ -29,3 +29,9 @@ export const PAY_LINKS = {
   agent:       'https://buy.stripe.com/3cIfZ92SNchp3SCdax77O02',
   studio:      ''
 };
+
+// Stripe customer portal login link. get it in Stripe: Settings -> Billing -> Customer portal
+// -> "Share a link" (looks like https://billing.stripe.com/p/login/xxxx). paste it here and the
+// "manage or cancel" button on the settings page opens it so members cancel themselves.
+// leave '' and that button falls back to emailing support.
+export const BILLING_PORTAL = '';

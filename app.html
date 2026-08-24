@@ -598,7 +598,7 @@ if(!LIVE){
   const rect = () => fl.getBoundingClientRect();
   let x = innerWidth*0.14, y = innerHeight*0.68;
   let vx = 1.15, vy = -0.85;
-  const MINSP = 0.85, MAXSP = 8.5;
+  const MINSP = 0.85, MAXSP = 6;
   // track the cursor continuously; the hit test runs every frame, so the logo also
   // reacts when IT drifts into a still cursor (mousemove alone would miss that)
   let mx = -999, my = -999, mAlive = false, lastHit = 0;
@@ -616,7 +616,7 @@ if(!LIVE){
         const cx = x + w/2, cy = y + h/2;
         let ax = cx - mx, ay = cy - my;
         let m = Math.hypot(ax, ay) || 1; ax /= m; ay /= m;
-        const KICK = 8;
+        const KICK = 4.8;
         vx = ax * KICK; vy = ay * KICK;    // clean snappy launch away from the cursor
         x += ax * 12; y += ay * 12;        // shove it clear so it never sticks to the pointer
         lastHit = now;

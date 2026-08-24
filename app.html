@@ -661,16 +661,14 @@ if(!LIVE){
     document.getElementById('featLink').href = payHref('pin_post', 'post pin @' + me.username, PIN_PRICE);
     document.getElementById('featIcon').innerHTML = IC_PIN_S;
 
-    // ---- spotlight row: strongest real creators + brands on top ----
+    // ---- spotlight row: only profiles that are actually spotlighted ----
     (async ()=>{
       const { data: sp } = await sb.from('profiles').select('*').limit(500);
       const pool=(sp||[]).filter(shown);
       const isSpot=p=>p.spotlight_until&&new Date(p.spotlight_until).getTime()>Date.now();
-      const rank=p=>(isSpot(p)?100:0)+(isVerified(p)?8:0)+((p.clips||[]).length?4:0)+(p.avatar_url?3:0)+(p.bio&&p.bio.trim().length>6?2:0)+Math.min(Object.keys(p.socials||{}).length,3);
-      const pickTop=(role,n)=>pool.filter(p=>p.role===role&&(p.avatar_url||(p.bio&&p.bio.trim().length>2))).sort((a,b)=>rank(b)-rank(a)).slice(0,n);
-      const cs=pickTop('creator',2), bs=pickTop('brand',2);
+      const spotlit=pool.filter(isSpot).sort((a,b)=> new Date(b.spotlight_until)-new Date(a.spotlight_until)).slice(0,4);
       const mk = p => `<a class="spotcard" href="profile.html?u=${encodeURIComponent(p.username)}">${avatarHTML(p)}<div style="min-width:0"><div class="sname">${esc(p.name)}${vbadge(p)}</div><span class="rolebadge ${p.role}">${p.role}</span>${p.bio?`<div class="sbio">${esc(p.bio.length>70?p.bio.slice(0,70)+'…':p.bio)}</div>`:''}</div></a>`;
-      const cards = [...cs.map(mk), ...bs.map(mk)];
+      const cards = spotlit.map(mk);
       document.getElementById('spotrow').innerHTML = cards.length
         ? `<div class="spotrow"><div class="spotlabel">${IC_STAR} spotlight</div>${cards.join('')}</div>` : '';
     })();

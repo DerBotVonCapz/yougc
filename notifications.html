@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="your YOUgc notifications."><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>notifications · YOUgc</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="stylesheet" href="style.css">
+<style>
+.pane.wide{max-width:760px}
+.nlist{padding:8px}
+.notif{display:flex;gap:14px;align-items:center;padding:15px 16px;border-radius:16px;transition:background .2s;text-decoration:none;color:inherit}
+.notif:hover{background:rgba(191,215,242,.2)}
+.notif.unread{background:rgba(191,215,242,.14)}
+html.dark .notif:hover{background:rgba(255,255,255,.05)}
+html.dark .notif.unread{background:rgba(255,255,255,.04)}
+.nav-av{width:44px;height:44px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-weight:800;color:#2E4A73;background:linear-gradient(135deg,var(--mint),var(--blue))}
+.ntext{flex:1;font-size:1rem;line-height:1.4}
+.ntext b{font-weight:700}
+.ntime{font-size:.8rem;color:var(--ink-soft);margin-top:3px}
+.ndot{width:9px;height:9px;border-radius:50%;background:#E5578A;flex:none}
+.nheart{color:#E5578A;flex:none;width:20px;height:20px}
+</style>
+</head>
+<body>
+<div id="bg"></div>
+<div class="wrap">
+  <nav class="top">
+    <span id="logo"></span>
+    <div class="navlinks">
+      <a class="nav-cta" href="app.html">Marketplace</a>
+      <a class="nav-cta" href="chat.html">Chats</a>
+      <a class="nav-cta" id="mypage" href="#">My profile</a>
+    </div>
+  </nav>
+
+  <div class="pane wide">
+    <h1 class="page big">Notif<span class="grad">ications</span></h1>
+    <div id="list" class="mt2"><p class="muted center">loading…</p></div>
+  </div>
+</div>
+
+<script type="module">
+import { sb, requireAuth, blobsHTML, initMotion, logoHTML, esc, timeAgo } from './app.js';
+document.getElementById('bg').outerHTML = blobsHTML();
+document.getElementById('logo').outerHTML = logoHTML();
+initMotion();
+
+const ctx = await requireAuth();
+if(!ctx) throw new Error('redirecting');
+document.getElementById('mypage').href = 'profile.html?u=' + encodeURIComponent(ctx.profile.username);
+
+const { data: rows } = await sb.from('notifications').select('*').eq('user_id', ctx.user.id).order('created_at',{ascending:false}).limit(60);
+const list = document.getElementById('list');
+
+const HEART = '<svg class="nheart" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21s-7.6-4.7-10.1-9.4C.2 8.2 1.9 4.8 5.2 4.8c2 0 3.4 1.2 4.2 2.5.8-1.3 2.2-2.5 4.2-2.5 3.3 0 5 3.4 3.3 6.8C19.6 16.3 12 21 12 21z"/></svg>';
+
+if(!rows || !rows.length){
+  list.innerHTML = '<div class="card"><p class="muted center">no notifications yet. when someone likes your post or adds you to a group chat, it shows up here.</p></div>';
+} else {
+  list.innerHTML = '<div class="card nlist">' + rows.map(n=>{
+    const who  = n.actor_name ? esc(n.actor_name) : '@' + esc(n.actor_username || 'someone');
+    const ini  = (n.actor_name || n.actor_username || '•').trim().charAt(0).toUpperCase();
+    const txt  = n.type === 'like'      ? `<b>${who}</b> liked your post`
+               : n.type === 'group_add' ? `<b>${who}</b> added you to a group chat`
+               : `<b>${who}</b> ${esc(n.type)}`;
+    const href = n.type === 'group_add' || n.conversation_id ? 'chat.html'
+               : n.actor_username ? 'profile.html?u=' + encodeURIComponent(n.actor_username)
+               : '#';
+    const av = `<span class="nav-av">${esc(ini)}</span>`;
+    return `<a class="notif ${n.read?'':'unread'}" href="${href}">${av}<span class="ntext">${txt}<div class="ntime">${timeAgo(n.created_at)}</div></span>${n.type==='like'?HEART:''}${n.read?'':'<span class="ndot"></span>'}</a>`;
+  }).join('') + '</div>';
+
+  // mark everything read now that they've opened the tab
+  sb.from('notifications').update({ read:true }).eq('user_id', ctx.user.id).eq('read', false);
+}
+</script>
+<script type="module" src="i18n.js"></script>
+<script src="cursor.js?v=5" defer></script>
+</body>
+</html>

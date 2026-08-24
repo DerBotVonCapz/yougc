@@ -84,6 +84,36 @@ export function vbadge(p){
   return isVerified(p) ? '<span class="vbadge" title="verified">✓</span>' : '';
 }
 
+// ---- post likes ----
+export function heartHTML(postId, liked, count){
+  return `<button type="button" class="likebtn${liked?' on':''}" data-post="${postId}" aria-label="like this post"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.6-4.7-10.1-9.4C.2 8.2 1.9 4.8 5.2 4.8c2 0 3.4 1.2 4.2 2.5.8-1.3 2.2-2.5 4.2-2.5 3.3 0 5 3.4 3.3 6.8C19.6 16.3 12 21 12 21z"/></svg><span class="lc">${count?count:''}</span></button>`;
+}
+export async function loadLikes(postIds, myId){
+  const out = { counts:{}, mine:new Set() };
+  const ids = [...new Set((postIds||[]).filter(Boolean))];
+  if(!ids.length) return out;
+  const { data } = await sb.from('likes').select('post_id,user_id').in('post_id', ids);
+  (data||[]).forEach(l=>{ out.counts[l.post_id]=(out.counts[l.post_id]||0)+1; if(myId && l.user_id===myId) out.mine.add(l.post_id); });
+  return out;
+}
+export function wireLikes(root, myId){
+  if(!root || root.__likeWired) return; root.__likeWired = true;
+  root.addEventListener('click', async e=>{
+    const b = e.target.closest('.likebtn'); if(!b) return;
+    e.preventDefault(); e.stopPropagation();
+    if(!myId){ location.href='auth.html'; return; }
+    const id = parseInt(b.dataset.post); if(!id) return;
+    const on = b.classList.contains('on');
+    const lc = b.querySelector('.lc'); const n = parseInt(lc.textContent||'0')||0;
+    const nn = on ? Math.max(0,n-1) : n+1;
+    b.classList.toggle('on'); lc.textContent = nn?String(nn):'';
+    try{
+      if(on) await sb.from('likes').delete().eq('post_id',id).eq('user_id',myId);
+      else await sb.from('likes').insert({ post_id:id, user_id:myId });
+    }catch(err){ b.classList.toggle('on'); lc.textContent = n?String(n):''; }
+  });
+}
+
 // hate speech filter — swearing is fine, slurs are not
 const SLURS = /\bn[i1!]+gg+[e3a4]*r?s?\b|\bn[i1]gs?\b|\bf[a4@]gg?[o0]t?s?\b|\bk[i1]kes?\b|\bch[i1]nks?\b|\btr[a4]nn(?:y|ies)\b|\bwetbacks?\b|\bsp[i1]cs?\b|\bc[o0]{2}ns?\b|\br[e3]t[a4]rd(?:ed|s)?\b/i;
 export function hasSlurs(t){ return SLURS.test(String(t||'')); }

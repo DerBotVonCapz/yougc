@@ -97,6 +97,16 @@ h1.page.big{font-size:clamp(3rem,6vw,5rem);letter-spacing:-.035em}
 .rolebadge.creator{background:var(--blue);color:#20395C}
 .rolebadge.brand{background:var(--pink);color:#7E3D5A}
 
+/* post likes */
+.likebtn{display:inline-flex;align-items:center;gap:6px;background:none;border:none;cursor:pointer;color:var(--ink-soft);font-family:inherit;font-weight:700;font-size:.86rem;padding:6px 2px;transition:color .2s;font-variant-numeric:tabular-nums}
+.likebtn svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.9;transition:fill .2s,stroke .2s,transform .18s cubic-bezier(.2,.8,.2,1)}
+.likebtn:hover{color:#E5578A}
+.likebtn.on{color:#E5578A}
+.likebtn.on svg{fill:#E5578A;stroke:#E5578A;transform:scale(1.08)}
+.likebtn:active svg{transform:scale(.82)}
+.likebar{margin-top:12px;padding-top:10px;border-top:1px solid rgba(30,51,80,.07);display:flex;align-items:center;gap:14px}
+html.dark .likebar{border-top-color:rgba(255,255,255,.08)}
+
 /* socials */
 .socialrow{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
 .socialrow a{font-size:.92rem;font-weight:700;padding:12px 22px;border-radius:999px;background:rgba(255,255,255,.8);border:1.5px solid rgba(30,51,80,.12);color:var(--ink);text-decoration:none;transition:all .2s}

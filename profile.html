@@ -24,10 +24,12 @@ nav.top{padding-top:12px;padding-bottom:8px}
 .socialrow a svg{width:22px;height:22px}
 #viewsBox .viewbox{margin-top:0;margin-bottom:22px}
 aside h2.page{font-size:1.5rem !important}
+#posts .avatar{width:42px;height:42px}
+#posts .post{cursor:pointer}
 #profileCard .vbadge{width:29px;height:29px;font-size:1rem}
 #profileCard .btn{font-size:1rem;padding:15px 30px}
 #profileCard .btn.small{font-size:.9rem;padding:13px 26px}
-.sharebox{position:relative;overflow:hidden;margin-top:24px;padding:26px 28px 24px;border-radius:30px;
+.sharebox{position:relative;overflow:hidden;margin-top:20px;padding:20px 24px 20px;border-radius:26px;
   border:2px solid rgba(255,255,255,.9);
   background:linear-gradient(150deg,rgba(191,232,212,.44),rgba(191,215,242,.4) 55%,rgba(244,207,223,.4))}
 html.dark .sharebox{background:linear-gradient(150deg,rgba(44,92,70,.4),rgba(46,74,115,.36) 55%,rgba(138,75,110,.3));border-color:rgba(255,255,255,.12)}
@@ -37,7 +39,7 @@ html.dark .sharebox{background:linear-gradient(150deg,rgba(44,92,70,.4),rgba(46,
 .shead{text-align:center;margin-bottom:22px}
 .skick{font-size:.66rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft)}
 .shead h3{margin-top:7px;font-family:'Space Grotesk',sans-serif;font-weight:700;
-  font-size:clamp(1.5rem,3vw,2rem);letter-spacing:-.04em;
+  font-size:clamp(1.2rem,2.2vw,1.5rem);letter-spacing:-.04em;
   background:linear-gradient(90deg,#2E4A73,#6E96C8,#D98BB0);-webkit-background-clip:text;background-clip:text;color:transparent}
 .sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 @media(max-width:860px){.sgrid{grid-template-columns:1fr}.sharebox{padding:26px 20px 24px}}
@@ -79,20 +81,20 @@ h2.page{font-size:1.7rem !important;margin-top:4px}
 
 /* ---- owner actions + paid perks ---- */
 .ownerrow{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:24px;padding-top:22px;border-top:1.5px solid rgba(30,51,80,.09)}
-.upsell{margin-top:28px;padding:28px 30px 26px;border-radius:34px;position:relative;overflow:hidden;
+.upsell{margin-top:26px;padding:22px 26px 22px;border-radius:30px;position:relative;overflow:hidden;
   background:linear-gradient(150deg,rgba(191,215,242,.46),rgba(244,207,223,.36) 52%,rgba(191,232,212,.44));
   border:2px solid rgba(255,255,255,.9)}
 .upsell::before{content:'';position:absolute;width:340px;height:340px;border-radius:50%;background:rgba(255,255,255,.55);filter:blur(70px);top:-130px;right:-100px;animation:upfl 9s ease-in-out infinite alternate}
 @keyframes upfl{from{transform:translate(0,0)}to{transform:translate(-44px,44px)}}
-.uphead{position:relative;text-align:center;margin-bottom:20px}
+.uphead{position:relative;text-align:center;margin-bottom:14px}
 .upkick{font-size:.7rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#5A6A85}
-.uphead h3{font-size:clamp(1.35rem,2.3vw,1.8rem);font-weight:800;letter-spacing:-.03em;margin-top:6px;
+.uphead h3{font-size:clamp(1.1rem,1.9vw,1.4rem);font-weight:800;letter-spacing:-.03em;margin-top:5px;
   background:linear-gradient(90deg,#2E4A73,#6E96C8,#D98BB0);-webkit-background-clip:text;background-clip:text;color:transparent}
 .upsub{margin-top:9px;font-size:.98rem;font-weight:600;color:var(--ink-soft)}
 .upgrid{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:14px;align-items:stretch}
 @media(max-width:880px){.upgrid{grid-template-columns:1fr}.upsell{padding:34px 22px 30px}}
 .upcard{position:relative;display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:13px;
-  padding:30px 26px 26px;border-radius:26px;background:rgba(255,255,255,.95);text-decoration:none;color:inherit;
+  padding:20px 20px 18px;border-radius:22px;background:rgba(255,255,255,.95);text-decoration:none;color:inherit;
   box-shadow:0 20px 44px -24px rgba(46,74,115,.5);overflow:hidden;
   transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s}
 .upcard::after{content:'';position:absolute;inset:0;pointer-events:none;
@@ -100,14 +102,14 @@ h2.page{font-size:1.7rem !important;margin-top:4px}
   transform:translateX(-130%);transition:transform .75s ease}
 .upcard:hover::after{transform:translateX(130%)}
 .upcard:hover{transform:translateY(-8px);box-shadow:0 34px 66px -24px rgba(110,150,200,.75)}
-.upic{width:54px;height:54px;border-radius:18px;display:flex;align-items:center;justify-content:center;
+.upic{width:44px;height:44px;border-radius:15px;display:flex;align-items:center;justify-content:center;
   background:linear-gradient(135deg,#BFD7F2,#F4CFDF);color:#2E4A73;transition:transform .45s cubic-bezier(.2,.8,.2,1)}
 .upic svg{width:27px;height:27px}
 .upcard:hover .upic{transform:rotate(-8deg) scale(1.09)}
 .upcard.c2 .upic{background:linear-gradient(135deg,#F7D9C4,#F4CFDF);color:#8A4B2E}
 .upcard.c3 .upic{background:linear-gradient(135deg,#C8E6D4,#BFD7F2);color:#245C42}
-.upt{font-weight:800;font-size:1.22rem;letter-spacing:-.025em}
-.uphook{font-size:1rem;line-height:1.5;font-weight:600;color:var(--ink)}
+.upt{font-weight:800;font-size:1.04rem;letter-spacing:-.025em}
+.uphook{font-size:.9rem;line-height:1.45;font-weight:600;color:var(--ink)}
 .uphook b{font-weight:800;background:linear-gradient(90deg,#2E4A73,#6E96C8);-webkit-background-clip:text;background-clip:text;color:transparent}
 .upcard.c2 .uphook b{background:linear-gradient(90deg,#C4703F,#D98BB0);-webkit-background-clip:text;background-clip:text;color:transparent}
 .upcard.c3 .uphook b{background:linear-gradient(90deg,#2F7A57,#6E96C8);-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -373,7 +375,7 @@ if(!p){
   const { data: posts } = await sb.from('posts').select('id,text,img,created_at').eq('user_id', p.id).order('created_at',{ascending:false}).limit(10);
   const wrap = document.getElementById('posts');
   wrap.innerHTML = (posts&&posts.length)
-    ? posts.map(x=>`<div class="card post"><div class="pmeta" style="margin-bottom:8px">${timeAgo(x.created_at)}</div><div class="ptext">${esc(x.text)}</div>${safeUrl(x.img)?`<a href="${esc(safeUrl(x.img))}" target="_blank" rel="noopener"><img src="${esc(safeUrl(x.img))}" style="max-width:100%;max-height:340px;border-radius:14px;margin-top:12px;display:block;object-fit:cover" loading="lazy"></a>`:''}</div>`).join('')
+    ? posts.map(x=>`<a class="card post" href="app.html?post=${x.id}" style="display:block;text-decoration:none;color:inherit"><div class="phead" style="margin-bottom:10px">${avatarHTML(p)}<div><div class="pname">${esc(p.name)}</div><div class="pmeta">@${esc(p.username)} · ${timeAgo(x.created_at)}</div></div></div><div class="ptext">${esc(x.text)}</div>${safeUrl(x.img)?`<img src="${esc(safeUrl(x.img))}" style="max-width:100%;max-height:340px;border-radius:14px;margin-top:12px;display:block;object-fit:cover" loading="lazy">`:''}</a>`).join('')
     : '<div class="card"><p class="muted center">no posts yet.</p></div>';
 }
 </script>

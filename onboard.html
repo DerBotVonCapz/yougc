@@ -171,7 +171,7 @@ html.dark .obright{background:linear-gradient(160deg,rgba(46,74,115,.35),rgba(13
             <input type="text" id="customNiche" class="mt1" placeholder="type your own niche and press enter">
 
             <label class="mt2">profile color</label>
-            <p class="hint" style="margin-top:0;font-size:.86rem">this paints your whole profile page. pick the one that feels like you.</p>
+            <p class="hint" style="margin-top:0;font-size:.86rem">this paints your whole profile page, and if you're verified it also becomes your pfp glow ring.</p>
             <div class="accents" id="accentPick"></div>
           </section>
 
@@ -387,7 +387,7 @@ function goto(n){
   document.querySelectorAll('.rline').forEach((l,i)=>l.classList.toggle('fill', i < step));
   document.getElementById('back').style.display = step === 0 ? 'none' : '';
   document.getElementById('next').style.display = step === LAST ? 'none' : '';
-  document.getElementById('save').style.display = step === LAST ? '' : 'none';
+  document.getElementById('save').style.display = (step === LAST || existing) ? '' : 'none';
   document.getElementById('skip').style.display = (step === LAST && !isBrand) ? '' : 'none';
   document.getElementById('msg').className = 'msg';
   try{ track('onboard·step' + (step+1)); }catch(e){}
@@ -442,7 +442,7 @@ document.getElementById('back').addEventListener('click', ()=> goto(step-1));
 document.getElementById('skip').addEventListener('click', ()=> document.getElementById('save').click());
 document.querySelectorAll('.rstep').forEach(r=>r.addEventListener('click', ()=>{
   const target = +r.dataset.s;
-  if(target <= step){ goto(target); return; }
+  if(existing || target <= step){ goto(target); return; }
   for(let i=step;i<target;i++){ if(!validate(i)){ goto(i); return; } }
   goto(target);
 }));

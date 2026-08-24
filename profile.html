@@ -117,8 +117,9 @@ h2.page{font-size:1.7rem !important;margin-top:4px}
   box-shadow:0 12px 26px -12px rgba(110,150,200,.8);transition:background-position .5s}
 .upcard:hover .upbtn{background-position:100% 0}
 .upnote{font-size:.75rem;color:var(--ink-soft);font-weight:700}
-.uptag{position:absolute;top:15px;right:15px;font-size:.62rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase;
-  padding:5px 11px;border-radius:999px;background:linear-gradient(120deg,#2E4A73,#6E96C8);color:#fff;z-index:2}
+.uptag{position:absolute;top:14px;right:14px;font-size:.58rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;
+  padding:5px 10px;border-radius:999px;background:linear-gradient(120deg,#2E4A73,#6E96C8);color:#fff;z-index:2;box-shadow:0 6px 14px -6px rgba(46,74,115,.6)}
+.upcard .upic{margin-top:6px}
 .upcard.owned{cursor:default}
 .upcard.owned:hover{transform:none;box-shadow:0 20px 44px -24px rgba(46,74,115,.5)}
 .upcard.owned::after{display:none}
@@ -238,27 +239,27 @@ if(!p){
         <div class="upsub">brands scroll fast. these decide whether they stop on you.</div></div>
       <div class="upgrid">
         ${isVerified(p)?`<div class="upcard owned"><span class="upic">${IC_VERIFIED}</span><div class="upt">verified</div>
-          <div class="uphook">running right now. <b>brands see the badge.</b></div>
+          <div class="uphook">running right now. brands see the badge.</div>
           <div class="uprow"><span class="upbtn done">active ✓</span><span class="upnote">until ${p.verified_until?new Date(p.verified_until).toLocaleDateString():'you cancel'}</span></div></div>`
         :`<a class="upcard" data-ev="perk:verified" href="${payHref('verified','verified pack @'+p.username, VERIFIED_PRICE)}"><span class="uptag">most picked</span><span class="upic">${IC_VERIFIED}</span><div class="upt">verified</div>
-          <div class="uphook">the badge <b>brands look for</b> before they message anyone.</div>
-          <ul class="upl"><li><b>your posts get boosted</b>, seen by more people</li><li>✓ next to your name, everywhere</li><li>you sit higher in the marketplace</li><li>3 posts a day instead of 2</li><li>your photo gets the ring</li><li>your first pin is free</li></ul>
+          <div class="uphook">the badge brands look for.</div>
+          <ul class="upl"><li>the ✓ on your name</li><li>your posts pushed higher</li><li>top of the marketplace</li><li>3 posts a day, first pin free</li></ul>
           <div class="uprow"><span class="upbtn">$${VERIFIED_PRICE} / month</span><span class="upnote">cancel any time</span></div></a>`}
 
         ${(p.spotlight_until && new Date(p.spotlight_until)>new Date())?`<div class="upcard c2 owned"><span class="upic">${IC_PIN}</span><div class="upt">profile pin</div>
-          <div class="uphook">your profile is <b>on top</b> of the marketplace.</div>
+          <div class="uphook">your profile is on top of the marketplace.</div>
           <div class="uprow"><span class="upbtn done">running ✓</span><span class="upnote">ends ${new Date(p.spotlight_until).toLocaleString([], {hour:'2-digit',minute:'2-digit',day:'numeric',month:'short'})}</span></div></div>`
         :`<a class="upcard c2" data-ev="perk:pin_profile" href="${payHref('pin_profile','profile pin @'+p.username, PIN_PRICE)}"><span class="upic">${IC_PIN}</span><div class="upt">profile pin</div>
-          <div class="uphook"><b>24 hours on top.</b> everyone who opens the marketplace lands on you.</div>
-          <ul class="upl"><li>your whole card, first row</li><li>only a few slots run at once</li><li>want a post pinned instead? that is separate</li></ul>
+          <div class="uphook">24 hours on top of the marketplace.</div>
+          <ul class="upl"><li>your card, first row</li><li>only a few slots at once</li></ul>
           <div class="uprow"><span class="upbtn">$${PIN_PRICE} once</span><span class="upnote">24 hours</span></div></a>`}
 
         ${(p.agent_until && new Date(p.agent_until)>new Date())?`<div class="upcard c3 owned"><span class="upic">${IC_AGENT}</span><div class="upt">agent</div>
-          <div class="uphook">your agent is <b>awake.</b></div>
+          <div class="uphook">your agent is awake.</div>
           <div class="uprow"><a class="upbtn done" href="agent.html">open it →</a><span class="upnote">until ${new Date(p.agent_until).toLocaleDateString()}</span></div></div>`
         :`<a class="upcard c3" data-ev="perk:agent" href="${payHref('agent',(p.role==='brand'?'brand':'creator')+' agent @'+p.username, AGENT_PRICE)}"><span class="upic">${IC_AGENT}</span><div class="upt">agent</div>
-          <div class="uphook">your profile, posts and deals, <b>fixed as you go.</b></div>
-          <ul class="upl"><li>fixes your bio and photo</li><li>writes posts brands stop on</li><li>tells you what to charge</li><li>finds who to message</li></ul>
+          <div class="uphook">your profile, fixed as you go.</div>
+          <ul class="upl"><li>fixes your bio and photo</li><li>writes posts brands stop on</li><li>tells you what to charge</li></ul>
           <div class="uprow"><span class="upbtn">$${AGENT_PRICE} / month</span><span class="upnote">cancel any time</span></div></a>`}
       </div>
     </div>
@@ -358,7 +359,7 @@ if(!p){
   const { data: posts } = await sb.from('posts').select('id,text,img,created_at').eq('user_id', p.id).order('created_at',{ascending:false}).limit(10);
   const wrap = document.getElementById('posts');
   wrap.innerHTML = (posts&&posts.length)
-    ? posts.map(x=>`<div class="card post"><div class="pmeta" style="margin-bottom:8px">${timeAgo(x.created_at)}</div><div class="ptext">${esc(x.text)}</div>${x.img?`<a href="${esc(x.img)}" target="_blank" rel="noopener"><img src="${esc(x.img)}" style="max-width:100%;max-height:340px;border-radius:14px;margin-top:12px;display:block;object-fit:cover" loading="lazy"></a>`:''}</div>`).join('')
+    ? posts.map(x=>`<div class="card post"><div class="pmeta" style="margin-bottom:8px">${timeAgo(x.created_at)}</div><div class="ptext">${esc(x.text)}</div>${safeUrl(x.img)?`<a href="${esc(safeUrl(x.img))}" target="_blank" rel="noopener"><img src="${esc(safeUrl(x.img))}" style="max-width:100%;max-height:340px;border-radius:14px;margin-top:12px;display:block;object-fit:cover" loading="lazy"></a>`:''}</div>`).join('')
     : '<div class="card"><p class="muted center">no posts yet.</p></div>';
 }
 </script>

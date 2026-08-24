@@ -29,7 +29,7 @@
   body{font-family:'Poppins',-apple-system,'Segoe UI',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden}
 
   /* background */
-  .bg-blobs{position:fixed;inset:0;z-index:0;pointer-events:none;filter:blur(70px);opacity:.85}
+  .bg-blobs{position:fixed;inset:0;z-index:0;pointer-events:none;filter:blur(70px);opacity:.85;overflow:hidden}
   .blob{position:absolute;border-radius:50%;will-change:transform,translate}
   .b1{width:52vw;height:52vw;background:var(--blue);top:-14vw;left:-10vw;animation:drift1 14s ease-in-out infinite alternate}
   .b2{width:44vw;height:44vw;background:var(--pink);top:24vh;right:-14vw;animation:drift2 17s ease-in-out infinite alternate}
@@ -41,7 +41,7 @@
   .glow{position:fixed;z-index:1;pointer-events:none;width:520px;height:520px;border-radius:50%;opacity:.55;
     background:radial-gradient(circle,rgba(191,215,242,.28) 0%,rgba(244,207,223,.12) 45%,transparent 70%);
     transform:translate(-50%,-50%);will-change:left,top}
-  .fogwrap{position:fixed;inset:-30%;z-index:1;pointer-events:none;will-change:transform}
+  .fogwrap{position:fixed;top:-30%;bottom:-30%;left:0;right:0;z-index:1;pointer-events:none;overflow:hidden;will-change:transform}
   .aurora{position:absolute;inset:0;opacity:.45;
     background:radial-gradient(52% 40% at 24% 36%,rgba(191,215,242,.4) 0%,transparent 72%),
                radial-gradient(48% 38% at 76% 55%,rgba(244,207,223,.36) 0%,transparent 72%),
@@ -282,9 +282,20 @@
     .band .bcta{width:100%;text-align:center;padding:16px 20px;font-size:.98rem}
     .jarrow{display:none}
     nav{padding:12px 10px;gap:6px}
-    nav .logo img{height:28px !important}
-    .nav-cta{padding:8px 12px;font-size:.76rem;white-space:nowrap}
-    #dkt{padding:7px 10px !important;font-size:.8rem !important}
+    nav .logo img{height:26px !important}
+    .nav-cta{padding:7px 11px;font-size:.73rem;white-space:nowrap}
+    nav a[href="faq.html"], nav #dkt{display:none}
+    nav > div{gap:6px !important}
+  }
+
+  @media(max-width:344px){
+    nav > div{flex-wrap:wrap;justify-content:flex-end;row-gap:6px}
+  }
+  @media(max-width:384px){
+    nav{padding:12px 8px}
+    .nav-cta{padding:6px 9px;font-size:.68rem}
+    nav .logo img{height:24px !important}
+    nav > div{gap:5px !important}
   }
 
   /* ---- polish ---- */

@@ -288,7 +288,7 @@
   @keyframes pscroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
   /* ===== unified marketplace: hero, filter, compose, studio ===== */
-  .mkthero{position:relative;padding:16px 0 6px;margin-bottom:6px}
+  .mkthero{position:relative;padding:38px 0 14px;margin-bottom:8px;text-align:center}
   .heroglow{position:absolute;left:-8%;top:-46px;width:66%;height:230px;pointer-events:none;z-index:0;
     background:radial-gradient(58% 100% at 28% 42%,rgba(138,111,192,.30),transparent 70%),
                radial-gradient(58% 100% at 72% 58%,rgba(217,139,176,.26),transparent 70%),
@@ -299,12 +299,12 @@
     font-weight:700;font-size:.8rem;letter-spacing:.26em;text-transform:uppercase;color:#6E7EA8;margin-bottom:12px}
   .mkttitle{position:relative;z-index:1;font-family:'Unbounded','Space Grotesk',sans-serif;font-weight:800;
     font-size:clamp(3rem,8.4vw,6.6rem) !important;line-height:.9;letter-spacing:-.03em !important;margin:0;
-    background:linear-gradient(100deg,#2E4A73,#6E96C8,#8A6FC0,#D98BB0,#E8926B,#7FBF9E,#2E4A73);
-    background-size:280% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
-    animation:mkttflow 8s linear infinite;filter:drop-shadow(0 22px 42px rgba(110,150,200,.24))}
-  @keyframes mkttflow{to{background-position:280% 0}}
-  .mktsub{position:relative;z-index:1;margin-top:16px;font-size:clamp(1rem,2.1vw,1.26rem);font-weight:500;
-    color:var(--ink-soft);max-width:640px;line-height:1.5}
+    background:linear-gradient(100deg,#2E4A73,#6E96C8,#8A6FC0,#D98BB0,#E8926B,#7FBF9E,#6E96C8,#2E4A73);
+    background-size:320% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
+    animation:mkttflow 5.5s linear infinite;filter:drop-shadow(0 22px 42px rgba(110,150,200,.24))}
+  @keyframes mkttflow{to{background-position:320% 0}}
+  .mktsub{position:relative;z-index:1;margin:18px auto 0;font-size:clamp(1.02rem,2.1vw,1.3rem);font-weight:500;
+    color:var(--ink-soft);max-width:560px;line-height:1.5}
   .mktsub b{color:var(--ink);font-weight:700}
   @media(prefers-reduced-motion:reduce){.mkttitle{animation:none}.heroglow{animation:none}}
 
@@ -322,7 +322,7 @@
   html.dark .seg{background:rgba(23,31,52,.6);border-color:rgba(255,255,255,.1)}
 
   /* compose bar */
-  .composebar{flex-direction:column;padding:20px 22px;border-radius:22px;border:2px solid transparent;
+  .composebar{flex-direction:column;padding:15px 18px;border-radius:22px;border:2px solid transparent;
     background:linear-gradient(rgba(255,255,255,.9),rgba(255,255,255,.9)) padding-box,
                linear-gradient(120deg,#BFD7F2,#F4CFDF,#BFE8D4,#BFD7F2) border-box;
     background-size:auto,220% 220%;animation:cardflow 16s ease infinite;
@@ -331,7 +331,8 @@
   html.dark .composebar{background:linear-gradient(rgba(23,31,52,.92),rgba(23,31,52,.92)) padding-box,linear-gradient(120deg,#2E4A73,#8A4B6E,#2C5C46,#2E4A73) border-box}
   .cbhead{display:flex;align-items:center;gap:9px;font-weight:800;font-size:.95rem;color:var(--ink);margin-bottom:12px}
   .cbdot{width:9px;height:9px;border-radius:50%;flex:none;background:linear-gradient(135deg,#8A6FC0,#DE8CAE);box-shadow:0 0 0 4px rgba(138,111,192,.16)}
-  .composebar textarea{min-height:76px !important;font-size:1rem;width:100%;resize:vertical}
+  .composebar textarea{min-height:54px !important;font-size:1.02rem;width:100%;resize:vertical;border:none;background:transparent;padding:6px 2px}
+  .composebar textarea:focus{outline:none}
   .cbrow{display:flex;align-items:center;gap:10px;margin-top:12px;flex-wrap:wrap}
   .cbpic{cursor:pointer;font-family:inherit;font-weight:700;font-size:.86rem;color:var(--ink-soft);
     padding:10px 16px;border-radius:999px;border:1.5px solid rgba(30,51,80,.14);background:rgba(255,255,255,.5)}
@@ -381,9 +382,8 @@
   <div class="appwrap" id="appwrap">
     <header class="mkthero">
       <span class="heroglow" aria-hidden="true"></span>
-      <span class="mkteyebrow">creators &times; brands</span>
       <h1 class="page big mkttitle">Marketplace</h1>
-      <p class="mktsub">find each other, message direct, and close the deal.</p>
+      <p class="mktsub">the place where creators and brands find deals.</p>
     </header>
 
     <a class="getverified" href="pay.html?perk=verified" aria-label="get verified">
@@ -395,8 +395,7 @@
       <div id="spotrow"></div>
 
       <div class="composebar" id="composer" style="display:none">
-        <div class="cbhead"><span class="cbdot"></span><span id="cbLabel">share what you are working on</span></div>
-        <textarea id="postText" maxlength="500" placeholder="drop an update, a clip, what you are looking for..."></textarea>
+        <textarea id="postText" maxlength="500" placeholder="just post..."></textarea>
         <input type="file" id="postImg" accept="image/*" style="display:none">
         <div class="cbrow">
           <button class="cbpic" id="postImgBtn">📷 add a picture</button>

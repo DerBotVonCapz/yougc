@@ -61,17 +61,18 @@ module.exports = async (req, res) => {
 <meta name="twitter:description" content="${esc(desc)}">
 <meta name="twitter:image" content="${esc(img)}">
 ${p ? '' : '<meta name="robots" content="noindex">'}
-<meta http-equiv="refresh" content="0; url=${esc(target)}">
 <style>body{margin:0;font-family:system-ui,-apple-system,'Segoe UI',sans-serif;background:#FAF7F2;color:#1E3350;
 display:flex;align-items:center;justify-content:center;min-height:100vh}
 .c{text-align:center;padding:40px}img{width:96px;height:96px;border-radius:50%;object-fit:cover}
 h1{font-size:1.5rem;margin:18px 0 6px}p{color:#5A6A85;max-width:32em;line-height:1.6}
-a{color:#2E4A73;font-weight:700}</style></head>
+a{color:#2E4A73;font-weight:700}.role{font-weight:600;color:#2E4A73}</style></head>
 <body><div class="c">
 ${p && p.avatar_url ? '<img src="' + esc(p.avatar_url) + '" alt="">' : ''}
 <h1>${esc(p ? (p.name || '@' + p.username) : 'YOUgc')}</h1>
+${p ? '<p class="role">' + (live ? '\u2713 ' : '') + esc(who) + ((p.niches && p.niches.length) ? ' \u00b7 ' + esc(p.niches.slice(0,6).join(', ')) : '') + '</p>' : ''}
 <p>${esc(desc)}</p>
-<p><a href="${esc(target)}">open on YOUgc →</a></p>
+${(p && p.bio && p.bio.trim()) ? '<p>' + esc(p.bio.trim()) + '</p>' : ''}
+<p><a href="${esc(target)}">open on YOUgc \u2192</a></p>
 </div><script>location.replace(${JSON.stringify(target)});</script></body></html>`;
 
   res.setHeader('Content-Type', 'text/html; charset=utf-8');

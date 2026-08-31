@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="contact the YOUgc team. we read every message and reply fast.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>contact · YOUgc</title>
+<link rel="stylesheet" href="/fonts.css">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="stylesheet" href="style.css">
+<style>
+.pane{max-width:760px}
+.card{padding:52px 56px}
+h1.page{font-size:clamp(2rem,4vw,2.8rem)}
+h3{font-size:1.15rem;font-weight:800;margin:28px 0 8px;letter-spacing:-.01em}
+p{font-size:1rem;line-height:1.75;color:var(--ink-soft);font-weight:500}
+a{color:var(--cblue);font-weight:600}
+.note{font-size:.86rem;margin-top:10px}
+#status{margin-top:14px;font-weight:600;font-size:.95rem;display:none}
+#status.show{display:block}
+#status.ok{color:#2f7d54}
+#status.bad{color:#b03a4b}
+.hp{position:absolute;left:-9999px;opacity:0;height:0;width:0}
+@media(max-width:600px){.card{padding:34px 24px}}
+</style>
+</head>
+<body>
+<div id="bg"></div>
+<div class="wrap">
+  <nav class="top"><span id="logo"></span><a class="nav-cta" href="index.html">Back</a></nav>
+  <div class="pane">
+    <div class="card reveal on">
+      <h1 class="page">Get in <span class="grad">touch.</span></h1>
+
+      <p>questions, problems, press, or anything about your account. write here and we come back to you fast, usually the same day.</p>
+
+      <form id="cf" autocomplete="on">
+        <label for="cname">your name</label>
+        <input type="text" id="cname" name="cname" placeholder="hugo" maxlength="120" required>
+
+        <label for="cmail">your email</label>
+        <input type="email" id="cmail" name="cmail" placeholder="you@email.com" autocomplete="email" maxlength="200" required>
+
+        <label for="cmsg">message</label>
+        <textarea id="cmsg" name="cmsg" placeholder="what can we do for you?" maxlength="4000" required></textarea>
+
+        <input class="hp" type="text" id="website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <button class="btn full mt2" id="send" type="submit">send message</button>
+        <div id="status"></div>
+      </form>
+
+      <h3>or by email</h3>
+      <p>email: <a href="mailto:yougcmarket@gmail.com">yougcmarket@gmail.com</a><br>
+      discord: <a href="https://discord.gg/2aSz77e9WV" target="_blank" rel="noopener">community server</a></p>
+
+      <h3>who you are writing to</h3>
+      <p>Hugo Hessler<br>Königswalder Straße 36<br>13053 Berlin<br>Deutschland</p>
+      <p class="note">full legal details on the <a href="impressum.html">legal notice</a> page.</p>
+    </div>
+  </div>
+  <footer style="padding:40px 6vw;text-align:center;color:var(--ink-soft);font-size:.85rem;font-weight:500">© 2026 YOUgc · <a href="terms.html">terms</a> · <a href="privacy.html">privacy</a> · <a href="impressum.html">legal notice</a></footer>
+</div>
+
+<script type="module">
+import { blobsHTML, initMotion, logoHTML } from './app.js';
+document.getElementById('bg').outerHTML = blobsHTML();
+document.getElementById('logo').outerHTML = logoHTML();
+initMotion();
+</script>
+
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+import { SUPABASE_URL, SUPABASE_KEY } from './config.js';
+const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const form = document.getElementById('cf');
+const btn  = document.getElementById('send');
+const box  = document.getElementById('status');
+
+function say(msg, ok){
+  box.textContent = msg;
+  box.className = 'show ' + (ok ? 'ok' : 'bad');
+}
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  // honeypot: bots fill hidden fields, humans never see this one
+  if (document.getElementById('website').value) { say('thanks, message sent.', true); return; }
+
+  const name = document.getElementById('cname').value.trim();
+  const mail = document.getElementById('cmail').value.trim();
+  const msg  = document.getElementById('cmsg').value.trim();
+
+  if (!name || !mail || !msg) { say('please fill in all three fields.', false); return; }
+  if (msg.length < 10) { say('a bit more detail please, at least 10 characters.', false); return; }
+
+  btn.disabled = true;
+  btn.textContent = 'sending...';
+
+  const { error } = await sb.from('contact_messages').insert({
+    name, email: mail, message: msg
+  });
+
+  btn.disabled = false;
+  btn.textContent = 'send message';
+
+  if (error) {
+    say('that did not go through. please email yougcmarket@gmail.com directly.', false);
+    return;
+  }
+  form.reset();
+  say('sent. we come back to you at ' + mail + ' shortly.', true);
+});
+</script>
+
+<script type="module" src="i18n.js"></script>
+<script src="cursor.js?v=5" defer></script>
+</body>
+</html>

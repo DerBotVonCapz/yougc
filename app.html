@@ -663,7 +663,7 @@ if(!LIVE){
 
     // ---- spotlight row: only profiles that are actually spotlighted ----
     (async ()=>{
-      const { data: sp } = await sb.from('profiles').select('*').limit(500);
+      const { data: sp } = await sb.from('profiles').select('id,role,username,name,bio,avatar_url,socials,niches,created_at,verified,verified_until,spotlight_until,accent,clips,rate,agent_until,follower_boost,banned').limit(500);
       const pool=(sp||[]).filter(shown);
       const isSpot=p=>p.spotlight_until&&new Date(p.spotlight_until).getTime()>Date.now();
       const spotlit=pool.filter(isSpot).sort((a,b)=> new Date(b.spotlight_until)-new Date(a.spotlight_until)).slice(0,4);
@@ -793,7 +793,7 @@ if(!LIVE){
     }
     // "show me everyone / all users"
     if(/\b(all|every(one|body)?|users|members|profiles)\b/.test(ql) && !/\bfor\b/.test(ql)){
-      const { data: allp } = await sb.from('profiles').select('*').limit(500);
+      const { data: allp } = await sb.from('profiles').select('id,role,username,name,bio,avatar_url,socials,niches,created_at,verified,verified_until,spotlight_until,accent,clips,rate,agent_until,follower_boost,banned').limit(500);
       const rows = (allp||[]).filter(p=>p.id!==me.id).map(p=>({ p, s: baseScore(p), why: (p.role==='creator'?'creator':'brand') + ' · ' + whyLine(p, null) })).sort((a,b)=>b.s-a.s);
       mfState = { list: rows, shown: Math.min(limit, rows.length), target: me.role==='brand'?'creator':'brand' };
       if(!rows.length) return 'nobody else here yet. you are early, that is the whole point.';
@@ -812,7 +812,7 @@ if(!LIVE){
     if(!toks.some(x=>x.niche) && (me.niches||[]).length){
       (me.niches||[]).forEach(n=>{ const nn=String(n).toLowerCase(); toks.push({ t:nn, niche: nlAll.includes(nn)?nn:null }); });
     }
-    const { data: profs } = await sb.from('profiles').select('*').limit(500);
+    const { data: profs } = await sb.from('profiles').select('id,role,username,name,bio,avatar_url,socials,niches,created_at,verified,verified_until,spotlight_until,accent,clips,rate,agent_until,follower_boost,banned').limit(500);
     const all = (profs||[]).filter(p=>p.id!==me.id && shown(p));
     function scoreFor(p){
       const pn = (p.niches||[]).map(n=>String(n).toLowerCase());
@@ -873,7 +873,7 @@ if(!LIVE){
     if(q.length < 2){ srchRes.innerHTML=''; return; }
     srchT = setTimeout(async ()=>{
       const safe = q.replace(/[%_,()]/g,'');
-      const { data } = await sb.from('profiles').select('*')
+      const { data } = await sb.from('profiles').select('id,role,username,name,bio,avatar_url,socials,niches,created_at,verified,verified_until,spotlight_until,accent,clips,rate,agent_until,follower_boost,banned')
         .or(`username.ilike.%${safe}%,name.ilike.%${safe}%`).limit(8);
       srchRes.innerHTML = (data&&data.length)
         ? `<div class="spotrow" style="margin-top:0">${data.map(p=>`<a class="spotcard" href="profile.html?u=${encodeURIComponent(p.username)}">${avatarHTML(p)}<div style="min-width:0"><div class="sname">${esc(p.name)}${vbadge(p)}</div><span class="rolebadge ${p.role}">${p.role}</span></div></a>`).join('')}</div>`
@@ -910,7 +910,7 @@ if(!LIVE){
     const feed=document.getElementById('feed');
     feed.innerHTML='<p class="muted center mt3">loading…</p>';
     const [pr, po] = await Promise.all([
-      sb.from('profiles').select('*').limit(500),
+      sb.from('profiles').select('id,role,username,name,bio,avatar_url,socials,niches,created_at,verified,verified_until,spotlight_until,accent,clips,rate,agent_until,follower_boost,banned').limit(500),
       sb.from('posts').select('id,text,img,created_at,user_id').order('created_at',{ascending:false}).limit(1000)
     ]);
     if(pr.error){ feed.innerHTML=`<p class="muted center mt3">${esc(pr.error.message)}</p>`; return; }
@@ -954,7 +954,7 @@ if(!LIVE){
   async function loadPeople(role){
     const feed=document.getElementById('feed');
     feed.innerHTML='<p class="muted center mt3">loading…</p>';
-    const { data, error } = await sb.from('profiles').select('*').eq('role', role).limit(500);
+    const { data, error } = await sb.from('profiles').select('id,role,username,name,bio,avatar_url,socials,niches,created_at,verified,verified_until,spotlight_until,accent,clips,rate,agent_until,follower_boost,banned').eq('role', role).limit(500);
     if(error){ feed.innerHTML=`<p class="muted center mt3">${esc(error.message)}</p>`; return; }
     let rows=(data||[]).filter(shown);
     const mine=new Set(me.niches||[]);

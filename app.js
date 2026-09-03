@@ -23,7 +23,7 @@ export async function currentUser(){
 export async function myProfile(){
   const u = await currentUser();
   if(!u) return null;
-  const { data } = await sb.from('profiles').select('*').eq('id', u.id).maybeSingle();
+  const { data } = await sb.from('profiles').select('id,role,username,name,bio,avatar_url,socials,niches,created_at,verified,verified_until,spotlight_until,accent,clips,rate,agent_until,follower_boost,banned').eq('id', u.id).maybeSingle();
   return data;
 }
 

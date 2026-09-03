@@ -199,7 +199,7 @@ async function loadDMs(){
   }
   const ids = [...byPartner.keys()].filter(id => !partners.has(id));
   if(ids.length){
-    const { data: profs } = await sb.from('profiles').select('*').in('id', ids);
+    const { data: profs } = await sb.from('profiles').select('id,role,username,name,bio,avatar_url,socials,niches,created_at,verified,verified_until,spotlight_until,accent,clips,rate,agent_until,follower_boost,banned').in('id', ids);
     (profs||[]).forEach(p => partners.set(p.id, p));
   }
   return byPartner;
@@ -226,7 +226,7 @@ async function loadGroups(){
   // fetch any member profiles we don't have
   const need = [...memberIds].filter(id => !partners.has(id) && id !== me.id);
   if(need.length){
-    const { data: profs } = await sb.from('profiles').select('*').in('id', need);
+    const { data: profs } = await sb.from('profiles').select('id,role,username,name,bio,avatar_url,socials,niches,created_at,verified,verified_until,spotlight_until,accent,clips,rate,agent_until,follower_boost,banned').in('id', need);
     (profs||[]).forEach(p => partners.set(p.id, p));
   }
   const byConvMsgs = new Map();
@@ -561,7 +561,7 @@ const uq = qs.get('u');
 const gq = qs.get('g');
 await loadAll();
 if(uq){
-  const { data: p } = await sb.from('profiles').select('*').eq('username', uq).maybeSingle();
+  const { data: p } = await sb.from('profiles').select('id,role,username,name,bio,avatar_url,socials,niches,created_at,verified,verified_until,spotlight_until,accent,clips,rate,agent_until,follower_boost,banned').eq('username', uq).maybeSingle();
   if(p && p.id !== me.id){ partners.set(p.id, p); openDM(p); }
 } else if(gq && groups.has(parseInt(gq))){
   openGroup(parseInt(gq));

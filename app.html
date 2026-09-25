@@ -380,6 +380,28 @@
     padding:4px 10px;border-radius:999px;color:#14361F;background:linear-gradient(120deg,#BFE8D4,#DFF2E7);
     vertical-align:2px;white-space:nowrap}
   html.dark .joblabel{background:linear-gradient(120deg,#2C5C46,#3B7A5C);color:#DFF2E7}
+
+  /* ===== wide open marketplace layout (sep 25 2026) ===== */
+  #appwrap{max-width:1560px !important;padding:0 clamp(16px,3vw,48px) 10vh !important}
+  .mkthero{padding:18px 0 6px !important;margin-bottom:4px !important}
+  .mkttitle{font-size:clamp(2.6rem,6vw,5.2rem) !important;line-height:1 !important}
+  .mktsub{margin-top:10px !important}
+  .mktmain{flex-direction:column !important;gap:16px !important;margin-top:20px !important;align-items:stretch !important}
+  .mktside{width:100% !important;position:static !important;order:-1}
+  .mktside:has(#spotrow:empty){display:none}
+  .mktside .spotrow{display:grid !important;grid-template-columns:repeat(auto-fit,minmax(240px,1fr)) !important;gap:14px !important}
+  .mktcol{width:100% !important;display:flex !important;flex-direction:column !important;align-items:center !important}
+  .composebar{width:100% !important;max-width:1000px !important;margin:0 auto !important}
+  .mtools{width:100% !important;max-width:1000px !important;margin:6px auto 22px !important;align-items:center !important;gap:16px !important}
+  .mtools #searchInp{width:100% !important;max-width:100% !important;margin:0 !important;display:block !important}
+  .seg{align-self:center !important}
+  .chips,#filterChips{display:flex !important;flex-wrap:wrap !important;justify-content:center !important;gap:8px !important}
+  #searchRes{max-width:1000px;margin:0 auto;width:100%}
+  #feed{width:100% !important}
+  .postgrid{column-width:330px !important;column-gap:22px !important}
+  .pplgrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr)) !important}
+  .studiostrip{width:100% !important;max-width:1000px !important;margin:24px auto 0 !important}
+  @media(max-width:760px){.mkttitle{font-size:clamp(2.2rem,11vw,3rem) !important}}
 </style>
 </head>
 <body>
